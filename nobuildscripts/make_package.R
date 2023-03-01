@@ -20,7 +20,9 @@ usethis::use_mit_license()
 
 # sync R's README.Rmd and github's README.md files
 usethis::use_readme_rmd()
-# REGULARLY render README file
+
+# edit README.Rmd manually 
+# and then REGULARLY render README.Rmd file to update README.md
 devtools::build_readme()
 
 # remember to update documentation
