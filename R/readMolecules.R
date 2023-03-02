@@ -12,16 +12,15 @@
 #' @examples
 #' write example code here
 #'
-#' @export
 #' @importFrom ... ???
 
 # maybe have this function as a private .readMolecules() helper function for 
 # the MoleculeExperiment() constructor function.
+    # move params to MoleculeExperiment()
+
 
 ###############################################################################
-# remember to add these dependencies to DESCRIPTION file
-# library(data.table) # for reading in data fast
-# library(tidyverse) # for manipulating data
+# use usethis::use_package("package") to add packages needed for this function
 
 ###############################################################################
 # example arguments
@@ -29,7 +28,7 @@
 # technology <- "vizgen"
 
 ###############################################################################
-#readMolecules(data_dir, technology){
+.readMolecules(data_dir, technology){
 
     # identify technology input (10x xenium/nanostring cosmx/vizgen merscope)
     # for now just standardise 10x xenium
@@ -53,18 +52,22 @@
     f_path = paste0(data_dir, sep = "/", f)
     test_fread <- data.table::fread(input = f_path)
 
-    # continue with tidyverse for easy data manipulation
+    # continue with dplyr for easy data manipulation
     
     # check that there are no rownames
     # better to avoid rownames in large datasets
-    # (later) remove rownames if they are present
+    if(rownames(test_fread)!=NULL){
+        # (later) remove rownames and keep info in col
+    }
     
-    # select columns of interest
-    mod <- test_fread %>% dplyr::select(feature_name, x_location, y_location, z_location)
+    # select minimum columns of interest required for the object later on
+    mod <- test_fread %>% dplyr::select(feature_name, x_location, y_location)
     
-    # (later) change colnames
+    # (later) change colnames ? 
     
     # return data in optimal format for SummarizedExperiment obj constructor
 
-    return(standardised_transcripts)
-#}
+    # mdf = molecule data frame standardised  
+    # will be used as input for MoleculeExperiment object constructor 
+    return(mdf)
+}

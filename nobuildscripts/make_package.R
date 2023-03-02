@@ -25,6 +25,18 @@ usethis::use_readme_rmd()
 # and then REGULARLY render README.Rmd file to update README.md
 devtools::build_readme()
 
+# add github-related links to DESCRIPTION 
+usethis::use_github_links()
+
+# add any missing dependencies to DESCRIPTION
+usethis::use_package()
+# if specific package versions are needed:
+# to reduce conflicts, specify minimum package versions, NOT exact versions
+# usethis::use_package("packageName", min_version = TRUE)
+
+# check format of DESCRIPTION file
+usethis::use_tidy_description()
+
 # remember to update documentation
 devtools::document()
 
