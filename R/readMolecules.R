@@ -12,17 +12,21 @@
 #' @examples
 #' write example code here
 #'
+#' @export
+#' @importFrom ... ???
 
+# maybe have this function as a private .readMolecules() helper function for 
+# the MoleculeExperiment() constructor function.
 
 ###############################################################################
-# remember thes these dependencies
-library(data.table) # for reading in data fast
-library(tidyverse) # for manipulating data
+# remember to add these dependencies to DESCRIPTION file
+# library(data.table) # for reading in data fast
+# library(tidyverse) # for manipulating data
 
 ###############################################################################
 # example arguments
-data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain/Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs"
-technology <- "vizgen"
+# data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain/Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs"
+# technology <- "vizgen"
 
 ###############################################################################
 #readMolecules(data_dir, technology){
@@ -34,6 +38,11 @@ technology <- "vizgen"
     f <- list.files(path = data_dir, 
         pattern = "^transcripts.csv")
 
+    # Check if file exists. If not, print error message. 
+    if(length(f) == 0){
+        stop("transcripts.csv was not found in the specified directory.")
+    }
+
     # read in detected transcripts file
     # do not use read.csv or read.table from base R, these take too long for
     # GB large files due to millions of rows.
@@ -44,25 +53,18 @@ technology <- "vizgen"
     f_path = paste0(data_dir, sep = "/", f)
     test_fread <- data.table::fread(input = f_path)
 
-
     # continue with tidyverse for easy data manipulation
     
     # check that there are no rownames
     # better to avoid rownames in large datasets
+    # (later) remove rownames if they are present
     
     # select columns of interest
     mod <- test_fread %>% dplyr::select(feature_name, x_location, y_location, z_location)
     
-    # change colnames?
+    # (later) change colnames
     
-    
-    
-    # format standardised data such that it can be valid input for the
-    # SummarizedExperiment object
-        
-        # modify col names
-        # cols_of_interest <- c("feature_name", "X_location", "Y_location", "Z_location")
-    
-    # return
+    # return data in optimal format for SummarizedExperiment obj constructor
+
     return(standardised_transcripts)
 #}
