@@ -30,10 +30,12 @@ devtools::check()
 # test MoleculeExperiment() constructor
 me <- MoleculeExperiment(data_dir)
 
-# preview help file
+# preview class documentation 
 ?MoleculeExperiment
+class?MoleculeExperiment
+getClass("MoleculeExperiment")
 
-# check that MoleculeExperiment is also a SummarizedExperiment
+# check that MoleculeExperiment inherits properties from classes of interest 
 
 is(me, "MoleculeExperiment") # should be TRUE
 is(me, "SummarizedExperiment") # should be TRUE 
@@ -46,6 +48,12 @@ is(me, "SingleCellExperiment") # should be FALSE
 # class: MoleculeExperiment
 # molecules = list(raw = list(mdf_1, mdf_2), thresholded = list(mdf_1, mdf_2))
 
+###############################################################################
+# check validators
+# modified obj that is NOT valid as an ME object should yield an error message
+
+# modifiedObject <-
+validObject("modifiedObject")
 
 ###############################################################################
 # test countMolecules()
