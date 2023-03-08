@@ -1,5 +1,14 @@
 ## TODO: define getters for MoleculeExperiment class
 #
+###############################################################################
+
+#' @export
+
+# below, specify the methods I want to modify from SummarizedExperiment class    
+
+#' @importFrom SummarizedExperiment methodName 
+
+###############################################################################
 ##' @rdname write docs page here for main ME class definition
 ## method definitions should be in same page as ME class definition docs
 #

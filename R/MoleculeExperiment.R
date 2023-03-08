@@ -1,18 +1,28 @@
-#' Constructor for creating a MoleculeExperiment object 
+#' S4 class for imaging-based ST data summarisation and visualisation 
 #'
+#' @export
+#' @importFrom SummarizedExperiment SummarizedExperiment
+###############################################################################
 #' The moleculeExperiment object ...
 #'
 #' @param mdf molecule data frame from ST experiment. Output from readMolecules().
 
 # simple version for now
 
-MoleculeExperiment <- function(molecules = list(mdf)){
-    # TODO does not work yet as MoleculeExperiment class is still virtual
+MoleculeExperiment <- function(mdf, ...){
+    # the ... argument enables us to pass arguments to the 
+    # SummarizedExperiment constructor
 
-    # do slot assigning for new class instance
-    me <- new("MoleculeExperiment", molecules = mdf)
+    # do slot assigning for SummarizedExperiment class instance
+    # me = molecule experiment
+    me <- SummarizedExperiment(list(mdf = mdf), ...)
 
-    # return obj (me = molecule experiment)
-    return(me)
+    # convert me obj to our class, via helper function .MoleculeExperiment
+    .MoleculeExperiment(me)
+
+    # alternative
+    #me <- new("MoleculeExperiment", molecules = mdf)
+    #return(me)
+    
 }
 
