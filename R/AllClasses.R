@@ -11,13 +11,11 @@
         # make class inherit properties from SummarizedExperiment class
         contains = "SummarizedExperiment",
         # define new slots
-        slots = c(molecules = list()),
-
-        # specify default behaviour if no input data is provided
-        prototype = list(molecules = list(ANY))
+        slots = representation(molecules = list()),
 )
 
-# define validty checks
+
+# define validity checks
 #' @importFrom S4Vectors setValidity2
 S4Vectors:::setValidity2(class = 'MoleculeExperiment', .molecules_validity)
 
@@ -34,3 +32,10 @@ S4Vectors:::setValidity2(class = 'MoleculeExperiment', .molecules_validity)
     else msg
 }
 
+
+#setValidity("MoleculeExperiment",
+## if condition X
+## print error message
+## if condition Y
+## answer TRUE when asking whether object is valid with validObject()
+#)
