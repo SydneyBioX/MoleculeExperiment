@@ -3,6 +3,7 @@
 setwd("/dski/nobackup/bpeters/SpatialUtils")
 
 library(devtools)
+library(lobstr)
 
 # regularly add docs to functions
 # update docs
@@ -19,19 +20,26 @@ devtools::check()
 ###############################################################################
 # test readMolecules()
 
-# test for xenium 10x genomics --> transcripts.csv.gz
-path_transcripts <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain/Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs/transcripts.csv.gz"
-mdf <- readMolecules(path_transcripts, technology = "xenium")
+# test for xenium 10x genomics
+data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain"
 
-# test for cosmx smi nanostring --> Lung9_Rep1_tx_file.csv
-path_transcripts <-"/dski/nobackup/bpeters/cellCommData_2023/nanostring_NSCLC_lung9_rep1/modified/Lung9_Rep1/Lung9_Rep1-Flat_files_and_images/Lung9_Rep1_tx_file.csv"
+mols <- readMolecules(data_dir, technology = "xenium", n_samples = 3)
+summary(mols)
+str(mols)
+lobstr::obj_size(mols) # 2.89 GB 
+# note that transcripts.csv files together are 5GB 
+# so 2.89 GB is a considerable reduction
+# should we try to reduce the size more?
 
-mdf <- readMolecules(path_transcripts, "nanostring")
+# test for cosmx smi nanostring
+data_dir <-"/dski/nobackup/bpeters/cellCommData_2023/nanostring_NSCLC_lung9_rep1/modified/Lung9_Rep1/Lung9_Rep1-Flat_files_and_images"
 
-# test for merscope vizgen -->
-path_transcripts <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain/Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs"
+mols <- readMolecules(data_dir, "nanostring")
 
-mdf <- readMolecules(path_transcripts, "vizgen")
+# test for merscope vizgen 
+data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/vizgen_HumanOvarianCancerPatient2Slice2"
+
+mols <- readMolecules(data_dir, "vizgen")
 
 
 # preview help file
@@ -41,7 +49,10 @@ devtools::check()
 
 ###############################################################################
 # test MoleculeExperiment() constructor
-me <- MoleculeExperiment(molecules = mdf)
+me <- MoleculeExperiment(molecules = mols)
+
+# check obj size
+lobstr::obj_size(me)
 
 # preview class documentation 
 ?MoleculeExperiment
@@ -59,7 +70,7 @@ is(me, "SingleCellExperiment") # should be FALSE
 
 # output should look like this
 # class: MoleculeExperiment
-# molecules = list(raw = list(mdf_1, mdf_2), thresholded = list(mdf_1, mdf_2))
+# molecules = list(raw = list(mols_1, mols_2), thresholded = list(mols_1, mols_2))
 
 ###############################################################################
 # check validators

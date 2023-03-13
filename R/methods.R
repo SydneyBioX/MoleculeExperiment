@@ -1,5 +1,7 @@
 ## TODO: define getters and setters for MoleculeExperiment class
 ## NOTE: methods need to be sorted alphanumerically to avoid collate problems
+## NOTE: methods should work optimally with the various column classes given
+## as output by the ST machines 
 ## NOTE: use lowerCamelCase for naming methods
 ## REMEMBER: new slots usually require new generics and new methods
 ###############################################################################
@@ -19,58 +21,58 @@
 ##' @rdname mainManualPageName? 
 
 ###############################################################################
-# define a show() method, by extending the show() method from SE class
-
-#' @export
-#' @importMethodsFrom SummarizedExperiment show
-setMethod("show", "MoleculeExperiment", function(obj) {
-    callNextMethod()
-    cat(
-        # imagine MoleculeNumbers was a new getter method
-        "molecules has ", ncol(MoleculeNumbers(obj)), " rows\n",
-        sep=""
-    )
-})
-
-
-###############################################################################
-
-# example for a new getter 
-# remember to add generic function first to "AllGenerics"
-
-#' @export
-setMethod("molData", "MoleculeExperiment", function(x) {x@molData})
+## define a show() method, by extending the show() method from SE class
+#
+##' @export
+##' @importMethodsFrom SummarizedExperiment show
+#setMethod("show", "MoleculeExperiment", function(obj) {
+#    callNextMethod()
+#    cat(
+#        # imagine MoleculeNumbers was a new getter method
+#        "molecules has ", ncol(MoleculeNumbers(obj)), " rows\n",
+#        sep=""
+#    )
+#})
+#
 
 ###############################################################################
-# example for a new setter
-
-#' @export
-
-setMethod("addMoleculeData<-", "MoleculeExperiment", function(x, value) {
-    x@molecules<- value
-
-    # check that modified object is still a valid instance of ME class
-    validObject(x)
-    x
-    }
-)
-
-# setReplaceMethod() function???
-
-###############################################################################
-# example of modifying a method from an already existing generic in SE class 
-
-#' @export
-#' @importMethodsFrom SummarizedExperiment rowData
-setMethod("rowData", "MoleculeExperiment", function(x, ...) {
-    out <- callNextMethod()
-    
-    # add new method features here 
-
-    # Returning the new rowData object
-    out
-})
-
+#
+## example for a new getter 
+## remember to add generic function first to "AllGenerics"
+#
+##' @export
+#setMethod("molData", "MoleculeExperiment", function(x) {x@molData})
+#
+################################################################################
+## example for a new setter
+#
+##' @export
+#
+#setMethod("addMoleculeData<-", "MoleculeExperiment", function(x, value) {
+#    x@molecules<- value
+#
+#    # check that modified object is still a valid instance of ME class
+#    validObject(x)
+#    x
+#    }
+#)
+#
+## setReplaceMethod() function???
+#
+################################################################################
+## example of modifying a method from an already existing generic in SE class 
+#
+##' @export
+##' @importMethodsFrom SummarizedExperiment rowData
+#setMethod("rowData", "MoleculeExperiment", function(x, ...) {
+#    out <- callNextMethod()
+#    
+#    # add new method features here 
+#
+#    # Returning the new rowData object
+#    out
+#})
+#
 ###############################################################################
 ## ensure that subsetting abilities from SE class are retained in ME class
 #

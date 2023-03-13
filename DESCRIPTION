@@ -15,4 +15,5 @@ BugReports: https://github.com/SydneyBioX/SpatialUtils/issues
 Imports: 
     data.table,
     dplyr,
-    magrittr
+    magrittr,
+    methods

@@ -1,19 +1,24 @@
 #' An S4 class to analyse imaging-based ST data at the molecule level
 #' @export
 #' @import methods
-#' @importClassesFrom SummarizedExperiment SummarizedExperiment
+###############################################################################
+##' @importClassesFrom SummarizedExperiment SummarizedExperiment
 ###############################################################################
 #' @rdname name of file where documentation of class should be found
 #' @slot molecules Slot for detected transcripts data.
 ###############################################################################
 
-.MoleculeExperiment <- setClass(Class = "MoleculeExperiment",
-        # make class inherit properties from SummarizedExperiment class
-        contains = c("SummarizedExperiment"),
-        # define new slots
-        slots = c(molecules = "numeric")
-)
+#.MoleculeExperiment <- setClass(Class = "MoleculeExperiment",
+#        # make class inherit properties from SummarizedExperiment class
+#        contains = c("SummarizedExperiment"),
+#        # define new slots
+#        slots = c(molecules = "numeric")
+#)
+#
+# simpler version that does NOT use the SummarizedExperiment class
 
+MoleculeExperiment <- setClass("MoleculeExperiment", 
+                                slots = c(molecules = "list"))
 
 
 ###############################################################################

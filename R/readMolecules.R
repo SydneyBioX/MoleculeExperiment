@@ -1,108 +1,135 @@
 #' Read and standardise detected transcripts file
 #'
-#' @param path_transcripts String specifying path for a directory with the
-#' file or files with detected transcripts.
-#' transcripts and their 3D locations.
+#' @param data_dir String specifying directory with the file/s with detected
+#' transcripts for different runs/samples.
 #' @param technology String specifying whether input data was generated with
 #' "xenium" (10X Genomics), "cosmx smi" (Nanostring), or "merscope" (Vizgen).
 #' @param n_samples Integer specifying number of samples to be read.
+#' @param cols Vector of characters specifying the names of the columns
+#' containing the gene names, x locations and y locations.
 #'
 #' @return A standardised detected transcripts file across different
 #' imaging-based spatial transcriptomics technologies. This file can be used
 #' as input for creating a MoleculeExperiment object.
 #' @export
 #'
+#' @importFrom magrittr %>%
 #' @examples
 #' TODO write examples 
 
-###############################################################################
-# example data 
-path_transcripts <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain/Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs"
-# subset them
-mouse_1 <- 
-mouse_2 <-
+readMolecules <- function(data_dir, 
+                          technology = "xenium",
+                          n_samples = 1,
+                          cols = c("feature_name", "x_location", "y_location")
+                          )
+{
+    # use browser() and Q for following variable values within local environment
+    # browser()
+    # use lobstr::tracemem(obj) to see whenever copies are being made
 
-
-###############################################################################
-
-readMolecules <- function(path_transcripts, 
-                          technology = 'xenium', n_samples = 1){
     if(technology == "xenium"){
-        # store paths for all transcripts files
+        # locate paths for all transcripts files
         f_paths <- vector("list", n_samples)
 
-        ## is there any file/s containing transcripts.csv in their name?
-        ## if yes, add path/s to list 
-        ## if not, look into sub-directories, and store paths for files there
+        fs <- list.files(data_dir, 
+                         pattern = "transcripts.csv", 
+                         # store full path names
+                         full.names = TRUE,
+                         # look into subdirectories too
+                         recursive = TRUE
+        )
 
+        f_paths <- replace(f_paths, values = fs)
 
-        # read in detected transcripts file/s
-        # do not use read.csv or read.table from base R, these take too long
-        # for GB-sized files with millions of rows.
+        # DO DATA CONVERSION
+        mol_n <- vector("list", n_samples)
 
-        # t0 <- Sys.time()
-        # test1 <- data.table::fread(path_transcripts)
-        # tf <- Sys.time()
-        # runtime <- c(tf - t0)
-        # runtime # 41.09469 secs
+        for (f in seq_along(mol_n)) {
 
+            # read in data
+            # read.csv takes too long
+            # read_csv modifies transcript_id col and is slower than data.table
+            mol_df <- data.table::fread(f_paths[[f]])
+            # sprintf function shows that values are not actually changed
 
-        # t0 <- Sys.time()
-        # test2 <- readr::read_csv(path_transcripts)
-        # tf <- Sys.time()
-        # runtime <- c(tf - t0)
-        # runtime # 50.03625 secs
+            # check for cols of interest
+            for (c in cols){
+                if (!c %in% colnames(mol_df)) {
+                    stop("Default required columns could not be identified.
+Please specify column names for gene names, x and y locations in the arguments 
+to this function.")
+                }
+            }
+            
+            # standardise data
+            # coerce df to list to reduce copies being made by modifications
 
-        # also don't use read_csv from readr, as it modifies transcript_id col
-        # and Sys.time() shows it is slower than data.table
+            mol_df %<>% dplyr::select(dplyr::all_of(cols)) %>%
+                dplyr::group_by(feature_name)
 
-        # use data.table package, and fread() function instead
-        # this creates obj with class data.frame & data.table
-        # mdf = molecule data frame
+            mol_ls <- mol_df %>%
+                dplyr::group_split(.keep = FALSE) %>%
+                purrr::set_names(unlist(dplyr::group_keys(mol_df))) %>%
+                as.list()
 
-        mdf <- data.table::fread(path_transcripts)
+            mol_n[[f]] <- mol_ls
 
-        # sanity check: does fread modify decimals? no, just for visualisation
-        # sprintf("%f", head(mdf[,y_location]))
+            ######################################################
+           # # USING DATA.TABLE
+           # data.table::split(mdf, )
+            ######################################################
+        }
 
-        # continue with dplyr for easy data manipulation
+        # specify sample_ids
+        ids <- vector("character", length = n_samples)
 
-        # check classes of columns are correct
+        # take the name of the upper directory as the sample_id
+        for(f in seq_along(f_paths)) {
+            id <- base::strsplit(f_paths[[f]], "/transcripts.*") %>%
+                unlist() %>%
+                base::strsplit("/") %>%
+                unlist() %>%
+                tail(1)
 
-        # TODO check presence of columns required for ME object later on
+            ids <- replace(ids, f, values = id)
+        }
 
-        # re-order columns but keep all data
-        mdf %<>% dplyr::relocate(feature_name, x_location, y_location)
+        names(mol_n) <- ids
 
-        # TODO check that there are no rownames
-        # add rownames to column if they hold useful info 
-
-        # TODO change colnames ? 
-
-        # will be used as input for MoleculeExperiment object constructor 
-        return(as.data.frame(mdf))
+        # specify a summarized printed output? 
+        # user might get annoyed by long printed output
+        return(mol_n)
     }
 
    # if(technology == "vizgen"){
-   #    # TODO 
 
    #    # check that there are no rownames
    #    # better to avoid rownames in large datasets
    #    if(length(rownames(input))!=0){
    #        # remove rownames and keep info in new col
-   #        input %<>%
    #    }
+        # TODO change colnames to be similar to xenium format 
+
+        # check classes of cols?
+        # feature_name should be character
+        # x_location and y_location should be numeric
    # }
+
    # if(technology == "cosmx smi"){
-   #     # TODO
 
    #     # check that there are no rownames
    #     if(length(rownames(input))!=0){
    #         # remove rownames and keep info in new col
-   #         input %<>%
    #     }
 
+         # TODO change colnames to be similar to xenium format
+ 
+         # check classes of cols?
+         # feature_name should be character
+         # x_location and y_location should be numeric
+
    # }
+
 }
 
 ###############################################################################
