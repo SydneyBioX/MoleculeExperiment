@@ -1,0 +1,54 @@
+---
+output:
+  pdf_document:
+    keep_tex: true
+  html_document:
+    toc: true
+---
+# TODO
+Format with bioconductor vignette requirements.
+
+# SpatialUtils
+R package with convenience functions for molecule-based spatial transcriptomics
+data analysis (xenium by 10x, cosmx SMI by nanostring, and merscope by vizgen).
+Introduces a new class to store ST data: MoleculeExperiment class.
+
+# Why the MoleculeExperiment class?
+1) Enable easy analysis of spatial transcriptomics data at the molecule level, 
+rather than the cell level.
+2) Standardisation of molecule-based ST data across vendors, to hopefully
+facilitate comparison of different data sources.
+
+# The ME object 
+
+## Constructing an ME object
+- instructions on how to use readMolecules() correctly
+- highlight benefits of how readMolecules() works
+e.g., readMolecules enables the user to decide if they want to keep all the 
+data that is vendor-specific (e.g., qv in xenium).
+
+## ME object structure
+- what are the slots?
+for now @molecules 
+
+- what information does each slot contain?
+highlight how this enables standardisation of ST data across different vendors.
+
+- what is the format in which the information is stored?
+for now the list format
+
+- why is information stored like this?
+performance reasons? (e.g., enabling minimal copying and thus less memory 
+intensive?)
+
+# Methods to work with an ME object
+- Briefly introduce all methods that can be used to access and manipulate data 
+in the @molecules slot.
+- Then explain each method in detail, and compare their performance when used
+on the ME implementation (list) or the naive implementation (df) of the data. 
+Show microbenchmarking results in R code chunks
+    - summarisation functions
+    - getters (data reading)
+    - setters (data manipulation)
+    - plotting functions
+

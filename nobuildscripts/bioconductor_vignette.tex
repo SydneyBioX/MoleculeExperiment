@@ -1,0 +1,154 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+
+\hypertarget{todo}{%
+\section{TODO}\label{todo}}
+
+Format with bioconductor vignette requirements.
+
+\hypertarget{spatialutils}{%
+\section{SpatialUtils}\label{spatialutils}}
+
+R package with convenience functions for molecule-based spatial
+transcriptomics data analysis (xenium by 10x, cosmx SMI by nanostring,
+and merscope by vizgen). Introduces a new class to store ST data:
+MoleculeExperiment class.
+
+\hypertarget{why-the-moleculeexperiment-class}{%
+\section{Why the MoleculeExperiment
+class?}\label{why-the-moleculeexperiment-class}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  Enable easy analysis of spatial transcriptomics data at the molecule
+  level, rather than the cell level.
+\item
+  Standardisation of molecule-based ST data across vendors, to hopefully
+  facilitate comparison of different data sources.
+\end{enumerate}
+
+\hypertarget{the-me-object}{%
+\section{The ME object}\label{the-me-object}}
+
+\hypertarget{constructing-an-me-object}{%
+\subsection{Constructing an ME object}\label{constructing-an-me-object}}
+
+\begin{itemize}
+\tightlist
+\item
+  instructions on how to use readMolecules() correctly
+\item
+  highlight benefits of how readMolecules() works e.g., readMolecules
+  enables the user to decide if they want to keep all the data that is
+  vendor-specific (e.g., qv in xenium).
+\end{itemize}
+
+\hypertarget{me-object-structure}{%
+\subsection{ME object structure}\label{me-object-structure}}
+
+\begin{itemize}
+\item
+  what are the slots? for now @molecules
+\item
+  what information does each slot contain? highlight how this enables
+  standardisation of ST data across different vendors.
+\item
+  what is the format in which the information is stored? for now the
+  list format
+\item
+  why is information stored like this? performance reasons? (e.g.,
+  enabling minimal copying and thus less memory intensive?)
+\end{itemize}
+
+\hypertarget{methods-to-work-with-an-me-object}{%
+\section{Methods to work with an ME
+object}\label{methods-to-work-with-an-me-object}}
+
+\begin{itemize}
+\tightlist
+\item
+  Briefly introduce all methods that can be used to access and
+  manipulate data in the @molecules slot.
+\item
+  Then explain each method in detail, and compare their performance when
+  used on the ME implementation (list) or the naive implementation (df)
+  of the data. Show microbenchmarking results in R code chunks
+
+  \begin{itemize}
+  \tightlist
+  \item
+    summarisation functions
+  \item
+    getters (data reading)
+  \item
+    setters (data manipulation)
+  \item
+    plotting functions
+  \end{itemize}
+\end{itemize}
+
+\end{document}
