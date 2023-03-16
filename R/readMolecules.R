@@ -1,4 +1,9 @@
-#' Read and standardise detected transcripts file
+# =============================================================================
+# Main function to generate a MoleculeExperiment: ReadMolecules()
+# =============================================================================
+
+#' Read and standardise the detected transcripts file/s into a 
+#' MoleculeExperiment object
 #'
 #' @param data_dir String specifying directory with the file/s with detected
 #' transcripts for different runs/samples.
@@ -11,19 +16,23 @@
 #' @return A standardised detected transcripts file across different
 #' imaging-based spatial transcriptomics technologies. This file can be used
 #' as input for creating a MoleculeExperiment object.
+## TODO write examples
+#' @examples
+
 #' @export
 #'
 #' @importFrom magrittr %>%
-#' @examples
-#' TODO write examples 
 
 readMolecules <- function(data_dir, 
                           technology = "xenium",
                           n_samples = 1,
-                          cols = c("feature_name", "x_location", "y_location")
+                          essential_cols = c("feature_name", 
+                                             "x_location", 
+                                             "y_location"),
+                          keep_all_cols = FALSE
                           )
 {
-    # use browser() and Q for following variable values within local environment
+    # use browser() and Q for following variable values within local environ
     # browser()
     # use lobstr::tracemem(obj) to see whenever copies are being made
 
@@ -41,8 +50,19 @@ readMolecules <- function(data_dir,
 
         f_paths <- replace(f_paths, values = fs)
 
+        #######################################################################
+        # for now use less data
+        # n_samples <- 2 
+        # f_paths <- f_paths[1:2]
+
+        #######################################################################
+
         # DO DATA CONVERSION
         mol_n <- vector("list", n_samples)
+
+        if (keep_all_cols) {
+            cols <- NULL
+        }
 
         for (f in seq_along(mol_n)) {
 
@@ -53,12 +73,19 @@ readMolecules <- function(data_dir,
             # sprintf function shows that values are not actually changed
 
             # check for cols of interest
-            for (c in cols){
+            for (c in essential_cols){
                 if (!c %in% colnames(mol_df)) {
                     stop("Default required columns could not be identified.
 Please specify column names for gene names, x and y locations in the arguments 
 to this function.")
                 }
+            }
+
+            # choose essential cols or all cols
+            if (is.null(cols)) {
+                cols <- colnames(mol_df)
+            } else {
+                cols <- essential_cols
             }
             
             # standardise data
@@ -74,21 +101,24 @@ to this function.")
 
             mol_n[[f]] <- mol_ls
 
-            ######################################################
-           # # USING DATA.TABLE
-           # data.table::split(mdf, )
-            ######################################################
         }
+        #######################################################################
+        # dirty modification
+        # make data smaller for now
+        # mol_n[[1]] <- mol_n[[1]][1:5]
+        # mol_n[[2]] <- mol_n[[2]][1:5]
+        #######################################################################
 
         # specify sample_ids
         ids <- vector("character", length = n_samples)
 
         # take the name of the upper directory as the sample_id
-        for(f in seq_along(f_paths)) {
+        for (f in seq_along(f_paths)) {
             id <- base::strsplit(f_paths[[f]], "/transcripts.*") %>%
-                unlist() %>%
+                # make unlist faster by specifying use.names = FALSE
+                unlist(use.names = F) %>%
                 base::strsplit("/") %>%
-                unlist() %>%
+                unlist(use.names = F) %>%
                 tail(1)
 
             ids <- replace(ids, f, values = id)
@@ -96,9 +126,12 @@ to this function.")
 
         names(mol_n) <- ids
 
-        # specify a summarized printed output? 
-        # user might get annoyed by long printed output
-        return(mol_n)
+        # CONSTRUCT ME OBJECT
+        me <- MoleculeExperiment(molecules = mol_n)
+
+        # TODO: specify how a summary of the me is printed (show() method)
+
+        return(me)
     }
 
    # if(technology == "vizgen"){
@@ -131,21 +164,3 @@ to this function.")
    # }
 
 }
-
-###############################################################################
-# ALTERNATIVE 
-# maybe have this function as a private .readMolecules() helper function for
-# the MoleculeExperiment() constructor function.
-
-#.readMolecules(data_dir, technology){
-#    # find detected transcripts file
-#    f <- list.files(path = data_dir, 
-#        pattern = "^transcripts.csv")
-#
-#    # Check if file exists. If not, print error message. 
-#    if(length(f) == 0){
-#        stop("transcripts.csv was not found in the specified directory.")
-#    }
-#    f_path = paste0(data_dir, sep = "/", f)
-#    test_fread <- data.table::fread(input = f_path)
-#}

@@ -1,48 +1,52 @@
-#' An S4 class to analyse imaging-based ST data at the molecule level
+# =============================================================================
+# The MoleculeExperiment class: documentation and definition
+# =============================================================================
+
+#' MoleculeExperiment class: An S4 class container to store imaging-based 
+#' spatial transcriptomics data.
+#'
+#' This class enables the analysis of imaging-based ST data at the molecule
+#' level, and standardises data across vendors, which hopefully facilitates
+#' ST data integration and comparison.
+#' @name MoleculeExperiment-class
+## TODO @aliases
+
+#' @docType class
+## TODO explain slot properly with Roxygen2
+#' @slot molecules 
+## TODO explain how to construct ME object 
+#' @section Creating an ME object
+## TODO explain methods in this same documentation page
+#' @section Methods
+## TODO add examples of ME obj construction, and methods being used on ME obj
+#' @examples
+NULL
+
 #' @export
-#' @import methods
-###############################################################################
-##' @importClassesFrom SummarizedExperiment SummarizedExperiment
-###############################################################################
-#' @rdname name of file where documentation of class should be found
-#' @slot molecules Slot for detected transcripts data.
-###############################################################################
+setClass("MoleculeExperiment",
+         slots = c(molecules = "list")
+)
 
-#.MoleculeExperiment <- setClass(Class = "MoleculeExperiment",
-#        # make class inherit properties from SummarizedExperiment class
-#        contains = c("SummarizedExperiment"),
-#        # define new slots
-#        slots = c(molecules = "numeric")
-#)
-#
-# simpler version that does NOT use the SummarizedExperiment class
+# ----------------------------------------------------------------------------- 
+# Define validity checks
+# ----------------------------------------------------------------------------- 
+setValidity("MoleculeExperiment", .me_validity)
 
-MoleculeExperiment <- setClass("MoleculeExperiment", 
-                                slots = c(molecules = "list"))
+.me_validity <- function(obj){
+    msg <- NULL
+    # if incorrect input, guide user to give correct input
+    if (!class(obj@molecules) == "list") {
+        msg <- c("The molecules slot should contain a list")
+    }
 
+    # TODO make more complex validity checks
+    #if(){
+    #msg <- c(msg, "add more input specifications here")
+    #}
 
-###############################################################################
-## define validity checks
-##' @importFrom S4Vectors setValidity2
-#S4Vectors:::setValidity2(class = 'MoleculeExperiment', .molecules_validity)
-#
-#.molecules_validity <- function(obj){
-#    # define error messages to direct user to use valid input data
-#    msg <- NULL
-#    if(){
-#        msg <- c(msg, "impose valid check specifications here")
-#    }
-#    # if object is valid, enable creation of class instance
-#    if(is.null(msg)){
-#        TRUE
-#    }
-#    else msg
-#}
-#
-#
-#setValidity("MoleculeExperiment",
-## if condition X
-## print error message
-## if condition Y
-## answer TRUE when asking whether object is valid with validObject()
-#)
+    # if object is valid, enable creation of class instance
+    if (is.null(msg)) {
+        TRUE
+    }
+}
+
