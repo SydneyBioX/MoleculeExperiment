@@ -30,12 +30,10 @@ setClass("MoleculeExperiment",
 # ----------------------------------------------------------------------------- 
 # Define validity checks
 # ----------------------------------------------------------------------------- 
-setValidity("MoleculeExperiment", .me_validity)
-
-.me_validity <- function(obj){
+.me_validity <- function(object){
     msg <- NULL
     # if incorrect input, guide user to give correct input
-    if (!class(obj@molecules) == "list") {
+    if (!class(object@molecules) == "list") {
         msg <- c("The molecules slot should contain a list")
     }
 
@@ -49,4 +47,6 @@ setValidity("MoleculeExperiment", .me_validity)
         TRUE
     }
 }
+
+setValidity("MoleculeExperiment", .me_validity)
 

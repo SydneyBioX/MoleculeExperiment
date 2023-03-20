@@ -26,8 +26,8 @@
 readMolecules <- function(data_dir, 
                           technology = "xenium",
                           n_samples = 1,
-                          essential_cols = c("feature_name", 
-                                             "x_location", 
+                          essential_cols = c("feature_name",
+                                             "x_location",
                                              "y_location"),
                           keep_all_cols = FALSE
                           )
@@ -50,19 +50,8 @@ readMolecules <- function(data_dir,
 
         f_paths <- replace(f_paths, values = fs)
 
-        #######################################################################
-        # for now use less data
-        # n_samples <- 2 
-        # f_paths <- f_paths[1:2]
-
-        #######################################################################
-
         # DO DATA CONVERSION
         mol_n <- vector("list", n_samples)
-
-        if (keep_all_cols) {
-            cols <- NULL
-        }
 
         for (f in seq_along(mol_n)) {
 
@@ -82,7 +71,7 @@ to this function.")
             }
 
             # choose essential cols or all cols
-            if (is.null(cols)) {
+            if (keep_all_cols) {
                 cols <- colnames(mol_df)
             } else {
                 cols <- essential_cols

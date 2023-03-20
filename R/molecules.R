@@ -6,5 +6,6 @@
 # molecules method gives data for @molecules slot
 
 #' @export
-setMethod("molecules", "MoleculeExperiment", function(obj){obj@molecules})
+setMethod("molecules", "MoleculeExperiment", function(x){x@molecules})
+
 

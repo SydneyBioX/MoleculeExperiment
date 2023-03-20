@@ -2,13 +2,15 @@
 % Please edit documentation in R/readMolecules.R
 \name{readMolecules}
 \alias{readMolecules}
-\title{Read and standardise detected transcripts file}
+\title{Read and standardise the detected transcripts file/s into a
+MoleculeExperiment object}
 \usage{
 readMolecules(
   data_dir,
   technology = "xenium",
   n_samples = 1,
-  cols = c("feature_name", "x_location", "y_location")
+  essential_cols = c("feature_name", "x_location", "y_location"),
+  keep_all_cols = FALSE
 )
 }
 \arguments{
@@ -29,8 +31,6 @@ imaging-based spatial transcriptomics technologies. This file can be used
 as input for creating a MoleculeExperiment object.
 }
 \description{
-Read and standardise detected transcripts file
-}
-\examples{
-TODO write examples 
+Read and standardise the detected transcripts file/s into a
+MoleculeExperiment object
 }
