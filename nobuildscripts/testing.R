@@ -17,6 +17,31 @@ devtools::document()
 # use_package("package") to add packages needed for functions in DESCRIPTION
 
 # =============================================================================
+# test readXenium()
+data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain"
+me_xenium <- readXenium(data_dir,
+                        n_samples = 3,
+                        keep_cols = "essential") 
+
+# test readCosmx()
+data_dir <-"/dski/nobackup/bpeters/cellCommData_2023/nanostring_NSCLC_lung9_rep1/modified/Lung9_Rep1/Lung9_Rep1-Flat_files_and_images"
+me_cosmx <- readCosmx(data_dir,
+                      n_samples = 1,
+                      keep_cols = "essential") 
+
+
+# test readMerscope() 
+data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/vizgen_HumanOvarianCancerPatient2Slice2"
+me_vizgen <- readMerscope(data_dir,
+                          n_samples = 1,
+                          keep_cols = "essential") 
+
+# =============================================================================
+# test asME()
+# input = data.frame with essential columns, already read into R
+
+
+# =============================================================================
 # test readMolecules()
 
 # test for xenium 10x genomics
