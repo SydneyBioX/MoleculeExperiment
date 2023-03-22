@@ -9,9 +9,8 @@ setGeneric("addMoleculeData<-",
 
 #' @export
 setGeneric("nFeatures",
-    function(x) standardGeneric("nFeatures"))
+    function(object) standardGeneric("nFeatures"))
 
 #' @export
 setGeneric("molecules",
     function(x) standardGeneric("molecules"))
-

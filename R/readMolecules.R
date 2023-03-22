@@ -37,8 +37,9 @@
 #'
 #' @importFrom magrittr %>%
 # TODO maybe use base R pipe operator |>
-
-
+# TODO add header entry to the list of lists, called "raw". To then be able to
+# index like this: me@molecules$raw, and also distinguish other
+# transcript options (e.g., me@molecules$raw)
 # TODO --> do we even need the technology argument? maybe for printing messages
 readMolecules <- function(data_dir,
                           # technology should NOT be specified here
@@ -47,13 +48,13 @@ readMolecules <- function(data_dir,
                           # alert user to put pattern of transcripts file
                           pattern = NULL,
                           n_samples = 1,
-                          # seaprate the arguments of the essential columns
+                          # decide which cols to read in
                           keep_cols = "essential",
+                          # 
                           essential_cols = NULL
                           )
 {
     # use browser() and Q for following variable values within local environ
-    # browser()
     # use lobstr::tracemem(obj) to see whenever copies are being made
 
 # -----------------------------------------------------------------------------
@@ -103,10 +104,10 @@ locations in the essential_cols argument of this function.")
                             "y_location")
 
         # essential_cols value is inherited from wrapper functions
-        if(!identical(essential_cols, standard_cols)){
+        if (!identical(essential_cols, standard_cols)) {
             # get index for essential cols
-            indxs <- grep(paste(essential_cols, collapse = "|"), colnames(mol_df))
-            
+            indxs <- grep(paste(essential_cols, collapse = "|"),
+                        colnames(mol_df))
             # change name of the essential cols with the standard names
             colnames(mol_df)[indxs] <- standard_cols
         }
@@ -145,13 +146,13 @@ locations in the keep_cols argument of this function.")
 
     # take the name of the upper directory as the sample_id
 
-    # TODO so far it works with structure where each directory is for one sample 
+    # TODO so far it works with structure where each directory is for one sample
     # identify IDs when transcripts files for different samples are in the same
     # directory
 
     for (f in seq_along(f_paths)) {
         id <- base::strsplit(f_paths[[f]], "/") %>%
-            unlist(use.names = F) %>%
+            unlist(use.names = FALSE) %>%
             tail(2) %>%
             head(1)
 
@@ -166,5 +167,4 @@ locations in the keep_cols argument of this function.")
     return(me)
 }
 
-# HELPER FUNCTION FOR CHECKING COLUMN CLASS
-
+# TODO: HELPER FUNCTION FOR CHECKING COLUMN CLASS????

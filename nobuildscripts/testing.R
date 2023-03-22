@@ -17,31 +17,6 @@ devtools::document()
 # use_package("package") to add packages needed for functions in DESCRIPTION
 
 # =============================================================================
-# test readXenium()
-data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain"
-me_xenium <- readXenium(data_dir,
-                        n_samples = 3,
-                        keep_cols = "essential") 
-
-# test readCosmx()
-data_dir <-"/dski/nobackup/bpeters/cellCommData_2023/nanostring_NSCLC_lung9_rep1/modified/Lung9_Rep1/Lung9_Rep1-Flat_files_and_images"
-me_cosmx <- readCosmx(data_dir,
-                      n_samples = 1,
-                      keep_cols = "essential") 
-
-
-# test readMerscope() 
-data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/vizgen_HumanOvarianCancerPatient2Slice2"
-me_vizgen <- readMerscope(data_dir,
-                          n_samples = 1,
-                          keep_cols = "essential") 
-
-# =============================================================================
-# test asME()
-# input = data.frame with essential columns, already read into R
-
-
-# =============================================================================
 # test readMolecules()
 
 # test for xenium 10x genomics
@@ -62,10 +37,18 @@ me_entire <- readMolecules(data_dir,
                            )
 lobstr::obj_size(me_entire@molecules) # 8.68 GB
 
-# preview help file
-?readMolecules
+# =============================================================================
+# investigate MoleculeExperiment() class
 
-devtools::check()
+is(me, "MoleculeExperiment") # should be TRUE
+is(me, "SummarizedExperiment") # should be FALSE
+is(me, "SingleCellExperiment") # should be FALSE
+
+# preview documentation
+?readMolecules
+?MoleculeExperiment
+class?MoleculeExperiment
+getClass("MoleculeExperiment")
 
 # -----------------------------------------------------------------------------
 # how different is the list of dfs to the alternative huge df with all data?
@@ -85,30 +68,45 @@ lobstr::obj_size(huge_df) # 10.13 GB (redundant data)
 
 # -----------------------------------------------------------------------------
 # test readMolecules for cosmx smi nanostring
-data_dir <-"/dski/nobackup/bpeters/cellCommData_2023/nanostring_NSCLC_lung9_rep1/modified/Lung9_Rep1/Lung9_Rep1-Flat_files_and_images"
+data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/nanostring_NSCLC_lung9_rep1/modified/Lung9_Rep1/Lung9_Rep1-Flat_files_and_images"
 
 me <- readMolecules(data_dir, "nanostring")
 
-# test readMolecules for merscope vizgen 
+# test readMolecules for merscope vizgen
 data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/vizgen_HumanOvarianCancerPatient2Slice2"
 
 me <- readMolecules(data_dir, "vizgen")
 
+# ==============================================================================
+# test wrappers around the readMolecules() function
+data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain"
+me_xenium <- readXenium(data_dir,
+                        n_samples = 3,
+                        keep_cols = "essential")
+
+# TODO readCosmx and readMerscope for some reason create a tibble for each 
+# transcript, not GENE
+
+# test readCosmx()
+data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/nanostring_NSCLC_lung9_rep1/modified/Lung9_Rep1/Lung9_Rep1-Flat_files_and_images"
+me_cosmx <- readCosmx(data_dir,
+                      n_samples = 1,
+                      keep_cols = "essential")
+
+# test readMerscope()
+data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/vizgen_HumanOvarianCancerPatient2Slice2"
+me_vizgen <- readMerscope(data_dir,
+                          n_samples = 1,
+                          keep_cols = "essential")
+
 # =============================================================================
-# investigate MoleculeExperiment() class
-
-is(me, "MoleculeExperiment") # should be TRUE
-is(me, "SummarizedExperiment") # should be FALSE 
-is(me, "SingleCellExperiment") # should be FALSE
-
-# check obj size
-lobstr::obj_size(me)
-
-# preview class documentation 
-?MoleculeExperiment
-class?MoleculeExperiment
-getClass("MoleculeExperiment")
-
+# test asME()
+# input = data.frame with essential columns, already read into R
+transcripts_df <- data.table::fread("/dski/nobackup/bpeters/cellCommData_2023/mouse_brain/Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs/transcripts.csv.gz")
+me_csv <- asMe(transcripts_df = transcripts_df,
+               n_samples = 1,
+               technology = "xenium"
+)
 
 # =============================================================================
 # check validators
@@ -133,7 +131,6 @@ is(cme, "SummarizedExperiment") # should be TRUE
 is(cme, "SingleCellExperiment") # should be TRUE
 is(cme, "SpatialExperiment") # should be TRUE
 
-# run package check 
+# run package check
 devtools::check()
 # if 0 errors and 0 warnings, check installing package in new script
-

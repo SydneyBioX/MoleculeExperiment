@@ -13,7 +13,9 @@
 
 #' @docType class
 ## TODO explain slot properly with Roxygen2
-#' @slot molecules 
+
+#' @slot molecules
+#' @slot boundaries
 ## TODO explain how to construct ME object 
 #' @section Creating an ME object
 ## TODO explain methods in this same documentation page
@@ -22,10 +24,16 @@
 #' @examples
 NULL
 
+
 #' @export
 setClass("MoleculeExperiment",
-         slots = c(molecules = "list")
+         slots = c(molecules = "list",
+                   boundaries = "list")
 )
+
+# CHANGE VALIDATOR
+# TODO the class should NOT be able to be created when the molecules slot is 
+# empty
 
 # ----------------------------------------------------------------------------- 
 # Define validity checks
@@ -33,17 +41,21 @@ setClass("MoleculeExperiment",
 .me_validity <- function(object){
     msg <- NULL
     # if incorrect input, guide user to give correct input
-    if (!class(object@molecules) == "list") {
+    if (object@molecules == NULL) {
+        msg <- c("Can not create a MoleculeExperiment object without the
+        transcripts information.")
+
+    } else if (!class(object@molecules) == "list") {
         msg <- c("The molecules slot should contain a list")
     }
 
     # TODO make more complex validity checks
-    #if(){
+    # else if(){
     #msg <- c(msg, "add more input specifications here")
     #}
 
     # if object is valid, enable creation of class instance
-    if (is.null(msg)) {
+    else if (is.null(msg)) {
         TRUE
     }
 }

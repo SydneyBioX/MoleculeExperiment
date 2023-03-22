@@ -8,10 +8,11 @@ output:
 # TODO
 Format with bioconductor vignette requirements.
 
-# SpatialUtils
-R package with convenience functions for molecule-based spatial transcriptomics
-data analysis (xenium by 10x, cosmx SMI by nanostring, and merscope by vizgen).
-Introduces a new class to store ST data: MoleculeExperiment class.
+# MoleculeExperiment
+The R package MoleculeExperiment contains functions to create and work with the 
+MoleculeExperiment class. We introduce this class for analysing molecule-based
+spatial transcriptomics data (xenium by 10x, cosmx SMI by nanostring, and 
+merscope by vizgen).
 
 # Why the MoleculeExperiment class?
 1) Enable easy analysis of spatial transcriptomics data at the molecule level, 
@@ -22,33 +23,53 @@ facilitate comparison of different data sources.
 # The ME object 
 
 ## Constructing an ME object
-- instructions on how to use readMolecules() correctly
-- highlight benefits of how readMolecules() works
+- instructions on how to use readXenium() correctly
+- show how me looks like (show() method)
+
+- highlight benefits of how readXenium() works
 e.g., readMolecules enables the user to decide if they want to keep all the 
 data that is vendor-specific (e.g., qv in xenium).
+- instructions on how to use asME() correctly
+
 
 ## ME object structure
 - what are the slots?
-for now @molecules 
+For now, the MoleculeExperiment contains a @molecules slot and an @boundaries
+slot. 
 
-- what information does each slot contain?
+### molecules slot
+The "@molecules" slot contains molecule-level information. The essential data it 
+contains is the gene name and x and y locations of the detected transcripts,
+in each sample. Nevertheless, the user can also decide to keep all transcript
+metadata (e.g., subcellular location: nucleus/cytoplasm).
+
 highlight how this enables standardisation of ST data across different vendors.
 
 - what is the format in which the information is stored?
-for now the list format
+for now the list of lists with dfs format.
+- Why?
+Explain
 
-- why is information stored like this?
-performance reasons? (e.g., enabling minimal copying and thus less memory 
-intensive?)
+### boundaries slot
+The "@boundaries" slot contains ... 
+
+# From MoleculeExperiment to SpatialExperiment
+The countMolecules() function uses the @boundaries slot as input, to generate
+a SpatialExperiment class. With this functionality, it is possible to use the
+already existing methods developed to analyse data as a SpatialExperiment 
+object. 
 
 # Methods to work with an ME object
 - Briefly introduce all methods that can be used to access and manipulate data 
 in the @molecules slot.
-- Then explain each method in detail, and compare their performance when used
-on the ME implementation (list) or the naive implementation (df) of the data. 
-Show microbenchmarking results in R code chunks
+    - show method
     - summarisation functions
     - getters (data reading)
     - setters (data manipulation)
-    - plotting functions
 
+
+# Future developments
+- SpatialUtils
+- one plot to show usefulness of @molecules slot 
+- instructions on how to use readMolecules() for up-and-coming molecule-based 
+ST technologies.

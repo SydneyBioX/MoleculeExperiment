@@ -32,6 +32,13 @@ readXenium <- function(data_dir,
                         essential_cols = essential_cols
                         )
 
+    # add boundary information if available
+    # boundaries will always want transcrpts
+    if () {
+        
+    }
+    readBoundaries(me, boundaries)
+
     return(me)
 }
 
