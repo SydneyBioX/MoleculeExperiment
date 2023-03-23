@@ -33,7 +33,7 @@ NULL
 #' @export
 setClass("MoleculeExperiment",
          slots = c(molecules = "list",
-                   boundaries = "ANY")
+                   boundaries = "list")
 )
 
 # CHANGE VALIDATOR

@@ -1,24 +1,23 @@
 # =============================================================================
-# Generics for MoleculeExperiment class
-# ordered alphanumerically to avoid collation problems
+# Generics for MoleculeExperiment class, and their default methods
 # =============================================================================
 
 #' @export
 setGeneric("addMoleculeData<-",
-    function(x, value) standardGeneric("addMoleculeData<-"))
-
-#' @export
-setGeneric("nFeatures",
-    function(object) standardGeneric("nFeatures"))
-
-#' @export
-setGeneric("molecules",
-    function(x) standardGeneric("molecules"))
+    function(object, ..., value) standardGeneric("addMoleculeData<-"))
 
 #' @export
 setGeneric("boundaries",
-    function(x) standardGeneric("boundaries"))
+    function(object, ...) standardGeneric("boundaries"))
 
 #' @export
-#setGeneric("readBoundaries",
-#    function(x) standardGeneric("readBoundaries"))
+setGeneric("molecules",
+    function(object, ...) standardGeneric("molecules"))
+
+#' @export
+setGeneric("nFeatures",
+    function(object, ...) standardGeneric("nFeatures"))
+
+#' @export
+setGeneric("readBoundaries",
+    function(object, ...) standardGeneric("readBoundaries"))

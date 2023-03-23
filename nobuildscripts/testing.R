@@ -110,9 +110,8 @@ me_csv <- asMe(transcripts_df = transcripts_df,
 # modifiedObject <-
 validObject("modifiedObject")
 
-
 # =============================================================================
-# Test readBoundaries function (only works for Xenium for now)
+# Test readBoundaries function by itself (only works for Xenium for now)
 data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain"
 full_me <- readBoundaries(me_xenium,
                             boundaries_mode = "cells",
@@ -127,7 +126,25 @@ str(full_me@boundaries, 2)
 # =============================================================================
 # test METHODS for ME class
 
+# show method
+me
 
+# getters
+molecules(me)
+molecules(me, "raw")
+boundaries(me)
+boundaries(me, "cells")
+
+# setters
+readBoundaries(me,
+                boundaries_mode = "nuclei",
+                data_dir = "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain",
+                pattern = "nucleus_boundaries.csv",
+                n_samples = 3
+                )
+
+# test another getter
+boundaries(me, "nuclei")
 
 # =============================================================================
 # test countMolecules()

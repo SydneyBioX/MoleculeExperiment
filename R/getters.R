@@ -9,7 +9,9 @@
 
 #' @rdname main ManualPageName?
 #' @export
-setMethod("molecules", "MoleculeExperiment", function(x){x@molecules}) 
+setMethod("molecules",
+            "MoleculeExperiment",
+            function(object){object@molecules})
 #setMethod("molecules", "MoleculeExperiment", function(x, i){
 #    # as default should work with RAW transcripts
 #    # if i is missing --> x@molecules$raw 
@@ -18,11 +20,8 @@ setMethod("molecules", "MoleculeExperiment", function(x){x@molecules})
 #    x@molecules$i
 #})
 
-
-
 #' @rdname main ManualPageName?
 #' @export
-setMethod("boundaries", "MoleculeExperiment", function(x){x@boundaries})
-
-
-
+setMethod("boundaries",
+            "MoleculeExperiment",
+            function(object){object@boundaries})
