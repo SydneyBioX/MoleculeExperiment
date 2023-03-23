@@ -138,34 +138,14 @@ locations in the keep_cols argument of this function.")
 
         # standardise data format
         # coerce df to list to reduce redundancy and save storage space
-        mol_n[[f]] <- .splitMolecules(mol_df, cols)
-
+        mol_n[[f]] <- .standardiseToList(mol_df, cols, feature_name)
     }
 
     # specify sample_ids
-    ids <- vector("character", length = n_samples)
-
-    # take the name of the upper directory as the sample_id
-
-    # TODO so far it works with structure where each directory is for one sample
-    # identify IDs when transcripts files for different samples are in the same
-    # directory
-
-    for (f in seq_along(f_paths)) {
-        id <- base::strsplit(f_paths[[f]], "/") %>%
-            unlist(use.names = FALSE) %>%
-            tail(2) %>%
-            head(1)
-
-        ids <- replace(ids, f, values = id)
-    }
-
-    names(mol_n) <- ids
+    names(mol_n) <- .getSampleID(n_samples, f_paths)
 
     # CONSTRUCT ME OBJECT
     me <- MoleculeExperiment(molecules = mol_n)
 
     return(me)
 }
-
-# TODO: HELPER FUNCTION FOR CHECKING COLUMN CLASS????

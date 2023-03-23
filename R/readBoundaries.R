@@ -31,7 +31,7 @@ readBoundaries <- function (me,
                                 boundaries_mode,
                                 data_dir,
                                 pattern,
-                                n_samples)
+                                n_samples) {
 
         # locate files with pattern in specified data directory
         f_paths <- vector("list", n_samples)
@@ -50,19 +50,20 @@ readBoundaries <- function (me,
         bds_ls <- vector("list", n_samples)
 
         # iterate through each sample
-        for (s in seq_along(bds_ls) {
+        for (s in seq_along(bds_ls)) {
             # read in data
             bds_df <- data.table::fread(f_paths[[s]])
 
             # TODO check that cols are in xenium format
 
+            cols <- colnames(bds_df)
             # standardise csv to same list of lists format as readMolecules
             # structure should be: me@boundaries$cells$sample1$cellID$vertex_df
-            bds_ls <- .splitBoundaries(bds_df)
-
+            bds_ls[[s]] <- .standardiseToList(bds_df, cols, cell_id)
         }
 
-        # specify id names like in readMolecules
+        # specify id names
+        names(bds_ls) <- .getSampleID(n_samples, f_paths)
 
         # add list header to specify location in boundaries slot
         bds_ls <- list(bds_ls)
@@ -70,5 +71,6 @@ readBoundaries <- function (me,
 
         # add standardised boundaries list to an already existing ME object
         me@boundaries <- bds_ls
-
-
+        # check that modification is valid
+        validObject(me)
+}

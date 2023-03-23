@@ -23,7 +23,15 @@ devtools::document()
 data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain"
 
 # create me with just x and y locations
-me <- readMolecules(data_dir, technology = "xenium", n_samples = 3)
+me <- readMolecules(data_dir,
+                    technology = "xenium",
+                    pattern = "transcripts.csv",
+                    n_samples = 3,
+                    keep_cols = "essential"
+                    )
+
+me
+                    
 summary(me@molecules)
 # look at overhead structure of nested list
 str(me@molecules, max.level = 1)
@@ -120,11 +128,13 @@ validObject("modifiedObject")
 # Test readBoundaries function (only works for Xenium for now)
 data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain"
 full_me <- readBoundaries(me_xenium,
-                            molecules_mode = "raw",
                             boundaries_mode = "cells",
                             data_dir = data_dir,
                             pattern = "cell_boundaries.csv",
                             n_samples = 3)
+
+str(full_me@boundaries, 2)
+
 
 
 # =============================================================================

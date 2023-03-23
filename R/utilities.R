@@ -2,31 +2,40 @@
 # helper functions for main functions
 # =============================================================================
 
-
 # -----------------------------------------------------------------------------
-# standardise transcripts file in one sample
-.splitMolecules <- function (mol_df, cols) {
+# function to standardise csv file
+# use ... argument to pass column by which to factor df
+.standardiseToList <- function (df, cols, ...) {
 
-    mol_df %<>% 
+    df %<>% 
         dplyr::select(dplyr::all_of(cols)) %>%
-        dplyr::group_by(feature_name)
+        dplyr::group_by(...)
 
-    mol_ls <- mol_df %>%
+    ls <- df %>%
         dplyr::group_split(.keep = FALSE) %>%
-        purrr::set_names(unlist(dplyr::group_keys(mol_df))) %>%
+        purrr::set_names(unlist(dplyr::group_keys(df))) %>%
         as.list()
 
-    return(mol_ls)
-
+    return(ls)
 }
 
 # -----------------------------------------------------------------------------
-# standardise boundary file in one sample
-.splitBoundaries <- function (bds_df) {
-    bds_df %<>% dplyr::group_by(cell_id)
-    bds_ls <- bds_df %>%
-                dplyr::group_split(.keep = FALSE) %>%
-                purrr::set_names(unlist(dplyr::group_keys(bds_df))) %>%
-                as.list()
-    return(bds_ls)
+# function to get sample IDs by retrieving name of parent directory
+.getSampleID <- function(n_samples, f_paths) {
+
+    ids <- vector("character", length = n_samples)
+
+    for (f in seq_along(f_paths)) {
+        id <- base::strsplit(f_paths[[f]], "/") %>%
+            unlist(use.names = FALSE) %>%
+            tail(2) %>%
+            head(1)
+
+        ids <- replace(ids, f, values = id)
+    }
+    return(ids)
+
+    # TODO so far it works with structure where each directory is for one sample
+    # identify IDs when transcripts files for different samples are in the same
+    # directory
 }
