@@ -2,6 +2,8 @@
 # Setter method to add boundary file information to a MoleculeExperiment object.
 # ==============================================================================
 
+#' @rdname
+#' @export
 setMethod("readBoundaries",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object,

@@ -155,7 +155,8 @@ locations in the keep_cols argument of this function.")
     }
 
     # CONSTRUCT ME OBJECT
-    me <- MoleculeExperiment(molecules = mol_n)
+    me <- MoleculeExperiment(molecules = mol_n,
+                                boundaries = list("empty default list"))
 
     return(me)
 

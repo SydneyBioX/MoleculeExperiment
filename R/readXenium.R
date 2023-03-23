@@ -14,7 +14,6 @@ readXenium <- function(data_dir,
                        ) {
 
     # things specific to XENIUM
-    technology <- "xenium"
     transcripts_pattern <- "transcripts.csv"
     essential_cols <- c("feature_name",
                         "x_location",
@@ -23,7 +22,6 @@ readXenium <- function(data_dir,
 
     # create MoleculeExperiment object
     me <- readMolecules(data_dir = data_dir,
-                        technology = technology,
                         pattern = transcripts_pattern,
                         n_samples = n_samples,
                         keep_cols = keep_cols,

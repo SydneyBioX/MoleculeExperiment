@@ -17,7 +17,9 @@ setMethod("molecules",
 #    # if i is missing --> x@molecules$raw 
 #    # if otherwise specified, access other transcripts
 #    # if i is provided --> x@molecules$i 
-#    x@molecules$i
+#    x@molecules$
+# 
+#    # method should NOT print all output to the screen
 #})
 
 #' @rdname main ManualPageName?

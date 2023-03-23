@@ -46,11 +46,11 @@ setClass("MoleculeExperiment",
 .me_validity <- function(object){
     msg <- NULL
     # if incorrect input, guide user to give correct input
-    if (object@molecules == NULL) {
+    if (is.null(object@molecules)) {
         msg <- c("Can not create a MoleculeExperiment object without the
         transcripts information.")
 
-    } else if (!class(object@molecules) == "list") {
+    } else if (!is(object@molecules, "list")) {
         msg <- c("The molecules slot should contain a list")
     }
 
@@ -66,4 +66,3 @@ setClass("MoleculeExperiment",
 }
 
 setValidity("MoleculeExperiment", .me_validity)
-

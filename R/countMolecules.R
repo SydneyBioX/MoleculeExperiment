@@ -8,7 +8,7 @@
 #' @param segmentation_info Character string specifying the type of segmentation
 #' information available. Can be either "boundaries" or "masks". Currently,
 #' only the "boundaries" information is supported.
-#' @param molecule_mode Character string naming the list of the molecules slot
+#' @param molecules_mode Character string naming the list of the molecules slot
 #' from which transcript information should be retrieved from.
 #' The default is the raw transcript data that is read in when creating a
 #' MoleculeExperiment object. It is possible to change it to another mode, e.g.,

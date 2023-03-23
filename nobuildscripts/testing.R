@@ -30,7 +30,6 @@ me <- readMolecules(data_dir,
                     )
 
 me
-                    
 summary(me@molecules)
 # look at overhead structure of nested list
 str(me@molecules, max.level = 1)
@@ -77,7 +76,13 @@ lobstr::obj_size(huge_df) # 10.13 GB (redundant data)
 data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain"
 me_xenium <- readXenium(data_dir,
                         n_samples = 3,
-                        keep_cols = "essential")
+                        keep_cols = "essential",
+                        add_boundaries = FALSE)
+# try out adding boundary information
+me_xenium <- readXenium(data_dir,
+                        n_samples = 3,
+                        keep_cols = "essential",
+                        add_boundaries = TRUE)
 
 # TODO readCosmx and readMerscope for some reason create a tibble for each 
 # transcript, not GENE
@@ -120,8 +125,6 @@ full_me <- readBoundaries(me_xenium,
                             n_samples = 3)
 
 str(full_me@boundaries, 2)
-
-
 
 # =============================================================================
 # test METHODS for ME class
