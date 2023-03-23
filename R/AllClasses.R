@@ -30,10 +30,12 @@
 NULL
 
 
+setClassUnion("list_OR_NULL", c("list", "NULL"))
+
 #' @export
 setClass("MoleculeExperiment",
          slots = c(molecules = "list",
-                   boundaries = "list")
+                   boundaries = "list_OR_NULL")
 )
 
 # CHANGE VALIDATOR
