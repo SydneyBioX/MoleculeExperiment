@@ -59,13 +59,12 @@ a SpatialExperiment class. With this functionality, it is possible to use the
 already existing methods developed to analyse data as a SpatialExperiment 
 object. 
 
-# Methods to work with an ME object
+# Basic methods to work with an ME object
 - Briefly introduce all methods that can be used to access and manipulate data 
 in the @molecules slot.
-    - show method
-    - summarisation functions
-    - getters (data reading)
-    - setters (data manipulation)
+    - show() 
+    - getters: molecules() and boundaries()
+    - setters: readBoundaries()
 
 
 # Future developments

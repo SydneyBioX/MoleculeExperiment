@@ -11,8 +11,6 @@
 #'
 #' @param data_dir String specifying directory with the file/s with detected
 #' transcripts for different runs/samples.
-#' @param technology String specifying whether input data was generated with
-#' "xenium" (10X Genomics), "cosmx" (Nanostring), or "merscope" (Vizgen).
 #' @param pattern Character string specifying the pattern with which to find
 #' the transcripts files. For example, in Xenium data, the pattern would be
 #' "transcripts.csv". In contrast, in Cosmx data, the pattern would be
@@ -22,10 +20,15 @@
 #' the transcripts file. "essential" selects columns with gene names, x and y
 #' locations. "all" will select all columns. Alternatively, specific colums
 #' of interest can be selected by specifying them as characters in a vector.
-#' Note, that this personalised vector needs to contain the essential columns.
-#' @param essential_cols Character vector specifying the essential columns to
-#' be retrieved from the transcripts files. This value is inherited from the
-#' wrapper functions.
+#' Note that this personalised vector needs to contain the essential columns.
+#' @param essential_cols Character vector specifying the names of the columns
+#' with the gene names of the detected transcripts, as well as the x and y
+#' location columns. Specifically in that order. The values for this argument
+#' are inherited from the wrapper functions as it depends on the ST technology.
+#' @param molecules_mode Character string specifying the name of the list in
+#' which the transcript information is going to be stored in the molecules slot.
+#' The default name is "raw", as we envision that a MoleculeExperiment will
+#' usually be created with raw transcript information.
 #'
 #' @return A standardised detected transcripts file across different
 #' imaging-based spatial transcriptomics technologies. This file can be used
@@ -43,24 +46,28 @@
 # transcript options (e.g., me@molecules$raw)
 # TODO --> do we even need the technology argument? maybe for printing messages
 readMolecules <- function(data_dir,
-                          # technology should NOT be specified here
-                          # rather give error messages
-                          technology = technology,
-                          # alert user to put pattern of transcripts file
                           pattern = NULL,
-                          n_samples = 1,
-                          # decide which cols to read in
+                          n_samples = NULL,
                           keep_cols = "essential",
-                          # 
-                          essential_cols = NULL
+                          # specify essential cols if they deviate from the
+                          # default feature names and x and y locations.
+                          essential_cols = NULL,
+                          # one can specify the name of the list in which the 
+                          # transcripts get stored.
+                          # the default is raw.
+                          molecules_mode = NULL
                           )
 {
     # use browser() and Q for following variable values within local environ
     # use lobstr::tracemem(obj) to see whenever copies are being made
 
-# -----------------------------------------------------------------------------
-    # TODO check that technology string makes sense
-# -----------------------------------------------------------------------------
+    if (is.null(pattern)) {
+        stop("Please specify the character pattern with which to uniquely
+        idenfity the transcript files of interest. For example, 
+        transcripts.csv.")
+    } else if (is.null(n_samples)) {
+        stop("Please specify the number of samples being considered.")
+    }
 
     # locate paths for all transcripts files
     f_paths <- vector("list", n_samples)
@@ -91,9 +98,8 @@ readMolecules <- function(data_dir,
         if (is.null(essential_cols)) {
             stop("Essential columns have not been specified.
 Please specify column names for columns containing gene names, x and y
-locations in the essential_cols argument of this function.")
+locations, and in that order, in the essential_cols argument of this function.")
         }
-
 
         # Standardise colnames such that, regardless of technology:
         # gene name info is in "feature_name"
@@ -107,10 +113,10 @@ locations in the essential_cols argument of this function.")
         # essential_cols value is inherited from wrapper functions
         if (!identical(essential_cols, standard_cols)) {
             # get index for essential cols
-            indxs <- grep(paste(essential_cols, collapse = "|"),
-                        colnames(mol_df))
-            # change name of the essential cols with the standard names
-            colnames(mol_df)[indxs] <- standard_cols
+            for (col in essential_cols) {
+                idx <- grep(col, colnames(mol_df))
+                colnames(mol_df)[idx] <- standard_cols[which(essential_cols == col)]
+            }
         }
 
         # choose cols of interest
@@ -125,16 +131,11 @@ locations in the essential_cols argument of this function.")
         # check that essential columns have been selected too
         for (c in standard_cols){
             if (!c %in% cols) {
-                stop("Required columns could not be identified.
+                stop("Essential columns could not be identified.
 Please specify column names for columns containing gene names, x and y 
 locations in the keep_cols argument of this function.")
             }
         }
-
-        # TODO check classes of cols
-        # feature_name should be character
-        # x_location and y_location should be numeric
-
 
         # standardise data format
         # coerce df to list to reduce redundancy and save storage space
@@ -144,8 +145,21 @@ locations in the keep_cols argument of this function.")
     # specify sample_ids
     names(mol_n) <- .getSampleID(n_samples, f_paths)
 
+    # add list header to specify location in molecules slot
+    # default is raw
+    mol_n <- list(mol_n)
+    if (is.null(molecules_mode)) {
+        names(mol_n) <- "raw"
+    } else {
+        names(mol_n) <- molecules_mode
+    }
+
     # CONSTRUCT ME OBJECT
     me <- MoleculeExperiment(molecules = mol_n)
 
     return(me)
+
+    # guide user
+    cat("Detected transcript information can be accessed with molecules(me) or
+    molecules(me, \"raw\") ")
 }

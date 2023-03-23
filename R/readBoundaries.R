@@ -27,11 +27,24 @@
 #' @param n_samples Integer indicating the number of samples from which to read
 #' boundary files.
 
-readBoundaries <- function (me,
-                                boundaries_mode,
+readBoundaries <- function(me,
+                                boundaries_mode = NULL,
                                 data_dir,
-                                pattern,
-                                n_samples) {
+                                pattern = NULL,
+                                n_samples = NULL) {
+        # TODO maybe
+        if (is.null(pattern)) {
+            stop("Please specify the character pattern with which to uniquely
+            identify the boundary files of interest. For example, 
+            cell_boundaries.csv.")
+        } else if (is.null(n_samples)) {
+            stop("Please specify the number of samples being considered.")
+        } else if (is.null(boundaries_mode)) {
+            stop("Please specify the name of the list in which to store
+            boundary information in the boundaries slot. For example, cells
+            if importing cell boundaries, or nuclei if importing nucleus
+            boundaries.")
+        }
 
         # locate files with pattern in specified data directory
         f_paths <- vector("list", n_samples)
@@ -73,4 +86,7 @@ readBoundaries <- function (me,
         me@boundaries <- bds_ls
         # check that modification is valid
         validObject(me)
+
+        # guide user
+        cat("Boundary information can be accessed with boundaries(me).")
 }

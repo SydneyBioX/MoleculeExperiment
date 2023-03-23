@@ -7,11 +7,14 @@
 \title{MoleculeExperiment class: An S4 class container to store imaging-based
 spatial transcriptomics data.}
 \usage{
-MoleculeExperiment(molecules)
+MoleculeExperiment(molecules, boundaries)
 }
 \arguments{
 \item{molecules}{Detected transcripts information in a list format, as is
 generated with the readMolecules() function.}
+
+\item{boundaries}{Slot with boundary information in a list format, as is
+generated with the readBoundaries() function.}
 }
 \description{
 This class enables the analysis of imaging-based ST data at the molecule
@@ -21,7 +24,16 @@ ST data integration and comparison.
 \section{Slots}{
 
 \describe{
-\item{\code{molecules}}{}
+\item{\code{molecules}}{Slot containing information about the detected transcripts.
+This slot is designed as a list of lists, where each sample contains a list
+of tibbles with information for each gene. The basic information required
+for this slot are the gene names of the transcripts, as well as their x and
+y locations.}
+
+\item{\code{boundaries}}{Slot containing the boundaries defining each segmented cell.
+The slot is designed as a list of lists, where each sample contains a list
+of tibbles for each cell, consisting of the x and y coordinates of the
+polygon vertices defining the cell boundary.}
 }}
 
 \section{Creating an ME object}{

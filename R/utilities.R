@@ -5,6 +5,8 @@
 # -----------------------------------------------------------------------------
 # function to standardise csv file
 # use ... argument to pass column by which to factor df
+#' @importFrom magrittr %<>%
+#' @importFrom magrittr %>%
 .standardiseToList <- function (df, cols, ...) {
 
     df %<>% 

@@ -2,8 +2,13 @@
 
 export("addMoleculeData<-")
 export(MoleculeExperiment)
+export(boundaries)
+export(countMolecules)
 export(molecules)
+export(nFeatures)
 export(readMolecules)
 exportClasses(MoleculeExperiment)
+exportMethods(boundaries)
 exportMethods(molecules)
+importFrom(magrittr,"%<>%")
 importFrom(magrittr,"%>%")

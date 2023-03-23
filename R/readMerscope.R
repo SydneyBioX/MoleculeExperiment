@@ -14,9 +14,6 @@ readMerscope <- function(data_dir,
 
     pattern <- "transcripts.csv"
 
-    # TODO do we even need the technology argument?
-    technology <- "merscope"
-
     # check that there are no rownames
     # better to avoid rownames in large datasets
     # if(length(rownames(input))!=0){
@@ -25,7 +22,6 @@ readMerscope <- function(data_dir,
 
     # create MoleculeExperiment object
     me <- readMolecules(data_dir = data_dir,
-                        technology = technology,
                         pattern = pattern,
                         n_samples = n_samples,
                         keep_cols = keep_cols,

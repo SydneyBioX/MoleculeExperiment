@@ -10,7 +10,7 @@
 #' and y location.
 
 readCosmx <- function(data_dir,
-                      n_samples = 1,
+                      n_samples = NULL,
                       keep_cols = "essential") {
 
     # things specific to Cosmx
@@ -20,18 +20,14 @@ readCosmx <- function(data_dir,
 
     pattern <- "tx_file"
 
-    # TODO do we even need the technology argument?
-    technology <- "cosmx"
-
     # check that there are no rownames
     # better to avoid rownames in large datasets
     # if(length(rownames(input))!=0){
         # remove rownames and keep info in new col
     # }
 
-    # create MoleculeExperiment object 
+    # create MoleculeExperiment object
     me <- readMolecules(data_dir = data_dir,
-                        technology = technology,
                         pattern = pattern,
                         n_samples = n_samples,
                         keep_cols = keep_cols,

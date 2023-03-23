@@ -1,4 +1,3 @@
-
 # -----------------------------------------------------------------------------
 # extend the show method to avoid plaguing the console with object contents
 # give user a hint of the contents of the ME obj
@@ -49,23 +48,31 @@ setMethod("show",
 
               # TODO print some contents of boundaries slot
           }
+)
 
-# -----------------------------------------------------------------------------
-# method to filter features (e.g., NegControl probes) from the @molecules slot.
+## -----------------------------------------------------------------------------
+## method to filter features (e.g., NegControl probes) from the @molecules slot.
+## useful functions: group_by() group_indices(), group_rows(), tally(), ungroup()
+#setMethod("filterFeatures",
+#            signature = signature(object = "MoleculeExperiment"),
+#            definition = function(object) {
+##    # check that modified object is still a valid instance of ME class
+##    validObject(x)
+#            }
+#)
+#
+## method to filter rows from the tibbles in the @molecules slot
+## e.g., to filter out transcripts that are annotated as being in the nuclei
+#setMethod("filterMoleculeData",
+#            signature = signature(object = "MoleculeExperiment"),
+#            definition = function(object) {
+##    # check that modified object is still a valid instance of ME class
+##    validObject(x)
+#            }
+#)
+#
 # useful functions: group_by() group_indices(), group_rows(), tally(), ungroup()
-filterFeatures <-
-#    # check that modified object is still a valid instance of ME class
-#    validObject(x)
 
-
-# method to filter rows from the tibbles in the @molecules slot
-# e.g., to filter out transcripts that are annotated as being in the nuclei
-filterMoleculeData <-
-
-# useful functions: group_by() group_indices(), group_rows(), tally(), ungroup()
-
-#    # check that modified object is still a valid instance of ME class
-#    validObject(x)
 
 
 # -----------------------------------------------------------------------------
@@ -91,7 +98,11 @@ setMethod("nFeatures",
 
 # also add method for features()
 
-# method to calculate the total number of transcripts/molecules per sample.
-setMethod("nTranscripts",
-            signature = )
-
+## method to calculate the total number of transcripts/molecules per sample.
+#setMethod("nTranscripts",
+#          signature = signature(object = "MoleculeExperiment"),
+#          definition = function(object) {
+#
+#          }
+#)
+#

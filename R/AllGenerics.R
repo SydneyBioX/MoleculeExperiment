@@ -14,3 +14,11 @@ setGeneric("nFeatures",
 #' @export
 setGeneric("molecules",
     function(x) standardGeneric("molecules"))
+
+#' @export
+setGeneric("boundaries",
+    function(x) standardGeneric("boundaries"))
+
+#' @export
+#setGeneric("readBoundaries",
+#    function(x) standardGeneric("readBoundaries"))

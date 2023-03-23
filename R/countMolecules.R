@@ -26,11 +26,11 @@
 # TODO enable selection of different subslots (raw/high_threshold, or
 # cells/nuclei)
 
+countMolecules <- function(me,
+                            segmentation_info = "boundaries",
+                            molecules_mode = "raw",
+                            boundaries_mode) {
 
-countMolecules(me,
-                segmentation_info = "boundaries",
-                molecules_mode = "raw",
-                boundaries_mode) {
     # Function should be flexible to different segmentation information
     # priority for boundaries as 10x and vizgen have this info, but not masks
     if (is(segmentation_info, "boundaries")) {
@@ -41,7 +41,7 @@ countMolecules(me,
     #}
 }
 
-.countMoleculesBoundaries(me,
+.countMoleculesBoundaries <- function(me,
                           molecules_mode = "raw",
                           boundaries_mode) {
 
@@ -58,7 +58,8 @@ countMolecules(me,
     sp::coordinates()
 
     # return counts matrix inside the counts slot of a SpatialExperiment object
-    spe <- SpatialExperiment(assays = )
+
+    #spe <- SpatialExperiment(assays = )
     return(spe)
 }
 

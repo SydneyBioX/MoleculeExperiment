@@ -24,7 +24,6 @@ data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain"
 
 # create me with just x and y locations
 me <- readMolecules(data_dir,
-                    technology = "xenium",
                     pattern = "transcripts.csv",
                     n_samples = 3,
                     keep_cols = "essential"
@@ -39,7 +38,6 @@ lobstr::obj_size(me@molecules) # 2.89 GB
 
 # what if all feature data is retained?
 me_entire <- readMolecules(data_dir,
-                           technology = "xenium",
                            n_samples = 3,
                            keep_all_cols = TRUE
                            )
@@ -73,17 +71,6 @@ dim(huge_df)
 
 lobstr::obj_size(huge_df) # 10.13 GB (redundant data)
 # in contrast, simple me is 2.89 GB, and me with all data is 8.68 GB
-
-# -----------------------------------------------------------------------------
-# test readMolecules for cosmx smi nanostring
-data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/nanostring_NSCLC_lung9_rep1/modified/Lung9_Rep1/Lung9_Rep1-Flat_files_and_images"
-
-me2 <- readMolecules(data_dir, "nanostring")
-
-# test readMolecules for merscope vizgen
-data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/vizgen_HumanOvarianCancerPatient2Slice2"
-
-me3 <- readMolecules(data_dir, "vizgen")
 
 # ==============================================================================
 # test wrappers around the readMolecules() function

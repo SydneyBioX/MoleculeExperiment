@@ -1,23 +1,21 @@
 # =============================================================================
 # wrapper around readMolecules, specifically for xenium data
-# TODO document function
 # =============================================================================
 
 #' Read xenium data into a MoleculeExperiment object
 #'
-# inherit documentation from readMolecules?
+# TODO inherit documentation for parameters from readMolecules
+# TODO add documentation for new parameters specific to readXenium
 #' @param data_dir
-#'
-#'
-
 readXenium <- function(data_dir,
-                       n_samples = 1,
-                       keep_cols = "essential"
+                       n_samples = NULL,
+                       keep_cols = "essential",
+                       add_boundaries = TRUE
                        ) {
 
     # things specific to XENIUM
     technology <- "xenium"
-    pattern <- "transcripts.csv"
+    transcripts_pattern <- "transcripts.csv"
     essential_cols <- c("feature_name",
                         "x_location",
                         "y_location")
@@ -26,19 +24,22 @@ readXenium <- function(data_dir,
     # create MoleculeExperiment object
     me <- readMolecules(data_dir = data_dir,
                         technology = technology,
-                        pattern = pattern,
+                        pattern = transcripts_pattern,
                         n_samples = n_samples,
                         keep_cols = keep_cols,
                         essential_cols = essential_cols
                         )
 
     # add boundary information if available
-    # boundaries will always want transcrpts
-    if () {
-        
+    # boundaries will always want transcripts
+    boundaries_pattern <- "cell_boundaries.csv"
+    boundaries_mode <- "cells"
+    if (add_boundaries) {
+        readBoundaries(me,
+                        boundaries_mode = boundaries_mode,
+                        data_dir,
+                        pattern = boundaries_pattern,
+                        n_samples = n_samples)
     }
-    readBoundaries(me, boundaries)
-
     return(me)
 }
-
