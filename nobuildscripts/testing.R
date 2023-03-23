@@ -70,12 +70,12 @@ lobstr::obj_size(huge_df) # 10.13 GB (redundant data)
 # test readMolecules for cosmx smi nanostring
 data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/nanostring_NSCLC_lung9_rep1/modified/Lung9_Rep1/Lung9_Rep1-Flat_files_and_images"
 
-me <- readMolecules(data_dir, "nanostring")
+me2 <- readMolecules(data_dir, "nanostring")
 
 # test readMolecules for merscope vizgen
 data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/vizgen_HumanOvarianCancerPatient2Slice2"
 
-me <- readMolecules(data_dir, "vizgen")
+me3 <- readMolecules(data_dir, "vizgen")
 
 # ==============================================================================
 # test wrappers around the readMolecules() function
@@ -114,6 +114,18 @@ me_csv <- asMe(transcripts_df = transcripts_df,
 
 # modifiedObject <-
 validObject("modifiedObject")
+
+
+# =============================================================================
+# Test readBoundaries function (only works for Xenium for now)
+data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain"
+full_me <- readBoundaries(me_xenium,
+                            molecules_mode = "raw",
+                            boundaries_mode = "cells",
+                            data_dir = data_dir,
+                            pattern = "cell_boundaries.csv",
+                            n_samples = 3)
+
 
 # =============================================================================
 # test METHODS for ME class

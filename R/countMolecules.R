@@ -5,8 +5,19 @@
 #' well as the boundaries data. I.e., the "molecules" and "boundaries" slots
 #' need to be filled.
 #' See MoleculeExperiment() for more information.
-#' @param segmentation Character string specifying whether cell-level data
-#' is from a cell boundaries file or a segmentation mask file.
+#' @param segmentation_info Character string specifying the type of segmentation
+#' information available. Can be either "boundaries" or "masks". Currently,
+#' only the "boundaries" information is supported.
+#' @param molecule_mode Character string naming the list of the molecules slot
+#' from which transcript information should be retrieved from.
+#' The default is the raw transcript data that is read in when creating a
+#' MoleculeExperiment object. It is possible to change it to another mode, e.g.,
+#' "high_threshold" will access the transcript information that has been stored
+#' in the "high_threshold" element of the list in the molecules slot.
+#' @param boundaries_mode Character string naming the list of the boundaries
+#' slot form which boundary information should be retrieved from.
+#' For example, for counting transcripts per cell, the list containing the cell
+#' boundaries (e.g., "cells") should be selected. 
 #' @export
 #'
 #'
@@ -16,20 +27,23 @@
 # cells/nuclei)
 
 
-countMolecules(me, "raw", "cells"){
+countMolecules(me,
+                segmentation_info = "boundaries",
+                molecules_mode = "raw",
+                boundaries_mode) {
     # Function should be flexible to different segmentation information
     # priority for boundaries as 10x and vizgen have this info, but not masks
-    if (is(segmentation, "boundaries")) {
+    if (is(segmentation_info, "boundaries")) {
         return(.countMoleculesBoundaries(me, "raw", "cells"))
     }
-    #if (is(segmentation, "masks")) {
+    #if (is(segmentation_info, "masks")) {
     #    return(.countMoleculesMasks(me, segmentation))
     #}
 }
 
 .countMoleculesBoundaries(me,
                           molecules_mode = "raw",
-                          boundaries_mode = "cells") {
+                          boundaries_mode) {
 
     # get boundaries 
     x <- get(boundaries_mode)

@@ -1,28 +1,72 @@
 # =============================================================================
-# read in boundary information
+# read in boundary information: readBoundaries()
 # =============================================================================
 
-#' read boundary files for molecule-based ST experiments
-#' 
-#' @param me A MoleculeExperiment object.
-#' 
+#' Read segmentation boundary files into a MoleculeExperiment object.
+#'
+#' This function reads in boundary files of interest, standardises the data
+#' format, and adds the data to the "boundaries" slot of a specified
+#' MoleculeExperiment object. NOTE: currently, this function works with csv
+#' segmentation files with the format given by the segmentation method of
+#' 10X genomics. I.e., a csv file with the following columns and column order:
+#' "cell_id", "vertex_x" and "vertex_y".
+#'
+#' @param me A MoleculeExperiment object. Note: a MoleculeExperiment object can
+#' only be created with a filled molecules slot.
+#' @param boundaries_mode Character string naming the list of the boundaries
+#' slot that will contain the imported boundary information. This is important
+#' to recognise the imported boundaries later on. For example, one might want
+#' to store cell boundaries in a list entry named "cells", and the nuclei
+#' boundaries in a list entry named "nuclei". These different entries can be
+#' accessed with the boundaries() accessor (see boundaries() for more
+#' information).
+#' @param data_dir Character string indicating path to the parent directory
+#' containing the boundary files for the sample/s.
+#' @param pattern Character string specifying a pattern unique to the name of
+#' the csv boundary file/s of interest. E.g., "cell_boundaries.csv"
+#' @param n_samples Integer indicating the number of samples from which to read
+#' boundary files.
 
-readBoundaries <- function(me, data_dir)
-        # only for xenium for now
+readBoundaries <- function (me,
+                                boundaries_mode,
+                                data_dir,
+                                pattern,
+                                n_samples)
 
-        # make this function work with either CELL data or NUCLEI data 
-        # in arguments? or where?
+        # locate files with pattern in specified data directory
+        f_paths <- vector("list", n_samples)
 
-        # locate files in directory
-        data_dir
+        fs <- list.files(data_dir,
+                        pattern = pattern,
+                        # store full path names
+                        full.names = TRUE,
+                        # look into subdirectories too
+                        recursive = TRUE
+        )
+
+        f_paths <- replace(f_paths, values = fs)
 
         # read in files
-        bds <- data.table::fread() 
-        # standardise csv to same list of lists format as readMolecules
-        # structure should be: me@boundaries$cells$sample1$cellID$vertex_df
-        bds_ls <-
+        bds_ls <- vector("list", n_samples)
+
+        # iterate through each sample
+        for (s in seq_along(bds_ls) {
+            # read in data
+            bds_df <- data.table::fread(f_paths[[s]])
+
+            # TODO check that cols are in xenium format
+
+            # standardise csv to same list of lists format as readMolecules
+            # structure should be: me@boundaries$cells$sample1$cellID$vertex_df
+            bds_ls <- .splitBoundaries(bds_df)
+
+        }
 
         # specify id names like in readMolecules
+
+        # add list header to specify location in boundaries slot
+        bds_ls <- list(bds_ls)
+        names(bds_ls) <- get(quote(boundaries_mode))
 
         # add standardised boundaries list to an already existing ME object
         me@boundaries <- bds_ls

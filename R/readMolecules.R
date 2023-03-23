@@ -1,6 +1,5 @@
 # =============================================================================
 # Main function to generate a MoleculeExperiment: ReadMolecules()
-## TODO write examples
 # =============================================================================
 
 #' Read and standardise the detected transcripts file/s into a 
@@ -19,14 +18,14 @@
 #' "transcripts.csv". In contrast, in Cosmx data, the pattern would be
 #' "tx_file".
 #' @param n_samples Integer specifying number of samples to be read.
-#' @param keep_cols Vector of characters specifying the columns of interest from the
-#' transcript file. "essential" selects columns with gene names, x and y
+#' @param keep_cols Vector of characters specifying the columns of interest from
+#' the transcripts file. "essential" selects columns with gene names, x and y
 #' locations. "all" will select all columns. Alternatively, specific colums
 #' of interest can be selected by specifying them as characters in a vector.
 #' Note, that this personalised vector needs to contain the essential columns.
 #' @param essential_cols Character vector specifying the essential columns to
 #' be retrieved from the transcripts files. This value is inherited from the
-#' wrapper functions. 
+#' wrapper functions.
 #'
 #' @return A standardised detected transcripts file across different
 #' imaging-based spatial transcriptomics technologies. This file can be used
@@ -36,6 +35,8 @@
 #' @export
 #'
 #' @importFrom magrittr %>%
+#' 
+# TODO write examples
 # TODO maybe use base R pipe operator |>
 # TODO add header entry to the list of lists, called "raw". To then be able to
 # index like this: me@molecules$raw, and also distinguish other
@@ -87,7 +88,7 @@ readMolecules <- function(data_dir,
 
         ######################################################################
         # check user has specified the essential cols
-        if(is.null(essential_cols)){
+        if (is.null(essential_cols)) {
             stop("Essential columns have not been specified.
 Please specify column names for columns containing gene names, x and y
 locations in the essential_cols argument of this function.")
