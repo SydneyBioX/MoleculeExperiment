@@ -7,7 +7,7 @@
 \title{MoleculeExperiment class: An S4 class container to store imaging-based
 spatial transcriptomics data.}
 \usage{
-MoleculeExperiment(molecules, boundaries)
+MoleculeExperiment(molecules, boundaries = NULL)
 }
 \arguments{
 \item{molecules}{Detected transcripts information in a list format, as is

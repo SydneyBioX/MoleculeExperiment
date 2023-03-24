@@ -50,6 +50,23 @@ setMethod("show",
           }
 )
 
+# -----------------------------------------------------------------------------
+# summarise the large nested list of lists in the molecules and boundaries slots
+setMethod("summariseMolecules",
+            signature = signature(object = "MoleculeExperiment"),
+            definition = function(object) {
+                str(object@molecules, max.level = 2)
+            }
+)
+
+setMethod("summariseBoundaries",
+            signature = signature(object = "MoleculeExperiment"),
+            definition = function(object) {
+                str(object@boundaries, max.level = 2)
+            }
+)
+
+
 ## -----------------------------------------------------------------------------
 ## method to filter features (e.g., NegControl probes) from the @molecules slot.
 ## useful functions: group_by() group_indices(), group_rows(), tally(), ungroup()

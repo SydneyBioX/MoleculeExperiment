@@ -21,3 +21,11 @@ setGeneric("nFeatures",
 #' @export
 setGeneric("readBoundaries",
     function(object, ...) standardGeneric("readBoundaries"))
+
+#' @export
+setGeneric("summariseMolecules",
+    function(object, ...) standardGeneric("summariseMolecules"))
+
+#' @export
+setGeneric("summariseBoundaries",
+    function(object, ...) standardGeneric("summariseBoundaries"))

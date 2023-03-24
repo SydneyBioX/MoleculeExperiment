@@ -21,17 +21,17 @@ See MoleculeExperiment() for more information.}
 information available. Can be either "boundaries" or "masks". Currently,
 only the "boundaries" information is supported.}
 
-\item{boundaries_mode}{Character string naming the list of the boundaries
-slot form which boundary information should be retrieved from.
-For example, for counting transcripts per cell, the list containing the cell
-boundaries (e.g., "cells") should be selected.}
-
-\item{molecule_mode}{Character string naming the list of the molecules slot
+\item{molecules_mode}{Character string naming the list of the molecules slot
 from which transcript information should be retrieved from.
 The default is the raw transcript data that is read in when creating a
 MoleculeExperiment object. It is possible to change it to another mode, e.g.,
 "high_threshold" will access the transcript information that has been stored
 in the "high_threshold" element of the list in the molecules slot.}
+
+\item{boundaries_mode}{Character string naming the list of the boundaries
+slot form which boundary information should be retrieved from.
+For example, for counting transcripts per cell, the list containing the cell
+boundaries (e.g., "cells") should be selected.}
 }
 \description{
 Function should be flexible to different segmentation information
