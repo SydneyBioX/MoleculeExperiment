@@ -54,6 +54,8 @@ countMolecules <- function(me,
     me@molecules$y
 
     # match transcripts to each boundary 
+    # maybe change colnames so that vertex_x matches x_location col from the
+    # transcripts tibbles
     sp::over()
     sp::coordinates()
 

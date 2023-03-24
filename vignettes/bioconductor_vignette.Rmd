@@ -5,9 +5,6 @@ output:
   html_document:
     toc: true
 ---
-# TODO
-Format with bioconductor vignette requirements.
-
 # MoleculeExperiment
 The R package MoleculeExperiment contains functions to create and work with the 
 MoleculeExperiment class. We introduce this class for analysing molecule-based
@@ -24,6 +21,13 @@ facilitate comparison of different data sources.
 
 ## Constructing an ME object
 
+```{r}
+# load necessary libraries
+
+#library(MoleculeExperiment)
+library(ggplot2)
+
+```
 ### usecase 1 
 We will demonstrate how to generate an ME object with toy data representing a 
 scenario where both the detected transcripts information and the boundary 
@@ -48,13 +52,13 @@ boundaries_df <- data.frame(
   cell_id = rep(c("cell1", "cell2", "cell3", "cell4",
                   "cell1", "cell2"),
                 times = c(4, 4, 4, 4, 3, 3)),
-  vertex_x = c(0, 0.5, 0.5, 0,
+  x_location = c(0, 0.5, 0.5, 0,
                  0.5, 1, 1, 0.5,
                  0, 0.5, 0.5, 0,
                  0.5, 1, 1, 0.5,
                  0, 1, 0,
                  0, 1, 1),
-  vertex_y = c(0, 0, 0.5, 0.5,
+  y_location = c(0, 0, 0.5, 0.5,
                  0, 0, 0.5, 0.5,
                  0.5, 0.5, 1, 1,
                  0.5, 0.5, 1, 1,
@@ -63,6 +67,7 @@ boundaries_df <- data.frame(
 )
 head(boundaries_df)
 ```
+
 To generate an ME object, the next step is to standardise these lists to the 
 MoleculeExperiment list. This consists of a list of lists, ultimately ending in 
 a tibble. This data structure was used to store disk space, as data in a list
@@ -130,6 +135,7 @@ being developed.
 e.g., readMolecules enables the user to decide if they want to keep all the 
 data that is vendor-specific (e.g., qv in xenium).
 
+
 ## ME object structure
 - what are the slots?
 For now, the MoleculeExperiment contains a @molecules slot and an @boundaries
@@ -164,12 +170,6 @@ each list to easily access specific information later on.
 summariseBoundaries(me@boundaries)
 ```
 
-# From MoleculeExperiment to SpatialExperiment
-The countMolecules() function uses the @boundaries slot as input, to generate
-a SpatialExperiment class. With this functionality, it is possible to use the
-already existing methods developed to analyse data as a SpatialExperiment 
-object. 
-
 # Basic methods to work with an ME object
 - Briefly introduce all methods that can be used to access and manipulate data 
 in the @molecules slot.
@@ -191,6 +191,46 @@ boundaries(me)
 ```
     - setters: readBoundaries()
 
+
+# From MoleculeExperiment to SpatialExperiment
+The idea behind the MoleculeExperiment class is to store data form 
+molecule-based spatial transcriptomics technologies in a way that enables a
+molecule-level analysis, and a standardisation of data across the many different
+vendors.
+Nevertheless, if one is interested in continuing downstream analysis at the
+cell-level, the MoleculeExperiment package also provides a convenience function,
+called countMolecules(), that enables the transition from a MoleculeExperiment
+object to a SpatialExperiment object. With this functionality, it is possible to
+use already existing methods developed to analyse data stored as a
+SpatialExperiment object.
+
+Supose we are working with the toy example of boundary information described
+before. Recall it below:
+```{r}
+head(boundaries_df)
+```
+
+This would be generating a scenario that graphically looks like this:
+
+```{r}
+ggplot(molecules_df, aes(x = x_location, y = y_location)) +
+  geom_point() +
+  geom_polygon(aes(group = cell_id),
+                    fill = NA,
+                    colour = "black",
+                    data = boundaries_df) +
+  facet_wrap(~sample_id) +
+  coord_fixed()
+```
+
+The idea now is to go from a MoleculeExperiment object to a SpatialExperiment
+object.
+
+```{r}
+
+countMolecules()
+
+```
 
 # Future developments
 - SpatialUtils

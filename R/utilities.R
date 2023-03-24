@@ -3,12 +3,6 @@
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# enable boundaries slot to be empty or list
-
-#####' @export
-####setClassUnion("list_OR_NULL", c("list", "NULL"))
-
-# -----------------------------------------------------------------------------
 # function to standardise csv file
 # use ... argument to pass column by which to factor df
 #' @importFrom magrittr %<>%

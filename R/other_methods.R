@@ -21,6 +21,7 @@
 # 145000 nuclei
 # location range (first concatenate and then find min and max)
 
+#'@importFrom utils str
 setMethod("show",
           signature = signature(object = "MoleculeExperiment"),
           definition = function(object) {
@@ -52,6 +53,7 @@ setMethod("show",
 
 # -----------------------------------------------------------------------------
 # summarise the large nested list of lists in the molecules and boundaries slots
+#'@importFrom utils str
 setMethod("summariseMolecules",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object) {
@@ -59,6 +61,7 @@ setMethod("summariseMolecules",
             }
 )
 
+#'@importFrom utils str
 setMethod("summariseBoundaries",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object) {
