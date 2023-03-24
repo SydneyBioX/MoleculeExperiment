@@ -1,0 +1,169 @@
+---
+output:
+  pdf_document:
+    keep_tex: true
+  html_document:
+    toc: true
+---
+# TODO
+Format with bioconductor vignette requirements.
+
+# MoleculeExperiment
+The R package MoleculeExperiment contains functions to create and work with the 
+MoleculeExperiment class. We introduce this class for analysing molecule-based
+spatial transcriptomics data (xenium by 10x, cosmx SMI by nanostring, and 
+merscope by vizgen).
+
+# Why the MoleculeExperiment class?
+1) Enable easy analysis of spatial transcriptomics data at the molecule level, 
+rather than the cell level.
+2) Standardisation of molecule-based ST data across vendors, to hopefully
+facilitate comparison of different data sources.
+
+# The ME object 
+
+## Constructing an ME object
+
+### usecase 1 
+We will demonstrate how to generate an ME object with toy data representing a 
+scenario where both the detected transcripts information and the boundary 
+information is read into R. 
+
+First we generate a toy transcripts data.frame:
+```{r}
+# molecules data.frame toy example
+molecules_df <- data.frame(
+  sample_id = rep(c("sample1", "sample2"), times = c(30, 20)),
+  feature_name = rep(c("gene1", "gene2"), times = c(20, 30)),
+  x_location = runif(50),
+  y_location = runif(50)
+  )
+head(molecules_df)
+```
+Then we generate a toy boundaries data.frame:
+```{r}
+# boundaries data.frame toy example
+boundaries_df <- data.frame(
+  sample_id = rep(c("sample1", "sample2"), times = c(16, 6)),
+  cell_id = rep(c("cell1", "cell2", "cell3", "cell4",
+                  "cell1", "cell2"),
+                times = c(4, 4, 4, 4, 3, 3)),
+  x_location = c(0, 0.5, 0.5, 0,
+                 0.5, 1, 1, 0.5,
+                 0, 0.5, 0.5, 0,
+                 0.5, 1, 1, 0.5,
+                 0, 1, 0,
+                 0, 1, 1),
+  y_location = c(0, 0, 0.5, 0.5,
+                 0, 0, 0.5, 0.5,
+                 0.5, 0.5, 1, 1,
+                 0.5, 0.5, 1, 1,
+                 0, 1, 1,
+                 0, 0, 1)
+)
+head(boundaries_df)
+```
+To generate an ME object, the next step is to standardise these lists to the 
+MoleculeExperiment list. This consists of a list of lists, ultimately ending in 
+a tibble. This data structure was used to store disk space, as data in a list
+enables us to avoid redundantly storing gene names or sample IDs for the
+millions of transcripts.
+In the case of the molecules information, we would like to store the information
+in a list of lists with the following structure: "sample ID" > "feature name" >
+tibble with X and Y locations (and other additional columns of interest).
+Additionally, one might like to filter the transcripts and store them in the
+same object, in which case one can also have this structure: "filtered" >
+"sample ID" > "feature name" > tibble.
+
+```{r}
+molecules_ls <- dataframeToMEList(molecules_df)
+# to avoid printing large list of lists in the terminal, use str() and the
+# max.level argument
+str(molecules_ls, max.level = 2)
+```
+
+For the boundaries slot, if the boundary information is for cells, the structure
+would look like this: "cells" > "sample ID" > "cell IDs" > tibble with the
+vertex coordinates defining the boundaries for each cell. 
+If the boundary information is for nuclei, the structure would be: "nuclei" >
+"sample ID" > "cell ID" > tibble with the vertex coordinates defining the
+boundary information for the nuclei.
+
+```{r}
+boundaries_ls <- dataframeToMEList(boundaries_df)
+str(boundaries_ls, 2)
+```
+
+Now that the transcript and boundary information is in a standardised format, it
+can be used as input to generate an ME object.
+
+```{r}
+# use MoleculeExperiment object constructor
+me <- MoleculeExperiment(molecules = molecules_ls,
+                          boundaries = boundaries_ls)
+
+# visualise contents of me object
+me
+```
+
+### Usecase 2: using directory with Xenium data as input for an ME.
+
+- AFTER THE FILES HAVE BEEN MIGRATED TO THE MOLECULEEXPERIMENT REPO:
+      - run the code chunk below.
+```{r}
+# import example xenium data
+
+# fpath <- system.file("extdata", ".csv", package="MoleculeExperiment")
+```
+
+- instructions on how to use readXenium() correctly
+    - make toy example
+
+- show how me looks like (show() method)
+
+- highlight benefits of how readXenium() works
+e.g., readMolecules enables the user to decide if they want to keep all the 
+data that is vendor-specific (e.g., qv in xenium).
+- instructions on how to use asME() correctly
+
+
+## ME object structure
+- what are the slots?
+For now, the MoleculeExperiment contains a @molecules slot and an @boundaries
+slot. 
+
+### molecules slot
+The "@molecules" slot contains molecule-level information. The essential data it 
+contains is the gene name and x and y locations of the detected transcripts,
+in each sample. Nevertheless, the user can also decide to keep all transcript
+metadata (e.g., subcellular location: nucleus/cytoplasm).
+
+highlight how this enables standardisation of ST data across different vendors.
+
+- what is the format in which the information is stored?
+for now the list of lists with dfs format.
+- Why?
+Explain
+
+### boundaries slot
+The "@boundaries" slot contains ... 
+
+# From MoleculeExperiment to SpatialExperiment
+The countMolecules() function uses the @boundaries slot as input, to generate
+a SpatialExperiment class. With this functionality, it is possible to use the
+already existing methods developed to analyse data as a SpatialExperiment 
+object. 
+
+# Basic methods to work with an ME object
+- Briefly introduce all methods that can be used to access and manipulate data 
+in the @molecules slot.
+    - show() 
+    - getters: molecules() and boundaries()
+    - setters: readBoundaries()
+
+
+# Future developments
+- SpatialUtils
+- one plot to show usefulness of @molecules slot 
+- instructions on how to use readMolecules() for up-and-coming molecule-based 
+ST technologies.

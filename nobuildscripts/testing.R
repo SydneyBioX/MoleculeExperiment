@@ -26,7 +26,8 @@ data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain"
 me <- readMolecules(data_dir,
                     pattern = "transcripts.csv",
                     n_samples = 3,
-                    keep_cols = "essential"
+                    keep_cols = "essential",
+                    essential_cols = c("feature_name", "x_location", "y_location")
                     )
 
 me

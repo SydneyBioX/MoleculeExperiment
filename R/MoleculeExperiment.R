@@ -5,7 +5,7 @@
 #' @rdname MoleculeExperiment-class
 
 #' @export
-MoleculeExperiment <- function(molecules, boundaries) {
+MoleculeExperiment <- function(molecules, boundaries = NULL) {
     me <- new("MoleculeExperiment",
                 molecules = molecules,
                 boundaries = boundaries)
