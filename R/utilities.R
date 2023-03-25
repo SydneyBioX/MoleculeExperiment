@@ -5,11 +5,12 @@
 # -----------------------------------------------------------------------------
 # function to standardise csv file
 # use ... argument to pass column by which to factor df
+
 #' @importFrom magrittr %<>%
 #' @importFrom magrittr %>%
-.standardiseToList <- function (df, cols, ...) {
+.standardiseToList <- function(df, cols, ...) {
 
-    df %<>% 
+    df %<>%
         dplyr::select(dplyr::all_of(cols)) %>%
         dplyr::group_by(...)
         # dplyr::select(-(...))

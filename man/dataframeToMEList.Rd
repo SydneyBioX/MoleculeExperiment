@@ -4,16 +4,37 @@
 \alias{dataframeToMEList}
 \title{Convert a transcripts or boundaries file to the ME list format}
 \usage{
-dataframeToMEList(df, list_id)
+dataframeToMEList(
+  df,
+  sample_col,
+  factor_col,
+  x_coord_col,
+  y_coord_col,
+  keep_cols = "essential"
+)
 }
 \arguments{
 \item{df}{A data.frame containing the transcripts information or the
 boundaries information. NOTE: this data.frame should, at a minimum, have the
 following 4 columns: sample_id, feature_name, x_location and y_location.}
 
-\item{list_id}{Character string specifying the header name of the list. This
-is important to store different versions of the transcripts information in a
-MoleculeExperiment object downstream.}
+\item{sample_col}{Character string specifying the name of the column with the
+sample id.}
+
+\item{factor_col}{Character string specifying the name of the column with the
+factors with which to group the data in the lists. When working with
+molecules, this column would be e.g., "feature_name" in xenium. When working
+with boundaries, this column would be e.g., "cell_id" in xenium.}
+
+\item{x_coord_col}{Character string specifying the name of the column with
+global x coordinates.}
+
+\item{y_coord_col}{Character string specifying the name of the column with
+global y coordinates.}
+
+\item{keep_cols}{Character string which can be either "essential" or "all".
+If "essential", the function will only work with the x and y location
+information.}
 }
 \description{
 The goal of this function is to prepare transcripts and boundaries files for
