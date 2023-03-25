@@ -33,11 +33,18 @@ readXenium <- function(data_dir,
     boundaries_pattern <- "cell_boundaries.csv"
     boundaries_mode <- "cells"
     if (add_boundaries) {
-        readBoundaries(me,
+        bds_ls <- readBoundaries(me,
                         boundaries_mode = boundaries_mode,
                         data_dir,
                         pattern = boundaries_pattern,
                         n_samples = n_samples)
+
+        # add standardised boundaries list to the @boundaries slot
+        boundaries(me) <- bds_ls
     }
+
     return(me)
+
+    # guide user
+    cat("Boundary information can be accessed with boundaries(me).")
 }

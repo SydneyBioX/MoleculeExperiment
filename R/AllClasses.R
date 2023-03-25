@@ -29,7 +29,6 @@
 #' @examples
 NULL
 
-
 setClassUnion("list_OR_NULL", c("list", "NULL"))
 
 #' @export
@@ -37,10 +36,6 @@ setClass("MoleculeExperiment",
          slots = c(molecules = "list",
                    boundaries = "list_OR_NULL")
 )
-
-# CHANGE VALIDATOR
-# TODO the class should NOT be able to be created when the molecules slot is 
-# empty
 
 # ----------------------------------------------------------------------------- 
 # Define validity checks
@@ -54,9 +49,12 @@ setClass("MoleculeExperiment",
 
     } else if (!is(object@molecules, "list")) {
         msg <- c("The molecules slot should contain a list")
+    } else if (!is(object@boundaries, "list_OR_NULL")) {
+        msg <- c("The boundaries slot should either be empty, or contain a
+        list")
     }
 
-    # TODO make more complex validity checks
+    # TODO make more complex validity checks for contents within the list
     # else if(){
     #msg <- c(msg, "add more input specifications here")
     #}

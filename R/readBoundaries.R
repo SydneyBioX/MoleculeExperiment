@@ -3,13 +3,10 @@
 # ==============================================================================
 
 #' @rdname
-setMethod("readBoundaries",
-            signature = signature(object = "MoleculeExperiment"),
-            definition = function(object,
-                    boundaries_mode = NULL,
-                    data_dir,
-                    pattern = NULL,
-                    n_samples = NULL) {
+readBoundaries <- function(boundaries_mode = NULL,
+                            data_dir,
+                            pattern = NULL,
+                            n_samples = NULL) {
     if (is.null(pattern)) {
         stop("Please specify the character pattern with which to uniquely
         identify the boundary files of interest. For example, 
@@ -58,15 +55,5 @@ setMethod("readBoundaries",
     # add list header to specify location in boundaries slot
     bds_ls <- list(bds_ls)
     names(bds_ls) <- get(quote(boundaries_mode))
-
-    # add standardised boundaries list to an already existing ME object
-    object@boundaries <- bds_ls
-    # check that modification is valid
-    validObject(object)
-
-    # guide user
-    cat("Boundary information can be accessed with boundaries(me).")
-
-# end of method definition
-            }
-)
+    return(bds_ls)
+}

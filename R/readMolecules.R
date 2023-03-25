@@ -52,7 +52,7 @@ readMolecules <- function(data_dir,
                           # specify essential cols if they deviate from the
                           # default feature names and x and y locations.
                           essential_cols = NULL,
-                          # one can specify the name of the list in which the 
+                          # one can specify the name of the list in which the
                           # transcripts get stored.
                           # the default is raw.
                           molecules_mode = NULL

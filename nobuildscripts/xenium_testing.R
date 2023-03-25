@@ -58,11 +58,20 @@ lobstr::obj_size(huge_df) # 10.13 GB (redundant data)
 # in contrast, simple me is 2.89 GB, and me with all data is 8.68 GB
 
 # ==============================================================================
+# ==============================================================================
 # working with MINI XENIUM dataset on github repo
+# ==============================================================================
+
 repo_dir <- "/dski/nobackup/bpeters/SpatialUtils/inst/extdata/mouse_brain_mini_xenium"
 
 # test readMolecules()
-simple_me <- readMolecules()
+simple_me <- readMolecules(repo_dir,
+                            pattern = "transcripts.csv",
+                            n_samples = 2,
+                            keep_cols = "essential",
+                            essential_cols = c("feature_name",
+                                                    "x_locations",
+                                                    "y_location"))
 strMolecules(simple_me)
 
 # test readBoundaries()
