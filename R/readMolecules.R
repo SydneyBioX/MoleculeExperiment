@@ -152,8 +152,8 @@ locations in the keep_cols argument of this function.")
     me <- MoleculeExperiment(molecules = mol_n)
 
     # guide user to use getters
-    cat("Detected transcript information can be accessed with molecules(me) or
-    molecules(me, \"raw\")\n")
+    cat("\nDetected transcript information can be accessed with molecules(me) or
+molecules(me, \"raw\")\n")
 
     return(me)
 }

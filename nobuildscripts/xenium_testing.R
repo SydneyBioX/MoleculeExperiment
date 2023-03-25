@@ -81,15 +81,16 @@ nuclei_ls <- readBoundaries(boundaries_mode = "nucleus",
                             n_samples = 2)
 
 str(nuclei_ls, 2)
-# these nuclei boundaries can be added to the obj when using the wrappers, or by
-# using the assign methods (boundaries()<-)
 
 # test readXenium() wrapper
 me <- readXenium(repo_dir,
                         n_samples = 2,
                         keep_cols = "essential",
                         add_boundaries = FALSE)
-# try out adding boundary information
+
+identical(simple_me@molecules, me@molecules) # TRUE
+
+# try out reading boundary information too
 me <- readXenium(repo_dir,
                         n_samples = 2,
                         keep_cols = "essential",
@@ -126,7 +127,8 @@ boundaries(me, "cells")
 #                n_samples = 2
 #                )
 
-boundaries(me) <-
+# e.g., add nucleus boundaries to obj that already has cell boundaries
+boundaries(me, "nuclei") <- nuclei_ls
 
 # test another getter
 boundaries(me, "nuclei")

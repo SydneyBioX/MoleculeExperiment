@@ -14,13 +14,7 @@ readMerscope <- function(data_dir,
 
     pattern <- "transcripts.csv"
 
-    # check that there are no rownames
-    # better to avoid rownames in large datasets
-    # if(length(rownames(input))!=0){
-        # remove rownames and keep info in new col
-    # }
-
-    # create MoleculeExperiment object
+    # create simple MoleculeExperiment object
     me <- readMolecules(data_dir = data_dir,
                         pattern = pattern,
                         n_samples = n_samples,

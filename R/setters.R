@@ -6,7 +6,7 @@
 #' @param assay_name
 setMethod("molecules<-",
             signature = signature(object = "MoleculeExperiment"),
-            definition = function(object, value, assay_name = NULL) {
+            definition = function(object, assay_name = NULL, value) {
                 if (is.null(assay_name)) {
                     stop("No assay name specified in the assay_name argument.
                     Please specify a title with which to identify this molecule
@@ -22,7 +22,7 @@ setMethod("molecules<-",
 # copy docs from molecules<-
 setMethod("boundaries<-",
             signature = signature(object = "MoleculeExperiment"),
-            definition = function(object, value, assay_name = NULL) {
+            definition = function(object, assay_name = NULL, value)  {
                 if (is.null(assay_name)) {
                     stop("No assay name specified in the assay_name argument.
                     Please specify a title with which to identify this boundary

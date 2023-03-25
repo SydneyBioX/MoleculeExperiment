@@ -1,95 +1,94 @@
 # -----------------------------------------------------------------------------
 # extend the show method to avoid plaguing the console with object contents
 # give user a hint of the contents of the ME obj
-# -----------------------------------------------------------------------------
 
-# how we might want the MoleculeExperiment to display
-# > me
-# class: MoleculeExperiment
-# 3 samples: Xenium....
-
-# @molecules contents:
-# RAW
-# 541 features: Abbc....
-# 60,000,000 molecules
-# location range: [0,100] x [0,200] x [0,5]
-# HIGH THRESHOLD (truncated)
-
-# @boundaries contents:
-# 145000 cells
-# location range (first concatenate and then find min and max)
-# 145000 nuclei
-# location range (first concatenate and then find min and max)
-
-#'@importFrom utils str
+#' @importFrom utils str
 setMethod("show",
-          signature = signature(object = "MoleculeExperiment"),
-          definition = function(object) {
+    signature = signature(object = "MoleculeExperiment"),
+    definition = function(object) {
+        cat("class: ", class(object), "\n")
+        cat(paste(
+                length(me@molecules[["raw"]]),
+                "samples:",
+                paste(head(names(me@molecules[["raw"]])), collapse = " ")),
+            "\n")
 
-              # print summary message
-              msg <- c(paste0("Object class: ", class(object)),
-                       paste0("Slots: ", slotNames(object)))
-              cat(msg, sep = "\n")
+        cat("@molecules contents: ", "-raw assay:", sep = "\n")
+        ## -— 541 features across all samples: Abbc....
+        paste0("--", nFeatures())
+        ## -— 60,000,000 molecules across all samples:
+        nTranscripts()
+        ## -— location range: [0,100] x [0,200] x [0,5]
+        cat(paste0("[", "]", sep = ","),
+            "x",
+            paste0("[", "]", sep = ",")
+            )
+        all <- head(names(me@molecules))
+        paste0("-other assays: ",
+                paste(all[all != "raw"], sep = ",", collapse = " "))
 
-              # print with commas separating
-              ## samples: do not print all names
-              cat("Sample IDs: ", names(object@molecules), sep = "\n")
-              cat("\n")
+        if (is.null(me@boundaries)) {
+            cat("@boundaries contents: NULL\n")
+        } else {
+            cat("@boundaries contents:\n")
+            for (i in names(me@boundaries)) {
+                cat(paste0(i, "\n"))
 
-              # print numbers of features per sample
-              # use my own nFeatures method for this?
-              #paste0("The molecules slot has: ", )
+                ## -- number of unique compartments
+                cat(paste0(, "compartments"))
 
-              # print some contents of molecules slot
-              cat("molecules slot contents: ", "\n")
-              str(object@molecules, list.len = 2, no.list = TRUE)
+                ## —- location range
+                # first concatenate all the x (or all the y's), and then find 
+                # min and max
+                cat("[", "]",
+                "x",
+                "[", "]")
 
-              # show total features
-              # show x range y range
-
-              # TODO print some contents of boundaries slot
-          }
+                cat()
+            }
+        }
+    }
 )
 
 # -----------------------------------------------------------------------------
 # summarise the large nested list of lists in the molecules and boundaries slots
-#'@importFrom utils str
+#' @importFrom utils str
 setMethod("strMolecules",
-            signature = signature(object = "MoleculeExperiment"),
-            definition = function(object) {
-                str(object@molecules, max.level = 2)
-            }
+    signature = signature(object = "MoleculeExperiment"),
+    definition = function(object) {
+        str(object@molecules, max.level = 3, list.len = 2)
+    }
 )
 
-#'@importFrom utils str
+#' @importFrom utils str
 setMethod("strBoundaries",
-            signature = signature(object = "MoleculeExperiment"),
-            definition = function(object) {
-                str(object@boundaries, max.level = 2)
-            }
+    signature = signature(object = "MoleculeExperiment"),
+    definition = function(object) {
+        str(object@boundaries, max.level = 3, list.len = 2)
+    }
 )
 
 
 ## -----------------------------------------------------------------------------
 ## method to filter features (e.g., NegControl probes) from the @molecules slot.
 ## useful functions: group_by() group_indices(), group_rows(), tally(), ungroup()
-#setMethod("filterFeatures",
+# setMethod("filterFeatures",
 #            signature = signature(object = "MoleculeExperiment"),
 #            definition = function(object) {
 ##    # check that modified object is still a valid instance of ME class
 ##    validObject(x)
 #            }
-#)
+# )
 #
 ## method to filter rows from the tibbles in the @molecules slot
 ## e.g., to filter out transcripts that are annotated as being in the nuclei
-#setMethod("filterMoleculeData",
+# setMethod("filterMoleculeData",
 #            signature = signature(object = "MoleculeExperiment"),
 #            definition = function(object) {
 ##    # check that modified object is still a valid instance of ME class
 ##    validObject(x)
 #            }
-#)
+# )
 #
 # useful functions: group_by() group_indices(), group_rows(), tally(), ungroup()
 
@@ -101,28 +100,26 @@ setMethod("strBoundaries",
 # -----------------------------------------------------------------------------
 
 setMethod("nFeatures",
-          signature = signature(object = "MoleculeExperiment"),
-          definition = function(object) {
-              # identify sample
-              samples <- names(object@molecules)
+    signature = signature(object = "MoleculeExperiment"),
+    definition = function(object) {
+        # identify sample
+        samples <- names(object@molecules)
 
-              for (s in samples) {
+        for (s in samples) {
 
-              }
+        }
 
-              length(object@molecules)
-
-
-          }
+        length(object@molecules)
+    }
 )
 
 # also add method for features()
 
 ## method to calculate the total number of transcripts/molecules per sample.
-#setMethod("nTranscripts",
+# setMethod("nTranscripts",
 #          signature = signature(object = "MoleculeExperiment"),
 #          definition = function(object) {
 #
 #          }
-#)
+# )
 #
