@@ -6,11 +6,14 @@
 #'
 # TODO inherit documentation for parameters from readMolecules
 # TODO add documentation for new parameters specific to readXenium
+
 #' @param data_dir
+#' @export
 readXenium <- function(data_dir,
                        n_samples = NULL,
                        keep_cols = "essential",
-                       add_boundaries = TRUE
+                       add_boundaries = TRUE,
+                       boundaries_mode = "cells"
                        ) {
 
     # things specific to XENIUM
@@ -31,20 +34,17 @@ readXenium <- function(data_dir,
     # add boundary information if available
     # boundaries will always want transcripts
     boundaries_pattern <- "cell_boundaries.csv"
-    boundaries_mode <- "cells"
     if (add_boundaries) {
-        bds_ls <- readBoundaries(me,
-                        boundaries_mode = boundaries_mode,
-                        data_dir,
+        bds_ls <- readBoundaries(boundaries_mode = boundaries_mode,
+                        data_dir = data_dir,
                         pattern = boundaries_pattern,
                         n_samples = n_samples)
 
         # add standardised boundaries list to the @boundaries slot
-        boundaries(me) <- bds_ls
+        boundaries(me, boundaries_mode) <- bds_ls
+        # guide user
+        cat("Boundary information can be accessed with boundaries(me).\n")
     }
 
     return(me)
-
-    # guide user
-    cat("Boundary information can be accessed with boundaries(me).")
 }

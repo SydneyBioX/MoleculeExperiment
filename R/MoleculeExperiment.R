@@ -11,4 +11,3 @@ MoleculeExperiment <- function(molecules, boundaries = NULL) {
                 boundaries = boundaries)
     return(me)
 }
-

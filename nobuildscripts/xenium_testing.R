@@ -75,8 +75,7 @@ simple_me <- readMolecules(repo_dir,
 strMolecules(simple_me)
 
 # test readBoundaries()
-nuclei_ls <- readBoundaries(me_xenium,
-                            boundaries_mode = "nucleus",
+nuclei_ls <- readBoundaries(boundaries_mode = "nucleus",
                             data_dir = repo_dir,
                             pattern = "nucleus_boundaries.csv",
                             n_samples = 2)
@@ -94,7 +93,8 @@ me <- readXenium(repo_dir,
 me <- readXenium(repo_dir,
                         n_samples = 2,
                         keep_cols = "essential",
-                        add_boundaries = TRUE)
+                        add_boundaries = TRUE,
+                        boundaries_mode = "cells")
 
 # =============================================================================
 # investigate MoleculeExperiment() class

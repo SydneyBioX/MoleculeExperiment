@@ -38,13 +38,7 @@
 #' @export
 #'
 #' @importFrom magrittr %>%
-#' 
-# TODO write examples
-# TODO maybe use base R pipe operator |>
-# TODO add header entry to the list of lists, called "raw". To then be able to
-# index like this: me@molecules$raw, and also distinguish other
-# transcript options (e.g., me@molecules$raw)
-# TODO --> do we even need the technology argument? maybe for printing messages
+
 readMolecules <- function(data_dir,
                           pattern = NULL,
                           n_samples = NULL,
@@ -155,12 +149,11 @@ locations in the keep_cols argument of this function.")
     }
 
     # CONSTRUCT SIMPLE ME OBJECT
-    me <- MoleculeExperiment(molecules = mol_n,
-                                boundaries = NULL)
+    me <- MoleculeExperiment(molecules = mol_n)
+
+    # guide user to use getters
+    cat("Detected transcript information can be accessed with molecules(me) or
+    molecules(me, \"raw\")\n")
 
     return(me)
-
-    # guide user
-    cat("Detected transcript information can be accessed with molecules(me) or
-    molecules(me, \"raw\") ")
 }
