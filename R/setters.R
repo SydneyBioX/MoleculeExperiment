@@ -2,11 +2,41 @@
 # setters to modify MoleculeExperiment object
 # =============================================================================
 
+# TODO docs
+#' @param assay_name
+setMethod("molecules<-",
+            signature = signature(object = "MoleculeExperiment"),
+            definition = function(object, value, assay_name = NULL) {
+                if (is.null(assay_name)) {
+                    stop("No assay name specified in the assay_name argument.
+                    Please specify a title with which to identify this molecule
+                    information later on.")
+                }
+                object@molecules[assay_name] <- value
+                validObject(object)
+                return(object)
+            }
+)
+
+# TODO docs
+# copy docs from molecules<-
+setMethod("boundaries<-",
+            signature = signature(object = "MoleculeExperiment"),
+            definition = function(object, value, assay_name = NULL) {
+                if (is.null(assay_name)) {
+                    stop("No assay name specified in the assay_name argument.
+                    Please specify a title with which to identify this boundary
+                    information later on.")
+                }
+                object@boundaries[assay_name] <- value
+                validObject(object)
+                return(object)
+            }
+)
+
 # docs: add new column with molecule data to each tibble in the @molecules slot
-
 #' @export
-
-setMethod("addMoleculeData<-", 
+setMethod("addMoleculeData<-",
             signature = signature(object = "MoleculeExperiment"),
             function(object, value) {
     object@molecules <- value

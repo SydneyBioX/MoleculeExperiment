@@ -66,13 +66,15 @@ simple_me <- readMolecules()
 strMolecules(simple_me)
 
 # test readBoundaries()
-full_me <- readBoundaries(me_xenium,
-                            boundaries_mode = "cells",
+nuclei_ls <- readBoundaries(me_xenium,
+                            boundaries_mode = "nucleus",
                             data_dir = repo_dir,
-                            pattern = "cell_boundaries.csv",
+                            pattern = "nucleus_boundaries.csv",
                             n_samples = 2)
 
-strBoundaries(simple_me)
+str(nuclei_ls, 2)
+# these nuclei boundaries can be added to the obj when using the wrappers, or by
+# using the assign methods (boundaries()<-)
 
 # test readXenium() wrapper
 me <- readXenium(repo_dir,

@@ -11,8 +11,16 @@ setGeneric("boundaries",
     function(object, ...) standardGeneric("boundaries"))
 
 #' @export
+setGeneric("boundaries<-",
+    function(object, ..., value) standardGeneric("boundaries<-"))
+
+#' @export
 setGeneric("molecules",
     function(object, ...) standardGeneric("molecules"))
+
+#' @export
+setGeneric("molecules<-",
+    function(object, ..., value) standardGeneric("molecules<-"))
 
 #' @export
 setGeneric("nFeatures",
@@ -23,9 +31,9 @@ setGeneric("readBoundaries",
     function(object, ...) standardGeneric("readBoundaries"))
 
 #' @export
-setGeneric("summariseMolecules",
-    function(object, ...) standardGeneric("summariseMolecules"))
+setGeneric("strMolecules",
+    function(object, ...) standardGeneric("strMolecules"))
 
 #' @export
-setGeneric("summariseBoundaries",
-    function(object, ...) standardGeneric("summariseBoundaries"))
+setGeneric("strBoundaries",
+    function(object, ...) standardGeneric("strBoundaries"))

@@ -2,7 +2,7 @@
 # Main function to generate a MoleculeExperiment: ReadMolecules()
 # =============================================================================
 
-#' Read and standardise the detected transcripts file/s into a 
+#' Read and standardise the detected transcripts file/s into a
 #' MoleculeExperiment object
 #'
 #' A function to standardise transcripts.csv files across different molecule-
@@ -154,9 +154,9 @@ locations in the keep_cols argument of this function.")
         names(mol_n) <- molecules_mode
     }
 
-    # CONSTRUCT ME OBJECT
+    # CONSTRUCT SIMPLE ME OBJECT
     me <- MoleculeExperiment(molecules = mol_n,
-                                boundaries = list("empty default list"))
+                                boundaries = NULL)
 
     return(me)
 

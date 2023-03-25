@@ -54,7 +54,7 @@ setMethod("show",
 # -----------------------------------------------------------------------------
 # summarise the large nested list of lists in the molecules and boundaries slots
 #'@importFrom utils str
-setMethod("summariseMolecules",
+setMethod("strMolecules",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object) {
                 str(object@molecules, max.level = 2)
@@ -62,7 +62,7 @@ setMethod("summariseMolecules",
 )
 
 #'@importFrom utils str
-setMethod("summariseBoundaries",
+setMethod("strBoundaries",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object) {
                 str(object@boundaries, max.level = 2)
