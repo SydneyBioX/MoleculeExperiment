@@ -3,7 +3,6 @@
 # ==============================================================================
 
 #' @rdname
-#' @export
 setMethod("readBoundaries",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object,

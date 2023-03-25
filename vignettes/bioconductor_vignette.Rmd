@@ -5,6 +5,7 @@ output:
   html_document:
     toc: true
 ---
+
 # MoleculeExperiment
 The R package MoleculeExperiment contains functions to create and work with the 
 MoleculeExperiment class. We introduce this class for analysing molecule-based
@@ -81,8 +82,12 @@ same object, in which case one can also have this structure: "filtered" >
 "sample ID" > "feature name" > tibble.
 
 ```{r}
-molecules_ls <- dataframeToMEList(molecules_df)
-# to avoid printing large list of lists in the terminal, use str() and the
+molecules_ls <- dataframeToMEList(molecules_df,
+                                  sample_col = "sample_id",
+                                  factor_col = "feature_name",
+                                  x_coord_col = "x_location",
+                                  y_coord_col = "y_location")
+# to avoid printing large nested list in the terminal, use str() and the
 # max.level argument
 str(molecules_ls, max.level = 2)
 ```
@@ -95,7 +100,11 @@ If the boundary information is for nuclei, the structure would be: "nuclei" >
 boundary information for the nuclei.
 
 ```{r}
-boundaries_ls <- dataframeToMEList(boundaries_df)
+boundaries_ls <- dataframeToMEList(boundaries_df,
+                                   sample_col = "sample_id",
+                                   factor_col = "cell_id",
+                                   x_coord_col = "x_location",
+                                   y_coord_col = "y_location")
 str(boundaries_ls, 2)
 ```
 
