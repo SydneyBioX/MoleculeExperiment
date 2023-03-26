@@ -127,10 +127,12 @@ to create an ME object with data from multiple samples.
 
 ```{r}
 # create ME obj with example mouse brain xenium dataset
-
-# fpath <- system.file("extdata", ".csv", package="MoleculeExperiment")
-# dir: /dski/nobackup/bpeters/SpatialUtils/inst/extdata/mouse_brain_mini_xenium
-me <- readXenium()
+repo_dir <- "/dski/nobackup/bpeters/SpatialUtils/inst/extdata/mouse_brain_mini_xenium"
+me <- readXenium(repo_dir,
+                  n_samples = 2,
+                  keep_cols = "essential",
+                  add_boundaries = TRUE,
+                  boundaries_mode = "cells")
 
 # visualise me contents
 me

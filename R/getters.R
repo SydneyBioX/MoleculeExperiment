@@ -47,3 +47,21 @@ setMethod("boundaries",
                 }
             }
 )
+
+setMethod("features",
+            signature = signature(object = "MoleculeExperiment"),
+            definition = function(object, assay_name = "raw") {
+
+        samples <- names(object@molecules[[assay_name]])
+        f_list <- lapply(samples, function(s) {
+                            names(object@molecules[[assay_name]][[s]])})
+        names(f_list) <- samples
+
+        return(f_list)
+
+        # TODO this message does not work after return
+        cat(paste0("Features collected: ", assay_name, " assay.
+To select features from a different assay, specify that assay in the
+assay_name argument to this function."))
+            }
+)

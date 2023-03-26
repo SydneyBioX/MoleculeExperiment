@@ -8,30 +8,31 @@ setMethod("show",
     definition = function(object) {
         cat("class: ", class(object), "\n")
         cat(paste(
-                length(me@molecules[["raw"]]),
+                length(object@molecules[["raw"]]),
                 "samples:",
-                paste(head(names(me@molecules[["raw"]])), collapse = " ")),
+                paste(head(names(object@molecules[["raw"]])), collapse = " ")),
             "\n")
 
-        cat("@molecules contents: ", "-raw assay:", sep = "\n")
-        ## -— 541 features across all samples: Abbc....
-        paste0("--", nFeatures())
-        ## -— 60,000,000 molecules across all samples:
-        nTranscripts()
+        cat("\n@molecules contents: ", "-raw assay:", sep = "\n")
+        nFeatures(object, "raw")
+        nTranscripts(object, "raw")
+
+        ################################################
+
         ## -— location range: [0,100] x [0,200] x [0,5]
         cat(paste0("[", "]", sep = ","),
             "x",
             paste0("[", "]", sep = ",")
             )
-        all <- head(names(me@molecules))
+        all <- head(names(object@molecules))
         paste0("-other assays: ",
                 paste(all[all != "raw"], sep = ",", collapse = " "))
 
-        if (is.null(me@boundaries)) {
-            cat("@boundaries contents: NULL\n")
+        if (is.null(object@boundaries)) {
+            cat("\n@boundaries contents: NULL\n")
         } else {
-            cat("@boundaries contents:\n")
-            for (i in names(me@boundaries)) {
+            cat("\n@boundaries contents:\n")
+            for (i in names(object@boundaries)) {
                 cat(paste0(i, "\n"))
 
                 ## -- number of unique compartments
@@ -68,6 +69,61 @@ setMethod("strBoundaries",
     }
 )
 
+# -----------------------------------------------------------------------------
+# method to calculate unique features across samples
+setMethod("nFeatures",
+    signature = signature(object = "MoleculeExperiment"),
+    definition = function(object, assay_name = "raw", per_sample = FALSE) {
+        if(per_sample) {
+            return(lengths(object@molecules[[assay_name]]))
+        } else {
+
+            f_sample <- lapply(names(object@molecules[[assay_name]]),
+                                function(t) {
+                                    names(object@molecules[[assay_name]][[t]])})
+
+            number <- length(unique(unlist(f_sample)))
+
+            cat(paste0(number, " unique features across all samples in assay ",
+                        assay_name, "\n"))
+
+        }
+    }
+)
+
+# -----------------------------------------------------------------------------
+# method to calculate total number of transcripts across samples
+setMethod("nTranscripts",
+            signature = signature(object = "MoleculeExperiment"),
+            definition = function(object,
+                               assay_name = "raw",
+                               per_sample = FALSE) {
+
+        # get number of genes per sample
+        samples <- names(object@molecules[[assay_name]])
+
+        sample_numbers <- vector("integer", length(samples))
+        for (s in samples) {
+            # for each sample, pre-assign memory with length of features
+            features <- object@molecules[[assay_name]][[s]]
+            numbers_ls <- lapply(names(features), function(x) {
+                                nrow(features[[x]])})
+            total <- sum(unlist(numbers_ls))
+            sample_numbers <- replace(sample_numbers, values = total)
+        }
+
+        if (per_sample) {
+            names(sample_numbers) <- samples
+            return(sample_numbers)
+        } else {
+            cat(paste0(
+mean(sample_numbers), " molecules on average across all samples in assay ",
+assay_name, "\n"))
+        }
+    }
+)
+
+
 
 ## -----------------------------------------------------------------------------
 ## method to filter features (e.g., NegControl probes) from the @molecules slot.
@@ -91,35 +147,3 @@ setMethod("strBoundaries",
 # )
 #
 # useful functions: group_by() group_indices(), group_rows(), tally(), ungroup()
-
-
-
-# -----------------------------------------------------------------------------
-# method to calculate total number of molecules identified for each unique
-# features per sample
-# -----------------------------------------------------------------------------
-
-setMethod("nFeatures",
-    signature = signature(object = "MoleculeExperiment"),
-    definition = function(object) {
-        # identify sample
-        samples <- names(object@molecules)
-
-        for (s in samples) {
-
-        }
-
-        length(object@molecules)
-    }
-)
-
-# also add method for features()
-
-## method to calculate the total number of transcripts/molecules per sample.
-# setMethod("nTranscripts",
-#          signature = signature(object = "MoleculeExperiment"),
-#          definition = function(object) {
-#
-#          }
-# )
-#
