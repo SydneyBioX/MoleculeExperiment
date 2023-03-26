@@ -65,3 +65,20 @@ To select features from a different assay, specify that assay in the
 assay_name argument to this function."))
             }
 )
+
+# get list of compartment ids identified after segmentation in each sample
+setMethod("compartmentIDs",
+            signature = signature(object = "MoleculeExperiment"),
+            definition = function(object, assay_name = NULL) {
+                if (is.null(assay_name)) {
+                    stop("Please specify the name of the assay from which to
+retrieve the unique IDs. For example, the \"cells\" assay for cell boundaries.")
+                }
+                samples <- names(object@boundaries[[assay_name]])
+                id_ls <- lapply(samples, function(x) {
+                        names(object@boundaries[[assay_name]][[x]])
+                })
+                names(id_ls) <- samples
+                return(id_ls)
+            }
+)

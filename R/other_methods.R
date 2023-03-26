@@ -2,7 +2,6 @@
 # extend the show method to avoid plaguing the console with object contents
 # give user a hint of the contents of the ME obj
 
-#' @importFrom utils str
 setMethod("show",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object) {
@@ -17,47 +16,64 @@ setMethod("show",
         nFeatures(object, "raw")
         nTranscripts(object, "raw")
 
-        ################################################
-        samples <- features(object)
+        # show range of coordinates
+        samples <- names(object@molecules[["raw"]])
+        sample_x <- lapply(samples, function(x) {
+                    f <- features(object)[[x]]
+                    # get x coordinates for each gene
+                    gene_x <- lapply(f, function(f) {
+                        object@molecules[["raw"]][[x]][[f]][["x_location"]]})
+                    })
 
-        lapply(names(samples), function(s, f) {
-            f <- features(object)[[s]]
-            object@molecules[["raw"]][[s]][[f]]})
-
-        features(object)
-
-        object@molecules[["raw"]][[]]
-        # find values for column named X LOCATION
-
-        # vector with x coordinates across ALL samples
-        x_v <-
-        y_v <-
+        sample_y <- lapply(samples, function(x) {
+                    f <- features(object)[[x]]
+                    # get y coordinates for each gene
+                    gene_y <- lapply(f, function(f) {
+                        object@molecules[["raw"]][[x]][[f]][["y_location"]]})
+                    })
+        
+        x_v <- unlist(sample_x)
+        y_v <- unlist(sample_y)
         cat(paste0("Location range across all samples in assay raw: [",
-            min(x_v), ",", max(x_v), "] x [", min(y_v), ",", max(y_v), "]"))
+            round(min(x_v), 2), ",", round(max(x_v), 2), "] x [",
+            round(min(y_v), 2), ",", round(max(y_v), 2), "]", "\n"))
 
-        all <- head(names(object@molecules))
-
-        paste0("-other assays: ",
-                paste(all[all != "raw"], sep = ",", collapse = " "))
+        if (length(names(object@molecules)) > 1) {
+            all <- head(names(object@molecules))
+            cat(paste0("-other assays: ",
+                    paste(all[all != "raw"], sep = ",", collapse = " "), "\n"))
+        }
 
         if (is.null(object@boundaries)) {
             cat("\n@boundaries contents: NULL\n")
         } else {
             cat("\n@boundaries contents:\n")
             for (i in names(object@boundaries)) {
-                cat(paste0(i, "\n"))
+                cat(paste0("-", i, ":\n"))
+                id_ls <- compartmentIDs(object, assay_name = i)
+                n_comp <- mean(lengths(id_ls))
+                cat(paste0(n_comp, " unique compartments: ",
+                    paste(head(id_ls[[1]]), collapse = " "), " ...\n"))
 
-                ## -- number of unique compartments
-                cat(paste0(, "compartments"))
+                # get boundary centroid coordinates across all samples
+                sample_x <- lapply(names(object@boundaries[[i]]),
+                    function(x) {
+                        c <- compartmentIDs(object, i)[[x]]
 
-                ## —- location range
-                # first concatenate all the x (or all the y's), and then find 
-                # min and max
-                cat("[", "]",
-                "x",
-                "[", "]")
-
-                cat()
+                        c_x <- lapply(c, function(c) {
+                            object@boundaries[[i]][[x]][[c]][["x_location"]]})
+                    })
+                sample_y <- lapply(names(object@boundaries[[i]]),
+                    function(x) {
+                        c <- compartmentIDs(object, i)[[x]]
+                        c_y <- lapply(c, function(c) {
+                            object@boundaries[[i]][[x]][[c]][["y_location"]]})
+                    })
+                c_x_v <- unlist(sample_x)
+                c_y_v <- unlist(sample_y)
+                cat(paste0("Location range across all samples: [",
+                    round(min(c_x_v), 2), ",", round(max(c_x_v), 2), "] x [",
+                    round(min(c_y_v), 2), ",", round(max(c_y_v), 2), "]\n"))
             }
         }
     }
@@ -115,17 +131,16 @@ setMethod("nTranscripts",
         samples <- names(object@molecules[[assay_name]])
 
         sample_numbers <- vector("integer", length(samples))
+        names(sample_numbers) <- samples
         for (s in samples) {
-            # for each sample, pre-assign memory with length of features
             features <- object@molecules[[assay_name]][[s]]
             numbers_ls <- lapply(names(features), function(x) {
                                 nrow(features[[x]])})
             total <- sum(unlist(numbers_ls))
-            sample_numbers <- replace(sample_numbers, values = total)
+            sample_numbers[[s]] <- total
         }
 
         if (per_sample) {
-            names(sample_numbers) <- samples
             return(sample_numbers)
         } else {
             cat(paste0(

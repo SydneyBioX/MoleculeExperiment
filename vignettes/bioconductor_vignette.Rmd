@@ -88,13 +88,14 @@ same object, in which case one can also have this structure: "filtered" >
 
 ```{r}
 molecules_ls <- dataframeToMEList(molecules_df,
+                                  assay_name = "raw",
                                   sample_col = "sample_id",
                                   factor_col = "feature_name",
                                   x_location = "x_location",
                                   y_location = "y_location")
 # to avoid printing large nested list in the terminal, use str() and the
 # max.level argument
-str(molecules_ls, max.level = 2)
+str(molecules_ls, max.level = 3)
 ```
 
 For the boundaries slot, if the boundary information is for cells, the structure
@@ -106,11 +107,12 @@ boundary information for the nuclei.
 
 ```{r}
 boundaries_ls <- dataframeToMEList(boundaries_df,
+                                   assay_name = "cells",
                                    sample_col = "sample_id",
                                    factor_col = "cell_id",
                                    x_location = "x_location",
                                    y_location = "y_location")
-str(boundaries_ls, 2)
+str(boundaries_ls, 3)
 ```
 
 Now that the transcript and boundary information is in a standardised format, it

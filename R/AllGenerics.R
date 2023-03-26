@@ -15,6 +15,10 @@ setGeneric("boundaries<-",
     function(object, ..., value) standardGeneric("boundaries<-"))
 
 #' @export
+setGeneric("compartmentIDs",
+    function(object, ...) standardGeneric("compartmentIDs"))
+
+#' @export
 setGeneric("features",
     function(object, ...) standardGeneric("features"))
 

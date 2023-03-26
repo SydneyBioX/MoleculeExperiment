@@ -5,6 +5,8 @@
 #' @param df A data.frame containing the transcripts information or the
 #' boundaries information. NOTE: this data.frame should, at a minimum, have the
 #' following 4 columns: sample_id, feature_name, x_location and y_location.
+#' @param assay_name Name with which to identify the information later on in an
+#' ME object.
 #' @param sample_col Character string specifying the name of the column with the
 #' sample id.
 #' @param factor_col Character string specifying the name of the column with the
@@ -21,56 +23,37 @@
 #' @export
 
 dataframeToMEList <- function(df,
+                                assay_name = NULL,
                                 sample_col,
                                 factor_col,
                                 x_location,
                                 y_location,
                                 keep_cols = "essential"
                                 ) {
+    if (is.null(assay_name)) {
+        stop("Please specify an assay name with the assay_name argument.")
+    }
+
     if (keep_cols == "essential") {
         cols <- c(sample_col, factor_col, x_location, y_location)
     } else if (keep_cols == "all") {
         cols <- colnames(df)
     }
 
-    # keeps redundant factor_col in the tibbles
+    # TODO standardise column names
+        # in transcript df:
+            # gene name info is in "feature_name"
+        # in boundaries AND transcripts dfs
+            # x location info is in "x_location"
+            # y location info is in "y_location"
 
-    .standardiseToList(df, cols, factor_col)
-    .standardiseToList(df, cols, factor_col)
+    # for each sample, standardise data
+    sample_level <- .standardiseToList(df, cols, sample_col)
+    ls <- lapply(sample_level, .standardiseToList, 
+                        cols = setdiff(cols, sample_col), factor_col)
 
-
-    # handle sample and sample naming automatically inside this function
-    # name samples based on what is found
+    # specify assay name for compatibility with ME methods
+    ls <- list(ls)
+    names(ls) <- assay_name
     return(ls)
-
 }
-
-########################################
-## test ME object
-## create molecules_ls from molecules_df
-#sample_col = "sample_id"
-#factor_col = "feature_name"
-#x_coord_col = "x_location"
-#y_coord_col = "y_location"
-#cols <- c(sample_col, factor_col, x_coord_col, y_coord_col)
-#
-## from mol_df to mol_n should be its own function
-#mol_tmp <- .standardiseToList(molecules_df, cols, sample_id)
-#molecules_ls <- lapply(mol_tmp, .standardiseToList, 
-#                setdiff(cols, "sample_id"), feature_name)
-#
-## create boundaries_ls
-#sample_col = "sample_id"
-#factor_col = "cell_id"
-#x_coord_col = "x_location"
-#y_coord_col = "y_location"
-#cols <- c(sample_col, factor_col, x_coord_col, y_coord_col)
-#boundaries_tmp <- .standardiseToList(boundaries_df, cols, sample_id)
-#boundaries_ls <- lapply(boundaries_tmp, .standardiseToList,
-#                setdiff(cols, "sample_id"), cell_id)
-#
-#me <- MoleculeExperiment(molecules = molecules_ls,
-#                          boundaries = boundaries_ls)
-#
-#######################################
-

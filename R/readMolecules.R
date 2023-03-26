@@ -81,13 +81,10 @@ readMolecules <- function(data_dir,
 
     for (f in seq_along(mol_n)) {
 
-        # read in data
-        # read.csv takes too long
         # read_csv modifies transcript_id col and is slower than data.table
         mol_df <- data.table::fread(f_paths[[f]])
         # sprintf function shows that values are not actually changed
 
-        ######################################################################
         # check user has specified the essential cols
         if (is.null(essential_cols)) {
             stop("Essential columns have not been specified.

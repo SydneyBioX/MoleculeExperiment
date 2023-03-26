@@ -45,7 +45,8 @@ readBoundaries <- function(boundaries_mode = NULL,
         # read in data
         bds_df <- data.table::fread(f_paths[[s]])
 
-        # TODO check that cols are in xenium format
+        # TODO standardise column names to x_location and y_location
+
 
         cols <- colnames(bds_df)
         # standardise csv to same list of lists format as readMolecules
