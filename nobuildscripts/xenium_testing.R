@@ -17,6 +17,7 @@ devtools::document()
 # use_package("package") to add packages needed for functions in DESCRIPTION
 
 # =============================================================================
+# =============================================================================
 # testing nested list versus data.frame format with large xenium dataset
 
 data_dir <- "/dski/nobackup/bpeters/mouse_brain"
@@ -60,7 +61,6 @@ lobstr::obj_size(huge_df) # 10.13 GB (redundant data)
 # ==============================================================================
 # ==============================================================================
 # working with MINI XENIUM dataset on github repo
-# ==============================================================================
 
 repo_dir <- "/dski/nobackup/bpeters/SpatialUtils/inst/extdata/mouse_brain_mini_xenium"
 
@@ -78,7 +78,8 @@ strMolecules(simple_me)
 nuclei_ls <- readBoundaries(boundaries_mode = "nucleus",
                             data_dir = repo_dir,
                             pattern = "nucleus_boundaries.csv",
-                            n_samples = 2)
+                            n_samples = 2,
+                            compartment_id_col = "cell_id")
 
 str(nuclei_ls, 2)
 
@@ -114,19 +115,15 @@ getClass("MoleculeExperiment")
 # test METHODS for ME class
 
 # getters
+strMolecules(me)
+strBoundaries(me)
 molecules(me)
 molecules(me, "raw")
+molecules(me, "raw", flatten = TRUE)
 boundaries(me)
-boundaries(me, "cells")
+boundaries(me, "cells", flatten = TRUE)
 
 # setters
-#readBoundaries(me,
-#                boundaries_mode = "nuclei",
-#                data_dir = repo_dir,
-#                pattern = "nucleus_boundaries.csv",
-#                n_samples = 2
-#                )
-
 # e.g., add nucleus boundaries to obj that already has cell boundaries
 boundaries(me, "nuclei") <- nuclei_ls
 

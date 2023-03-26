@@ -18,13 +18,25 @@ setMethod("show",
         nTranscripts(object, "raw")
 
         ################################################
+        samples <- features(object)
 
-        ## -— location range: [0,100] x [0,200] x [0,5]
-        cat(paste0("[", "]", sep = ","),
-            "x",
-            paste0("[", "]", sep = ",")
-            )
+        lapply(names(samples), function(s, f) {
+            f <- features(object)[[s]]
+            object@molecules[["raw"]][[s]][[f]]})
+
+        features(object)
+
+        object@molecules[["raw"]][[]]
+        # find values for column named X LOCATION
+
+        # vector with x coordinates across ALL samples
+        x_v <-
+        y_v <-
+        cat(paste0("Location range across all samples in assay raw: [",
+            min(x_v), ",", max(x_v), "] x [", min(y_v), ",", max(y_v), "]"))
+
         all <- head(names(object@molecules))
+
         paste0("-other assays: ",
                 paste(all[all != "raw"], sep = ",", collapse = " "))
 

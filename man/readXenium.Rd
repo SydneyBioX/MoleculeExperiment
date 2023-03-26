@@ -8,7 +8,8 @@ readXenium(
   data_dir,
   n_samples = NULL,
   keep_cols = "essential",
-  add_boundaries = TRUE
+  add_boundaries = TRUE,
+  boundaries_mode = "cells"
 )
 }
 \description{

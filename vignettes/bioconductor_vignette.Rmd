@@ -12,6 +12,11 @@ MoleculeExperiment class. We introduce this class for analysing molecule-based
 spatial transcriptomics data (xenium by 10x, cosmx SMI by nanostring, and 
 merscope by vizgen).
 
+# Contents
+TODO Have hyperlinks here
+1. Why the MoleculeExperiment class
+2. The ME object ...
+
 # Why the MoleculeExperiment class?
 1) Enable easy analysis of spatial transcriptomics data at the molecule level, 
 rather than the cell level.
@@ -85,8 +90,8 @@ same object, in which case one can also have this structure: "filtered" >
 molecules_ls <- dataframeToMEList(molecules_df,
                                   sample_col = "sample_id",
                                   factor_col = "feature_name",
-                                  x_coord_col = "x_location",
-                                  y_coord_col = "y_location")
+                                  x_location = "x_location",
+                                  y_location = "y_location")
 # to avoid printing large nested list in the terminal, use str() and the
 # max.level argument
 str(molecules_ls, max.level = 2)
@@ -103,8 +108,8 @@ boundary information for the nuclei.
 boundaries_ls <- dataframeToMEList(boundaries_df,
                                    sample_col = "sample_id",
                                    factor_col = "cell_id",
-                                   x_coord_col = "x_location",
-                                   y_coord_col = "y_location")
+                                   x_location = "x_location",
+                                   y_location = "y_location")
 str(boundaries_ls, 2)
 ```
 
@@ -249,3 +254,8 @@ countMolecules()
 - one plot to show usefulness of @molecules slot 
 - instructions on how to use readMolecules() for up-and-coming molecule-based 
 ST technologies.
+
+# sessionInfo()
+```{r}
+sessionInfo()
+```

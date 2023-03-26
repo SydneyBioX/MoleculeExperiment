@@ -6,7 +6,8 @@
 readBoundaries <- function(boundaries_mode = NULL,
                             data_dir,
                             pattern = NULL,
-                            n_samples = NULL) {
+                            n_samples = NULL,
+                            compartment_id_col = NULL) {
     if (is.null(pattern)) {
         stop("Please specify the character pattern with which to uniquely
         identify the boundary files of interest. For example, 
@@ -18,6 +19,9 @@ readBoundaries <- function(boundaries_mode = NULL,
         boundary information in the boundaries slot. For example, cells
         if importing cell boundaries, or nuclei if importing nucleus
         boundaries.")
+    } else if (is.null(compartment_id_col)) {
+        stop("Please specify the name of the column containing the compartment
+        id's. For example, \"cell_id\" for cell boundary files.")
     }
 
     # locate files with pattern in specified data directory
@@ -46,7 +50,7 @@ readBoundaries <- function(boundaries_mode = NULL,
         cols <- colnames(bds_df)
         # standardise csv to same list of lists format as readMolecules
         # structure should be: me@boundaries$cells$sample1$cellID$vertex_df
-        bds_ls[[s]] <- .standardiseToList(bds_df, cols, cell_id)
+        bds_ls[[s]] <- .standardiseToList(bds_df, cols, compartment_id_col)
     }
 
     # specify id names

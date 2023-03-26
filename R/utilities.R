@@ -12,8 +12,7 @@
 
     df %<>%
         dplyr::select(dplyr::all_of(cols)) %>%
-        dplyr::group_by(...)
-        # dplyr::select(-(...))
+        dplyr::group_by(dplyr::pick(...))
 
     ls <- df %>%
         dplyr::group_split(.keep = FALSE) %>%

@@ -31,14 +31,15 @@ readXenium <- function(data_dir,
                         essential_cols = essential_cols
                         )
 
-    # add boundary information if available
-    # boundaries will always want transcripts
+    # add cell boundary information if available
     boundaries_pattern <- "cell_boundaries.csv"
+    compartment_id_col <- "cell_id"
     if (add_boundaries) {
         bds_ls <- readBoundaries(boundaries_mode = boundaries_mode,
                         data_dir = data_dir,
                         pattern = boundaries_pattern,
-                        n_samples = n_samples)
+                        n_samples = n_samples,
+                        compartment_id_col = compartment_id_col)
 
         # add standardised boundaries list to the @boundaries slot
         boundaries(me, boundaries_mode) <- bds_ls
