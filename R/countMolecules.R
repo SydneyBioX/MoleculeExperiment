@@ -17,7 +17,7 @@
 #' @param boundaries_mode Character string naming the list of the boundaries
 #' slot form which boundary information should be retrieved from.
 #' For example, for counting transcripts per cell, the list containing the cell
-#' boundaries (e.g., "cells") should be selected. 
+#' boundaries (e.g., "cells") should be selected.
 #' @export
 #'
 #'
@@ -45,7 +45,7 @@ countMolecules <- function(me,
                           molecules_mode = "raw",
                           boundaries_mode) {
 
-    # get boundaries 
+    # get boundaries
     x <- get(boundaries_mode)
     me@molecules$x
 

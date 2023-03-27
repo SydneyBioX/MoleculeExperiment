@@ -29,7 +29,8 @@ facilitate comparison of different data sources.
 
 ```{r}
 # load necessary libraries
-
+library(devtools)
+load_all()
 #library(MoleculeExperiment)
 library(ggplot2)
 
@@ -122,11 +123,11 @@ can be used as input to generate an ME object.
 
 ```{r}
 # use MoleculeExperiment object constructor
-me <- MoleculeExperiment(molecules = molecules_ls,
+toy_me <- MoleculeExperiment(molecules = molecules_ls,
                           boundaries = boundaries_ls)
 
 # visualise contents of me object
-me
+toy_me
 ```
 
 ### Usecase 2: using directory with Xenium data as input for an ME.
@@ -141,10 +142,8 @@ me <- readXenium(repo_dir,
                   n_samples = 2,
                   keep_cols = "essential",
                   add_boundaries = TRUE)
-
 # visualise me contents
 me
-
 ```
 readXenium calls readMolecules and readBoundaries under the hood. These 
 convenience function can also be used by themselves, which might be useful in
@@ -172,7 +171,7 @@ highlight how this enables standardisation of ST data across different vendors.
 ```{r}
 # list contents can be very large. We recommend visualising contents with the
 # summariseMolecules method
-summariseMolecules(me)
+strMolecules(me)
 ```
 
 - what is the format in which the information is stored?
@@ -187,7 +186,7 @@ different boundaries in the same object, one can specify the title/header of
 each list to easily access specific information later on.
 
 ```{r}
-summariseBoundaries(me@boundaries)
+strBoundaries(me)
 ```
 
 # Basic methods to work with an ME object
@@ -196,20 +195,54 @@ in the @molecules slot.
 
     - getters: molecules() and boundaries()
 ```{r}
-# note that output from the following methods can be very large
-# it is recommended to use summariseMolecules or summariseBoundaries when trying
-# get a quick visualisation of the data.
-
+# note that output from the following methods can be very large.
 # These getters should be used when the data from the slots needs to be used as
-# input for other functions. 
-molecules(me)
-# or one can do:
-molecules(me, "raw")
+# input for other functions.
+
+# molecules(me) or molecules(me, "raw")
 identical(molecules(me), molecules(me, "raw"))
 
-boundaries(me)
+molecules(me)[[1]][[1]][[1]]
+
+# it is recommended to use strMolecules or strBoundaries when trying to
+# get a quick visualisation of the data.
 ```
+
+```{r}
+features(me)
+```
+
+```{r}
+
+```
+
+```{r}
+# boundaries(me, "cells")
+boundaries(me, "cells")[[1]][[1]][[1]]
+
+```
+
+```{r}
+compartmentIDs(me, "cells")
+```
+
     - setters: readBoundaries()
+
+```{r}
+nuclei_ls <- readBoundaries(data_dir = repo_dir,
+                            pattern = "nucleus_boundaries.csv",
+                            n_samples = 2,
+                            compartment_id_col = "cell_id",
+                            x_col = "vertex_x",
+                            y_col = "vertex_y",
+                            keep_cols = "essential",
+                            boundaries_mode = "nucleus")
+
+# add nucleus boundaries to already existing me object
+boundaries(me, "nuclei") <- nuclei_ls
+me # note the addition of the nuclei boundaries to the nuclei slot 
+# note that one can also assign new lists to the molecules slot with molecules<-
+```
 
 
 # From MoleculeExperiment to SpatialExperiment
@@ -248,7 +281,7 @@ object.
 
 ```{r}
 
-countMolecules()
+#countMolecules()
 
 ```
 

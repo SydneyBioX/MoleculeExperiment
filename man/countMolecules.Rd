@@ -4,12 +4,7 @@
 \alias{countMolecules}
 \title{Count molecules per region of interest (e.g., cell)}
 \usage{
-countMolecules(
-  me,
-  segmentation_info = "boundaries",
-  molecules_mode = "raw",
-  boundaries_mode
-)
+countMolecules(me, moleculesAssay = NULL, boundariesAssay = NULL)
 }
 \arguments{
 \item{me}{MoleculeExperiment object containing both the transcript data as

@@ -3,10 +3,6 @@
 # =============================================================================
 
 #' @export
-setGeneric("addMoleculeData<-",
-    function(object, ..., value) standardGeneric("addMoleculeData<-"))
-
-#' @export
 setGeneric("boundaries",
     function(object, ...) standardGeneric("boundaries"))
 
