@@ -6,11 +6,12 @@
 \usage{
 dataframeToMEList(
   df,
+  df_type = NULL,
   assay_name = NULL,
   sample_col,
   factor_col,
-  x_location,
-  y_location,
+  x_col,
+  y_col,
   keep_cols = "essential"
 )
 }
@@ -18,6 +19,9 @@ dataframeToMEList(
 \item{df}{A data.frame containing the transcripts information or the
 boundaries information. NOTE: this data.frame should, at a minimum, have the
 following 4 columns: sample_id, feature_name, x_location and y_location.}
+
+\item{df_type}{Character string specifying contents of the data frame. Can be
+either "transcripts" or "boundaries".}
 
 \item{assay_name}{Name with which to identify the information later on in an
 ME object.}
@@ -30,10 +34,10 @@ factors with which to group the data in the lists. When working with
 molecules, this column would be e.g., "feature_name" in xenium. When working
 with boundaries, this column would be e.g., "cell_id" in xenium.}
 
-\item{x_location}{Character string specifying the name of the column with
+\item{x_col}{Character string specifying the name of the column with
 global x coordinates.}
 
-\item{y_location}{Character string specifying the name of the column with
+\item{y_col}{Character string specifying the name of the column with
 global y coordinates.}
 
 \item{keep_cols}{Character string which can be either "essential" or "all".

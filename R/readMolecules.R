@@ -16,15 +16,17 @@
 #' "transcripts.csv". In contrast, in Cosmx data, the pattern would be
 #' "tx_file".
 #' @param n_samples Integer specifying number of samples to be read.
+#' @param feature_col Character string specifying the name of the column with
+#' feature names. For example, "feature_name" in xenium transcripts.csv files.
+#' @param x_col Character string specifying the name of the column with the x
+#' locations of the transcripts.
+#' @param y_col Character string specifying the name of the column with the y
+#' locations.
 #' @param keep_cols Vector of characters specifying the columns of interest from
 #' the transcripts file. "essential" selects columns with gene names, x and y
 #' locations. "all" will select all columns. Alternatively, specific colums
 #' of interest can be selected by specifying them as characters in a vector.
 #' Note that this personalised vector needs to contain the essential columns.
-#' @param essential_cols Character vector specifying the names of the columns
-#' with the gene names of the detected transcripts, as well as the x and y
-#' location columns. Specifically in that order. The values for this argument
-#' are inherited from the wrapper functions as it depends on the ST technology.
 #' @param molecules_mode Character string specifying the name of the list in
 #' which the transcript information is going to be stored in the molecules slot.
 #' The default name is "raw", as we envision that a MoleculeExperiment will
@@ -42,13 +44,10 @@
 readMolecules <- function(data_dir,
                           pattern = NULL,
                           n_samples = NULL,
+                          feature_col = NULL,
+                          x_col = NULL,
+                          y_col = NULL,
                           keep_cols = "essential",
-                          # specify essential cols if they deviate from the
-                          # default feature names and x and y locations.
-                          essential_cols = NULL,
-                          # one can specify the name of the list in which the
-                          # transcripts get stored.
-                          # the default is raw.
                           molecules_mode = NULL
                           )
 {
@@ -73,10 +72,12 @@ readMolecules <- function(data_dir,
                      # look into subdirectories too
                      recursive = TRUE
     )
+    # TODO add checks so that user is guided to include a directory with
+    # exactly the n_samples
 
     f_paths <- replace(f_paths, values = fs)
 
-    # DO DATA CONVERSION
+    # DO DATA STANDARDISATION
     mol_n <- vector("list", n_samples)
 
     for (f in seq_along(mol_n)) {
@@ -85,56 +86,25 @@ readMolecules <- function(data_dir,
         mol_df <- data.table::fread(f_paths[[f]])
         # sprintf function shows that values are not actually changed
 
-        # check user has specified the essential cols
-        if (is.null(essential_cols)) {
-            stop("Essential columns have not been specified.
-Please specify column names for columns containing gene names, x and y
-locations, and in that order, in the essential_cols argument of this function.")
-        }
+        # standardise column names
+        essential_cols <- .get_essential_cols(factor_col = feature_col,
+                                                x_col,
+                                                y_col)
 
-        # Standardise colnames such that, regardless of technology:
-        # gene name info is in "feature_name"
-        # x location info is in "x_location"
-        # y location info is in "y_location"
+        standard_cols <- .get_standard_cols(df_type = "transcripts")
 
-        standard_cols <- c("feature_name",
-                            "x_location",
-                            "y_location")
-
-        # essential_cols value is inherited from wrapper functions
-        if (!identical(essential_cols, standard_cols)) {
-            # get index for essential cols
-            for (col in essential_cols) {
-                idx <- grep(col, colnames(mol_df))
-                colnames(mol_df)[idx] <- standard_cols[which(essential_cols == col)]
-            }
-        }
+        mol_df <- .standardise_cols(mol_df, standard_cols, essential_cols)
 
         # choose cols of interest
-        if (keep_cols == "essential") {
-            cols <- standard_cols 
-        } else if (keep_cols == "all") {
-            cols <- colnames(mol_df)
-        } else {
-            cols <- keep_cols
-        }
+        cols <- .select_cols(mol_df, keep_cols, standard_cols)
 
-        # check that essential columns have been selected too
-        for (c in standard_cols){
-            if (!c %in% cols) {
-                stop("Essential columns could not be identified.
-Please specify column names for columns containing gene names, x and y 
-locations in the keep_cols argument of this function.")
-            }
-        }
-
-        # standardise data format
-        # coerce df to list to reduce redundancy and save storage space
-        mol_n[[f]] <- .standardiseToList(mol_df, cols, feature_name)
+        # standardise data format to ME list
+        # goal = reduce redundancy and save storage space
+        mol_n[[f]] <- .standardise_to_list(mol_df, cols, feature_name)
     }
 
     # specify sample_ids
-    names(mol_n) <- .getSampleID(n_samples, f_paths)
+    names(mol_n) <- .get_sample_id(n_samples, f_paths)
 
     # add list header to specify location in molecules slot
     # default is raw

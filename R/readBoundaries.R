@@ -3,11 +3,15 @@
 # ==============================================================================
 
 #' @rdname
-readBoundaries <- function(boundaries_mode = NULL,
-                            data_dir,
+readBoundaries <- function(data_dir,
                             pattern = NULL,
                             n_samples = NULL,
-                            compartment_id_col = NULL) {
+                            compartment_id_col = NULL,
+                            x_col = NULL,
+                            y_col = NULL,
+                            keep_cols = "essential",
+                            boundaries_mode = NULL
+                            ) {
     if (is.null(pattern)) {
         stop("Please specify the character pattern with which to uniquely
         identify the boundary files of interest. For example, 
@@ -37,25 +41,30 @@ readBoundaries <- function(boundaries_mode = NULL,
 
     f_paths <- replace(f_paths, values = fs)
 
-    # read in files
+    # read in files for each sample
     bds_ls <- vector("list", n_samples)
-
-    # iterate through each sample
     for (s in seq_along(bds_ls)) {
         # read in data
         bds_df <- data.table::fread(f_paths[[s]])
 
-        # TODO standardise column names to x_location and y_location
+        # standardise column names
+        essential_cols <- .get_essential_cols(factor_col = compartment_id_col,
+                                                x_col,
+                                                y_col)
 
+        standard_cols <- .get_standard_cols(df_type = "boundaries")
 
-        cols <- colnames(bds_df)
+        bds_df <- .standardise_cols(bds_df, standard_cols, essential_cols)
+
+        cols <- .select_cols(bds_df, keep_cols, standard_cols)
+
         # standardise csv to same list of lists format as readMolecules
         # structure should be: me@boundaries$cells$sample1$cellID$vertex_df
-        bds_ls[[s]] <- .standardiseToList(bds_df, cols, compartment_id_col)
+        bds_ls[[s]] <- .standardise_to_list(bds_df, cols, compartment_ID)
     }
 
     # specify id names
-    names(bds_ls) <- .getSampleID(n_samples, f_paths)
+    names(bds_ls) <- .get_sample_id(n_samples, f_paths)
 
     # add list header to specify location in boundaries slot
     bds_ls <- list(bds_ls)

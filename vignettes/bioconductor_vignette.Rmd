@@ -88,11 +88,12 @@ same object, in which case one can also have this structure: "filtered" >
 
 ```{r}
 molecules_ls <- dataframeToMEList(molecules_df,
+                                  df_type = "transcripts",
                                   assay_name = "raw",
                                   sample_col = "sample_id",
                                   factor_col = "feature_name",
-                                  x_location = "x_location",
-                                  y_location = "y_location")
+                                  x_col = "x_location",
+                                  y_col = "y_location")
 # to avoid printing large nested list in the terminal, use str() and the
 # max.level argument
 str(molecules_ls, max.level = 3)
@@ -107,11 +108,12 @@ boundary information for the nuclei.
 
 ```{r}
 boundaries_ls <- dataframeToMEList(boundaries_df,
+                                   df_type = "boundaries",
                                    assay_name = "cells",
                                    sample_col = "sample_id",
                                    factor_col = "cell_id",
-                                   x_location = "x_location",
-                                   y_location = "y_location")
+                                   x_col = "x_location",
+                                   y_col = "y_location")
 str(boundaries_ls, 3)
 ```
 
@@ -138,8 +140,7 @@ repo_dir <- "/dski/nobackup/bpeters/SpatialUtils/inst/extdata/mouse_brain_mini_x
 me <- readXenium(repo_dir,
                   n_samples = 2,
                   keep_cols = "essential",
-                  add_boundaries = TRUE,
-                  boundaries_mode = "cells")
+                  add_boundaries = TRUE)
 
 # visualise me contents
 me

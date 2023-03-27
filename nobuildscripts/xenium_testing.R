@@ -20,15 +20,16 @@ devtools::document()
 # =============================================================================
 # testing nested list versus data.frame format with large xenium dataset
 
-data_dir <- "/dski/nobackup/bpeters/mouse_brain"
+data_dir <- "/dski/nobackup/bpeters/cellCommData_2023/mouse_brain"
 
 # create me with just x and y locations
 me_xenium <- readMolecules(data_dir,
                     pattern = "transcripts.csv",
                     n_samples = 3,
-                    keep_cols = "essential",
-                    essential_cols = c("feature_name", "x_location", "y_location")
-                    )
+                    feature_col = "feature_name",
+                    x_col = "x_location",
+                    y_col = "y_location",
+                    keep_cols = "essential")
 
 me_xenium
 summary(me_xenium@molecules)
@@ -38,8 +39,12 @@ lobstr::obj_size(me_xenium@molecules) # 2.89 GB
 
 # what if all feature data is retained?
 me_xenium_entire <- readMolecules(data_dir,
+                           pattern = "transcripts.csv",
                            n_samples = 3,
-                           keep_all_cols = TRUE
+                           feature_col = "feature_name",
+                           x_col = "x_location",
+                           y_col = "y_location",
+                           keep_cols = "all"
                            )
 lobstr::obj_size(me_xenium_entire@molecules) # 8.68 GB
 
@@ -68,20 +73,22 @@ repo_dir <- "/dski/nobackup/bpeters/SpatialUtils/inst/extdata/mouse_brain_mini_x
 simple_me <- readMolecules(repo_dir,
                             pattern = "transcripts.csv",
                             n_samples = 2,
-                            keep_cols = "essential",
-                            essential_cols = c("feature_name",
-                                                    "x_locations",
-                                                    "y_location"))
+                            feature_col = "feature_name",
+                            x_col = "x_location",
+                            y_col = "y_location",
+                            keep_cols = "essential")
 strMolecules(simple_me)
 
 # test readBoundaries()
-nuclei_ls <- readBoundaries(boundaries_mode = "nucleus",
-                            data_dir = repo_dir,
+nuclei_ls <- readBoundaries(data_dir = repo_dir,
                             pattern = "nucleus_boundaries.csv",
                             n_samples = 2,
-                            compartment_id_col = "cell_id")
-
-str(nuclei_ls, 2)
+                            compartment_id_col = "cell_id",
+                            x_col = "vertex_x",
+                            y_col = "vertex_y",
+                            keep_cols = "essential",
+                            boundaries_mode = "nucleus")
+nuclei_ls
 
 # test readXenium() wrapper
 me <- readXenium(repo_dir,
@@ -95,8 +102,9 @@ identical(simple_me@molecules, me@molecules) # TRUE
 me <- readXenium(repo_dir,
                         n_samples = 2,
                         keep_cols = "essential",
-                        add_boundaries = TRUE,
-                        boundaries_mode = "cells")
+                        add_boundaries = TRUE)
+strBoundaries(me)
+boundaries(me)
 
 # =============================================================================
 # investigate MoleculeExperiment() class

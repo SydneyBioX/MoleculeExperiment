@@ -9,8 +9,10 @@ readMolecules(
   data_dir,
   pattern = NULL,
   n_samples = NULL,
+  feature_col = NULL,
+  x_col = NULL,
+  y_col = NULL,
   keep_cols = "essential",
-  essential_cols = NULL,
   molecules_mode = NULL
 )
 }
@@ -25,16 +27,20 @@ the transcripts files. For example, in Xenium data, the pattern would be
 
 \item{n_samples}{Integer specifying number of samples to be read.}
 
+\item{feature_col}{Character string specifying the name of the column with
+feature names. For example, "feature_name" in xenium transcripts.csv files.}
+
+\item{x_col}{Character string specifying the name of the column with the x
+locations of the transcripts.}
+
+\item{y_col}{Character string specifying the name of the column with the y
+locations.}
+
 \item{keep_cols}{Vector of characters specifying the columns of interest from
 the transcripts file. "essential" selects columns with gene names, x and y
 locations. "all" will select all columns. Alternatively, specific colums
 of interest can be selected by specifying them as characters in a vector.
 Note that this personalised vector needs to contain the essential columns.}
-
-\item{essential_cols}{Character vector specifying the names of the columns
-with the gene names of the detected transcripts, as well as the x and y
-location columns. Specifically in that order. The values for this argument
-are inherited from the wrapper functions as it depends on the ST technology.}
 
 \item{molecules_mode}{Character string specifying the name of the list in
 which the transcript information is going to be stored in the molecules slot.

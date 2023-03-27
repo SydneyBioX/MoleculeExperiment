@@ -7,20 +7,14 @@ readMerscope <- function(data_dir,
                          n_samples = 1,
                          keep_cols = "essential") {
 
-    # things specific to Merscope (vizgen)
-    # specify essential columns
-        # the colnames are changed in readMolecules()
-    essential_cols <- c("gene", "global_x", "global_y")
-
-    pattern <- "transcripts.csv"
-
     # create simple MoleculeExperiment object
     me <- readMolecules(data_dir = data_dir,
-                        pattern = pattern,
+                        pattern = "transcripts.csv",
                         n_samples = n_samples,
-                        keep_cols = keep_cols,
-                        essential_cols = essential_cols
-                        )
+                        feature_col = "gene",
+                        x_col = "global_x",
+                        y_col = "global_y",
+                        keep_cols = keep_cols)
 
     return(me)
 
