@@ -79,22 +79,11 @@ simple_me <- readMolecules(repo_dir,
                             keep_cols = "essential")
 strMolecules(simple_me)
 
-# test readBoundaries()
-nuclei_ls <- readBoundaries(data_dir = repo_dir,
-                            pattern = "nucleus_boundaries.csv",
-                            n_samples = 2,
-                            compartment_id_col = "cell_id",
-                            x_col = "vertex_x",
-                            y_col = "vertex_y",
-                            keep_cols = "essential",
-                            boundaries_mode = "nucleus")
-nuclei_ls
-
 # test readXenium() wrapper
 me <- readXenium(repo_dir,
                         n_samples = 2,
                         keep_cols = "essential",
-                        add_boundaries = FALSE)
+                        add_boundaries = NULL)
 
 identical(simple_me@molecules, me@molecules) # TRUE
 
@@ -102,7 +91,15 @@ identical(simple_me@molecules, me@molecules) # TRUE
 me <- readXenium(repo_dir,
                         n_samples = 2,
                         keep_cols = "essential",
-                        add_boundaries = TRUE)
+                        add_boundaries = "cell")
+strBoundaries(me)
+boundaries(me)
+
+me <- readXenium(repo_dir,
+                        n_samples = 2,
+                        keep_cols = "essential",
+                        add_boundaries = c("cell", "nucleus"))
+
 strBoundaries(me)
 boundaries(me)
 
@@ -126,17 +123,17 @@ getClass("MoleculeExperiment")
 strMolecules(me)
 strBoundaries(me)
 molecules(me)
-molecules(me, "raw")
-molecules(me, "raw", flatten = TRUE)
+molecules(me, "detected")
+molecules(me, "detected", flatten = TRUE)
 boundaries(me)
 boundaries(me, "cells", flatten = TRUE)
 
 # setters
 # e.g., add nucleus boundaries to obj that already has cell boundaries
-boundaries(me, "nuclei") <- nuclei_ls
+boundaries(me, "nucleus") <- nuclei_ls
 
 # test another getter
-boundaries(me, "nuclei")
+boundaries(me, "nucleus")
 
 # =============================================================================
 # test transitioning from a MoleculeExperiment to a SpatialExperiment

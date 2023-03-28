@@ -11,8 +11,8 @@ setGeneric("boundaries<-",
     function(object, ..., value) standardGeneric("boundaries<-"))
 
 #' @export
-setGeneric("compartmentIDs",
-    function(object, ...) standardGeneric("compartmentIDs"))
+setGeneric("segmentIDs",
+    function(object, ...) standardGeneric("segmentIDs"))
 
 #' @export
 setGeneric("features",

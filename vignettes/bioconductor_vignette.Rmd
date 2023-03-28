@@ -12,16 +12,44 @@ MoleculeExperiment class. We introduce this class for analysing molecule-based
 spatial transcriptomics data (xenium by 10x, cosmx SMI by nanostring, and 
 merscope by vizgen).
 
-# Contents
-TODO Have hyperlinks here
-1. Why the MoleculeExperiment class
-2. The ME object ...
-
-# Why the MoleculeExperiment class?
+## Why the MoleculeExperiment class?
 1) Enable easy analysis of spatial transcriptomics data at the molecule level, 
 rather than the cell level.
 2) Standardisation of molecule-based ST data across vendors, to hopefully
 facilitate comparison of different data sources.
+
+# Minimal example
+Show here code to 1) make an ME, 2) visualise an ME (using ggplot and the
+flatten option of getters), and 3) transforming data to a SPE.
+REMEMBER TO USE LITTLE ARGUMENTS AS POSSIBLE: use defaults here: simple code
+The detailed arguments can be used later in the vignette. 
+
+```{r}
+# make ME
+# use toy example data here
+
+```
+
+
+```{r}
+# visualise ME
+# change code below to work with molecules(toy_me, "detected", "flatten = TRUE))
+ggplot(molecules_df, aes(x = x_location, y = y_location)) +
+  geom_point() +
+  geom_polygon(aes(group = cell_id),
+                    fill = NA,
+                    colour = "black",
+                    data = boundaries_df) +
+  facet_wrap(~sample_id) +
+  coord_fixed()
+```
+
+
+```{r}
+# transform ME to SPE object
+spe <- countMolecules(me = toy_me)
+```
+
 
 # The ME object 
 
@@ -90,7 +118,7 @@ same object, in which case one can also have this structure: "filtered" >
 ```{r}
 molecules_ls <- dataframeToMEList(molecules_df,
                                   df_type = "transcripts",
-                                  assay_name = "raw",
+                                  assay_name = "detected",
                                   sample_col = "sample_id",
                                   factor_col = "feature_name",
                                   x_col = "x_location",
@@ -103,7 +131,7 @@ str(molecules_ls, max.level = 3)
 For the boundaries slot, if the boundary information is for cells, the structure
 would look like this: "cells" > "sample ID" > "cell IDs" > tibble with the
 vertex coordinates defining the boundaries for each cell. 
-If the boundary information is for nuclei, the structure would be: "nuclei" >
+If the boundary information is for nuclei, the structure would be: "nucleus" >
 "sample ID" > "cell ID" > tibble with the vertex coordinates defining the
 boundary information for the nuclei.
 
@@ -141,7 +169,7 @@ repo_dir <- "/dski/nobackup/bpeters/SpatialUtils/inst/extdata/mouse_brain_mini_x
 me <- readXenium(repo_dir,
                   n_samples = 2,
                   keep_cols = "essential",
-                  add_boundaries = TRUE)
+                  add_boundaries = c("cell", "nucleus"))
 # visualise me contents
 me
 ```
@@ -153,6 +181,10 @@ being developed.
 - highlight benefits of how readXenium() works
 e.g., readMolecules enables the user to decide if they want to keep all the 
 data that is vendor-specific (e.g., qv in xenium).
+In Xenium, the transcript.csv file has x and y locations as microns, whereas
+segmentation files have their locations in pixels. Our function readXenium takes
+this into account, and standardises the column contents to the micron units. 
+
 
 
 ## ME object structure
@@ -199,8 +231,8 @@ in the @molecules slot.
 # These getters should be used when the data from the slots needs to be used as
 # input for other functions.
 
-# molecules(me) or molecules(me, "raw")
-identical(molecules(me), molecules(me, "raw"))
+# molecules(me) or molecules(me, "detected")
+identical(molecules(me), molecules(me, "detected"))
 
 molecules(me)[[1]][[1]][[1]]
 
@@ -219,11 +251,10 @@ features(me)
 ```{r}
 # boundaries(me, "cells")
 boundaries(me, "cells")[[1]][[1]][[1]]
-
 ```
 
 ```{r}
-compartmentIDs(me, "cells")
+segmentIDs(me, "cells")
 ```
 
     - setters: readBoundaries()
@@ -232,15 +263,15 @@ compartmentIDs(me, "cells")
 nuclei_ls <- readBoundaries(data_dir = repo_dir,
                             pattern = "nucleus_boundaries.csv",
                             n_samples = 2,
-                            compartment_id_col = "cell_id",
+                            segment_id_col = "cell_id",
                             x_col = "vertex_x",
                             y_col = "vertex_y",
                             keep_cols = "essential",
-                            boundaries_mode = "nucleus")
+                            boundaries_assay = "nucleus")
 
 # add nucleus boundaries to already existing me object
-boundaries(me, "nuclei") <- nuclei_ls
-me # note the addition of the nuclei boundaries to the nuclei slot 
+boundaries(me, "nucleus") <- nuclei_ls
+me # note the addition of the nucleus boundaries to the nucleus slot
 # note that one can also assign new lists to the molecules slot with molecules<-
 ```
 
@@ -257,33 +288,26 @@ object to a SpatialExperiment object. With this functionality, it is possible to
 use already existing methods developed to analyse data stored as a
 SpatialExperiment object.
 
-Supose we are working with the toy example of boundary information described
-before. Recall it below:
-```{r}
-head(boundaries_df)
-```
-
-This would be generating a scenario that graphically looks like this:
-
-```{r}
-ggplot(molecules_df, aes(x = x_location, y = y_location)) +
-  geom_point() +
-  geom_polygon(aes(group = cell_id),
-                    fill = NA,
-                    colour = "black",
-                    data = boundaries_df) +
-  facet_wrap(~sample_id) +
-  coord_fixed()
-```
-
 The idea now is to go from a MoleculeExperiment object to a SpatialExperiment
 object.
 
 ```{r}
-
-#countMolecules()
+spe <- countMolecules(me = me)
+spe_nuc <- countMolecules(me = me, boundaries_assay = "nucleus")
 
 ```
+
+```{r}
+# quantify counts associated to cells versus nuclei
+colData(spe)
+SummarizedExperiment::assay(spe, "nucleus") <- SummarizedExperiment::assay(spe_nuc, "counts")
+```
+
+```{r}
+plot(as.numeric(SummarizedExperiment::assay(spe, "counts")),
+  as.numeric(SummarizedExperiment::assay(spe, "nucleus")))
+```
+
 
 # Future developments
 - SpatialUtils

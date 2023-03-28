@@ -22,6 +22,9 @@
 #' @param keep_cols Character string which can be either "essential" or "all".
 #' If "essential", the function will only work with the x and y location
 #' information.
+#' @param scale_factor Integer specifying the scale factor by which to change
+#' the scale of the x and y locations (e.g., to change from pixel to micron).
+#' The default value is 1.
 #' @export
 
 dataframeToMEList <- function(df,
@@ -31,7 +34,8 @@ dataframeToMEList <- function(df,
                                 factor_col,
                                 x_col,
                                 y_col,
-                                keep_cols = "essential"
+                                keep_cols = "essential",
+                                scale_factor = 1
                                 ) {
     if (is.null(assay_name)) {
         stop("Please specify an assay name with the assay_name argument.")
@@ -58,6 +62,8 @@ ii) \"boundaries\".")
     # select cols of interest
     cols <- .select_cols(df, keep_cols, standard_cols)
 
+    df <- .scale_locations(df, scale_factor = scale_factor)
+
     # for each sample, standardise data
     sample_level <- .standardise_to_list(df, cols, sample_id)
 
@@ -66,7 +72,7 @@ ii) \"boundaries\".")
                             cols = setdiff(cols, sample_col), feature_name)
     } else if (df_type == "boundaries") {
         ls <- lapply(sample_level, .standardise_to_list,
-                            cols = setdiff(cols, sample_col), compartment_ID)
+                            cols = setdiff(cols, sample_col), segment_id)
     }
 
     # specify assay name for compatibility with ME methods

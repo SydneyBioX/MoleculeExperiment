@@ -12,7 +12,8 @@ dataframeToMEList(
   factor_col,
   x_col,
   y_col,
-  keep_cols = "essential"
+  keep_cols = "essential",
+  scale_factor = 1
 )
 }
 \arguments{
@@ -43,6 +44,10 @@ global y coordinates.}
 \item{keep_cols}{Character string which can be either "essential" or "all".
 If "essential", the function will only work with the x and y location
 information.}
+
+\item{scale_factor}{Integer specifying the scale factor by which to change
+the scale of the x and y locations (e.g., to change from pixel to micron).
+The default value is 1.}
 }
 \description{
 The goal of this function is to prepare transcripts and boundaries files for

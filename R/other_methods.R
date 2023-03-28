@@ -7,41 +7,42 @@ setMethod("show",
     definition = function(object) {
         cat("class: ", class(object), "\n")
         cat(paste(
-                length(object@molecules[["raw"]]),
+                length(object@molecules[["detected"]]),
                 "samples:",
-                paste(head(names(object@molecules[["raw"]])), collapse = " ")),
+                paste(head(names(object@molecules[["detected"]])),
+                    collapse = " ")),
             "\n")
 
-        cat("\n@molecules contents: ", "-raw assay:", sep = "\n")
-        nFeatures(object, "raw")
-        nTranscripts(object, "raw")
+        cat("\n@molecules contents: ", "-detected assay:", sep = "\n")
+        nFeatures(object, "detected")
+        nTranscripts(object, "detected")
 
         # show range of coordinates
-        samples <- names(object@molecules[["raw"]])
+        samples <- names(object@molecules[["detected"]])
         sample_x <- lapply(samples, function(x) {
                     f <- features(object)[[x]]
                     # get x coordinates for each gene
                     gene_x <- lapply(f, function(f) {
-                        object@molecules[["raw"]][[x]][[f]][["x_location"]]})
+                        object@molecules[["detected"]][[x]][[f]][["x_location"]]})
                     })
 
         sample_y <- lapply(samples, function(x) {
                     f <- features(object)[[x]]
                     # get y coordinates for each gene
                     gene_y <- lapply(f, function(f) {
-                        object@molecules[["raw"]][[x]][[f]][["y_location"]]})
+                        object@molecules[["detected"]][[x]][[f]][["y_location"]]})
                     })
         
         x_v <- unlist(sample_x)
         y_v <- unlist(sample_y)
-        cat(paste0("Location range across all samples in assay raw: [",
+        cat(paste0("Location range across all samples in assay \"detected\": [",
             round(min(x_v), 2), ",", round(max(x_v), 2), "] x [",
             round(min(y_v), 2), ",", round(max(y_v), 2), "]", "\n"))
 
         if (length(names(object@molecules)) > 1) {
             all <- head(names(object@molecules))
             cat(paste0("-other assays: ",
-                    paste(all[all != "raw"], sep = ",", collapse = " "), "\n"))
+                    paste(all[all != "detected"], sep = ",", collapse = " "), "\n"))
         }
 
         if (is.null(object@boundaries)) {
@@ -50,22 +51,22 @@ setMethod("show",
             cat("\n@boundaries contents:\n")
             for (i in names(object@boundaries)) {
                 cat(paste0("-", i, ":\n"))
-                id_ls <- compartmentIDs(object, assay_name = i)
+                id_ls <- segmentIDs(object, assay_name = i)
                 n_comp <- mean(lengths(id_ls))
-                cat(paste0(n_comp, " unique compartments: ",
+                cat(paste0(n_comp, " unique segment IDs: ",
                     paste(head(id_ls[[1]]), collapse = " "), " ...\n"))
 
                 # get boundary centroid coordinates across all samples
                 sample_x <- lapply(names(object@boundaries[[i]]),
                     function(x) {
-                        c <- compartmentIDs(object, i)[[x]]
+                        c <- segmentIDs(object, i)[[x]]
 
                         c_x <- lapply(c, function(c) {
                             object@boundaries[[i]][[x]][[c]][["x_location"]]})
                     })
                 sample_y <- lapply(names(object@boundaries[[i]]),
                     function(x) {
-                        c <- compartmentIDs(object, i)[[x]]
+                        c <- segmentIDs(object, i)[[x]]
                         c_y <- lapply(c, function(c) {
                             object@boundaries[[i]][[x]][[c]][["y_location"]]})
                     })
@@ -101,8 +102,8 @@ setMethod("strBoundaries",
 # method to calculate unique features across samples
 setMethod("nFeatures",
     signature = signature(object = "MoleculeExperiment"),
-    definition = function(object, assay_name = "raw", per_sample = FALSE) {
-        if(per_sample) {
+    definition = function(object, assay_name = "detected", per_sample = FALSE) {
+        if (per_sample) {
             return(lengths(object@molecules[[assay_name]]))
         } else {
 
@@ -112,8 +113,12 @@ setMethod("nFeatures",
 
             number <- length(unique(unlist(f_sample)))
 
-            cat(paste0(number, " unique features across all samples in assay ",
-                        assay_name, "\n"))
+            cat(paste0(number,
+                        " unique features across all samples in assay \"",
+                        assay_name, "\": ",
+                        paste(head(features(object, assay_name)[[1]]),
+                            collapse = " "),
+                        " ...", "\n"))
 
         }
     }
@@ -124,7 +129,7 @@ setMethod("nFeatures",
 setMethod("nTranscripts",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object,
-                               assay_name = "raw",
+                               assay_name = "detected",
                                per_sample = FALSE) {
 
         # get number of genes per sample
@@ -144,33 +149,8 @@ setMethod("nTranscripts",
             return(sample_numbers)
         } else {
             cat(paste0(
-mean(sample_numbers), " molecules on average across all samples in assay ",
-assay_name, "\n"))
+mean(sample_numbers), " molecules on average across all samples in assay \"",
+assay_name, "\"\n"))
         }
     }
 )
-
-
-
-## -----------------------------------------------------------------------------
-## method to filter features (e.g., NegControl probes) from the @molecules slot.
-## useful functions: group_by() group_indices(), group_rows(), tally(), ungroup()
-# setMethod("filterFeatures",
-#            signature = signature(object = "MoleculeExperiment"),
-#            definition = function(object) {
-##    # check that modified object is still a valid instance of ME class
-##    validObject(x)
-#            }
-# )
-#
-## method to filter rows from the tibbles in the @molecules slot
-## e.g., to filter out transcripts that are annotated as being in the nuclei
-# setMethod("filterMoleculeData",
-#            signature = signature(object = "MoleculeExperiment"),
-#            definition = function(object) {
-##    # check that modified object is still a valid instance of ME class
-##    validObject(x)
-#            }
-# )
-#
-# useful functions: group_by() group_indices(), group_rows(), tally(), ungroup()

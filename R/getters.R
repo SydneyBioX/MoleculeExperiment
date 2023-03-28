@@ -7,10 +7,11 @@
 #' @export
 setMethod("molecules",
             signature = signature(object = "MoleculeExperiment"),
-            definition = function(object, assay_name = "raw", flatten = FALSE) {
-                if (assay_name == "raw") {
-                    warning("The transcripts from the raw assay were retrieved.
-Other assay transcripts can be retrieved by specifying the assay_name argument."
+            definition = function(object, assay_name = "detected", flatten = FALSE) {
+                if (assay_name == "detected") {
+                    message("The transcripts from the detected assay were
+retrieved. Other assay transcripts can be retrieved by specifying the assay_name
+argument."
                     )
                 }
                 if (flatten) {
@@ -50,7 +51,7 @@ setMethod("boundaries",
 
 setMethod("features",
             signature = signature(object = "MoleculeExperiment"),
-            definition = function(object, assay_name = "raw") {
+            definition = function(object, assay_name = "detected") {
 
         samples <- names(object@molecules[[assay_name]])
         f_list <- lapply(samples, function(s) {
@@ -66,8 +67,8 @@ assay_name argument to this function."))
             }
 )
 
-# get list of compartment ids identified after segmentation in each sample
-setMethod("compartmentIDs",
+# get list of segment ids identified after segmentation in each sample
+setMethod("segmentIDs",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object, assay_name = NULL) {
                 if (is.null(assay_name)) {

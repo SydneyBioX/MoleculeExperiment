@@ -16,4 +16,5 @@ Imports:
     data.table,
     dplyr,
     magrittr,
-    methods
+    methods,
+    rjson

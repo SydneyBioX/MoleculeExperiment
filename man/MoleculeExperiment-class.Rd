@@ -12,7 +12,7 @@ spatial transcriptomics data.}
 \usage{
 MoleculeExperiment(molecules, boundaries = NULL)
 
-\S4method{molecules}{MoleculeExperiment}(object, assay_name = "raw", flatten = FALSE)
+\S4method{molecules}{MoleculeExperiment}(object, assay_name = "detected", flatten = FALSE)
 
 \S4method{boundaries}{MoleculeExperiment}(object, assay_name = NULL, flatten = FALSE)
 }

@@ -8,8 +8,14 @@ readXenium(
   data_dir,
   n_samples = NULL,
   keep_cols = "essential",
-  add_boundaries = TRUE
+  add_boundaries = "cell"
 )
+}
+\arguments{
+\item{add_boundaries}{Vector with which to specify the names of the boundary
+assays to be added to the me object. Can be "cell", "nucleus", both, or NULL.
+The latter will lead to the creation of a simple ME object with just the
+molecules slot filled.}
 }
 \description{
 Read xenium data into a MoleculeExperiment object

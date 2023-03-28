@@ -8,11 +8,19 @@
 # TODO add documentation for new parameters specific to readXenium
 
 #' @param data_dir
+#' @param n_samples
+#' @param keep_cols
+#' @param add_boundaries Vector with which to specify the names of the boundary
+#' assays to be added to the me object. Can be "cell", "nucleus", both, or NULL.
+#' The latter will lead to the creation of a simple ME object with just the
+#' molecules slot filled.
 #' @export
+#' @importFrom rjson fromJSON
+#' 
 readXenium <- function(data_dir,
                        n_samples = NULL,
                        keep_cols = "essential",
-                       add_boundaries = TRUE) {
+                       add_boundaries = "cell") {
 
     # create MoleculeExperiment object
     me <- readMolecules(data_dir = data_dir,
@@ -23,22 +31,49 @@ readXenium <- function(data_dir,
                         y_col = "y_location",
                         keep_cols = keep_cols)
 
-    # add CELL boundary information if available
-    if (add_boundaries) {
-        boundaries_mode <- "cells"
-        bds_ls <- readBoundaries(data_dir = data_dir,
-                                 pattern = "cell_boundaries.csv",
-                                 n_samples = n_samples,
-                                 compartment_id_col = "cell_id",
-                                 x_col = "vertex_x",
-                                 y_col = "vertex_y",
-                                 keep_cols = keep_cols,
-                                 boundaries_mode = boundaries_mode)
+    # for each sample, find experiment.xenium JSON file
+    f_paths <- vector("list", n_samples)
+    fs <- list.files(data_dir,
+                     pattern = "experiment.xenium",
+                     # store full path names
+                     full.names = TRUE,
+                     # look into subdirectories too
+                     recursive = TRUE
+    )
+    f_paths <- replace(f_paths, values = fs)
 
-        # add standardised boundaries list to the @boundaries slot
-        boundaries(me, boundaries_mode) <- bds_ls
+    # for each sample, get "pixel_size" value
+    scale_factors <- sapply(f_paths, function(x) {
+        info <- fromJSON(file = x)
+        scale_factor <- info$pixel_size
+        })
+
+    # assign corresponding sample names to the scale factors
+    names(scale_factors) <- .get_sample_id(n_samples, f_paths)
+
+    # TODO add checks so that user is guided to include a directory with
+    # exactly the n_samples
+
+    # add boundary information
+    if (!is.null(add_boundaries)) {
+        boundaries_assay <- add_boundaries
+        for(a in boundaries_assay) {
+            bds_ls <- readBoundaries(data_dir = data_dir,
+                                    pattern = paste0(a, "_boundaries.csv"),
+                                    n_samples = n_samples,
+                                    segment_id_col = "cell_id",
+                                    x_col = "vertex_x",
+                                    y_col = "vertex_y",
+                                    keep_cols = keep_cols,
+                                    boundaries_assay = a,
+                                    scale_factor_vector = scale_factors)
+
+            # add standardised boundaries list to the @boundaries slot
+            boundaries(me, a) <- bds_ls
+        }
         # guide user
         cat("Boundary information can be accessed with boundaries(me)\n")
+
     }
 
     return(me)

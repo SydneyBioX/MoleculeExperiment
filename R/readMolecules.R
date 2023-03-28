@@ -27,10 +27,10 @@
 #' locations. "all" will select all columns. Alternatively, specific colums
 #' of interest can be selected by specifying them as characters in a vector.
 #' Note that this personalised vector needs to contain the essential columns.
-#' @param molecules_mode Character string specifying the name of the list in
+#' @param molecules_assay Character string specifying the name of the list in
 #' which the transcript information is going to be stored in the molecules slot.
-#' The default name is "raw", as we envision that a MoleculeExperiment will
-#' usually be created with raw transcript information.
+#' The default name is "detected", as we envision that a MoleculeExperiment will
+#' usually be created with detected transcript information.
 #'
 #' @return A standardised detected transcripts file across different
 #' imaging-based spatial transcriptomics technologies. This file can be used
@@ -48,7 +48,7 @@ readMolecules <- function(data_dir,
                           x_col = NULL,
                           y_col = NULL,
                           keep_cols = "essential",
-                          molecules_mode = NULL
+                          molecules_assay = NULL
                           )
 {
     # use browser() and Q for following variable values within local environ
@@ -107,12 +107,12 @@ readMolecules <- function(data_dir,
     names(mol_n) <- .get_sample_id(n_samples, f_paths)
 
     # add list header to specify location in molecules slot
-    # default is raw
+    # default is detected
     mol_n <- list(mol_n)
-    if (is.null(molecules_mode)) {
-        names(mol_n) <- "raw"
+    if (is.null(molecules_assay)) {
+        names(mol_n) <- "detected"
     } else {
-        names(mol_n) <- molecules_mode
+        names(mol_n) <- molecules_assay
     }
 
     # CONSTRUCT SIMPLE ME OBJECT
@@ -120,7 +120,7 @@ readMolecules <- function(data_dir,
 
     # guide user to use getters
     cat("\nDetected transcript information can be accessed with molecules(me) or
-molecules(me, \"raw\")\n")
+molecules(me, \"detected\")\n")
 
     return(me)
 }

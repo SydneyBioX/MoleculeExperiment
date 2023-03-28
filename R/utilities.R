@@ -29,7 +29,7 @@ names in the three \"col\" arguments to this function")
                             "y_location")
     }
     if (df_type == "boundaries") {
-        standard_cols <- c("compartment_ID",
+        standard_cols <- c("segment_id",
                             "x_location",
                             "y_location")
     }
@@ -77,6 +77,13 @@ arguments of this function.")
     }
     return(cols)
  }
+# -----------------------------------------------------------------------------
+# function to scale location columns to unit microns
+.scale_locations <- function(df, scale_factor) {
+    df[["x_location"]] <- df[["x_location"]] / scale_factor
+    df[["y_location"]] <- df[["y_location"]] / scale_factor
+    return(df)
+}
 
 # -----------------------------------------------------------------------------
 # function to standardise csv file

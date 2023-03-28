@@ -13,7 +13,7 @@ readMolecules(
   x_col = NULL,
   y_col = NULL,
   keep_cols = "essential",
-  molecules_mode = NULL
+  molecules_assay = NULL
 )
 }
 \arguments{
@@ -42,10 +42,10 @@ locations. "all" will select all columns. Alternatively, specific colums
 of interest can be selected by specifying them as characters in a vector.
 Note that this personalised vector needs to contain the essential columns.}
 
-\item{molecules_mode}{Character string specifying the name of the list in
+\item{molecules_assay}{Character string specifying the name of the list in
 which the transcript information is going to be stored in the molecules slot.
-The default name is "raw", as we envision that a MoleculeExperiment will
-usually be created with raw transcript information.}
+The default name is "detected", as we envision that a MoleculeExperiment will
+usually be created with detected transcript information.}
 }
 \value{
 A standardised detected transcripts file across different
