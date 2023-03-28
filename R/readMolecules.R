@@ -1,9 +1,4 @@
-# =============================================================================
-# Main function to generate a MoleculeExperiment: ReadMolecules()
-# =============================================================================
-
-#' Read and standardise the detected transcripts file/s into a
-#' MoleculeExperiment object
+#' Read in detected transcripts file/s into a MoleculeExperiment object
 #'
 #' A function to standardise transcripts.csv files across different molecule-
 #' based ST technologies. It is technology agnostic, so it is accompanied with
@@ -35,10 +30,8 @@
 #' @return A standardised detected transcripts file across different
 #' imaging-based spatial transcriptomics technologies. This file can be used
 #' as input for creating a MoleculeExperiment object.
-#' @examples
-
 #' @export
-#'
+#' @examples
 #' @importFrom magrittr %>%
 
 readMolecules <- function(data_dir,

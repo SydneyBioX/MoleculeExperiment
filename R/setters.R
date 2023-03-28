@@ -1,9 +1,10 @@
 # =============================================================================
-# setters to modify MoleculeExperiment object
+# setters to modify data in a MoleculeExperiment object
 # =============================================================================
 
-# TODO docs
+
 #' @param assay_name
+#' @rdname MoleculeExperiment-class
 setMethod("molecules<-",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object, assay_name = NULL, value) {
@@ -18,8 +19,9 @@ setMethod("molecules<-",
             }
 )
 
-# TODO docs
-# copy docs from molecules<-
+
+#' @param assay_name copy docs from molecules<- HERE
+#' @rdname MoleculeExperiment-class
 setMethod("boundaries<-",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object, assay_name = NULL, value)  {

@@ -1,5 +1,5 @@
 # =============================================================================
-# Generics for MoleculeExperiment class, and their default methods
+# Generics for MoleculeExperiment class 
 # =============================================================================
 
 #' @export

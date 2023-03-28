@@ -1,7 +1,12 @@
-# =============================================================================
-# Read Merscope data by Vizgen into a MoleculeExperiment object
-# =============================================================================
-
+#' Read in Merscope data to an ME object
+#' 
+#' Reads in Merscope data (Vizgen) from a directory, and standardises it into
+#' a MoleculeExperiment object. It is essentially a wrapper around the function
+#' readMolecules(). Note that this function can currently only create a simple
+#' ME object with the molecules slot filled. Boundary information cannot be
+#' handled yet.
+#'
+#' @export
 
 readMerscope <- function(data_dir,
                          n_samples = 1,

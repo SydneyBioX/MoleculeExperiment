@@ -1,5 +1,5 @@
 # ==============================================================================
-# Setter method to add boundary file information to a MoleculeExperiment object.
+# Function to read in boundary information and convert to ME list format.
 # ==============================================================================
 
 #' @param scale_factor_vector Vector containing the scale factor/s with which to
@@ -7,7 +7,7 @@
 #' integer, or multiple scale factors for the different samples. The default
 #' value is 1.
 #' 
-#' @rdname
+#' @export
 readBoundaries <- function(data_dir,
                             pattern = NULL,
                             n_samples = NULL,

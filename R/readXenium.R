@@ -1,13 +1,13 @@
-# =============================================================================
-# wrapper around readMolecules, specifically for xenium data
-# =============================================================================
-
-#' Read xenium data into a MoleculeExperiment object
+#' Read in Xenium data into a MoleculeExperiment object
+#' 
+#' Function to read in, and standardise, Xenium output into an ME object.
+#' Detected transcript files are required. Additionally, it is also possible
+#' to read in boundary files ("cell", "nuclei", or both). When boundaries are
+#' read in, the function also reads in the scale factor information from the
+#' experiment.xenium json files for each sample. This function is essentially
+#' a wrapper around readMolecules and readBoundaries functions.
 #'
-# TODO inherit documentation for parameters from readMolecules
-# TODO add documentation for new parameters specific to readXenium
-
-#' @param data_dir
+#' @param data_dir Inherit docs from readMolecules HERE
 #' @param n_samples
 #' @param keep_cols
 #' @param add_boundaries Vector with which to specify the names of the boundary

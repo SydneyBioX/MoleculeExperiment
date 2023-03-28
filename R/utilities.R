@@ -37,7 +37,7 @@ names in the three \"col\" arguments to this function")
 }
 
 # ------------------------------------------------------------------------------
-# function to standardise column names across technologies
+# standardise column names across technologies
 .standardise_cols <- function(df,
                                 standard_cols,
                                 essential_cols) {
@@ -55,7 +55,7 @@ names in the three \"col\" arguments to this function")
 }
 
 # -----------------------------------------------------------------------------
-# function to select specified columns
+# select specified columns
 .select_cols <- function(df,
                             keep_cols,
                             standard_cols) {
@@ -76,9 +76,10 @@ arguments of this function.")
         }   
     }
     return(cols)
- }
+}
+
 # -----------------------------------------------------------------------------
-# function to scale location columns to unit microns
+# scale location column data to unit microns
 .scale_locations <- function(df, scale_factor) {
     df[["x_location"]] <- df[["x_location"]] / scale_factor
     df[["y_location"]] <- df[["y_location"]] / scale_factor
@@ -86,7 +87,7 @@ arguments of this function.")
 }
 
 # -----------------------------------------------------------------------------
-# function to standardise csv file
+# standardise csv file
 # use ... argument to pass column by which to factor df
 
 #' @importFrom magrittr %<>%
@@ -106,7 +107,7 @@ arguments of this function.")
 }
 
 # -----------------------------------------------------------------------------
-# function to get sample IDs by retrieving name of parent directory
+# get sample IDs by retrieving name of parent directory
 .get_sample_id <- function(n_samples, f_paths) {
 
     ids <- vector("character", length = n_samples)
@@ -120,8 +121,4 @@ arguments of this function.")
         ids <- replace(ids, f, values = id)
     }
     return(ids)
-
-    # TODO so far it works with structure where each directory is for one sample
-    # identify IDs when transcripts files for different samples are in the same
-    # directory
 }

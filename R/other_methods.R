@@ -1,5 +1,9 @@
+# =============================================================================
+# Various other methods to work with a MoleculeExperiment object.
+# =============================================================================
+
 # -----------------------------------------------------------------------------
-# extend the show method to avoid plaguing the console with object contents
+# extended show method to avoid plaguing the console with object contents
 # give user a hint of the contents of the ME obj
 
 setMethod("show",
@@ -81,7 +85,9 @@ setMethod("show",
 )
 
 # -----------------------------------------------------------------------------
-# summarise the large nested list of lists in the molecules and boundaries slots
+# summarise large nested list of lists in the molecules and boundaries slots
+
+#' @rdname MoleculeExperiment-class
 #' @importFrom utils str
 setMethod("strMolecules",
     signature = signature(object = "MoleculeExperiment"),
@@ -90,6 +96,7 @@ setMethod("strMolecules",
     }
 )
 
+#' @rdname MoleculeExperiment-class
 #' @importFrom utils str
 setMethod("strBoundaries",
     signature = signature(object = "MoleculeExperiment"),
@@ -100,6 +107,9 @@ setMethod("strBoundaries",
 
 # -----------------------------------------------------------------------------
 # method to calculate unique features across samples
+
+
+#' @rdname MoleculeExperiment-class
 setMethod("nFeatures",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object, assay_name = "detected", per_sample = FALSE) {
@@ -124,8 +134,12 @@ setMethod("nFeatures",
     }
 )
 
+
 # -----------------------------------------------------------------------------
 # method to calculate total number of transcripts across samples
+
+
+#' @rdname MoleculeExperiment-class
 setMethod("nTranscripts",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object,

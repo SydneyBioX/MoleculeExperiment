@@ -1,8 +1,10 @@
-# =============================================================================
-# Wrapper around readMolecules to read Cosmx data from Nanostring into ME obj
-# TODO finish docs
-# =============================================================================
+#' Read in Cosmx data (Nanostring) as an ME object. 
+#' 
+#' This function is a wrapper around the readMolecules function. Note that it
+#' can currently only create a simple ME object with the molecules slot filled.
+#' Boundary information is not handled yet.
 
+#' @export
 readCosmx <- function(data_dir,
                       n_samples = NULL,
                       keep_cols = "essential") {
