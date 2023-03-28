@@ -8,8 +8,8 @@
 #' a wrapper around readMolecules and readBoundaries functions.
 #'
 #' @param data_dir Inherit docs from readMolecules HERE
-#' @param n_samples
-#' @param keep_cols
+#' #TODO @param n_samples DESCRIPTION. Defaults to NULL.
+#' #TODO @param keep_cols DESCRIPTION. Defaults to "essential".
 #' @param add_boundaries Vector with which to specify the names of the boundary
 #' assays to be added to the me object. Can be "cell", "nucleus", both, or NULL.
 #' The latter will lead to the creation of a simple ME object with just the
