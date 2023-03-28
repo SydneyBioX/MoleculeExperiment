@@ -2,8 +2,7 @@
 % Please edit documentation in R/readMolecules.R
 \name{readMolecules}
 \alias{readMolecules}
-\title{Read and standardise the detected transcripts file/s into a
-MoleculeExperiment object}
+\title{Read in detected transcripts file/s into a MoleculeExperiment object}
 \usage{
 readMolecules(
   data_dir,
