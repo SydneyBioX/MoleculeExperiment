@@ -14,7 +14,7 @@ setMethod("molecules<-",
                     information later on.")
                 }
                 object@molecules[assay_name] <- value
-                validObject(object)
+                methods::validObject(object)
                 return(object)
             }
 )
@@ -31,7 +31,7 @@ setMethod("boundaries<-",
                     information later on.")
                 }
                 object@boundaries[assay_name] <- value
-                validObject(object)
+                methods::validObject(object)
                 return(object)
             }
 )
