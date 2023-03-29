@@ -113,7 +113,7 @@ readMolecules <- function(data_dir,
     me <- MoleculeExperiment(molecules = mol_n)
 
     # guide user to use getters
-    cat("\nDetected transcript information can be accessed with molecules(me) or
+    message("\nDetected transcript information can be accessed with molecules(me) or
 molecules(me, \"detected\")\n")
 
     return(me)
