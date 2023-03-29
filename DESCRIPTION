@@ -16,6 +16,8 @@ Imports:
     data.table,
     dplyr,
     magrittr,
-    rjson
+    rjson,
+    utils
 Suggests: knitr, BiocStyle, ggplot2
 VignetteBuilder: knitr
+biocViews: Molecules
