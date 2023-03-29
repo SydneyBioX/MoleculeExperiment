@@ -37,5 +37,5 @@ in the "high_threshold" element of the list in the molecules slot.}
 Function should be flexible to different segmentation information
 }
 \examples{
-     #TODO make some examples
+# TODO make some examples
 }
