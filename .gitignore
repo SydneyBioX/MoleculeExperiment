@@ -2,3 +2,6 @@ vignettes/MoleculeExperiment/*
 vignettes/MoleculeExperiment.html
 vignettes/MoleculeExperiment.pdf
 vignettes/MoleculeExperiment.tex
+vignettes/MoleculeExperiment.Rmd
+/doc/
+/Meta/

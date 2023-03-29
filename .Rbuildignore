@@ -1,3 +1,5 @@
 ^nobuildscripts$
 ^LICENSE\.md$
 ^README\.Rmd$
+^doc$
+^Meta$

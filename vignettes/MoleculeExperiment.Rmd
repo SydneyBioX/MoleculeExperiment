@@ -64,9 +64,7 @@ information have already been read into R.
 
 ```{r}
 #TODO check how to include installation info here
-library(devtools)
-load_all()
-#library(MoleculeExperiment)
+library(MoleculeExperiment)
 
 library(ggplot2)
 ```
@@ -204,8 +202,8 @@ especially useful to work with data from multiple samples.
 
 ```{r}
 # TODO fix path error below
-#repo_dir <- system.file("inst", "extdata", package = "MoleculeExperiment")
 repo_dir <- "./inst/extdata"
+repo_dir <- system.file("extdata", package = "MoleculeExperiment")
 
 me <- readXenium(repo_dir,
                   n_samples = 2,
