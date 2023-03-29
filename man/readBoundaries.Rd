@@ -2,7 +2,7 @@
 % Please edit documentation in R/readBoundaries.R
 \name{readBoundaries}
 \alias{readBoundaries}
-\title{#TODO Description of function.}
+\title{Read in csv boundary information and convert to ME list format.}
 \usage{
 readBoundaries(
   data_dir,
@@ -17,14 +17,28 @@ readBoundaries(
 )
 }
 \arguments{
-\item{data_dir}{Path of the directory containing the data.
-#TODO @param pattern DESCRIPTION. Defaults to NULL.
-#TODO @param n_samples DESCRIPTION. Defaults to NULL.
-#TODO @param segment_id_col DESCRIPTION. Defaults to NULL.
-#TODO @param x_col DESCRIPTION. Defaults to NULL.
-#TODO @param y_col DESCRIPTION. Defaults to NULL.
-#TODO @param keep_cols DESCRIPTION. Defaults to "essential".
-#TODO @param boundaries_assay DESCRIPTION. Defaults to NULL.}
+\item{data_dir}{Path of the directory containing the boundary csv files.}
+
+\item{pattern}{Character string specifying the unique pattern with which to
+identify the files of interest in the directory. This is useful to work with
+multiple samples. Defaults to NULL.}
+
+\item{n_samples}{Integer indicating the number of samples. Defaults to NULL.}
+
+\item{segment_id_col}{Character string specifying the name of the column
+containing the sample id. Defaults to NULL.}
+
+\item{x_col}{Character string specifying the name of the column containing
+the x coordinates of the vertices defining the boundaries. Defaults to NULL.}
+
+\item{y_col}{Character string specifying the name of the column containing
+the y coordinates of the vertices defining the boundaries. Defaults to NULL.}
+
+\item{keep_cols}{Character string specifying which columns to keep.
+Defaults to "essential". The other option is to select "all", or custom
+columns by specifying their names in a vector.}
+
+\item{boundaries_assay}{Character string specifies. Defaults to NULL.}
 
 \item{scale_factor_vector}{Vector containing the scale factor/s with which to
 change the coordinate data from pixel to micron. It can be either a single
@@ -32,5 +46,11 @@ integer, or multiple scale factors for the different samples. The default
 value is 1.}
 }
 \description{
-#TODO Description of function.
+This function reads in csv boundary files and converts them to the ME list
+format, so that they can be added to an ME object later on. To account for
+different coordinate scales possible being used by the boundary versus
+transcript information, this function scales the coordinate values of the
+boundaries to match the unit of the detected transcript locations.
+The various arguments offer flexibility to standardise data from different
+molecule-based ST technologies into the ME list format.
 }
