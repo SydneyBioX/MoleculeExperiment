@@ -36,3 +36,6 @@ in the "high_threshold" element of the list in the molecules slot.}
 \description{
 Function should be flexible to different segmentation information
 }
+\examples{
+     #TODO make some examples
+}

@@ -71,3 +71,6 @@ NA
 NA
 }
 
+\examples{
+     #TODO make some examples
+}
