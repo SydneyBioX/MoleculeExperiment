@@ -2,8 +2,7 @@
 % Please edit documentation in R/readMolecules.R
 \name{readMolecules}
 \alias{readMolecules}
-\title{Read and standardise the detected transcripts file/s into a
-MoleculeExperiment object}
+\title{Read in detected transcripts file/s into a MoleculeExperiment object}
 \usage{
 readMolecules(
   data_dir,
@@ -56,4 +55,7 @@ as input for creating a MoleculeExperiment object.
 A function to standardise transcripts.csv files across different molecule-
 based ST technologies. It is technology agnostic, so it is accompanied with
 wrappers for the specific technologies (e.g., see readXenium).
+}
+\examples{
+     #TODO make some examples
 }

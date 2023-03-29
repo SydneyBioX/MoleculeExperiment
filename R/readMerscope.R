@@ -5,6 +5,10 @@
 #' readMolecules(). Note that this function can currently only create a simple
 #' ME object with the molecules slot filled. Boundary information cannot be
 #' handled yet.
+#' 
+#' #TODO @param data_dir DESCRIPTION.
+#' #TODO @param n_samples DESCRIPTION. Defaults to 1.
+#' #TODO @param n_samples DESCRIPTION. Defaults to "essential".
 #'
 #' @export
 

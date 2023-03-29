@@ -115,8 +115,8 @@ arguments of this function.")
     for (f in seq_along(f_paths)) {
         id <- base::strsplit(f_paths[[f]], "/") %>%
             unlist(use.names = FALSE) %>%
-            tail(2) %>%
-            head(1)
+            utils::tail(2) %>%
+            utils::head(1)
 
         ids <- replace(ids, f, values = id)
     }

@@ -6,8 +6,9 @@
 
 #' @export
 MoleculeExperiment <- function(molecules, boundaries = NULL) {
-    me <- new("MoleculeExperiment",
-                molecules = molecules,
-                boundaries = boundaries)
+    me <- methods::new("MoleculeExperiment",
+        molecules = molecules,
+        boundaries = boundaries
+    )
     return(me)
 }

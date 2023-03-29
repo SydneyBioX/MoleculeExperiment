@@ -3,7 +3,7 @@
 # =============================================================================
 
 
-#' @param assay_name
+#' #TODO @param assay_name DESCRIPTION
 #' @rdname MoleculeExperiment-class
 setMethod("molecules<-",
             signature = signature(object = "MoleculeExperiment"),

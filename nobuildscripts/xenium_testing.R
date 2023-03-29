@@ -67,7 +67,7 @@ lobstr::obj_size(huge_df) # 10.13 GB (redundant data)
 # ==============================================================================
 # working with MINI XENIUM dataset on github repo
 
-repo_dir <- "/dski/nobackup/bpeters/SpatialUtils/inst/extdata/mouse_brain_mini_xenium"
+repo_dir <- "/dski/nobackup/bpeters/SpatialUtils/inst/extdata/"
 
 # test readMolecules()
 simple_me <- readMolecules(repo_dir,

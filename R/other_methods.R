@@ -13,7 +13,7 @@ setMethod("show",
         cat(paste(
                 length(object@molecules[["detected"]]),
                 "samples:",
-                paste(head(names(object@molecules[["detected"]])),
+                paste(utils::head(names(object@molecules[["detected"]])),
                     collapse = " ")),
             "\n")
 
@@ -44,7 +44,7 @@ setMethod("show",
             round(min(y_v), 2), ",", round(max(y_v), 2), "]", "\n"))
 
         if (length(names(object@molecules)) > 1) {
-            all <- head(names(object@molecules))
+            all <- utils::head(names(object@molecules))
             cat(paste0("-other assays: ",
                     paste(all[all != "detected"], sep = ",", collapse = " "), "\n"))
         }
@@ -58,7 +58,7 @@ setMethod("show",
                 id_ls <- segmentIDs(object, assay_name = i)
                 n_comp <- mean(lengths(id_ls))
                 cat(paste0(n_comp, " unique segment IDs: ",
-                    paste(head(id_ls[[1]]), collapse = " "), " ...\n"))
+                    paste(utils::head(id_ls[[1]]), collapse = " "), " ...\n"))
 
                 # get boundary centroid coordinates across all samples
                 sample_x <- lapply(names(object@boundaries[[i]]),
@@ -126,7 +126,7 @@ setMethod("nFeatures",
             cat(paste0(number,
                         " unique features across all samples in assay \"",
                         assay_name, "\": ",
-                        paste(head(features(object, assay_name)[[1]]),
+                        paste(utils::head(features(object, assay_name)[[1]]),
                             collapse = " "),
                         " ...", "\n"))
 

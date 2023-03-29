@@ -1,11 +1,11 @@
-Package: SpatialUtils
+Package: MoleculeExperiment
 Title: Simplify Imaging-based Spatial Transcriptomics Data Analysis 
-Version: 0.0.0.9000
+Version: 0.99.1
 Authors@R: 
     person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: Convenience functions for summarisation and visualisation 
-    of imaging-based spatial transcriptomics data.  
+    of imaging-based spatial transcriptomics data. #TODO This needs to be longer!
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -13,8 +13,16 @@ RoxygenNote: 7.2.3
 URL: https://github.com/SydneyBioX/SpatialUtils
 BugReports: https://github.com/SydneyBioX/SpatialUtils/issues
 Imports: 
+    SpatialExperiment,
+    Matrix,
+    purrr,
+    sp,
     data.table,
     dplyr,
     magrittr,
-    methods,
-    rjson
+    rjson,
+    utils,
+    methods
+Suggests: knitr, BiocStyle, ggplot2
+VignetteBuilder: knitr
+biocViews: Molecules

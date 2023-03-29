@@ -2,7 +2,7 @@
 % Please edit documentation in R/readXenium.R
 \name{readXenium}
 \alias{readXenium}
-\title{Read xenium data into a MoleculeExperiment object}
+\title{Read in Xenium data into a MoleculeExperiment object}
 \usage{
 readXenium(
   data_dir,
@@ -12,11 +12,20 @@ readXenium(
 )
 }
 \arguments{
+\item{data_dir}{Inherit docs from readMolecules HERE
+#TODO @param n_samples DESCRIPTION. Defaults to NULL.
+#TODO @param keep_cols DESCRIPTION. Defaults to "essential".}
+
 \item{add_boundaries}{Vector with which to specify the names of the boundary
 assays to be added to the me object. Can be "cell", "nucleus", both, or NULL.
 The latter will lead to the creation of a simple ME object with just the
 molecules slot filled.}
 }
 \description{
-Read xenium data into a MoleculeExperiment object
+Function to read in, and standardise, Xenium output into an ME object.
+Detected transcript files are required. Additionally, it is also possible
+to read in boundary files ("cell", "nuclei", or both). When boundaries are
+read in, the function also reads in the scale factor information from the
+experiment.xenium json files for each sample. This function is essentially
+a wrapper around readMolecules and readBoundaries functions.
 }

@@ -2,6 +2,16 @@
 # Function to read in boundary information and convert to ME list format.
 # ==============================================================================
 
+#' #TODO Description of function.
+#'
+#' @param data_dir Path of the directory containing the data.
+#' #TODO @param pattern DESCRIPTION. Defaults to NULL.
+#' #TODO @param n_samples DESCRIPTION. Defaults to NULL.
+#' #TODO @param segment_id_col DESCRIPTION. Defaults to NULL.
+#' #TODO @param x_col DESCRIPTION. Defaults to NULL.
+#' #TODO @param y_col DESCRIPTION. Defaults to NULL.
+#' #TODO @param keep_cols DESCRIPTION. Defaults to "essential".
+#' #TODO @param boundaries_assay DESCRIPTION. Defaults to NULL.
 #' @param scale_factor_vector Vector containing the scale factor/s with which to
 #' change the coordinate data from pixel to micron. It can be either a single
 #' integer, or multiple scale factors for the different samples. The default

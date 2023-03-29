@@ -1,10 +1,25 @@
 ---
-output:
-  pdf_document:
-    keep_tex: true
-  html_document:
-    toc: true
+title: "Simplifying Imaging-based Spatial Transcriptomics Data Analysis"
+date: "`r BiocStyle::doc_date()`"
+author:
+- name: Bárbara Zita Peters Couto
+  affiliation:  
+  - "???"
+vignette: >
+  %\VignetteIndexEntry{"Introduction to simpleSeg"}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+output: 
+  BiocStyle::html_document
 ---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(BiocStyle)
+```
 
 # MoleculeExperiment
 The R package MoleculeExperiment contains functions to create and work with
@@ -24,9 +39,7 @@ First load required libraries.
 
 ```{r}
 # load necessary libraries
-library(devtools)
-load_all()
-#library(MoleculeExperiment)
+library(MoleculeExperiment)
 library(ggplot2)
 
 ```
@@ -35,7 +48,7 @@ To create an ME object (i.e., object of the MoleculeExperiment class), first use
 the constructor.
 
 ```{r}
-# make ME
+# TODO make ME
 # USE LITTLE ARGUMENTS HERE
 # use toy example data here
 #(but do NOT print the output, the focus here is on the quick code)
@@ -91,7 +104,7 @@ molecules_df <- data.frame(
   x_location = runif(50),
   y_location = runif(50)
   )
-head(molecules_df)
+utils::head(molecules_df)
 ```
 
 Then we generate a toy boundaries data.frame:
@@ -116,7 +129,7 @@ boundaries_df <- data.frame(
                  0, 1, 1,
                  0, 0, 1)
 )
-head(boundaries_df)
+utils::head(boundaries_df)
 ```
 
 To generate an ME object, the next step is to standardise this data to the 
@@ -172,7 +185,7 @@ read in Xenium data (10X Genomics) into an ME object.
 
 ```{r}
 # create ME obj with example mouse brain xenium dataset
-repo_dir <- "/dski/nobackup/bpeters/SpatialUtils/inst/extdata/mouse_brain_mini_xenium"
+repo_dir <- system.file("inst", "extdata", package = "MoleculeExperiment")
 me <- readXenium(repo_dir,
                   n_samples = 2,
                   keep_cols = "essential",
@@ -324,10 +337,10 @@ plot(as.numeric(SummarizedExperiment::assay(spe, "counts")),
 
 # Future developments
 The MoleculeExperiment package introduces the MoleculeExperiment class. In the
-future, a new package called SpatialUtils will introduce functional programming
+future, a new package called MoleculeExperiment will introduce functional programming
 capabilities to work with the MoleculeExperiment object.
 
-# sessionInfo()
+## Session Info
 ```{r}
 sessionInfo()
 ```
