@@ -97,7 +97,9 @@ countMolecules <- function(me,
         times = lapply(unlist(out, recursive = FALSE), length)
     )
     all_i <- as.integer(factor(all_i_names))
-    all_j_names <- names(unlist(lapply(out, function(x) setNames(x, NULL))))
+    all_j_names <- names(
+        unlist(lapply(out, function(x) stats::setNames(x, NULL)))
+    )
     all_j <- as.integer(factor(all_j_names))
     i_names <- unique(all_i_names)
     j_names <- unique(all_j_names)

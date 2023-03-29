@@ -104,7 +104,7 @@ molecules_df <- data.frame(
   x_location = runif(50),
   y_location = runif(50)
   )
-head(molecules_df)
+utils::head(molecules_df)
 ```
 
 Then we generate a toy boundaries data.frame:
@@ -129,7 +129,7 @@ boundaries_df <- data.frame(
                  0, 1, 1,
                  0, 0, 1)
 )
-head(boundaries_df)
+utils::head(boundaries_df)
 ```
 
 To generate an ME object, the next step is to standardise this data to the 

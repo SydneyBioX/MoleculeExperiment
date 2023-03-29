@@ -48,9 +48,9 @@ setClass("MoleculeExperiment",
         msg <- c("Can not create a MoleculeExperiment object without the
         transcripts information.")
 
-    } else if (!is(object@molecules, "list")) {
+    } else if (!methods::is(object@molecules, "list")) {
         msg <- c("The molecules slot should contain a list")
-    } else if (!is(object@boundaries, "list_OR_NULL")) {
+    } else if (!methods::is(object@boundaries, "list_OR_NULL")) {
         msg <- c("The boundaries slot should either be empty, or contain a
         list")
     }
