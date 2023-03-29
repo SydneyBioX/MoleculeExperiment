@@ -11,3 +11,8 @@ This function is a wrapper around the readMolecules function. Note that it
 can currently only create a simple ME object with the molecules slot filled.
 Boundary information is not handled yet.
 }
+\details{
+#TODO @param data_dir DESCRIPTION.
+#TODO @param n_samples DESCRIPTION. Defaults to NULL.
+#TODO @param keep_cols DESCRIPTION. Defaults to "essential".
+}

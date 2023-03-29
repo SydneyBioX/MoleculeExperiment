@@ -12,7 +12,9 @@ readXenium(
 )
 }
 \arguments{
-\item{data_dir}{Inherit docs from readMolecules HERE}
+\item{data_dir}{Inherit docs from readMolecules HERE
+#TODO @param n_samples DESCRIPTION. Defaults to NULL.
+#TODO @param keep_cols DESCRIPTION. Defaults to "essential".}
 
 \item{add_boundaries}{Vector with which to specify the names of the boundary
 assays to be added to the me object. Can be "cell", "nucleus", both, or NULL.
