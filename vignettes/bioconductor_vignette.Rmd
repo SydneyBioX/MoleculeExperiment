@@ -39,9 +39,7 @@ First load required libraries.
 
 ```{r}
 # load necessary libraries
-library(devtools)
-load_all()
-#library(MoleculeExperiment)
+library(MoleculeExperiment)
 library(ggplot2)
 
 ```
@@ -50,7 +48,7 @@ To create an ME object (i.e., object of the MoleculeExperiment class), first use
 the constructor.
 
 ```{r}
-# make ME
+# TODO make ME
 # USE LITTLE ARGUMENTS HERE
 # use toy example data here
 #(but do NOT print the output, the focus here is on the quick code)
