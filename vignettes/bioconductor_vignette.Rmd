@@ -185,7 +185,8 @@ read in Xenium data (10X Genomics) into an ME object.
 
 ```{r}
 # create ME obj with example mouse brain xenium dataset
-repo_dir <- "/dski/nobackup/bpeters/SpatialUtils/inst/extdata/mouse_brain_mini_xenium"
+# repo_dir <- "/dski/nobackup/bpeters/SpatialUtils/inst/extdata/mouse_brain_mini_xenium"
+repo_dir <- system.file("inst", "extdata", "mouse_brain_mini_xenium", package = "SpatialUtils")
 me <- readXenium(repo_dir,
                   n_samples = 2,
                   keep_cols = "essential",
@@ -337,7 +338,7 @@ plot(as.numeric(SummarizedExperiment::assay(spe, "counts")),
 
 # Future developments
 The MoleculeExperiment package introduces the MoleculeExperiment class. In the
-future, a new package called SpatialUtils will introduce functional programming
+future, a new package called MoleculeExperiment will introduce functional programming
 capabilities to work with the MoleculeExperiment object.
 
 ## Session Info
