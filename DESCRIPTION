@@ -17,5 +17,5 @@ Imports:
     dplyr,
     magrittr,
     rjson
-Suggests: knitr
+Suggests: knitr, BiocStyle, ggplot2
 VignetteBuilder: knitr
