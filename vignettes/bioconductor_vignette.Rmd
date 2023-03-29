@@ -1,10 +1,25 @@
 ---
-output:
-  pdf_document:
-    keep_tex: true
-  html_document:
-    toc: true
+title: "Simplifying Imaging-based Spatial Transcriptomics Data Analysis"
+date: "`r BiocStyle::doc_date()`"
+author:
+- name: Bárbara Zita Peters Couto
+  affiliation:  
+  - "???"
+vignette: >
+  %\VignetteIndexEntry{"Introduction to simpleSeg"}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+output: 
+  BiocStyle::html_document
 ---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(BiocStyle)
+```
 
 # MoleculeExperiment
 The R package MoleculeExperiment contains functions to create and work with
@@ -327,7 +342,7 @@ The MoleculeExperiment package introduces the MoleculeExperiment class. In the
 future, a new package called SpatialUtils will introduce functional programming
 capabilities to work with the MoleculeExperiment object.
 
-# sessionInfo()
+## Session Info
 ```{r}
 sessionInfo()
 ```
