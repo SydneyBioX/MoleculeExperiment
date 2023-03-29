@@ -26,6 +26,11 @@ countMolecules <- function(me,
                            boundaries_assay = "cell",
                            segmentation_info = "boundaries",
                            molecules_assay = "detected") {
+    if (boundaries_assay == "cell") {
+        message("The boundaries were retrieved from the \"cell\" assay. A
+different assay (e.g., \"nucleus\") can be specified in the boundaries_assay
+argument)")
+    }
     # Function should be flexible to different segmentation information
     # priority for boundaries as 10x and vizgen have this info, but not masks
     if (segmentation_info == "boundaries") {
