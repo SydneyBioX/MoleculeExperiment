@@ -66,10 +66,9 @@ setMethod("features",
 
         return(f_list)
 
-        # TODO this message does not work after return
-        cat(paste0("Features collected: ", assay_name, " assay.
+        message("Features collected: ", assay_name, " assay.
 To select features from a different assay, specify that assay in the
-assay_name argument to this function."))
+assay_name argument to this function.")
     }
 )
 
