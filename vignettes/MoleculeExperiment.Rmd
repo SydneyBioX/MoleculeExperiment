@@ -185,7 +185,7 @@ read in Xenium data (10X Genomics) into an ME object.
 
 ```{r}
 # create ME obj with example mouse brain xenium dataset
-repo_dir <- system.file("inst", "extdata", "mouse_brain_mini_xenium", package = "MoleculeExperiment")
+repo_dir <- system.file("inst", "extdata", package = "MoleculeExperiment")
 me <- readXenium(repo_dir,
                   n_samples = 2,
                   keep_cols = "essential",
