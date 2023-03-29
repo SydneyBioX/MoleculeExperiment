@@ -30,10 +30,10 @@
 dataframeToMEList <- function(df,
                                 df_type = NULL,
                                 assay_name = NULL,
-                                sample_col,
+                                sample_col = "sample_id",
                                 factor_col,
-                                x_col,
-                                y_col,
+                                x_col = "x_location",
+                                y_col = "y_location",
                                 keep_cols = "essential",
                                 scale_factor = 1
                                 ) {
