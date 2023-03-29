@@ -5,7 +5,7 @@ Authors@R:
     person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: Convenience functions for summarisation and visualisation 
-    of imaging-based spatial transcriptomics data.  
+    of imaging-based spatial transcriptomics data. #TODO This needs to be longer!
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
