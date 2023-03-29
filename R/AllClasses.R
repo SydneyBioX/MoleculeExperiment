@@ -27,6 +27,7 @@
 #' @section Methods
 ## TODO add examples of ME obj construction, and methods being used on ME obj
 #' @examples
+#'      #TODO make some examples
 NULL
 
 setClassUnion("list_OR_NULL", c("list", "NULL"))

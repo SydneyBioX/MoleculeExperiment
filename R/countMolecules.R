@@ -21,6 +21,7 @@
 #' @export
 #'
 #' @examples
+#'      #TODO make some examples
 
 countMolecules <- function(me,
                             boundaries_assay = "cell",
