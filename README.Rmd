@@ -22,7 +22,7 @@ The goal of MoleculeExperiment is to provide convenience functions for the summa
 
 ## Installation
 
-You can install the development version of SpatialUtils from [GitHub](https://github.com/) with:
+You can install the development version of MoleculeExperiment from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")

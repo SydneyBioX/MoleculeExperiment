@@ -43,7 +43,7 @@ countMolecules <- function(me,
     # check matching of sample ids
     if (isFALSE(
         identical(
-            names(SpatialUtils::molecules(me, molecules_assay)[[molecules_assay]]),
+            names(MoleculeExperiment::molecules(me, molecules_assay)[[molecules_assay]]),
             names(boundaries(me, boundaries_assay)[[boundaries_assay]])
         )
     )) {
@@ -69,7 +69,7 @@ countMolecules <- function(me,
     )
 
     readsList <- lapply(
-        SpatialUtils::molecules(me, molecules_assay)[[molecules_assay]],
+        MoleculeExperiment::molecules(me, molecules_assay)[[molecules_assay]],
         function(reads) {
             reads <- lapply(reads, function(rds) {
                 sp::coordinates(rds) <- ~ x_location + y_location

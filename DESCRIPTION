@@ -1,4 +1,4 @@
-Package: SpatialUtils
+Package: MoleculeExperiment
 Title: Simplify Imaging-based Spatial Transcriptomics Data Analysis 
 Version: 0.99.1
 Authors@R: 
