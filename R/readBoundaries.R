@@ -1,17 +1,28 @@
-# ==============================================================================
-# Function to read in boundary information and convert to ME list format.
-# ==============================================================================
-
-#' #TODO Description of function.
+#' Read in csv boundary information and convert to ME list format.
 #'
-#' @param data_dir Path of the directory containing the data.
-#' #TODO @param pattern DESCRIPTION. Defaults to NULL.
-#' #TODO @param n_samples DESCRIPTION. Defaults to NULL.
-#' #TODO @param segment_id_col DESCRIPTION. Defaults to NULL.
-#' #TODO @param x_col DESCRIPTION. Defaults to NULL.
-#' #TODO @param y_col DESCRIPTION. Defaults to NULL.
-#' #TODO @param keep_cols DESCRIPTION. Defaults to "essential".
-#' #TODO @param boundaries_assay DESCRIPTION. Defaults to NULL.
+#' This function reads in csv boundary files and converts them to the ME list
+#' format, so that they can be added to an ME object later on. To account for
+#' different coordinate scales possible being used by the boundary versus
+#' transcript information, this function scales the coordinate values of the
+#' boundaries to match the unit of the detected transcript locations.
+#' The various arguments offer flexibility to standardise data from different
+#' molecule-based ST technologies into the ME list format.
+#'
+#' @param data_dir Path of the directory containing the boundary csv files.
+#' @param pattern Character string specifying the unique pattern with which to
+#' identify the files of interest in the directory. This is useful to work with
+#' multiple samples. Defaults to NULL.
+#' @param n_samples Integer indicating the number of samples. Defaults to NULL.
+#' @param segment_id_col Character string specifying the name of the column
+#' containing the sample id. Defaults to NULL.
+#' @param x_col Character string specifying the name of the column containing
+#' the x coordinates of the vertices defining the boundaries. Defaults to NULL.
+#' @param y_col Character string specifying the name of the column containing
+#' the y coordinates of the vertices defining the boundaries. Defaults to NULL.
+#' @param keep_cols Character string specifying which columns to keep.
+#' Defaults to "essential". The other option is to select "all", or custom
+#' columns by specifying their names in a vector.
+#' @param boundaries_assay Character string specifies. Defaults to NULL.
 #' @param scale_factor_vector Vector containing the scale factor/s with which to
 #' change the coordinate data from pixel to micron. It can be either a single
 #' integer, or multiple scale factors for the different samples. The default
