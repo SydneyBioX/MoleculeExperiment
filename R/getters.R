@@ -1,13 +1,15 @@
 # =============================================================================
-# Getters for accessing data from the MoleculeExperiment object
-# TODO document
+# Getters for accessing data from a MoleculeExperiment object
 # =============================================================================
 
+# -----------------------------------------------------------------------------
+
 #' @rdname MoleculeExperiment-class
-#' @export
 setMethod("molecules",
             signature = signature(object = "MoleculeExperiment"),
-            definition = function(object, assay_name = "detected", flatten = FALSE) {
+            definition = function(object,
+                                    assay_name = "detected",
+                                    flatten = FALSE) {
                 if (assay_name == "detected") {
                     message("The transcripts from the detected assay were
 retrieved. Other assay transcripts can be retrieved by specifying the assay_name
@@ -15,7 +17,8 @@ argument."
                     )
                 }
                 if (flatten) {
-                    unlist(object@molecules[assay_name])
+                    big_df <- .flatten_molecules(object, assay_name)
+                    return(big_df)
                 } else {
                     object@molecules[assay_name]
                 }
@@ -23,12 +26,11 @@ argument."
 )
 
 #' @rdname MoleculeExperiment-class
-#' @export
 setMethod("boundaries",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object, assay_name = NULL, flatten = FALSE) {
 
-                if(is.null(assay_name)) {
+                if (is.null(assay_name)) {
 
                     warning(paste0("All boundaries assays were returned: ",
                     names(object@boundaries), ". To select only a specific 
@@ -38,10 +40,11 @@ setMethod("boundaries",
                         unlist(object@boundaries)
                     } else {
                         object@boundaries
-                    } 
+                    }
                 } else {
                     if (flatten) {
-                        unlist(object@boundaries[assay_name])
+                        big_df <- .flatten_boundaries(object, assay_name)
+                        return(big_df)
                     } else {
                         object@boundaries[assay_name]
                     }
@@ -49,6 +52,10 @@ setMethod("boundaries",
             }
 )
 
+
+# -----------------------------------------------------------------------------
+
+#' @rdname MoleculeExperiment-class
 setMethod("features",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object, assay_name = "detected") {
@@ -67,7 +74,10 @@ assay_name argument to this function."))
             }
 )
 
+# -----------------------------------------------------------------------------
 # get list of segment ids identified after segmentation in each sample
+
+#' @rdname MoleculeExperiment-class
 setMethod("segmentIDs",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object, assay_name = NULL) {

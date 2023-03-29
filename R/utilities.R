@@ -122,3 +122,33 @@ arguments of this function.")
     }
     return(ids)
 }
+
+# ------------------------------------------------------------------------------
+# flatten ME list whilst retaining information of list headers
+.addColumnToNestedListFlatten <- function(listObject, column_name = NULL) {
+  listObject_added = mapply(function(df, nm) {
+    df[, column_name] <- nm
+    return(df)
+  }, listObject, names(listObject), SIMPLIFY = FALSE)
+  return(do.call(rbind, listObject_added))
+}
+
+.flatten_molecules <- function(me, assay_name) {
+  molecules_flat <- addColumnToNestedListFlatten(
+    lapply(me@molecules[assay_name], function(mol_2) addColumnToNestedListFlatten(
+      lapply(mol_2, function(mol_1) addColumnToNestedListFlatten(
+        mol_1, "feature_name")), "sample_id")),
+    column_name = NULL)
+
+  return(molecules_flat)
+}
+
+.flatten_boundaries <- function(me, assay_name) {
+  molecules_flat <- addColumnToNestedListFlatten(
+    lapply(me@boundaries[assay_name],
+        function(mol_2) addColumnToNestedListFlatten(
+            lapply(mol_2, function(mol_1) addColumnToNestedListFlatten(
+                mol_1, "segment_id")), "sample_id")),
+    column_name = NULL)
+  return(molecules_flat)
+}
