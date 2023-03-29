@@ -7,6 +7,8 @@
 \alias{MoleculeExperiment}
 \alias{molecules,MoleculeExperiment-method}
 \alias{boundaries,MoleculeExperiment-method}
+\alias{features,MoleculeExperiment-method}
+\alias{segmentIDs,MoleculeExperiment-method}
 \alias{strMolecules,MoleculeExperiment-method}
 \alias{strBoundaries,MoleculeExperiment-method}
 \alias{nFeatures,MoleculeExperiment-method}
@@ -21,6 +23,10 @@ MoleculeExperiment(molecules, boundaries = NULL)
 \S4method{molecules}{MoleculeExperiment}(object, assay_name = "detected", flatten = FALSE)
 
 \S4method{boundaries}{MoleculeExperiment}(object, assay_name = NULL, flatten = FALSE)
+
+\S4method{features}{MoleculeExperiment}(object, assay_name = "detected")
+
+\S4method{segmentIDs}{MoleculeExperiment}(object, assay_name = NULL)
 
 \S4method{strMolecules}{MoleculeExperiment}(object)
 
