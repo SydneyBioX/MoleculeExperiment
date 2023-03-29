@@ -126,14 +126,14 @@ molecules(me)
 molecules(me, "detected")
 molecules(me, "detected", flatten = TRUE)
 boundaries(me)
-boundaries(me, "cells", flatten = TRUE)
+boundaries(me, "cell", flatten = TRUE)
 
 # setters
 # e.g., add nucleus boundaries to obj that already has cell boundaries
 boundaries(me, "nucleus") <- nuclei_ls
 
 # test another getter
-boundaries(me, "nucleus")
+boundaries(me, "nucleus", flatten = TRUE)
 
 # =============================================================================
 # test transitioning from a MoleculeExperiment to a SpatialExperiment
