@@ -13,6 +13,10 @@ RoxygenNote: 7.2.3
 URL: https://github.com/SydneyBioX/SpatialUtils
 BugReports: https://github.com/SydneyBioX/SpatialUtils/issues
 Imports: 
+    SpatialExperiment,
+    Matrix,
+    purrr,
+    sp,
     data.table,
     dplyr,
     magrittr,
