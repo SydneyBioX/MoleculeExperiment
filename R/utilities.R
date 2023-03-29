@@ -134,9 +134,9 @@ arguments of this function.")
 }
 
 .flatten_molecules <- function(me, assay_name) {
-  molecules_flat <- addColumnToNestedListFlatten(
-    lapply(me@molecules[assay_name], function(mol_2) addColumnToNestedListFlatten(
-      lapply(mol_2, function(mol_1) addColumnToNestedListFlatten(
+  molecules_flat <- .addColumnToNestedListFlatten(
+    lapply(me@molecules[assay_name], function(mol_2) .addColumnToNestedListFlatten(
+      lapply(mol_2, function(mol_1) .addColumnToNestedListFlatten(
         mol_1, "feature_name")), "sample_id")),
     column_name = NULL)
 
@@ -144,10 +144,10 @@ arguments of this function.")
 }
 
 .flatten_boundaries <- function(me, assay_name) {
-  molecules_flat <- addColumnToNestedListFlatten(
+  molecules_flat <- .addColumnToNestedListFlatten(
     lapply(me@boundaries[assay_name],
-        function(mol_2) addColumnToNestedListFlatten(
-            lapply(mol_2, function(mol_1) addColumnToNestedListFlatten(
+        function(mol_2) .addColumnToNestedListFlatten(
+            lapply(mol_2, function(mol_1) .addColumnToNestedListFlatten(
                 mol_1, "segment_id")), "sample_id")),
     column_name = NULL)
   return(molecules_flat)
