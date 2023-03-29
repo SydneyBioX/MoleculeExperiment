@@ -16,5 +16,6 @@ Imports:
     data.table,
     dplyr,
     magrittr,
-    methods,
     rjson
+Suggests: knitr
+VignetteBuilder: knitr
