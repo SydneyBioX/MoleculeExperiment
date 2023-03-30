@@ -6,8 +6,12 @@ Authors@R: c(
     person("Bárbara Zita", "Peters Couto", email = "barbara.zita.peters@couto.de", role = c("aut")),
     person("Ellis", "Patrick", email = "ellis.patrick@sydney.edu.au", role = c("aut")),
     person("Nicholas","Robertson",role=c("aut"), email = "nicholas.robertson@sydney.edu.au"))
-Description: Convenience functions for summarisation and visualisation 
-    of imaging-based spatial transcriptomics data. #TODO This needs to be longer!
+Description: MoleculeExperiment contains functions to create and work with
+    objects from the new MoleculeExperiment class. We introduce this class for
+    analysing molecule-based spatial transcriptomics data (e.g., Xenium by 10X,
+    Cosmx SMI by Nanostring, and Merscope by Vizgen). This allows researchers
+    to analyse spatial transcriptomics data at the molecule level and 
+    standardise accross vendors.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
