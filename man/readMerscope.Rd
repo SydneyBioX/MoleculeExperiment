@@ -6,15 +6,23 @@
 \usage{
 readMerscope(data_dir, n_samples = 1, keep_cols = "essential")
 }
+\arguments{
+\item{data_dir}{Character string specifying the directory with the Cosmx
+output files.}
+
+\item{n_samples}{Integer specifying number of samples to be read.
+Defaults to 1.}
+
+\item{keep_cols}{Vector of characters specifying the columns of interest from
+the transcripts file. "essential" selects columns with gene names, x and y
+locations. "all" will select all columns. Alternatively, specific colums
+of interest can be selected by specifying them as characters in a vector.
+Note that this personalised vector needs to contain the essential columns.}
+}
 \description{
 Reads in Merscope data (Vizgen) from a directory, and standardises it into
 a MoleculeExperiment object. It is essentially a wrapper around the function
 readMolecules(). Note that this function can currently only create a simple
 ME object with the molecules slot filled. Boundary information cannot be
 handled yet.
-}
-\details{
-#TODO @param data_dir DESCRIPTION.
-#TODO @param n_samples DESCRIPTION. Defaults to 1.
-#TODO @param n_samples DESCRIPTION. Defaults to "essential".
 }

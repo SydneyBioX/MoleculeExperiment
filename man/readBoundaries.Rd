@@ -54,3 +54,16 @@ boundaries to match the unit of the detected transcript locations.
 The various arguments offer flexibility to standardise data from different
 molecule-based ST technologies into the ME list format.
 }
+\examples{
+  repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+  nuclei_ls <- readBoundaries(data_dir = repo_dir,
+                              pattern = "nucleus_boundaries.csv",
+                              n_samples = 2,
+                              segment_id_col = "cell_id",
+                              x_col = "vertex_x",
+                              y_col = "vertex_y",
+                              keep_cols = "essential",
+                              boundaries_assay = "nucleus",
+                              scale_factor_vector = 0.2125)
+  nuclei_ls
+}

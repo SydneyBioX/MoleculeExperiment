@@ -34,3 +34,11 @@ Detected transcript files are required. Additionally, it is also possible
 to read in boundary files ("cell", "nuclei", or both). This function is
 a wrapper around readMolecules and readBoundaries functions.
 }
+\examples{
+repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+
+me <- readXenium(repo_dir,
+                  n_samples = 2,
+                  keep_cols = "essential")
+me
+}
