@@ -1,20 +1,31 @@
 #' Read in Xenium data into a MoleculeExperiment object
-#' 
+#'
 #' Function to read in, and standardise, Xenium output into an ME object.
 #' Detected transcript files are required. Additionally, it is also possible
 #' to read in boundary files ("cell", "nuclei", or both). This function is
 #' a wrapper around readMolecules and readBoundaries functions.
 #'
-#' @param data_dir Inherit docs from readMolecules HERE
-#' #TODO @param n_samples DESCRIPTION. Defaults to NULL.
-#' #TODO @param keep_cols DESCRIPTION. Defaults to "essential".
+#' @param data_dir Character string specifying the directory with the xenium
+#' output files.
+#' @param n_samples Integer specifying the number of samples. Defaults to NULL.
+#' @param keep_cols Vector of characters specifying the columns of interest from
+#' the transcripts file and boundaries file. Can be "all" or "essential".
+#' "essential" selects columns with gene names, x and y locations in the
+#' transcripts file; "essential" selects columns with cell ids, and x and y
+#' locations for the vertices defining the boundaries in the boundaries file.
 #' @param add_boundaries Vector with which to specify the names of the boundary
 #' assays to be added to the me object. Can be "cell", "nucleus", both, or NULL.
 #' The latter will lead to the creation of a simple ME object with just the
 #' molecules slot filled.
 #' @export
+#' @example
+#' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+#'
+#' me <- readXenium(repo_dir,
+#'                   n_samples = 2,
+#'                   keep_cols = "essential")
+#' me
 #' @importFrom rjson fromJSON
-#' 
 readXenium <- function(data_dir,
                        n_samples = NULL,
                        keep_cols = "essential",

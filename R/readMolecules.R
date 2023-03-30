@@ -32,7 +32,9 @@
 #' as input for creating a MoleculeExperiment object.
 #' @export
 #' @examples
-#'      #TODO make some examples
+# TODO examples
+
+
 #' @importFrom magrittr %>%
 
 readMolecules <- function(data_dir,
