@@ -15,9 +15,6 @@
 #'   locations. "all" will select all columns. Alternatively, specific colums
 #'   of interest can be selected by specifying them as characters in a vector.
 #'   Note that this personalised vector needs to contain the essential columns.
-#'
-#' @export
-
 readMerscope <- function(data_dir,
                          n_samples = 1,
                          keep_cols = "essential") {
