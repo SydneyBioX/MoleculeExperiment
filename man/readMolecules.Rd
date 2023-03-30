@@ -56,6 +56,3 @@ A function to standardise transcripts.csv files across different molecule-
 based ST technologies. It is technology agnostic, so it is accompanied with
 wrappers for the specific technologies (e.g., see readXenium).
 }
-\examples{
-     #TODO make some examples
-}

@@ -2,9 +2,9 @@
 % Please edit documentation in R/AllClasses.R, R/MoleculeExperiment.R,
 %   R/getters.R, R/other_methods.R, R/setters.R
 \docType{class}
-\name{MoleculeExperiment-class}
-\alias{MoleculeExperiment-class}
+\name{MoleculeExperiment}
 \alias{MoleculeExperiment}
+\alias{MoleculeExperiment-class}
 \alias{molecules,MoleculeExperiment-method}
 \alias{boundaries,MoleculeExperiment-method}
 \alias{features,MoleculeExperiment-method}
@@ -78,5 +78,39 @@ NA
 }
 
 \examples{
-     #TODO make some examples
+
+   molecules_df <- data.frame(
+       sample_id = rep(c("sample1", "sample2"), times = c(30, 20)),
+       features = rep(c("gene1", "gene2"), times = c(20, 30)),
+       x_coords = runif(50),
+       y_coords = runif(50)
+   )
+   boundaries_df <- data.frame(
+       sample_id = rep(c("sample1", "sample2"), times = c(16, 6)),
+       cell_id = rep(c("cell1", "cell2", "cell3", "cell4",
+                       "cell1", "cell2"),
+                     times = c(4, 4, 4, 4, 3, 3)),
+       vertex_x = rnorm(22),
+       vertex_y = rnorm(22)
+   )
+   molecules_ls <- dataframeToMEList(molecules_df,
+                                     df_type = "transcripts",
+                                     assay_name = "detected",
+                                     sample_col = "sample_id",
+                                     factor_col = "features",
+                                     x_col = "x_coords",
+                                     y_col = "y_coords")
+
+   boundaries_ls <- dataframeToMEList(boundaries_df,
+                                      df_type = "boundaries",
+                                      assay_name = "cell",
+                                      sample_col = "sample_id",
+                                      factor_col = "cell_id",
+                                      x_col = "vertex_x",
+                                      y_col = "vertex_y")
+
+   toy_me <- MoleculeExperiment(molecules = molecules_ls,
+                                boundaries = boundaries_ls)
+
+   toy_me
 }

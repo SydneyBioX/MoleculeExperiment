@@ -74,7 +74,6 @@ me <- readXenium(repo_dir,
                   n_samples = 2,
                   keep_cols = "essential")
 me
-
 ```
 
 3) Use standardised data in ME object for molecule-level analyses. For example,

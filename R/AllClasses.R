@@ -25,6 +25,7 @@ setClassUnion("list_OR_NULL", c("list", "NULL"))
 #' The slot is designed as a list of lists, where each sample contains a list
 #' of tibbles for each cell, consisting of the x and y coordinates of the
 #' polygon vertices defining the cell boundary.
+#' 
 ## TODO explain how to construct ME object
 #' @section Creating an ME object
 ## TODO explain methods in this same documentation page
