@@ -24,7 +24,7 @@ setClassUnion("list_OR_NULL", c("list", "NULL"))
 #' The slot is designed as a list of lists, where each sample contains a list
 #' of tibbles for each cell, consisting of the x and y coordinates of the
 #' polygon vertices defining the cell boundary.
-#' 
+#'
 ## TODO explain how to construct ME object
 #' @section Creating an ME object
 ## TODO explain methods in this same documentation page
@@ -90,11 +90,6 @@ setClass("MoleculeExperiment",
         msg <- c("The boundaries slot should either be empty, or contain a
         list")
     }
-
-    # TODO make more complex validity checks for contents within the list
-    # else if(){
-    #msg <- c(msg, "add more input specifications here")
-    #}
 
     # if object is valid, enable creation of class instance
     else if (is.null(msg)) {

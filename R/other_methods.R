@@ -87,6 +87,7 @@ setMethod("show",
 # -----------------------------------------------------------------------------
 # summarise large nested list of lists in the molecules and boundaries slots
 
+# TODO document?
 #' @rdname MoleculeExperiment-class
 #' @importFrom utils str
 setMethod("strMolecules",
@@ -108,7 +109,7 @@ setMethod("strBoundaries",
 # -----------------------------------------------------------------------------
 # method to calculate unique features across samples
 
-
+# TODO document
 #' @rdname MoleculeExperiment-class
 setMethod("nFeatures",
     signature = signature(object = "MoleculeExperiment"),
@@ -137,6 +138,7 @@ setMethod("nFeatures",
 
 # -----------------------------------------------------------------------------
 # method to calculate total number of transcripts across samples
+# TODO
 
 
 #' @rdname MoleculeExperiment-class

@@ -18,10 +18,11 @@ dataframeToMEList(
 }
 \arguments{
 \item{df}{A data.frame containing the transcripts information or the
-boundaries information. NOTE: this data.frame should, at a minimum, have the
-following 4 columns: sample_id, feature_name, x_location and y_location.}
+boundaries information. NOTE: this dataframe should, at a minimum, have the
+following 4 columns: sample_id, factor_col (e.g., feature_name in
+transcripts, or cell_id in boundaries), x_location and y_location.}
 
-\item{df_type}{Character string specifying contents of the data frame. Can be
+\item{df_type}{Character string specifying contents of the dataframe. Can be
 either "transcripts" or "boundaries".}
 
 \item{assay_name}{Name with which to identify the information later on in an
@@ -54,8 +55,8 @@ A list with the format required to input it into slots of a
 MoleculeExperiment object.
 }
 \description{
-The goal of this function is to prepare transcripts and boundaries files for
-input to a MoleculeExperiment object.
+The goal of this function is to standardise transcripts and boundaries files
+for input to a MoleculeExperiment object.
 }
 \examples{
 molecules_df <- data.frame(

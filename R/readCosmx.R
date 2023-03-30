@@ -1,3 +1,8 @@
+# ==============================================================================
+# future development: a wrapper for cosmx data
+# ==============================================================================
+
+
 #' Read in Cosmx data (Nanostring) as an ME object.
 #'
 #' This function is a wrapper around the readMolecules function. Note that it
@@ -6,13 +11,10 @@
 #'
 #' @param data_dir Character string specifying the directory with the Cosmx
 #' output files.
-#' @param n_samples Integer indicating the number of samples.
-#'   Defaults to NULL.
+#' @param n_samples Integer indicating the number of samples. Defaults to NULL.
 #' @param keep_cols Character string specifying which columns to keep.
 #' Defaults to "essential". The other option is to select "all", or custom
 #' columns by specifying their names in a vector.
-#'
-#' @export
 readCosmx <- function(data_dir,
                       n_samples = NULL,
                       keep_cols = "essential") {

@@ -2,7 +2,7 @@
 # setters to modify data in a MoleculeExperiment object
 # =============================================================================
 
-# document setters
+# TODO document setters
 
 #' @param assay_name Name of the assay from which to retrieve data in the ME
 #' list.

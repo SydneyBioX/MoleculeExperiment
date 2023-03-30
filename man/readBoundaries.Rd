@@ -38,7 +38,8 @@ the y coordinates of the vertices defining the boundaries. Defaults to NULL.}
 Defaults to "essential". The other option is to select "all", or custom
 columns by specifying their names in a vector.}
 
-\item{boundaries_assay}{Character string specifies. Defaults to NULL.}
+\item{boundaries_assay}{Character string specifying the name with which to
+identify the boundary data in the ME object later on. Defaults to NULL.}
 
 \item{scale_factor_vector}{Vector containing the scale factor/s with which to
 change the coordinate data from pixel to micron. It can be either a single

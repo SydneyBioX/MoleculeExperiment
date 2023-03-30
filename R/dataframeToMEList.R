@@ -1,11 +1,12 @@
 #' Convert a transcripts or boundaries file to the ME list format
 #'
-#' The goal of this function is to prepare transcripts and boundaries files for
-#' input to a MoleculeExperiment object.
+#' The goal of this function is to standardise transcripts and boundaries files
+#' for input to a MoleculeExperiment object.
 #' @param df A data.frame containing the transcripts information or the
-#' boundaries information. NOTE: this data.frame should, at a minimum, have the
-#' following 4 columns: sample_id, feature_name, x_location and y_location.
-#' @param df_type Character string specifying contents of the data frame. Can be
+#' boundaries information. NOTE: this dataframe should, at a minimum, have the
+#' following 4 columns: sample_id, factor_col (e.g., feature_name in
+#' transcripts, or cell_id in boundaries), x_location and y_location.
+#' @param df_type Character string specifying contents of the dataframe. Can be
 #' either "transcripts" or "boundaries".
 #' @param assay_name Name with which to identify the information later on in an
 #' ME object.
