@@ -298,7 +298,7 @@ nuclei_ls <- readBoundaries(data_dir = repo_dir,
                             y_col = "vertex_y",
                             keep_cols = "essential",
                             boundaries_assay = "nucleus",
-                            scale_factor_vector = 0.2125)
+                            scale_factor_vector = 1)
 
 boundaries(me, "nucleus") <- nuclei_ls
 me # note the addition of the nucleus boundaries to the boundaries slot
