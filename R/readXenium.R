@@ -65,7 +65,7 @@ readXenium <- function(data_dir,
     }
 
 ###############################################################################
-    # TODO future dev: use pixel size info for working with images
+    # future dev: use pixel size info for working with images
     # for each sample, find experiment.xenium JSON file
     f_paths <- vector("list", n_samples)
     fs <- list.files(data_dir,
