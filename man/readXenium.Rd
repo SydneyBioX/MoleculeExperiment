@@ -28,9 +28,12 @@ assays to be added to the me object. Can be "cell", "nucleus", both, or NULL.
 The latter will lead to the creation of a simple ME object with just the
 molecules slot filled.}
 }
+\value{
+A MoleculeExperiment object containing xenium data.
+}
 \description{
-Function to read in, and standardise, Xenium output into an ME object.
-Detected transcript files are required. Additionally, it is also possible
+Function to read in, and standardise, Xenium output data into an ME object.
+Detected transcripts files are required. Additionally, it is also possible
 to read in boundary files ("cell", "nuclei", or both). This function is
 a wrapper around readMolecules and readBoundaries functions.
 }

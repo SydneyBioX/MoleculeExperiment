@@ -10,8 +10,7 @@ readCosmx(data_dir, n_samples = NULL, keep_cols = "essential")
 \item{data_dir}{Character string specifying the directory with the Cosmx
 output files.}
 
-\item{n_samples}{Integer indicating the number of samples.
-Defaults to NULL.}
+\item{n_samples}{Integer indicating the number of samples. Defaults to NULL.}
 
 \item{keep_cols}{Character string specifying which columns to keep.
 Defaults to "essential". The other option is to select "all", or custom

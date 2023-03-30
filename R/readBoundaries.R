@@ -22,13 +22,15 @@
 #' @param keep_cols Character string specifying which columns to keep.
 #' Defaults to "essential". The other option is to select "all", or custom
 #' columns by specifying their names in a vector.
-#' @param boundaries_assay Character string specifies. Defaults to NULL.
+#' @param boundaries_assay Character string specifying the name with which to
+#' identify the boundary data in the ME object later on. Defaults to NULL.
 #' @param scale_factor_vector Vector containing the scale factor/s with which to
 #' change the coordinate data from pixel to micron. It can be either a single
 #' integer, or multiple scale factors for the different samples. The default
 #' value is 1.
 #' @return An ME list containing the boundary information. This can be used as
 #' input to the boundaries slot of an ME object.
+#' @export
 #' @examples
 #' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
 #' nuclei_ls <- readBoundaries(data_dir = repo_dir,
@@ -41,7 +43,6 @@
 #'                             boundaries_assay = "nucleus",
 #'                             scale_factor_vector = 1)
 #' nuclei_ls
-#' @export
 readBoundaries <- function(data_dir,
                             pattern = NULL,
                             n_samples = NULL,
@@ -118,7 +119,7 @@ readBoundaries <- function(data_dir,
 
         # standardise csv to same list of lists format as readMolecules
         # structure should be: me@boundaries$cells$sample1$cellID$vertex_df
-        bds_ls[[s]] <- .standardise_to_list(bds_df, cols, segment_id)
+        bds_ls[[s]] <- .standardise_to_list(bds_df, cols, "segment_id")
     }
 
     # specify id names

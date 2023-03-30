@@ -1,3 +1,6 @@
+# ==============================================================================
+# future development: a wrapper to get vizgen data into an ME object
+# ==============================================================================
 #' Read in Merscope data to an ME object
 #'
 #' Reads in Merscope data (Vizgen) from a directory, and standardises it into
@@ -7,14 +10,14 @@
 #' handled yet.
 #'
 #' @param data_dir Character string specifying the directory with the Cosmx
-#'   output files.
+#' output files.
 #' @param n_samples Integer specifying number of samples to be read.
-#'   Defaults to 1.
+#' Defaults to 1.
 #' @param keep_cols Vector of characters specifying the columns of interest from
-#'   the transcripts file. "essential" selects columns with gene names, x and y
-#'   locations. "all" will select all columns. Alternatively, specific colums
-#'   of interest can be selected by specifying them as characters in a vector.
-#'   Note that this personalised vector needs to contain the essential columns.
+#' the transcripts file. "essential" selects columns with gene names, x and y
+#' locations. "all" will select all columns. Alternatively, specific colums
+#' of interest can be selected by specifying them as characters in a vector.
+#' Note that this personalised vector needs to contain the essential columns.
 readMerscope <- function(data_dir,
                          n_samples = 1,
                          keep_cols = "essential") {
@@ -31,5 +34,3 @@ readMerscope <- function(data_dir,
     return(me)
 
 }
-
-

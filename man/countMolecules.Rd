@@ -14,13 +14,12 @@ countMolecules(
 \arguments{
 \item{me}{MoleculeExperiment object containing both the transcript data as
 well as the boundaries data. I.e., the "molecules" and "boundaries" slots
-need to be filled.
-See MoleculeExperiment() for more information.}
+need to be filled. See MoleculeExperiment() for more information.}
 
 \item{boundaries_assay}{Character string naming the list of the boundaries
-slot form which boundary information should be retrieved from.
+slot from which boundary information should be retrieved from.
 For example, for counting transcripts per cell, the list containing the cell
-boundaries (e.g., "cells") should be selected.}
+boundaries (e.g., "cell") should be selected.}
 
 \item{segmentation_info}{Character string specifying the type of segmentation
 information available. Can be either "boundaries" or "masks". Currently,
@@ -33,11 +32,17 @@ MoleculeExperiment object. It is possible to change it to another mode, e.g.,
 "high_threshold" will access the transcript information that has been stored
 in the "high_threshold" element of the list in the molecules slot.}
 }
+\value{
+A SpatialExperiment object derived from a MoleculeExperiment object.
+}
 \description{
-Function should be flexible to different segmentation information
+This function takes the information from the molecules and boundaries slot,
+and counts the molecules per region of interest. Its input is a
+MoleculeExperiment object, and its output a SpatialExperiment object.
+That way, if one is interested in doing downstream analyses at the cell
+level, one can do so.
 }
 \examples{
-
 repo_dir <- system.file("extdata", package = "MoleculeExperiment")
 
 me <- readXenium(repo_dir,

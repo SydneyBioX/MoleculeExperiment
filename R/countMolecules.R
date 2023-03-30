@@ -1,14 +1,18 @@
 #' Count molecules per region of interest (e.g., cell)
 #'
-#' Function should be flexible to different segmentation information
+#' This function takes the information from the molecules and boundaries slot,
+#' and counts the molecules per region of interest. Its input is a
+#' MoleculeExperiment object, and its output a SpatialExperiment object.
+#' That way, if one is interested in doing downstream analyses at the cell
+#' level, one can do so.
+#'
 #' @param me MoleculeExperiment object containing both the transcript data as
 #' well as the boundaries data. I.e., the "molecules" and "boundaries" slots
-#' need to be filled.
-#' See MoleculeExperiment() for more information.
+#' need to be filled. See MoleculeExperiment() for more information.
 #' @param boundaries_assay Character string naming the list of the boundaries
-#' slot form which boundary information should be retrieved from.
+#' slot from which boundary information should be retrieved from.
 #' For example, for counting transcripts per cell, the list containing the cell
-#' boundaries (e.g., "cells") should be selected.
+#' boundaries (e.g., "cell") should be selected.
 #' @param segmentation_info Character string specifying the type of segmentation
 #' information available. Can be either "boundaries" or "masks". Currently,
 #' only the "boundaries" information is supported.
@@ -19,11 +23,9 @@
 #' "high_threshold" will access the transcript information that has been stored
 #' in the "high_threshold" element of the list in the molecules slot.
 #'
-#' @return A MoleculeExperiment obeject with molecule counts included.
-#'
+#' @return A SpatialExperiment object derived from a MoleculeExperiment object.
 #' @export
 #' @examples
-#'
 #' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
 #'
 #' me <- readXenium(repo_dir,
@@ -118,13 +120,12 @@ argument)")
     all_j <- as.integer(factor(all_j_names))
     i_names <- unique(all_i_names)
     j_names <- unique(all_j_names)
-    # browser()
+
     X <- Matrix::sparseMatrix(all_i, all_j,
         x = all_x, dimnames = list(i_names, j_names)
     )
 
     X
-
 
     sample_id <- rep(names(boundaries(me, boundaries_assay)[[boundaries_assay]]),
         times = lapply(boundaries(me, boundaries_assay)[[boundaries_assay]], length)
@@ -134,14 +135,12 @@ argument)")
         recursive = FALSE
     ), colMeans))
 
-
     cData <- data.frame(
         sample_id = sample_id,
         x_location = centroids[, "x_location"],
         y_location = centroids[, "y_location"],
         cell_id = colnames(X)
     )
-
 
     # important--> ONLY LOAD spatialexperiment construction function
     spe <- SpatialExperiment::SpatialExperiment(
@@ -152,11 +151,6 @@ argument)")
     )
     return(spe)
 }
-
-
-
-
-
 # .countMoleculesMasks(){
 #    # should recognise an array
 # }

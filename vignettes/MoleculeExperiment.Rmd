@@ -45,14 +45,17 @@ library(BiocStyle)
 The R package MoleculeExperiment contains functions to create and work with
 objects from the new MoleculeExperiment class. We introduce this class for
 analysing molecule-based spatial transcriptomics data (e.g., Xenium by 10X,
-Cosmx SMI by Nanostring, and Merscope by Vizgen).
+CosMx SMI by Nanostring, and Merscope by Vizgen, among others).
 
 ## Why the MoleculeExperiment class?
 The goal of the MoleculeExperiment class is to:
-1) Enable analysis of spatial transcriptomics data at the molecule level, 
-rather than the cell level like other S4 classes currently do.
+1) Enable analysis of spatial transcriptomics (ST) data at the molecule level, 
+independent of aggregating to the cell or tissue level.
+2) Enable aggregation to a `SpatialExperiment` object given combinations of 
+molecules and segmentation boundaries.
 2) Standardise molecule-based ST data across vendors, to hopefully facilitate
-comparison of different data sources.
+comparison of different data sources and common analytical and visualisation 
+workflows.
 
 # Minimal example
 
@@ -63,11 +66,10 @@ library(MoleculeExperiment)
 library(ggplot2)
 ```
 
-2) Create MoleculeExperiment object with example Xenium data.
+2) Create MoleculeExperiment object with example Xenium data, taken over a 
+small patch.
 
 ```{r}
-# TODO once vignette is finished, decide on the second repo_dir
-repo_dir <- "./inst/extdata"
 repo_dir <- system.file("extdata", package = "MoleculeExperiment")
 
 me <- readXenium(repo_dir,
@@ -77,11 +79,11 @@ me
 ```
 
 3) Use standardised data in ME object for molecule-level analyses. For example,
-plot a simple digital in-situ.
+plot a simple digital in-situ, with cell boundaries overlaid.
 
 ```{r}
 ggplot(molecules(me, flatten = TRUE), aes(x = x_location, y = y_location)) +
-  geom_point() +
+  geom_point(size = 0.05) +
   geom_polygon(aes(group = segment_id),
                     fill = NA,
                     colour = "black",
@@ -137,10 +139,16 @@ boundaries_df <- data.frame(
   cell_id = rep(c("cell1", "cell2", "cell3", "cell4",
                   "cell1", "cell2"),
                 times = c(4, 4, 4, 4, 3, 3)),
-  vertex_x = c(0, 0.5, 0.5, 0, 0.5, 1, 1, 0.5, 0, 0.5, 0.5, 0, 0.5, 1, 1, 0.5,
-                 0, 1, 0, 0, 1, 1),
-  vertex_y = c(0, 0, 0.5, 0.5, 0, 0, 0.5, 0.5, 0.5, 0.5, 1, 1, 0.5, 0.5, 1, 1,
-                 0, 1, 1, 0, 0, 1)
+  vertex_x = c(0, 0.5, 0.5, 0, 
+               0.5, 1, 1, 0.5, 
+               0, 0.5, 0.5, 0, 
+               0.5, 1, 1, 0.5,
+               0, 1, 0, 0, 1, 1),
+  vertex_y = c(0, 0, 0.5, 0.5, 
+               0, 0, 0.5, 0.5, 
+               0.5, 0.5, 1, 1, 
+               0.5, 0.5, 1, 1,
+               0, 1, 1, 0, 0, 1)
 )
 utils::head(boundaries_df)
 ```
@@ -175,18 +183,17 @@ str(boundaries_ls, 3)
 
 ```{r}
 toy_me <- MoleculeExperiment(molecules = molecules_ls,
-                          boundaries = boundaries_ls)
+                             boundaries = boundaries_ls)
 toy_me
 ```
 
 ### Use case 2: from Xenium to ME object
+
 The MoleculeExperiment package also provides functions to directly work with
 the directories containing output files of commonly used technologies. This is
 especially useful to work with data from multiple samples.
 
 ```{r}
-# TODO once vignette is finished, decide on the second repo_dir
-repo_dir <- "./inst/extdata"
 repo_dir <- system.file("extdata", package = "MoleculeExperiment")
 
 me <- readXenium(repo_dir,
@@ -209,11 +216,10 @@ the segmentation results.
 A MoleculeExperiment object contains a @molecules slot and a @boundaries slot.
 
 Both slots have a hierarchical list structure that consists of a nested list,
-ultimately ending in a data.frame/tibble. This data structure was used to work
-with an object of less size. Traditional rectangular data structures, like
-dataframes, redundantly store gene names and sample IDs for the millions of
-transcripts. In contrast, data in a list enables us to avoid this redundancy and
-work with objects of smaller size.
+ultimately ending in a data.frame/tibble. Traditional rectangular data 
+structures, like dataframes, redundantly store gene names and sample IDs for 
+the millions of transcripts. In contrast, data in a list enables us to avoid 
+this redundancy and work with objects of smaller size.
 
 ### molecules slot
 The @molecules slot contains molecule-level information. The essential data it 
@@ -285,9 +291,9 @@ segmentIDs(me, "cell")
 ```
 
 ## Setters
-Main setters include molecules<- and boundaries<-.
-For example, with boundaries<- one can add new segmentation assay information
-to the boundaries slot. 
+Main setters include `molecules<-` and `boundaries<-`.
+For example, with `boundaries<-` one can add new segmentation assay information
+to the boundaries slot. Here we demonstrate this with the nucleus boundaries.
 
 ```{r}
 nuclei_ls <- readBoundaries(data_dir = repo_dir,
@@ -304,11 +310,28 @@ boundaries(me, "nucleus") <- nuclei_ls
 me # note the addition of the nucleus boundaries to the boundaries slot
 ```
 
+The additional boundaries can be accessed, e.g. for visualisation.
+
+```{r}
+ggplot(molecules(me, flatten = TRUE), aes(x = x_location, y = y_location)) +
+  geom_point(size = 0.05) +
+  geom_polygon(aes(group = segment_id),
+                    fill = NA,
+                    colour = "black",
+                    data = boundaries(me,
+                                      assay_name = "cell",
+                                      flatten = TRUE)) +
+  geom_polygon(aes(group = segment_id),
+                    fill = NA,
+                    colour = "red",
+                    data = boundaries(me,
+                                      assay_name = "nucleus",
+                                      flatten = TRUE)) +
+  facet_wrap(~sample_id) +
+  coord_fixed()
+```
+
 # From MoleculeExperiment to SpatialExperiment
-The idea behind the MoleculeExperiment class is to 1) store data from
-molecule-based spatial transcriptomics technologies in a way that prioritises a
-molecule-level analysis, and 2) standardise output data format across the many
-different vendors.
 If one is interested in continuing downstream analysis at the cell-level,
 the MoleculeExperiment package also provides a convenience function,
 countMolecules(), that enables the transition from a MoleculeExperiment
@@ -316,9 +339,11 @@ object to a SpatialExperiment object. With this functionality, it is possible to
 use already existing methods for cell-level data analysis.
 
 ```{r}
-spe <- countMolecules(me)
+spe <- countMolecules(me, boundaries_assay = "nucleus")
 spe
 ```
+
+# SessionInfo
 
 ```{r}
 sessionInfo()

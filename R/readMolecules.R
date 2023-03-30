@@ -1,11 +1,12 @@
 #' Read in detected transcripts file/s into a MoleculeExperiment object
 #'
 #' A function to standardise transcripts.csv files across different molecule-
-#' based ST technologies. It is technology agnostic, so it is accompanied with
-#' wrappers for the specific technologies (e.g., see readXenium).
+#' based ST technologies, and store them into an ME object.
+#' It is technology agnostic, so it is accompanied with wrappers for the
+#' specific technologies (e.g., see readXenium).
 #'
-#' @param data_dir String specifying directory with the file/s with detected
-#' transcripts for different runs/samples.
+#' @param data_dir Character string specifying the directory with the file/s
+#' containing detected transcripts for different runs/samples.
 #' @param pattern Character string specifying the pattern with which to find
 #' the transcripts files. For example, in Xenium data, the pattern would be
 #' "transcripts.csv". In contrast, in Cosmx data, the pattern would be
@@ -16,7 +17,7 @@
 #' @param x_col Character string specifying the name of the column with the x
 #' locations of the transcripts.
 #' @param y_col Character string specifying the name of the column with the y
-#' locations.
+#' locations of the transcripts.
 #' @param keep_cols Vector of characters specifying the columns of interest from
 #' the transcripts file. "essential" selects columns with gene names, x and y
 #' locations. "all" will select all columns. Alternatively, specific colums
@@ -25,11 +26,9 @@
 #' @param molecules_assay Character string specifying the name of the list in
 #' which the transcript information is going to be stored in the molecules slot.
 #' The default name is "detected", as we envision that a MoleculeExperiment will
-#' usually be created with detected transcript information.
+#' usually be created with raw detected transcript information.
 #'
-#' @return A standardised detected transcripts file across different
-#' imaging-based spatial transcriptomics technologies. This file can be used
-#' as input for creating a MoleculeExperiment object.
+#' @return A simple MoleculeExperiment object with a filled molecules slot.
 #' @export
 #' @examples
 #' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
@@ -43,7 +42,6 @@
 #'                             keep_cols = "essential")
 #' simple_me
 #' @importFrom magrittr %>%
-
 readMolecules <- function(data_dir,
                           pattern = NULL,
                           n_samples = NULL,
@@ -54,8 +52,6 @@ readMolecules <- function(data_dir,
                           molecules_assay = NULL
                           )
 {
-    # use browser() and Q for following variable values within local environ
-    # use lobstr::tracemem(obj) to see whenever copies are being made
 
     if (is.null(pattern)) {
         stop("Please specify the character pattern with which to uniquely
@@ -101,7 +97,7 @@ readMolecules <- function(data_dir,
 
         # standardise data format to ME list
         # goal = reduce redundancy and save storage space
-        mol_n[[f]] <- .standardise_to_list(mol_df, cols, feature_name)
+        mol_n[[f]] <- .standardise_to_list(mol_df, cols, "feature_name")
     }
 
     # specify sample_ids

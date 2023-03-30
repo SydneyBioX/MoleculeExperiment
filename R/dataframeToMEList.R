@@ -1,11 +1,12 @@
 #' Convert a transcripts or boundaries file to the ME list format
 #'
-#' The goal of this function is to prepare transcripts and boundaries files for
-#' input to a MoleculeExperiment object.
+#' The goal of this function is to standardise transcripts and boundaries files
+#' for input to a MoleculeExperiment object.
 #' @param df A data.frame containing the transcripts information or the
-#' boundaries information. NOTE: this data.frame should, at a minimum, have the
-#' following 4 columns: sample_id, feature_name, x_location and y_location.
-#' @param df_type Character string specifying contents of the data frame. Can be
+#' boundaries information. NOTE: this dataframe should, at a minimum, have the
+#' following 4 columns: sample_id, factor_col (e.g., feature_name in
+#' transcripts, or cell_id in boundaries), x_location and y_location.
+#' @param df_type Character string specifying contents of the dataframe. Can be
 #' either "transcripts" or "boundaries".
 #' @param assay_name Name with which to identify the information later on in an
 #' ME object.
@@ -26,7 +27,8 @@
 #' the scale of the x and y locations (e.g., to change from pixel to micron).
 #' The default value is 1.
 #'
-#' @return A MoleculeExperiment list.
+#' @return A list with the format required to input it into slots of a
+#' MoleculeExperiment object.
 #'
 #' @examples
 #' molecules_df <- data.frame(
@@ -85,14 +87,14 @@ ii) \"boundaries\".")
     df <- .scale_locations(df, scale_factor = scale_factor)
 
     # for each sample, standardise data
-    sample_level <- .standardise_to_list(df, cols, sample_id)
+    sample_level <- .standardise_to_list(df, cols, "sample_id")
 
     if (df_type == "transcripts") {
         ls <- lapply(sample_level, .standardise_to_list,
-                            cols = setdiff(cols, sample_col), feature_name)
+                            cols = setdiff(cols, sample_col), "feature_name")
     } else if (df_type == "boundaries") {
         ls <- lapply(sample_level, .standardise_to_list,
-                            cols = setdiff(cols, sample_col), segment_id)
+                            cols = setdiff(cols, sample_col), "segment_id")
     }
 
     # specify assay name for compatibility with ME methods

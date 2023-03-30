@@ -16,8 +16,8 @@ readMolecules(
 )
 }
 \arguments{
-\item{data_dir}{String specifying directory with the file/s with detected
-transcripts for different runs/samples.}
+\item{data_dir}{Character string specifying the directory with the file/s
+containing detected transcripts for different runs/samples.}
 
 \item{pattern}{Character string specifying the pattern with which to find
 the transcripts files. For example, in Xenium data, the pattern would be
@@ -33,7 +33,7 @@ feature names. For example, "feature_name" in xenium transcripts.csv files.}
 locations of the transcripts.}
 
 \item{y_col}{Character string specifying the name of the column with the y
-locations.}
+locations of the transcripts.}
 
 \item{keep_cols}{Vector of characters specifying the columns of interest from
 the transcripts file. "essential" selects columns with gene names, x and y
@@ -44,17 +44,16 @@ Note that this personalised vector needs to contain the essential columns.}
 \item{molecules_assay}{Character string specifying the name of the list in
 which the transcript information is going to be stored in the molecules slot.
 The default name is "detected", as we envision that a MoleculeExperiment will
-usually be created with detected transcript information.}
+usually be created with raw detected transcript information.}
 }
 \value{
-A standardised detected transcripts file across different
-imaging-based spatial transcriptomics technologies. This file can be used
-as input for creating a MoleculeExperiment object.
+A simple MoleculeExperiment object with a filled molecules slot.
 }
 \description{
 A function to standardise transcripts.csv files across different molecule-
-based ST technologies. It is technology agnostic, so it is accompanied with
-wrappers for the specific technologies (e.g., see readXenium).
+based ST technologies, and store them into an ME object.
+It is technology agnostic, so it is accompanied with wrappers for the
+specific technologies (e.g., see readXenium).
 }
 \examples{
 repo_dir <- system.file("extdata", package = "MoleculeExperiment")
