@@ -3,7 +3,9 @@
 # =============================================================================
 
 
-#' #TODO @param assay_name DESCRIPTION
+#' @param assay_name Name of the assay from which to retrieve data in the ME
+#' list.
+#' @param value New value to be added to the slot and assay of interest.
 #' @rdname MoleculeExperiment-class
 setMethod("molecules<-",
             signature = signature(object = "MoleculeExperiment"),
@@ -19,8 +21,9 @@ setMethod("molecules<-",
             }
 )
 
-
-#' @param assay_name copy docs from molecules<- HERE
+#' @param assay_name Name of the assay from which to retrieve data in the ME
+#' list.
+#' @param value New value to be added to the slot and assay of interest.
 #' @rdname MoleculeExperiment-class
 setMethod("boundaries<-",
             signature = signature(object = "MoleculeExperiment"),

@@ -47,7 +47,10 @@ generated with the readMolecules() function.}
 \item{boundaries}{Slot with boundary information in a list format, as is
 generated with the readBoundaries() function.}
 
-\item{assay_name}{copy docs from molecules<- HERE}
+\item{assay_name}{Name of the assay from which to retrieve data in the ME
+list.}
+
+\item{value}{New value to be added to the slot and assay of interest.}
 }
 \description{
 This class enables the analysis of imaging-based ST data at the molecule

@@ -75,8 +75,6 @@ readMolecules <- function(data_dir,
                      # look into subdirectories too
                      recursive = TRUE
     )
-    # TODO add checks so that user is guided to include a directory with
-    # exactly the n_samples
 
     f_paths <- replace(f_paths, values = fs)
 

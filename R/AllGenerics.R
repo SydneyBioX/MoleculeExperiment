@@ -1,8 +1,7 @@
 # =============================================================================
-# Generics for MoleculeExperiment class 
+# Generics for MoleculeExperiment class
 # =============================================================================
 
-#' 
 #' @export
 setGeneric("boundaries",
     function(object, ...) standardGeneric("boundaries"))
