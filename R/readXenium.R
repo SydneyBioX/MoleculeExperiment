@@ -18,7 +18,7 @@
 #' The latter will lead to the creation of a simple ME object with just the
 #' molecules slot filled.
 #' @export
-#' @example
+#' @examples
 #' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
 #'
 #' me <- readXenium(repo_dir,
