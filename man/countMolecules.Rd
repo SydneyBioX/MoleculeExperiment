@@ -37,6 +37,7 @@ in the "high_threshold" element of the list in the molecules slot.}
 Function should be flexible to different segmentation information
 }
 \examples{
+
 repo_dir <- system.file("extdata", package = "MoleculeExperiment")
 
 me <- readXenium(repo_dir,

@@ -56,3 +56,15 @@ A function to standardise transcripts.csv files across different molecule-
 based ST technologies. It is technology agnostic, so it is accompanied with
 wrappers for the specific technologies (e.g., see readXenium).
 }
+\examples{
+repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+
+simple_me <- readMolecules(repo_dir,
+                            pattern = "transcripts.csv",
+                            n_samples = 2,
+                            feature_col = "feature_name",
+                            x_col = "x_location",
+                            y_col = "y_location",
+                            keep_cols = "essential")
+simple_me
+}
