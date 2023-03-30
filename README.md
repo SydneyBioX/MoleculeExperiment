@@ -11,7 +11,7 @@ output: github_document
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of MoleculeExperiment is to provide convenience functions for the summarisation and visualisation of imaging-based spatial transcriptomics data.  
+The goal of MoleculeExperiment is to provide functionality for the representation and summarisation of imaging-based spatial transcriptomics data, including 10X Xenium.
 
 ## Installation
 
@@ -19,6 +19,6 @@ You can install the development version of MoleculeExperiment from [GitHub](http
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("SydneyBioX/SpatialUtils")
+devtools::install_github("SydneyBioX/MoleculeExperiment")
 ```
 
