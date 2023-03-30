@@ -1,3 +1,6 @@
+setClassUnion("list_OR_NULL", c("list", "NULL"))
+
+
 # =============================================================================
 # The MoleculeExperiment class: documentation and definition
 # =============================================================================
@@ -8,11 +11,11 @@
 #' This class enables the analysis of imaging-based ST data at the molecule
 #' level, and standardises data across vendors, which hopefully facilitates
 #' ST data integration and comparison.
-#' @name MoleculeExperiment-class
-#' @aliases
-MoleculeExperiment
-
+#' @name MoleculeExperiment
+#' @rdname MoleculeExperiment-class
+#' @aliases MoleculeExperiment MoleculeExperiment-class
 #' @docType class
+#'
 #' @slot molecules Slot containing information about the detected transcripts.
 #' This slot is designed as a list of lists, where each sample contains a list
 #' of tibbles with information for each gene. The basic information required
@@ -28,12 +31,44 @@ MoleculeExperiment
 #' @section Methods
 ## TODO add examples of ME obj construction, and methods being used on ME obj
 #' @examples
-#'      #TODO make some examples
+#'
+#'    molecules_df <- data.frame(
+#'        sample_id = rep(c("sample1", "sample2"), times = c(30, 20)),
+#'        features = rep(c("gene1", "gene2"), times = c(20, 30)),
+#'        x_coords = runif(50),
+#'        y_coords = runif(50)
+#'    )
+#'    boundaries_df <- data.frame(
+#'        sample_id = rep(c("sample1", "sample2"), times = c(16, 6)),
+#'        cell_id = rep(c("cell1", "cell2", "cell3", "cell4",
+#'                        "cell1", "cell2"),
+#'                      times = c(4, 4, 4, 4, 3, 3)),
+#'        vertex_x = rnorm(10),
+#'        vertex_y = rnorm(10)
+#'    )
+#'    molecules_ls <- dataframeToMEList(molecules_df,
+#'                                      df_type = "transcripts",
+#'                                      assay_name = "detected",
+#'                                      sample_col = "sample_id",
+#'                                      factor_col = "features",
+#'                                      x_col = "x_coords",
+#'                                      y_col = "y_coords")
+#'
+#'    boundaries_ls <- dataframeToMEList(boundaries_df,
+#'                                       df_type = "boundaries",
+#'                                       assay_name = "cell",
+#'                                       sample_col = "sample_id",
+#'                                       factor_col = "cell_id",
+#'                                       x_col = "vertex_x",
+#'                                       y_col = "vertex_y")
+#'
+#'    toy_me <- MoleculeExperiment(molecules = molecules_ls,
+#'                                 boundaries = boundaries_ls)
+#'
+#' @exportClass
 NULL
 
-setClassUnion("list_OR_NULL", c("list", "NULL"))
 
-#' @export
 setClass("MoleculeExperiment",
          slots = c(molecules = "list",
                    boundaries = "list_OR_NULL")
@@ -42,7 +77,7 @@ setClass("MoleculeExperiment",
 # ----------------------------------------------------------------------------- 
 # Define validity checks
 # ----------------------------------------------------------------------------- 
-.me_validity <- function(object){
+.me_validity <- function(object) {
     msg <- NULL
     # if incorrect input, guide user to give correct input
     if (is.null(object@molecules)) {
