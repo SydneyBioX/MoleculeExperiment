@@ -37,5 +37,12 @@ in the "high_threshold" element of the list in the molecules slot.}
 Function should be flexible to different segmentation information
 }
 \examples{
-# TODO make some examples
+repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+
+me <- readXenium(repo_dir,
+                  n_samples = 2,
+                  keep_cols = "essential")
+
+spe <- countMolecules(me)
+spe
 }

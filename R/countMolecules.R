@@ -21,7 +21,14 @@
 #' @export
 #'
 #' @examples
-#' # TODO make some examples
+#' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+#'
+#' me <- readXenium(repo_dir,
+#'                   n_samples = 2,
+#'                   keep_cols = "essential")
+#' 
+#' spe <- countMolecules(me)
+#' spe
 countMolecules <- function(me,
                            boundaries_assay = "cell",
                            segmentation_info = "boundaries",

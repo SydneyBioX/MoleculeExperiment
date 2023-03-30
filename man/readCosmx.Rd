@@ -6,13 +6,19 @@
 \usage{
 readCosmx(data_dir, n_samples = NULL, keep_cols = "essential")
 }
+\arguments{
+\item{data_dir}{Character string specifying the directory with the Cosmx
+output files.}
+
+\item{n_samples}{Integer indicating the number of samples.
+Defaults to NULL.}
+
+\item{keep_cols}{Character string specifying which columns to keep.
+Defaults to "essential". The other option is to select "all", or custom
+columns by specifying their names in a vector.}
+}
 \description{
 This function is a wrapper around the readMolecules function. Note that it
 can currently only create a simple ME object with the molecules slot filled.
 Boundary information is not handled yet.
-}
-\details{
-#TODO @param data_dir DESCRIPTION.
-#TODO @param n_samples DESCRIPTION. Defaults to NULL.
-#TODO @param keep_cols DESCRIPTION. Defaults to "essential".
 }
