@@ -25,6 +25,23 @@
 #' @param scale_factor Integer specifying the scale factor by which to change
 #' the scale of the x and y locations (e.g., to change from pixel to micron).
 #' The default value is 1.
+#'
+#' @examples
+#'    molecules_df <- data.frame(
+#'        sample_id = rep(c("sample1", "sample2"), times = c(30, 20)),
+#'        features = rep(c("gene1", "gene2"), times = c(20, 30)),
+#'        x_coords = runif(50),
+#'        y_coords = runif(50)
+#'    )
+#'
+#'    molecules_ls <- dataframeToMEList(molecules_df,
+#'                                      df_type = "transcripts",
+#'                                      assay_name = "detected",
+#'                                      sample_col = "sample_id",
+#'                                      factor_col = "features",
+#'                                      x_col = "x_coords",
+#'                                      y_col = "y_coords")
+#'
 #' @export
 
 dataframeToMEList <- function(df,
