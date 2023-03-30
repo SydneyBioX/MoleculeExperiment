@@ -1,6 +1,5 @@
 setClassUnion("list_OR_NULL", c("list", "NULL"))
 
-
 # =============================================================================
 # The MoleculeExperiment class: documentation and definition
 # =============================================================================

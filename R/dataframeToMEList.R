@@ -26,7 +26,8 @@
 #' the scale of the x and y locations (e.g., to change from pixel to micron).
 #' The default value is 1.
 #'
-#' @return A MoleculeExperiment list.
+#' @return A list with the format required to input it into slots of a
+#' MoleculeExperiment object.
 #'
 #' @examples
 #' molecules_df <- data.frame(

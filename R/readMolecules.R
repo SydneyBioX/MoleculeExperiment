@@ -27,9 +27,7 @@
 #' The default name is "detected", as we envision that a MoleculeExperiment will
 #' usually be created with detected transcript information.
 #'
-#' @return A standardised detected transcripts file across different
-#' imaging-based spatial transcriptomics technologies. This file can be used
-#' as input for creating a MoleculeExperiment object.
+#' @return A simple MoleculeExperiment object with a filled molecules slot.
 #' @export
 #' @examples
 #' repo_dir <- system.file("extdata", package = "MoleculeExperiment")

@@ -33,6 +33,9 @@ MoleculeExperiment object. It is possible to change it to another mode, e.g.,
 "high_threshold" will access the transcript information that has been stored
 in the "high_threshold" element of the list in the molecules slot.}
 }
+\value{
+A SpatialExperiment object derived from a MoleculeExperiment object.
+}
 \description{
 Function should be flexible to different segmentation information
 }
