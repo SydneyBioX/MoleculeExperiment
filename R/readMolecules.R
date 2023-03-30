@@ -32,9 +32,16 @@
 #' as input for creating a MoleculeExperiment object.
 #' @export
 #' @examples
-# TODO examples
-
-
+#' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+#'
+#' simple_me <- readMolecules(repo_dir,
+#'                             pattern = "transcripts.csv",
+#'                             n_samples = 2,
+#'                             feature_col = "feature_name",
+#'                             x_col = "x_location",
+#'                             y_col = "y_location",
+#'                             keep_cols = "essential")
+#' simple_me
 #' @importFrom magrittr %>%
 
 readMolecules <- function(data_dir,

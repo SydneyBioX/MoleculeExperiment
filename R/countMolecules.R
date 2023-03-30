@@ -19,8 +19,8 @@
 #' "high_threshold" will access the transcript information that has been stored
 #' in the "high_threshold" element of the list in the molecules slot.
 #' @export
-#'
 #' @examples
+#' 
 #' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
 #'
 #' me <- readXenium(repo_dir,
