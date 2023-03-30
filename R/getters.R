@@ -4,6 +4,7 @@
 
 # -----------------------------------------------------------------------------
 
+# TODO document getters
 #' @rdname MoleculeExperiment-class
 setMethod("molecules",
     signature = signature(object = "MoleculeExperiment"),

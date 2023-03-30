@@ -2,6 +2,7 @@
 # Generics for MoleculeExperiment class
 # =============================================================================
 
+# TODO document generics
 #' @export
 setGeneric("boundaries",
     function(object, ...) standardGeneric("boundaries"))
