@@ -18,15 +18,18 @@
 #' MoleculeExperiment object. It is possible to change it to another mode, e.g.,
 #' "high_threshold" will access the transcript information that has been stored
 #' in the "high_threshold" element of the list in the molecules slot.
+#'
+#' @return A MoleculeExperiment obeject with molecule counts included.
+#'
 #' @export
 #' @examples
-#' 
+#'
 #' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
 #'
 #' me <- readXenium(repo_dir,
 #'                   n_samples = 2,
 #'                   keep_cols = "essential")
-#' 
+#'
 #' spe <- countMolecules(me)
 #' spe
 countMolecules <- function(me,
