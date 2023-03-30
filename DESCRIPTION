@@ -1,9 +1,11 @@
 Package: MoleculeExperiment
 Title: Simplify Imaging-based Spatial Transcriptomics Data Analysis 
 Version: 0.99.1
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+Authors@R: c(
+    person("Shila", "Ghazanfar", email = "shazanfar@gmail.com", role = c("aut", "cre")),
+    person("Bárbara Zita", "Peters Couto", email = "barbara.zita.peters@couto.de", role = c("aut")),
+    person("Ellis", "Patrick", email = "ellis.patrick@sydney.edu.au", role = c("aut")),
+    person("Nicholas","Robertson",role=c("aut"), email = "nicholas.robertson@sydney.edu.au"))
 Description: Convenience functions for summarisation and visualisation 
     of imaging-based spatial transcriptomics data. #TODO This needs to be longer!
 License: MIT + file LICENSE
