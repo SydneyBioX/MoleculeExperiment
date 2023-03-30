@@ -119,7 +119,7 @@ readBoundaries <- function(data_dir,
 
         # standardise csv to same list of lists format as readMolecules
         # structure should be: me@boundaries$cells$sample1$cellID$vertex_df
-        bds_ls[[s]] <- .standardise_to_list(bds_df, cols, segment_id)
+        bds_ls[[s]] <- .standardise_to_list(bds_df, cols, "segment_id")
     }
 
     # specify id names

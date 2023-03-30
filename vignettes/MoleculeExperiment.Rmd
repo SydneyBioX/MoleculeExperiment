@@ -70,8 +70,6 @@ library(ggplot2)
 small patch.
 
 ```{r}
-# TODO once vignette is finished, decide on the second repo_dir
-repo_dir <- "./inst/extdata"
 repo_dir <- system.file("extdata", package = "MoleculeExperiment")
 
 me <- readXenium(repo_dir,
@@ -196,8 +194,6 @@ the directories containing output files of commonly used technologies. This is
 especially useful to work with data from multiple samples.
 
 ```{r}
-# TODO once vignette is finished, decide on the second repo_dir
-repo_dir <- "./inst/extdata"
 repo_dir <- system.file("extdata", package = "MoleculeExperiment")
 
 me <- readXenium(repo_dir,

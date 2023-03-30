@@ -87,14 +87,14 @@ ii) \"boundaries\".")
     df <- .scale_locations(df, scale_factor = scale_factor)
 
     # for each sample, standardise data
-    sample_level <- .standardise_to_list(df, cols, sample_id)
+    sample_level <- .standardise_to_list(df, cols, "sample_id")
 
     if (df_type == "transcripts") {
         ls <- lapply(sample_level, .standardise_to_list,
-                            cols = setdiff(cols, sample_col), feature_name)
+                            cols = setdiff(cols, sample_col), "feature_name")
     } else if (df_type == "boundaries") {
         ls <- lapply(sample_level, .standardise_to_list,
-                            cols = setdiff(cols, sample_col), segment_id)
+                            cols = setdiff(cols, sample_col), "segment_id")
     }
 
     # specify assay name for compatibility with ME methods

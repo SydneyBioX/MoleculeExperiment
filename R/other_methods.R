@@ -1,10 +1,45 @@
-# =============================================================================
-# Various other methods to work with a MoleculeExperiment object.
-# =============================================================================
+#' Summarization methods to get insights into a MoleculeExperiment object
+#'
+#' The following methods are useful to get quick view of the contents in a
+#' MoleculeExperiment object.
+#' For example, strMolecules and strBoundaries summarise the large nested ME
+#' list of lists in the molecules and boundaries slots.
+#' nFeatures and nTranscripts get the numbers of features or transcripts,
+#' respectively. They can do so across all samples, or per sample.
+#'
+#' @param object Name of MoleculeExperiment object of interest.
+#' @param assay_name Character string specifying the name of the assay from
+#' which to view a summary of the contents.
+#' @param per_sample Logical value specifying whether or not to summarize the
+#' information per sample.
+#'
+#' @aliases
+#' strMolecules
+#' strBoundaries
+#' nFeatures
+#' nTranscripts
+#'
+#' @name summarization
+#' @docType methods
+#'
+#' @examples
+#' # get example data
+#' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+#' me <- readXenium(repo_dir,
+#'                   n_samples = 2,
+#'                   keep_cols = "essential",
+#'                   add_boundaries = "cell")
+#' 
+#' strMolecules(me)
+#' strBoundaries(me)
+#' 
+#' nFeatures(me)
+#' nFeatures(me, per_sample = TRUE)
+#' 
+#' nTranscripts(me)
+#' nTranscripts(me, per_sample = TRUE)
+NULL
 
-# -----------------------------------------------------------------------------
-# extended show method to avoid plaguing the console with object contents
-# give user a hint of the contents of the ME obj
 
 setMethod("show",
     signature = signature(object = "MoleculeExperiment"),
@@ -84,11 +119,9 @@ setMethod("show",
     }
 )
 
-# -----------------------------------------------------------------------------
-# summarise large nested list of lists in the molecules and boundaries slots
 
-# TODO document?
-#' @rdname MoleculeExperiment-class
+#' @rdname summarization
+#' @export
 #' @importFrom utils str
 setMethod("strMolecules",
     signature = signature(object = "MoleculeExperiment"),
@@ -97,7 +130,8 @@ setMethod("strMolecules",
     }
 )
 
-#' @rdname MoleculeExperiment-class
+#' @rdname summarization
+#' @export
 #' @importFrom utils str
 setMethod("strBoundaries",
     signature = signature(object = "MoleculeExperiment"),
@@ -106,11 +140,8 @@ setMethod("strBoundaries",
     }
 )
 
-# -----------------------------------------------------------------------------
-# method to calculate unique features across samples
-
-# TODO document
-#' @rdname MoleculeExperiment-class
+#' @rdname summarization
+#' @export
 setMethod("nFeatures",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object, assay_name = "detected", per_sample = FALSE) {
@@ -136,12 +167,8 @@ setMethod("nFeatures",
 )
 
 
-# -----------------------------------------------------------------------------
-# method to calculate total number of transcripts across samples
-# TODO
-
-
-#' @rdname MoleculeExperiment-class
+#' @rdname summarization
+#' @export
 setMethod("nTranscripts",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object,
