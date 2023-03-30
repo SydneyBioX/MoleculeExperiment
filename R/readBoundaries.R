@@ -37,7 +37,7 @@
 #'                               y_col = "vertex_y",
 #'                               keep_cols = "essential",
 #'                               boundaries_assay = "nucleus",
-#'                               scale_factor_vector = 0.2125)
+#'                               scale_factor_vector = 1)
 #'   nuclei_ls
 #' @export
 readBoundaries <- function(data_dir,
