@@ -27,18 +27,20 @@
 #' change the coordinate data from pixel to micron. It can be either a single
 #' integer, or multiple scale factors for the different samples. The default
 #' value is 1.
+#' @return An ME list containing the boundary information. This can be used as
+#' input to the boundaries slot of an ME object.
 #' @examples
-#'   repo_dir <- system.file("extdata", package = "MoleculeExperiment")
-#'   nuclei_ls <- readBoundaries(data_dir = repo_dir,
-#'                               pattern = "nucleus_boundaries.csv",
-#'                               n_samples = 2,
-#'                               segment_id_col = "cell_id",
-#'                               x_col = "vertex_x",
-#'                               y_col = "vertex_y",
-#'                               keep_cols = "essential",
-#'                               boundaries_assay = "nucleus",
-#'                               scale_factor_vector = 1)
-#'   nuclei_ls
+#' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+#' nuclei_ls <- readBoundaries(data_dir = repo_dir,
+#'                             pattern = "nucleus_boundaries.csv",
+#'                             n_samples = 2,
+#'                             segment_id_col = "cell_id",
+#'                             x_col = "vertex_x",
+#'                             y_col = "vertex_y",
+#'                             keep_cols = "essential",
+#'                             boundaries_assay = "nucleus",
+#'                             scale_factor_vector = 1)
+#' nuclei_ls
 #' @export
 readBoundaries <- function(data_dir,
                             pattern = NULL,
