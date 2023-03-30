@@ -26,6 +26,8 @@
 #' the scale of the x and y locations (e.g., to change from pixel to micron).
 #' The default value is 1.
 #'
+#' @return A MoleculeExperiment list.
+#'
 #' @examples
 #' molecules_df <- data.frame(
 #'     sample_id = rep(c("sample1", "sample2"), times = c(30, 20)),
@@ -41,7 +43,7 @@
 #'                                   factor_col = "features",
 #'                                   x_col = "x_coords",
 #'                                   y_col = "y_coords")
-#' 
+#'
 #' molecules_ls
 #' @export
 
