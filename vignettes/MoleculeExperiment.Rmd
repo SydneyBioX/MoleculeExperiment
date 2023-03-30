@@ -56,20 +56,69 @@ comparison of different data sources.
 
 # Minimal example
 
-Here we demonstrate how to work with an ME object from toy data, representing a 
-scenario where both the detected transcripts information and the boundary 
-information have already been read into R. 
-
 1) Load required libraries.
 
 ```{r}
-#TODO check how to include installation info here
 library(MoleculeExperiment)
-
 library(ggplot2)
 ```
 
-2) Generate a toy transcripts data.frame.
+2) Create MoleculeExperiment object with example Xenium data.
+
+```{r}
+# TODO once vignette is finished, decide on the second repo_dir
+repo_dir <- "./inst/extdata"
+repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+
+me <- readXenium(repo_dir,
+                  n_samples = 2,
+                  keep_cols = "essential")
+me
+
+```
+
+3) Use standardised data in ME object for molecule-level analyses. For example,
+plot a simple digital in-situ.
+
+```{r}
+ggplot(molecules(me, flatten = TRUE), aes(x = x_location, y = y_location)) +
+  geom_point() +
+  geom_polygon(aes(group = segment_id),
+                    fill = NA,
+                    colour = "black",
+                    data = boundaries(me,
+                                      assay_name = "cell",
+                                      flatten = TRUE)) +
+  facet_wrap(~sample_id) +
+  coord_fixed()
+```
+
+4) Finally, it is also possible to go from a MoleculeExperiment object to a
+SpatialExperiment object. This enables the transition from a molecule-level
+analysis to a cell-level analysis with already existing tools.
+
+```{r}
+# transform ME to SPE object
+spe <- countMolecules(me)
+spe
+```
+
+# The ME object in detail
+
+## Constructing an ME object
+
+### Use case 1: from dataframes to ME object 
+
+Here we demonstrate how to work with an ME object from toy data, representing a 
+scenario where both the detected transcripts information and the boundary 
+information have already been read into R. This requires the standardisation
+of the data with the dataframeToMEList() function.
+
+The flexibility of the arguments in dataframeToMEList() enable the creation of
+a standard ME object across dataframes comming from different vendors of
+molecule-based spatial transcriptomics technologies. 
+
+1) Generate a toy transcripts data.frame.
 
 ```{r}
 molecules_df <- data.frame(
@@ -81,7 +130,7 @@ molecules_df <- data.frame(
 utils::head(molecules_df)
 ```
 
-3) Generate a toy boundaries data.frame.
+2) Generate a toy boundaries data.frame.
 
 ```{r}
 boundaries_df <- data.frame(
@@ -97,72 +146,7 @@ boundaries_df <- data.frame(
 utils::head(boundaries_df)
 ```
 
-4) Create an ME object (i.e., object of the MoleculeExperiment class), by first
-converting the dataframes to the ME list format, and then using the 
-MoleculeExperiment object constructor.
-
-```{r}
-molecules_ls <- dataframeToMEList(molecules_df,
-                                  df_type = "transcripts",
-                                  assay_name = "detected",
-                                  sample_col = "sample_id",
-                                  factor_col = "features",
-                                  x_col = "x_coords",
-                                  y_col = "y_coords"
-                                  )
-
-boundaries_ls <- dataframeToMEList(boundaries_df,
-                                   df_type = "boundaries",
-                                   assay_name = "cell",
-                                   sample_col = "sample_id",
-                                   factor_col = "cell_id",
-                                   x_col = "vertex_x",
-                                   y_col = "vertex_y")
-
-toy_me <- MoleculeExperiment(molecules = molecules_ls,
-                          boundaries = boundaries_ls)
-
-toy_me
-```
-
-5) Use standardised data in ME object for molecule-level analyses. For example,
-plot a simple digital in-situ.
-
-```{r}
-ggplot(molecules(toy_me, flatten = TRUE), aes(x = x_location, y = y_location)) +
-  geom_point() +
-  geom_polygon(aes(group = segment_id),
-                    fill = NA,
-                    colour = "black",
-                    data = boundaries(toy_me,
-                                      assay_name = "cell",
-                                      flatten = TRUE)) +
-  facet_wrap(~sample_id) +
-  coord_fixed()
-```
-
-6) Finally, it is also possible to go from a MoleculeExperiment object to a
-SpatialExperiment object. This enables the transition from a molecule-level
-analysis to a cell-level analysis with already existing tools.
-
-```{r}
-# transform ME to SPE object
-toy_spe <- countMolecules(me = toy_me)
-toy_spe
-```
-
-# The ME object in detail
-
-## Constructing an ME object
-
-### Use case 1: from dataframes to ME object 
-As shown in the minimal example above, it is possible to create an ME object
-from data that has already been read into R. This requires the standardisation
-of the data with the dataframeToMEList() function.
-
-The flexibility of the arguments in dataframeToMEList() enable the creation of
-a standard ME object across dataframes comming from different vendors of
-molecule-based spatial transcriptomics technologies. 
+3) Standardise transcripts dataframe to ME list format.
 
 ```{r}
 molecules_ls <- dataframeToMEList(molecules_df,
@@ -175,6 +159,8 @@ molecules_ls <- dataframeToMEList(molecules_df,
 str(molecules_ls, max.level = 3)
 ```
 
+4) Standardise boundaries dataframe to ME list format.
+
 ```{r}
 boundaries_ls <- dataframeToMEList(boundaries_df,
                                    df_type = "boundaries",
@@ -186,8 +172,7 @@ boundaries_ls <- dataframeToMEList(boundaries_df,
 str(boundaries_ls, 3)
 ```
 
-Now that the transcript and boundary information is in a standardised ME list
-format, it can be used as input to generate an ME object.
+5) Create an ME object by using the MoleculeExperiment object constructor.
 
 ```{r}
 toy_me <- MoleculeExperiment(molecules = molecules_ls,
@@ -201,7 +186,7 @@ the directories containing output files of commonly used technologies. This is
 especially useful to work with data from multiple samples.
 
 ```{r}
-# TODO fix path error below
+# TODO once vignette is finished, decide on the second repo_dir
 repo_dir <- "./inst/extdata"
 repo_dir <- system.file("extdata", package = "MoleculeExperiment")
 
@@ -212,17 +197,14 @@ me <- readXenium(repo_dir,
 me
 ```
 
-readXenium does various things under the hood. It standardises the transcript
-and boundary information such that the column names are consistent across
-technologies when handling ME objects. Moreover, it scales the boundary
-coordinates such that the x and y locations are on the same scale as in the
-transcript information. This is important, as Xenium's transcript.csv files
-have x and y locations as microns, whereas Xenium's segmentation files
-have their locations as pixels. Lastly, readXenium enables the user to decide
-if they want to keep all data that is vendor-specific (e.g., column with qv
-score), some columns of interest, or only the essential columns. The latter
-refers to feature names and locations of the detected transcripts, and
-segment ids and boundary locations of the segmentation results.
+readXenium() standardises the transcript and boundary information such that the
+column names are consistent across technologies when handling ME objects.
+
+In addition, readXenium() enables the user to decide if they want to keep all
+data that is vendor-specific (e.g., column with qv score), some columns of
+interest, or only the essential columns. The latter refers to feature names and
+locations of the detected transcripts, and segment ids and boundary locations of
+the segmentation results.
 
 ## ME object structure
 A MoleculeExperiment object contains a @molecules slot and a @boundaries slot.
@@ -281,8 +263,8 @@ molecules(me)
 boundaries(me, "cell")
 ```
 
-These getters have arguments that enable the transformation of the data from a
-nested ME list format to a data.frame format.
+For ease of use, these getters have arguments that enable the transformation of
+the data from a nested ME list format to a data.frame format.
 
 ```{r}
 molecules(me, assay_name = "detected", flatten = TRUE)
@@ -295,7 +277,8 @@ boundaries(me, assay_name = "cell", flatten = TRUE)
 Other getters include: features() and segmentIDs().
 
 ```{r}
-features(me)
+# get initial features in sample 1
+head(features(me)[[1]])
 ```
 
 ```{r}
@@ -334,16 +317,9 @@ object to a SpatialExperiment object. With this functionality, it is possible to
 use already existing methods for cell-level data analysis.
 
 ```{r}
-spe <- countMolecules(me = me)
+spe <- countMolecules(me)
 spe
 ```
-
-
-# Future developments
-# TODO maybe ignore this section?
-#The MoleculeExperiment package introduces the MoleculeExperiment class. In the
-#future, a new package called SpatialUtils will introduce functional programming
-#capabilities to do molecule-level analyses with the MoleculeExperiment object.
 
 ```{r}
 sessionInfo()

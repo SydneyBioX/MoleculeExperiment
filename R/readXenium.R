@@ -2,9 +2,7 @@
 #' 
 #' Function to read in, and standardise, Xenium output into an ME object.
 #' Detected transcript files are required. Additionally, it is also possible
-#' to read in boundary files ("cell", "nuclei", or both). When boundaries are
-#' read in, the function also reads in the scale factor information from the
-#' experiment.xenium json files for each sample. This function is essentially
+#' to read in boundary files ("cell", "nuclei", or both). This function is
 #' a wrapper around readMolecules and readBoundaries functions.
 #'
 #' @param data_dir Inherit docs from readMolecules HERE
@@ -31,6 +29,32 @@ readXenium <- function(data_dir,
                         y_col = "y_location",
                         keep_cols = keep_cols)
 
+    # add boundary information
+    if (!is.null(add_boundaries)) {
+        boundaries_assay <- add_boundaries
+        for(a in boundaries_assay) {
+            bds_ls <- readBoundaries(data_dir = data_dir,
+                                    pattern = paste0(a, "_boundaries.csv"),
+                                    n_samples = n_samples,
+                                    segment_id_col = "cell_id",
+                                    x_col = "vertex_x",
+                                    y_col = "vertex_y",
+                                    keep_cols = keep_cols,
+                                    boundaries_assay = a,
+                                    # boundary info and transcript info in
+                                    # xenium are both in microns
+                                    scale_factor_vector = 1)
+
+            # add standardised boundaries list to the @boundaries slot
+            boundaries(me, a) <- bds_ls
+        }
+        # guide user
+        cat("Boundary information can be accessed with boundaries(me)\n")
+
+    }
+
+###############################################################################
+    # TODO future dev: use pixel size info for working with images
     # for each sample, find experiment.xenium JSON file
     f_paths <- vector("list", n_samples)
     fs <- list.files(data_dir,
@@ -50,31 +74,7 @@ readXenium <- function(data_dir,
 
     # assign corresponding sample names to the scale factors
     names(scale_factors) <- .get_sample_id(n_samples, f_paths)
-
-    # TODO add checks so that user is guided to include a directory with
-    # exactly the n_samples
-
-    # add boundary information
-    if (!is.null(add_boundaries)) {
-        boundaries_assay <- add_boundaries
-        for(a in boundaries_assay) {
-            bds_ls <- readBoundaries(data_dir = data_dir,
-                                    pattern = paste0(a, "_boundaries.csv"),
-                                    n_samples = n_samples,
-                                    segment_id_col = "cell_id",
-                                    x_col = "vertex_x",
-                                    y_col = "vertex_y",
-                                    keep_cols = keep_cols,
-                                    boundaries_assay = a,
-                                    scale_factor_vector = scale_factors)
-
-            # add standardised boundaries list to the @boundaries slot
-            boundaries(me, a) <- bds_ls
-        }
-        # guide user
-        cat("Boundary information can be accessed with boundaries(me)\n")
-
-    }
+###############################################################################
 
     return(me)
 }

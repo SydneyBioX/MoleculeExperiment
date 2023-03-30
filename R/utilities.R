@@ -82,10 +82,11 @@ arguments of this function.")
 }
 
 # -----------------------------------------------------------------------------
-# scale location column data to unit microns
+# scale location data from pixels to microns
+# scale_factor is the micron size of one pixel
 .scale_locations <- function(df, scale_factor) {
-    df[["x_location"]] <- df[["x_location"]] / scale_factor
-    df[["y_location"]] <- df[["y_location"]] / scale_factor
+    df[["x_location"]] <- df[["x_location"]] * scale_factor
+    df[["y_location"]] <- df[["y_location"]] * scale_factor
     return(df)
 }
 

@@ -38,6 +38,8 @@ str(me_xenium@molecules, max.level = 1)
 lobstr::obj_size(me_xenium@molecules) # 2.89 GB
 
 # TODO save this as an RDS object
+saveRDS(me_xenium,
+        file = "/dski/nobackup/bpeters/cellCommData_2023/me_xenium.rds")
 
 # what if all feature data is retained?
 me_xenium_entire <- readMolecules(data_dir,

@@ -25,6 +25,7 @@ target_dir_2 <- "/dski/nobackup/bpeters/SpatialUtils/inst/extdata/Xenium_V1_FF_M
 
 # select transcripts
 transcripts_1 <- data.table::fread(paste0(sample_1_raw, "/transcripts.csv.gz"))
+
 mod_transcripts_1 <- transcripts_1 %>% filter(x_location > x_min &
                                               x_location < x_max &
                                               y_location > y_min &
@@ -40,10 +41,14 @@ utils::write.csv(mod_transcripts_1,
 # select matching cell boundaries
 cell_boundaries_1 <- data.table::fread(paste0(sample_1_raw,
                                             "/cell_boundaries.csv.gz"))
-mod_cell_boundaries_1 <- cell_boundaries_1 %>% filter(vertex_x > x_min &
+
+cells_1 <- cell_boundaries_1 %>% filter(vertex_x > x_min &
                                             vertex_x < x_max &
                                             vertex_y > y_min &
-                                            vertex_y < y_max)
+                                            vertex_y < y_max) %>%
+                                 select(cell_id) %>% pull()
+
+mod_cell_boundaries_1 <- cell_boundaries_1 %>% filter(cell_id %in% cells_1)
 
 # save to csv
 utils::write.csv(mod_cell_boundaries_1,
@@ -54,10 +59,14 @@ utils::write.csv(mod_cell_boundaries_1,
 # select nucleus boundaries
 nuc_boundaries_1 <- data.table::fread(paste0(sample_1_raw,
                                             "/nucleus_boundaries.csv.gz"))
-mod_nuc_boundaries_1 <- nuc_boundaries_1 %>% filter(vertex_x > x_min &
+
+nuc_1 <- nuc_boundaries_1 %>% filter(vertex_x > x_min &
                                             vertex_x < x_max &
                                             vertex_y > y_min &
-                                            vertex_y < y_max)
+                                            vertex_y < y_max) %>%
+                                            select(cell_id) %>% pull()
+
+mod_nuc_boundaries_1 <- nuc_boundaries_1 %>% filter(cell_id %in% nuc_1)
 
 # save to csv
 utils::write.csv(mod_nuc_boundaries_1,
@@ -83,10 +92,14 @@ utils::write.csv(mod_transcripts_2,
 cell_boundaries_2 <- data.table::fread(paste0(sample_2_raw,
                                                 "/cell_boundaries.csv.gz"))
 
-mod_cell_boundaries_2 <- cell_boundaries_2 %>% filter(vertex_x > x_min &
+
+cell_2 <- cell_boundaries_2 %>% filter(vertex_x > x_min &
                                                       vertex_x < x_max &
                                                       vertex_y > y_min &
-                                                      vertex_y < y_max)
+                                                      vertex_y < y_max) %>%
+                                                select(cell_id) %>% pull()
+
+mod_cell_boundaries_2 <- cell_boundaries_2 %>% filter(cell_id %in% cell_2)
 
 
 # save to csv
@@ -99,11 +112,14 @@ utils::write.csv(mod_cell_boundaries_2,
 nuc_boundaries_2 <- data.table::fread(paste0(sample_2_raw,
                                                 "/nucleus_boundaries.csv.gz"))
 
-mod_nuc_boundaries_2 <- nuc_boundaries_2 %>% filter(vertex_x > x_min &
+
+nuc_2 <- nuc_boundaries_2 %>% filter(vertex_x > x_min &
                                                      vertex_x < x_max &
                                                      vertex_y > y_min &
-                                                     vertex_y < y_max)
+                                                     vertex_y < y_max) %>%
+                                                    select(cell_id) %>% pull()
 
+mod_nuc_boundaries_2 <- nuc_boundaries_2 %>% filter(cell_id %in% nuc_2)
 
 # save to csv
 utils::write.csv(mod_nuc_boundaries_2,

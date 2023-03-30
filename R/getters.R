@@ -15,6 +15,10 @@ setMethod("molecules",
 retrieved. Other assay transcripts can be retrieved by specifying the assay_name
 argument.")
         }
+        if (! assay_name %in% names(object@molecules)){
+            stop("Assay name specified does not exist in molecules slot.
+Please specify another assay name in the assay_name argument.")
+        }
         if (flatten) {
             big_df <- .flatten_molecules(object, assay_name)
             return(big_df)
