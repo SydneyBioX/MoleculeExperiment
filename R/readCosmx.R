@@ -4,9 +4,13 @@
 #' can currently only create a simple ME object with the molecules slot filled.
 #' Boundary information is not handled yet.
 #'
-#' #TODO @param data_dir DESCRIPTION.
-#' #TODO @param n_samples DESCRIPTION. Defaults to NULL.
-#' #TODO @param keep_cols DESCRIPTION. Defaults to "essential".
+#' @param data_dir Character string specifying the directory with the Cosmx
+#' output files.
+#' @param n_samples Integer indicating the number of samples.
+#'   Defaults to NULL.
+#' @param keep_cols Character string specifying which columns to keep.
+#' Defaults to "essential". The other option is to select "all", or custom
+#' columns by specifying their names in a vector.
 #'
 #' @export
 readCosmx <- function(data_dir,
