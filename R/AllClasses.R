@@ -43,8 +43,8 @@ setClassUnion("list_OR_NULL", c("list", "NULL"))
 #'        cell_id = rep(c("cell1", "cell2", "cell3", "cell4",
 #'                        "cell1", "cell2"),
 #'                      times = c(4, 4, 4, 4, 3, 3)),
-#'        vertex_x = rnorm(10),
-#'        vertex_y = rnorm(10)
+#'        vertex_x = rnorm(22),
+#'        vertex_y = rnorm(22)
 #'    )
 #'    molecules_ls <- dataframeToMEList(molecules_df,
 #'                                      df_type = "transcripts",
@@ -65,9 +65,9 @@ setClassUnion("list_OR_NULL", c("list", "NULL"))
 #'    toy_me <- MoleculeExperiment(molecules = molecules_ls,
 #'                                 boundaries = boundaries_ls)
 #'
-#' @exportClass
+#'    toy_me
+#' @exportClass MoleculeExperiment
 NULL
-
 
 setClass("MoleculeExperiment",
          slots = c(molecules = "list",
