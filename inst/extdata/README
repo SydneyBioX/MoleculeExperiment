@@ -4,5 +4,7 @@ Data properties:
 - Downloaded from:
 https://www.10xgenomics.com/resources/datasets/fresh-frozen-mouse-brain-replicates-1-standard
 - Download date: 8th Feb 2023
-- Modifications: Raw csv.gz files were uncompressed, and only the first 100
-lines of each file were used here. 
+- Modifications: Raw csv.gz files were uncompressed and only the transcripts
+and boundaries from a patch of 20µm x 20µm were used:
+    - x_min <- 4900, x_max <- 4920
+    - y_min <- 6400, y_max <- 6420
