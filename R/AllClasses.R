@@ -9,7 +9,8 @@
 #' level, and standardises data across vendors, which hopefully facilitates
 #' ST data integration and comparison.
 #' @name MoleculeExperiment-class
-## TODO @aliases
+#' @aliases
+MoleculeExperiment
 
 #' @docType class
 #' @slot molecules Slot containing information about the detected transcripts.
