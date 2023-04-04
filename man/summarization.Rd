@@ -30,6 +30,9 @@ which to view a summary of the contents.}
 \item{per_sample}{Logical value specifying whether or not to summarize the
 information per sample.}
 }
+\value{
+A MoleculeExperiment object summary.
+}
 \description{
 The following methods are useful to get quick view of the contents in a
 MoleculeExperiment object.

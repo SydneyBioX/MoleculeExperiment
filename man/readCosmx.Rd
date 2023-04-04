@@ -16,6 +16,9 @@ output files.}
 Defaults to "essential". The other option is to select "all", or custom
 columns by specifying their names in a vector.}
 }
+\value{
+A MoleculeExperiment object
+}
 \description{
 This function is a wrapper around the readMolecules function. Note that it
 can currently only create a simple ME object with the molecules slot filled.

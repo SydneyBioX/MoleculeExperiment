@@ -38,6 +38,7 @@
 #' 
 #' nTranscripts(me)
 #' nTranscripts(me, per_sample = TRUE)
+#' @return A MoleculeExperiment object summary.
 NULL
 
 

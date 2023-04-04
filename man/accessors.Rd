@@ -40,6 +40,9 @@ a data.frame or not. Defaults to FALSE.}
 
 \item{value}{New value to be added to the slot and assay of interest.}
 }
+\value{
+A MoleculeExperiment object slot.
+}
 \description{
 Accessor functions to work with MoleculeExperiment objects
 }

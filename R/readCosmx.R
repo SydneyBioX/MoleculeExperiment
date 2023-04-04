@@ -15,6 +15,7 @@
 #' @param keep_cols Character string specifying which columns to keep.
 #' Defaults to "essential". The other option is to select "all", or custom
 #' columns by specifying their names in a vector.
+#' @return A MoleculeExperiment object
 readCosmx <- function(data_dir,
                       n_samples = NULL,
                       keep_cols = "essential") {

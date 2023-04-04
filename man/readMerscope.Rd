@@ -19,6 +19,9 @@ locations. "all" will select all columns. Alternatively, specific colums
 of interest can be selected by specifying them as characters in a vector.
 Note that this personalised vector needs to contain the essential columns.}
 }
+\value{
+A MoleculeExperiment object
+}
 \description{
 Reads in Merscope data (Vizgen) from a directory, and standardises it into
 a MoleculeExperiment object. It is essentially a wrapper around the function

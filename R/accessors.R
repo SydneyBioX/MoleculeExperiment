@@ -67,6 +67,7 @@
 #' # use `boundaries<-` setter to add nucleus boundaries to the boundaries slot
 #' boundaries(me, "nucleus") <- nuclei_ls
 #' me
+#' @return A MoleculeExperiment object slot.
 NULL
 
 #' @rdname accessors
