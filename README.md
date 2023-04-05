@@ -7,6 +7,14 @@ The goal of MoleculeExperiment is to provide functionality for the representatio
 
 ## Installation
 
+The latest release of MoleculeExperiment can be installed using:
+
+```r
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("MoleculeExperiment")
+```
+
 You can install the development version of MoleculeExperiment from [GitHub](https://github.com/) with:
 
 ``` r
