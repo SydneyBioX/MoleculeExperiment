@@ -57,6 +57,16 @@ molecules and segmentation boundaries.
 comparison of different data sources and common analytical and visualisation 
 workflows.
 
+## Installation
+
+The latest release of MoleculeExperiment can be installed using:
+
+```{r}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("MoleculeExperiment")
+```
+
 # Minimal example
 
 1) Load required libraries.
