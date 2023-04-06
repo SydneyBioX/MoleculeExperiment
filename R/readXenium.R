@@ -80,7 +80,7 @@ readXenium <- function(data_dir,
     f_paths <- replace(f_paths, values = fs)
 
     # for each sample, get "pixel_size" value
-    scale_factors <- sapply(f_paths, function(x) {
+    scale_factors <- lapply(f_paths, function(x) {
         info <- fromJSON(file = x)
         scale_factor <- info$pixel_size
         })
