@@ -62,7 +62,7 @@ readXenium <- function(data_dir,
             boundaries(me, a) <- bds_ls
         }
         # guide user
-        cat("Boundary information can be accessed with boundaries(me)\n")
+        # cat("Boundary information can be accessed with boundaries(me)\n")
 
     }
 
