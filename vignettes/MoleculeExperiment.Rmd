@@ -61,7 +61,7 @@ workflows.
 
 The latest release of MoleculeExperiment can be installed using:
 
-```{r}
+```{r, eval=FALSE}
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 BiocManager::install("MoleculeExperiment")
