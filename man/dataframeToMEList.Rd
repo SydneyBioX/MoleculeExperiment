@@ -6,8 +6,8 @@
 \usage{
 dataframeToMEList(
   df,
-  df_type = NULL,
-  assay_name = NULL,
+  dfType = NULL,
+  assayName = NULL,
   sample_col = "sample_id",
   factor_col,
   x_col = "x_location",
@@ -22,10 +22,10 @@ boundaries information. NOTE: this dataframe should, at a minimum, have the
 following 4 columns: sample_id, factor_col (e.g., feature_name in
 transcripts, or cell_id in boundaries), x_location and y_location.}
 
-\item{df_type}{Character string specifying contents of the dataframe. Can be
+\item{dfType}{Character string specifying contents of the dataframe. Can be
 either "transcripts" or "boundaries".}
 
-\item{assay_name}{Name with which to identify the information later on in an
+\item{assayName}{Name with which to identify the information later on in an
 ME object.}
 
 \item{sample_col}{Character string specifying the name of the column with the
@@ -67,8 +67,8 @@ molecules_df <- data.frame(
 )
 
 molecules_ls <- dataframeToMEList(molecules_df,
-                                  df_type = "transcripts",
-                                  assay_name = "detected",
+                                  dfType = "transcripts",
+                                  assayName = "detected",
                                   sample_col = "sample_id",
                                   factor_col = "features",
                                   x_col = "x_coords",

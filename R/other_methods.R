@@ -8,7 +8,7 @@
 #' respectively. They can do so across all samples, or per sample.
 #'
 #' @param object Name of MoleculeExperiment object of interest.
-#' @param assay_name Character string specifying the name of the assay from
+#' @param assayName Character string specifying the name of the assay from
 #' which to view a summary of the contents.
 #' @param per_sample Logical value specifying whether or not to summarize the
 #' information per sample.
@@ -91,7 +91,7 @@ setMethod("show",
             cat("\n@boundaries contents:\n")
             for (i in names(object@boundaries)) {
                 cat(paste0("-", i, ":\n"))
-                id_ls <- segmentIDs(object, assay_name = i)
+                id_ls <- segmentIDs(object, assayName = i)
                 n_comp <- mean(lengths(id_ls))
                 cat(paste0(n_comp, " unique segment IDs: ",
                     paste(utils::head(id_ls[[1]]), collapse = " "), " ...\n"))
@@ -145,21 +145,21 @@ setMethod("strBoundaries",
 #' @export
 setMethod("nFeatures",
     signature = signature(object = "MoleculeExperiment"),
-    definition = function(object, assay_name = "detected", per_sample = FALSE) {
+    definition = function(object, assayName = "detected", per_sample = FALSE) {
         if (per_sample) {
-            return(lengths(object@molecules[[assay_name]]))
+            return(lengths(object@molecules[[assayName]]))
         } else {
 
-            f_sample <- lapply(names(object@molecules[[assay_name]]),
+            f_sample <- lapply(names(object@molecules[[assayName]]),
                                 function(t) {
-                                    names(object@molecules[[assay_name]][[t]])})
+                                    names(object@molecules[[assayName]][[t]])})
 
             number <- length(unique(unlist(f_sample)))
 
             cat(paste0(number,
                         " unique features across all samples in assay \"",
-                        assay_name, "\": ",
-                        paste(utils::head(features(object, assay_name)[[1]]),
+                        assayName, "\": ",
+                        paste(utils::head(features(object, assayName)[[1]]),
                             collapse = " "),
                         " ...", "\n"))
 
@@ -173,16 +173,16 @@ setMethod("nFeatures",
 setMethod("nTranscripts",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object,
-                               assay_name = "detected",
+                               assayName = "detected",
                                per_sample = FALSE) {
 
         # get number of genes per sample
-        samples <- names(object@molecules[[assay_name]])
+        samples <- names(object@molecules[[assayName]])
 
         sample_numbers <- vector("integer", length(samples))
         names(sample_numbers) <- samples
         for (s in samples) {
-            features <- object@molecules[[assay_name]][[s]]
+            features <- object@molecules[[assayName]][[s]]
             numbers_ls <- lapply(names(features), function(x) {
                                 nrow(features[[x]])})
             total <- sum(unlist(numbers_ls))
@@ -194,7 +194,7 @@ setMethod("nTranscripts",
         } else {
             cat(paste0(
 mean(sample_numbers), " molecules on average across all samples in assay \"",
-assay_name, "\"\n"))
+assayName, "\"\n"))
         }
     }
 )

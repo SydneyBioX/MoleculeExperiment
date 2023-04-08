@@ -13,7 +13,7 @@
 #' slot can be accessed with `boundaries<-`.
 #'
 #' @param object The MoleculeExperiment to access.
-#' @param assay_name Character string specifying the name of the assay from
+#' @param assayName Character string specifying the name of the assay from
 #' which to retrieve or set information in the slot of interest.
 #' @param flatten Logical value specifying whether to flatten the ME list into
 #' a data.frame or not. Defaults to FALSE.
@@ -40,11 +40,11 @@
 #'
 #' # molecules() getter
 #' molecules(me)
-#' molecules(me, assay_name = "detected", flatten = TRUE)
+#' molecules(me, assayName = "detected", flatten = TRUE)
 #'
 #' # boundaries() getter
-#' boundaries(me, assay_name = "cell")
-#' boundaries(me, assay_name = "cell", flatten = TRUE)
+#' boundaries(me, assayName = "cell")
+#' boundaries(me, assayName = "cell", flatten = TRUE)
 #'
 #' # features() getter
 #' features(me)
@@ -61,7 +61,7 @@
 #'                             x_col = "vertex_x",
 #'                             y_col = "vertex_y",
 #'                             keep_cols = "essential",
-#'                             boundaries_assay = "nucleus",
+#'                             boundariesAssay = "nucleus",
 #'                             scale_factor_vector = 1)
 #'
 #' # use `boundaries<-` setter to add nucleus boundaries to the boundaries slot
@@ -75,22 +75,22 @@ NULL
 setMethod("molecules",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object,
-                          assay_name = "detected",
+                          assayName = "detected",
                           flatten = FALSE) {
-        if (assay_name == "detected") {
+        if (assayName == "detected") {
             message("The transcripts from the detected assay were
-retrieved. Other assay transcripts can be retrieved by specifying the assay_name
+retrieved. Other assay transcripts can be retrieved by specifying the assayName
 argument.")
         }
-        if (! assay_name %in% names(object@molecules)){
+        if (! assayName %in% names(object@molecules)){
             stop("Assay name specified does not exist in molecules slot.
-Please specify another assay name in the assay_name argument.")
+Please specify another assay name in the assayName argument.")
         }
         if (flatten) {
-            big_df <- .flatten_molecules(object, assay_name)
+            big_df <- .flatten_molecules(object, assay_name = assayName)
             return(big_df)
         } else {
-            object@molecules[assay_name]
+            object@molecules[assayName]
         }
     }
 )
@@ -99,12 +99,12 @@ Please specify another assay name in the assay_name argument.")
 #' @export
 setMethod("boundaries",
     signature = signature(object = "MoleculeExperiment"),
-    definition = function(object, assay_name = NULL, flatten = FALSE) {
-        if (is.null(assay_name)) {
+    definition = function(object, assayName = NULL, flatten = FALSE) {
+        if (is.null(assayName)) {
             warning(
                 "All boundaries assays were returned: ",
                 names(object@boundaries), ". To select only a specific",
-                "boundary subslot, specify the assay_name argument."
+                "boundary subslot, specify the assayName argument."
             )
 
             if (flatten) {
@@ -114,10 +114,10 @@ setMethod("boundaries",
             }
         } else {
             if (flatten) {
-                big_df <- .flatten_boundaries(object, assay_name)
+                big_df <- .flatten_boundaries(object, assay_name = assayName)
                 return(big_df)
             } else {
-                object@boundaries[assay_name]
+                object@boundaries[assayName]
             }
         }
     }
@@ -127,18 +127,18 @@ setMethod("boundaries",
 #' @export
 setMethod("features",
     signature = signature(object = "MoleculeExperiment"),
-    definition = function(object, assay_name = "detected") {
-        samples <- names(object@molecules[[assay_name]])
+    definition = function(object, assayName = "detected") {
+        samples <- names(object@molecules[[assayName]])
         f_list <- lapply(samples, function(s) {
-            names(object@molecules[[assay_name]][[s]])
+            names(object@molecules[[assayName]][[s]])
         })
         names(f_list) <- samples
 
         return(f_list)
 
-        message("Features collected: ", assay_name, " assay.
+        message("Features collected: ", assayName, " assay.
 To select features from a different assay, specify that assay in the
-assay_name argument to this function.")
+assayName argument to this function.")
     }
 )
 
@@ -146,14 +146,14 @@ assay_name argument to this function.")
 #' @export
 setMethod("segmentIDs",
     signature = signature(object = "MoleculeExperiment"),
-    definition = function(object, assay_name = NULL) {
-        if (is.null(assay_name)) {
+    definition = function(object, assayName = NULL) {
+        if (is.null(assayName)) {
             stop("Please specify the name of the assay from which to
 retrieve the unique IDs. For example, the \"cells\" assay for cell boundaries.")
         }
-        samples <- names(object@boundaries[[assay_name]])
+        samples <- names(object@boundaries[[assayName]])
         id_ls <- lapply(samples, function(x) {
-            names(object@boundaries[[assay_name]][[x]])
+            names(object@boundaries[[assayName]][[x]])
         })
         names(id_ls) <- samples
         return(id_ls)
@@ -164,13 +164,13 @@ retrieve the unique IDs. For example, the \"cells\" assay for cell boundaries.")
 #' @export
 setMethod("molecules<-",
             signature = signature(object = "MoleculeExperiment"),
-            definition = function(object, assay_name = NULL, value) {
-                if (is.null(assay_name)) {
-                    stop("No assay name specified in the assay_name argument.
+            definition = function(object, assayName = NULL, value) {
+                if (is.null(assayName)) {
+                    stop("No assay name specified in the assayName argument.
                     Please specify a title with which to identify this molecule
                     information later on.")
                 }
-                object@molecules[assay_name] <- value
+                object@molecules[assayName] <- value
                 methods::validObject(object)
                 return(object)
             }
@@ -180,13 +180,13 @@ setMethod("molecules<-",
 #' @export
 setMethod("boundaries<-",
             signature = signature(object = "MoleculeExperiment"),
-            definition = function(object, assay_name = NULL, value)  {
-                if (is.null(assay_name)) {
-                    stop("No assay name specified in the assay_name argument.
+            definition = function(object, assayName = NULL, value)  {
+                if (is.null(assayName)) {
+                    stop("No assay name specified in the assayName argument.
                     Please specify a title with which to identify this boundary
                     information later on.")
                 }
-                object@boundaries[assay_name] <- value
+                object@boundaries[assayName] <- value
                 methods::validObject(object)
                 return(object)
             }

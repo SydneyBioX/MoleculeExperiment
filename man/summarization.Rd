@@ -17,14 +17,14 @@
 
 \S4method{strBoundaries}{MoleculeExperiment}(object)
 
-\S4method{nFeatures}{MoleculeExperiment}(object, assay_name = "detected", per_sample = FALSE)
+\S4method{nFeatures}{MoleculeExperiment}(object, assayName = "detected", per_sample = FALSE)
 
-\S4method{nTranscripts}{MoleculeExperiment}(object, assay_name = "detected", per_sample = FALSE)
+\S4method{nTranscripts}{MoleculeExperiment}(object, assayName = "detected", per_sample = FALSE)
 }
 \arguments{
 \item{object}{Name of MoleculeExperiment object of interest.}
 
-\item{assay_name}{Character string specifying the name of the assay from
+\item{assayName}{Character string specifying the name of the assay from
 which to view a summary of the contents.}
 
 \item{per_sample}{Logical value specifying whether or not to summarize the

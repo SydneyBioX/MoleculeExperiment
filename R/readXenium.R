@@ -44,8 +44,8 @@ readXenium <- function(data_dir,
 
     # add boundary information
     if (!is.null(add_boundaries)) {
-        boundaries_assay <- add_boundaries
-        for(a in boundaries_assay) {
+        boundariesAssay <- add_boundaries
+        for(a in boundariesAssay) {
             bds_ls <- readBoundaries(data_dir = data_dir,
                                     pattern = paste0(a, "_boundaries.csv"),
                                     n_samples = n_samples,
@@ -53,7 +53,7 @@ readXenium <- function(data_dir,
                                     x_col = "vertex_x",
                                     y_col = "vertex_y",
                                     keep_cols = keep_cols,
-                                    boundaries_assay = a,
+                                    boundariesAssay = a,
                                     # boundary info and transcript info in
                                     # xenium are both in microns
                                     scale_factor_vector = 1)

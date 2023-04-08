@@ -12,7 +12,7 @@ readBoundaries(
   x_col = NULL,
   y_col = NULL,
   keep_cols = "essential",
-  boundaries_assay = NULL,
+  boundariesAssay = NULL,
   scale_factor_vector = 1
 )
 }
@@ -38,7 +38,7 @@ the y coordinates of the vertices defining the boundaries. Defaults to NULL.}
 Defaults to "essential". The other option is to select "all", or custom
 columns by specifying their names in a vector.}
 
-\item{boundaries_assay}{Character string specifying the name with which to
+\item{boundariesAssay}{Character string specifying the name with which to
 identify the boundary data in the ME object later on. Defaults to NULL.}
 
 \item{scale_factor_vector}{Vector containing the scale factor/s with which to
@@ -68,7 +68,7 @@ nuclei_ls <- readBoundaries(data_dir = repo_dir,
                             x_col = "vertex_x",
                             y_col = "vertex_y",
                             keep_cols = "essential",
-                            boundaries_assay = "nucleus",
+                            boundariesAssay = "nucleus",
                             scale_factor_vector = 1)
 nuclei_ls
 }

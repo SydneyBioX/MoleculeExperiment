@@ -22,7 +22,7 @@
 #' @param keep_cols Character string specifying which columns to keep.
 #' Defaults to "essential". The other option is to select "all", or custom
 #' columns by specifying their names in a vector.
-#' @param boundaries_assay Character string specifying the name with which to
+#' @param boundariesAssay Character string specifying the name with which to
 #' identify the boundary data in the ME object later on. Defaults to NULL.
 #' @param scale_factor_vector Vector containing the scale factor/s with which to
 #' change the coordinate data from pixel to micron. It can be either a single
@@ -40,7 +40,7 @@
 #'                             x_col = "vertex_x",
 #'                             y_col = "vertex_y",
 #'                             keep_cols = "essential",
-#'                             boundaries_assay = "nucleus",
+#'                             boundariesAssay = "nucleus",
 #'                             scale_factor_vector = 1)
 #' nuclei_ls
 readBoundaries <- function(data_dir,
@@ -50,7 +50,7 @@ readBoundaries <- function(data_dir,
                             x_col = NULL,
                             y_col = NULL,
                             keep_cols = "essential",
-                            boundaries_assay = NULL,
+                            boundariesAssay = NULL,
                             scale_factor_vector = 1
                             ) {
     if (is.null(pattern)) {
@@ -59,7 +59,7 @@ readBoundaries <- function(data_dir,
         cell_boundaries.csv.")
     } else if (is.null(n_samples)) {
         stop("Please specify the number of samples being considered.")
-    } else if (is.null(boundaries_assay)) {
+    } else if (is.null(boundariesAssay)) {
         stop("Please specify the name of the list in which to store
         boundary information in the boundaries slot. For example, cells
         if importing cell boundaries, or nucleus if importing nucleus
@@ -127,6 +127,6 @@ readBoundaries <- function(data_dir,
 
     # add list header to specify location in boundaries slot
     bds_ls <- list(bds_ls)
-    names(bds_ls) <- get(quote(boundaries_assay))
+    names(bds_ls) <- get(quote(boundariesAssay))
     return(bds_ls)
 }

@@ -23,7 +23,7 @@
 #' locations. "all" will select all columns. Alternatively, specific colums
 #' of interest can be selected by specifying them as characters in a vector.
 #' Note that this personalised vector needs to contain the essential columns.
-#' @param molecules_assay Character string specifying the name of the list in
+#' @param moleculesAssay Character string specifying the name of the list in
 #' which the transcript information is going to be stored in the molecules slot.
 #' The default name is "detected", as we envision that a MoleculeExperiment will
 #' usually be created with raw detected transcript information.
@@ -49,7 +49,7 @@ readMolecules <- function(data_dir,
                           x_col = NULL,
                           y_col = NULL,
                           keep_cols = "essential",
-                          molecules_assay = NULL
+                          moleculesAssay = NULL
                           )
 {
 
@@ -106,10 +106,10 @@ readMolecules <- function(data_dir,
     # add list header to specify location in molecules slot
     # default is detected
     mol_n <- list(mol_n)
-    if (is.null(molecules_assay)) {
+    if (is.null(moleculesAssay)) {
         names(mol_n) <- "detected"
     } else {
-        names(mol_n) <- molecules_assay
+        names(mol_n) <- moleculesAssay
     }
 
     # CONSTRUCT SIMPLE ME OBJECT

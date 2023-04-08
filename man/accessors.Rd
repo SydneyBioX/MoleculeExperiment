@@ -17,22 +17,22 @@
 \alias{boundaries<-,MoleculeExperiment-method}
 \title{Accessor functions to work with MoleculeExperiment objects}
 \usage{
-\S4method{molecules}{MoleculeExperiment}(object, assay_name = "detected", flatten = FALSE)
+\S4method{molecules}{MoleculeExperiment}(object, assayName = "detected", flatten = FALSE)
 
-\S4method{boundaries}{MoleculeExperiment}(object, assay_name = NULL, flatten = FALSE)
+\S4method{boundaries}{MoleculeExperiment}(object, assayName = NULL, flatten = FALSE)
 
-\S4method{features}{MoleculeExperiment}(object, assay_name = "detected")
+\S4method{features}{MoleculeExperiment}(object, assayName = "detected")
 
-\S4method{segmentIDs}{MoleculeExperiment}(object, assay_name = NULL)
+\S4method{segmentIDs}{MoleculeExperiment}(object, assayName = NULL)
 
-\S4method{molecules}{MoleculeExperiment}(object, assay_name = NULL) <- value
+\S4method{molecules}{MoleculeExperiment}(object, assayName = NULL) <- value
 
-\S4method{boundaries}{MoleculeExperiment}(object, assay_name = NULL) <- value
+\S4method{boundaries}{MoleculeExperiment}(object, assayName = NULL) <- value
 }
 \arguments{
 \item{object}{The MoleculeExperiment to access.}
 
-\item{assay_name}{Character string specifying the name of the assay from
+\item{assayName}{Character string specifying the name of the assay from
 which to retrieve or set information in the slot of interest.}
 
 \item{flatten}{Logical value specifying whether to flatten the ME list into
@@ -74,11 +74,11 @@ me <- readXenium(repo_dir,
 
 # molecules() getter
 molecules(me)
-molecules(me, assay_name = "detected", flatten = TRUE)
+molecules(me, assayName = "detected", flatten = TRUE)
 
 # boundaries() getter
-boundaries(me, assay_name = "cell")
-boundaries(me, assay_name = "cell", flatten = TRUE)
+boundaries(me, assayName = "cell")
+boundaries(me, assayName = "cell", flatten = TRUE)
 
 # features() getter
 features(me)
@@ -95,7 +95,7 @@ nuclei_ls <- readBoundaries(data_dir = repo_dir,
                             x_col = "vertex_x",
                             y_col = "vertex_y",
                             keep_cols = "essential",
-                            boundaries_assay = "nucleus",
+                            boundariesAssay = "nucleus",
                             scale_factor_vector = 1)
 
 # use `boundaries<-` setter to add nucleus boundaries to the boundaries slot

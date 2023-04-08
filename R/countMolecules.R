@@ -9,14 +9,14 @@
 #' @param me MoleculeExperiment object containing both the transcript data as
 #' well as the boundaries data. I.e., the "molecules" and "boundaries" slots
 #' need to be filled. See MoleculeExperiment() for more information.
-#' @param boundaries_assay Character string naming the list of the boundaries
+#' @param boundariesAssay Character string naming the list of the boundaries
 #' slot from which boundary information should be retrieved from.
 #' For example, for counting transcripts per cell, the list containing the cell
 #' boundaries (e.g., "cell") should be selected.
-#' @param segmentation_info Character string specifying the type of segmentation
+#' @param segmentationInfo Character string specifying the type of segmentation
 #' information available. Can be either "boundaries" or "masks". Currently,
 #' only the "boundaries" information is supported.
-#' @param molecules_assay Character string naming the list of the molecules slot
+#' @param moleculesAssay Character string naming the list of the molecules slot
 #' from which transcript information should be retrieved from.
 #' The default is the detected transcript data that is read in when creating a
 #' MoleculeExperiment object. It is possible to change it to another mode, e.g.,
@@ -35,26 +35,28 @@
 #' spe <- countMolecules(me)
 #' spe
 countMolecules <- function(me,
-                           boundaries_assay = "cell",
-                           segmentation_info = "boundaries",
-                           molecules_assay = "detected") {
-    if (boundaries_assay == "cell") {
+                           boundariesAssay = "cell",
+                           segmentationInfo = "boundaries",
+                           moleculesAssay = "detected") {
+    if (boundariesAssay == "cell") {
         message("The boundaries were retrieved from the \"cell\" assay. A
-different assay (e.g., \"nucleus\") can be specified in the boundaries_assay
+different assay (e.g., \"nucleus\") can be specified in the boundariesAssay
 argument)")
     }
     # Function should be flexible to different segmentation information
     # priority for boundaries as 10x and vizgen have this info, but not masks
-    if (segmentation_info == "boundaries") {
-        spe <- .countMoleculesBoundaries(me, molecules_assay, boundaries_assay)
+    if (segmentationInfo == "boundaries") {
+        spe <- .count_molecules_boundaries(me,
+                                        molecules_assay = moleculesAssay,
+                                        boundaries_assay = boundariesAssay)
     }
-    # if (is(segmentation_info, "masks")) {
-    #    return(.countMoleculesMasks(me, segmentation))
+    # if (is(segmentationInfo, "masks")) {
+    #    return(.count_molecules_masks(me, segmentation))
     # }
     return(spe)
 }
 
-.countMoleculesBoundaries <- function(me,
+.count_molecules_boundaries <- function(me,
                                       molecules_assay = NULL,
                                       boundaries_assay = NULL) {
     # check matching of sample ids
@@ -151,7 +153,7 @@ argument)")
     )
     return(spe)
 }
-# .countMoleculesMasks(){
+# .count_molecules_masks(){
 #    # should recognise an array
 # }
 #

@@ -58,16 +58,16 @@ boundaries_df <- data.frame(
     vertex_y = rnorm(22)
 )
 molecules_ls <- dataframeToMEList(molecules_df,
-                                  df_type = "transcripts",
-                                  assay_name = "detected",
+                                  dfType = "transcripts",
+                                  assayName = "detected",
                                   sample_col = "sample_id",
                                   factor_col = "features",
                                   x_col = "x_coords",
                                   y_col = "y_coords")
 
 boundaries_ls <- dataframeToMEList(boundaries_df,
-                                   df_type = "boundaries",
-                                   assay_name = "cell",
+                                   dfType = "boundaries",
+                                   assayName = "cell",
                                    sample_col = "sample_id",
                                    factor_col = "cell_id",
                                    x_col = "vertex_x",

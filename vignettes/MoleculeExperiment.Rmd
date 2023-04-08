@@ -98,7 +98,7 @@ ggplot(molecules(me, flatten = TRUE), aes(x = x_location, y = y_location)) +
                     fill = NA,
                     colour = "black",
                     data = boundaries(me,
-                                      assay_name = "cell",
+                                      assayName = "cell",
                                       flatten = TRUE)) +
   facet_wrap(~sample_id) +
   coord_fixed()
@@ -167,8 +167,8 @@ utils::head(boundaries_df)
 
 ```{r}
 molecules_ls <- dataframeToMEList(molecules_df,
-                                  df_type = "transcripts",
-                                  assay_name = "detected",
+                                  dfType = "transcripts",
+                                  assayName = "detected",
                                   sample_col = "sample_id",
                                   factor_col = "features",
                                   x_col = "x_coords",
@@ -180,8 +180,8 @@ str(molecules_ls, max.level = 3)
 
 ```{r}
 boundaries_ls <- dataframeToMEList(boundaries_df,
-                                   df_type = "boundaries",
-                                   assay_name = "cell",
+                                   dfType = "boundaries",
+                                   assayName = "cell",
                                    sample_col = "sample_id",
                                    factor_col = "cell_id",
                                    x_col = "vertex_x",
@@ -282,11 +282,11 @@ For ease of use, these getters have arguments that enable the transformation of
 the data from a nested ME list format to a data.frame format.
 
 ```{r}
-molecules(me, assay_name = "detected", flatten = TRUE)
+molecules(me, assayName = "detected", flatten = TRUE)
 ```
 
 ```{r}
-boundaries(me, assay_name = "cell", flatten = TRUE)
+boundaries(me, assayName = "cell", flatten = TRUE)
 ```
 
 Other getters include: features() and segmentIDs().
@@ -313,7 +313,7 @@ nuclei_ls <- readBoundaries(data_dir = repo_dir,
                             x_col = "vertex_x",
                             y_col = "vertex_y",
                             keep_cols = "essential",
-                            boundaries_assay = "nucleus",
+                            boundariesAssay = "nucleus",
                             scale_factor_vector = 1)
 
 boundaries(me, "nucleus") <- nuclei_ls
@@ -329,13 +329,13 @@ ggplot(molecules(me, flatten = TRUE), aes(x = x_location, y = y_location)) +
                     fill = NA,
                     colour = "black",
                     data = boundaries(me,
-                                      assay_name = "cell",
+                                      assayName = "cell",
                                       flatten = TRUE)) +
   geom_polygon(aes(group = segment_id),
                     fill = NA,
                     colour = "red",
                     data = boundaries(me,
-                                      assay_name = "nucleus",
+                                      assayName = "nucleus",
                                       flatten = TRUE)) +
   facet_wrap(~sample_id) +
   coord_fixed()
@@ -349,7 +349,7 @@ object to a SpatialExperiment object. With this functionality, it is possible to
 use already existing methods for cell-level data analysis.
 
 ```{r}
-spe <- countMolecules(me, boundaries_assay = "nucleus")
+spe <- countMolecules(me, boundariesAssay = "nucleus")
 spe
 ```
 

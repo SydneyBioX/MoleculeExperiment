@@ -6,9 +6,9 @@
 #' boundaries information. NOTE: this dataframe should, at a minimum, have the
 #' following 4 columns: sample_id, factor_col (e.g., feature_name in
 #' transcripts, or cell_id in boundaries), x_location and y_location.
-#' @param df_type Character string specifying contents of the dataframe. Can be
+#' @param dfType Character string specifying contents of the dataframe. Can be
 #' either "transcripts" or "boundaries".
-#' @param assay_name Name with which to identify the information later on in an
+#' @param assayName Name with which to identify the information later on in an
 #' ME object.
 #' @param sample_col Character string specifying the name of the column with the
 #' sample id.
@@ -39,8 +39,8 @@
 #' )
 #'
 #' molecules_ls <- dataframeToMEList(molecules_df,
-#'                                   df_type = "transcripts",
-#'                                   assay_name = "detected",
+#'                                   dfType = "transcripts",
+#'                                   assayName = "detected",
 #'                                   sample_col = "sample_id",
 #'                                   factor_col = "features",
 #'                                   x_col = "x_coords",
@@ -50,8 +50,8 @@
 #' @export
 
 dataframeToMEList <- function(df,
-                                df_type = NULL,
-                                assay_name = NULL,
+                                dfType = NULL,
+                                assayName = NULL,
                                 sample_col = "sample_id",
                                 factor_col,
                                 x_col = "x_location",
@@ -59,11 +59,11 @@ dataframeToMEList <- function(df,
                                 keep_cols = "essential",
                                 scale_factor = 1
                                 ) {
-    if (is.null(assay_name)) {
-        stop("Please specify an assay name with the assay_name argument.")
+    if (is.null(assayName)) {
+        stop("Please specify an assay name with the assayName argument.")
     }
-    if (is.null(df_type)) {
-        stop("Please specify the df_type argument as i) \"transcripts\" or
+    if (is.null(dfType)) {
+        stop("Please specify the dfType argument as i) \"transcripts\" or
 ii) \"boundaries\".")
     }
     # standardise sample col name
@@ -75,7 +75,7 @@ ii) \"boundaries\".")
     # add sample col to essential cols
     essential_cols <- c("sample_id", essential_cols)
 
-    standard_cols <- .get_standard_cols(df_type)
+    standard_cols <- .get_standard_cols(dfType)
     # add sample col to standard cols
     standard_cols <- c("sample_id", standard_cols)
 
@@ -89,16 +89,16 @@ ii) \"boundaries\".")
     # for each sample, standardise data
     sample_level <- .standardise_to_list(df, cols, "sample_id")
 
-    if (df_type == "transcripts") {
+    if (dfType == "transcripts") {
         ls <- lapply(sample_level, .standardise_to_list,
                             cols = setdiff(cols, sample_col), "feature_name")
-    } else if (df_type == "boundaries") {
+    } else if (dfType == "boundaries") {
         ls <- lapply(sample_level, .standardise_to_list,
                             cols = setdiff(cols, sample_col), "segment_id")
     }
 
     # specify assay name for compatibility with ME methods
     ls <- list(ls)
-    names(ls) <- assay_name
+    names(ls) <- assayName
     return(ls)
 }

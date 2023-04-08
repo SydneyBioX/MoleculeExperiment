@@ -6,9 +6,9 @@
 \usage{
 countMolecules(
   me,
-  boundaries_assay = "cell",
-  segmentation_info = "boundaries",
-  molecules_assay = "detected"
+  boundariesAssay = "cell",
+  segmentationInfo = "boundaries",
+  moleculesAssay = "detected"
 )
 }
 \arguments{
@@ -16,16 +16,16 @@ countMolecules(
 well as the boundaries data. I.e., the "molecules" and "boundaries" slots
 need to be filled. See MoleculeExperiment() for more information.}
 
-\item{boundaries_assay}{Character string naming the list of the boundaries
+\item{boundariesAssay}{Character string naming the list of the boundaries
 slot from which boundary information should be retrieved from.
 For example, for counting transcripts per cell, the list containing the cell
 boundaries (e.g., "cell") should be selected.}
 
-\item{segmentation_info}{Character string specifying the type of segmentation
+\item{segmentationInfo}{Character string specifying the type of segmentation
 information available. Can be either "boundaries" or "masks". Currently,
 only the "boundaries" information is supported.}
 
-\item{molecules_assay}{Character string naming the list of the molecules slot
+\item{moleculesAssay}{Character string naming the list of the molecules slot
 from which transcript information should be retrieved from.
 The default is the detected transcript data that is read in when creating a
 MoleculeExperiment object. It is possible to change it to another mode, e.g.,
