@@ -5,15 +5,15 @@
 #' to read in boundary files ("cell", "nuclei", or both). This function is
 #' a wrapper around readMolecules and readBoundaries functions.
 #'
-#' @param data_dir Character string specifying the directory with the xenium
+#' @param dataDir Character string specifying the directory with the xenium
 #' output files.
-#' @param n_samples Integer specifying the number of samples. Defaults to NULL.
-#' @param keep_cols Vector of characters specifying the columns of interest from
+#' @param nSamples Integer specifying the number of samples. Defaults to NULL.
+#' @param keepCols Vector of characters specifying the columns of interest from
 #' the transcripts file and boundaries file. Can be "all" or "essential".
 #' "essential" selects columns with gene names, x and y locations in the
 #' transcripts file; "essential" selects columns with cell ids, and x and y
 #' locations for the vertices defining the boundaries in the boundaries file.
-#' @param add_boundaries Vector with which to specify the names of the boundary
+#' @param addBoundaries Vector with which to specify the names of the boundary
 #' assays to be added to the me object. Can be "cell", "nucleus", both, or NULL.
 #' The latter will lead to the creation of a simple ME object with just the
 #' molecules slot filled.
@@ -21,42 +21,42 @@
 #' @return A MoleculeExperiment object containing xenium data.
 #' @export
 #' @examples
-#' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+#' repoDir <- system.file("extdata", package = "MoleculeExperiment")
 #'
-#' me <- readXenium(repo_dir,
-#'                   n_samples = 2,
-#'                   keep_cols = "essential")
+#' me <- readXenium(repoDir,
+#'                   nSamples = 2,
+#'                   keepCols = "essential")
 #' me
 #' @importFrom rjson fromJSON
-readXenium <- function(data_dir,
-                       n_samples = NULL,
-                       keep_cols = "essential",
-                       add_boundaries = "cell") {
+readXenium <- function(dataDir,
+                       nSamples = NULL,
+                       keepCols = "essential",
+                       addBoundaries = "cell") {
 
     # create MoleculeExperiment object
-    me <- readMolecules(data_dir = data_dir,
+    me <- readMolecules(dataDir = dataDir,
                         pattern = "transcripts.csv",
-                        n_samples = n_samples,
-                        feature_col = "feature_name",
-                        x_col = "x_location",
-                        y_col = "y_location",
-                        keep_cols = keep_cols)
+                        nSamples = nSamples,
+                        featureCol = "feature_name",
+                        xCol = "x_location",
+                        yCol = "y_location",
+                        keepCols = keepCols)
 
     # add boundary information
-    if (!is.null(add_boundaries)) {
-        boundariesAssay <- add_boundaries
+    if (!is.null(addBoundaries)) {
+        boundariesAssay <- addBoundaries
         for(a in boundariesAssay) {
-            bds_ls <- readBoundaries(data_dir = data_dir,
+            bds_ls <- readBoundaries(dataDir = dataDir,
                                     pattern = paste0(a, "_boundaries.csv"),
-                                    n_samples = n_samples,
-                                    segment_id_col = "cell_id",
-                                    x_col = "vertex_x",
-                                    y_col = "vertex_y",
-                                    keep_cols = keep_cols,
+                                    nSamples = nSamples,
+                                    segmentIDCol = "cell_id",
+                                    xCol = "vertex_x",
+                                    yCol = "vertex_y",
+                                    keepCols = keepCols,
                                     boundariesAssay = a,
                                     # boundary info and transcript info in
                                     # xenium are both in microns
-                                    scale_factor_vector = 1)
+                                    scaleFactorVector = 1)
 
             # add standardised boundaries list to the @boundaries slot
             boundaries(me, a) <- bds_ls
@@ -69,8 +69,8 @@ readXenium <- function(data_dir,
 ###############################################################################
     # future dev: use pixel size info for working with images
     # for each sample, find experiment.xenium JSON file
-    f_paths <- vector("list", n_samples)
-    fs <- list.files(data_dir,
+    f_paths <- vector("list", nSamples)
+    fs <- list.files(dataDir,
                      pattern = "experiment.xenium",
                      # store full path names
                      full.names = TRUE,
@@ -86,7 +86,7 @@ readXenium <- function(data_dir,
         })
 
     # assign corresponding sample names to the scale factors
-    names(scale_factors) <- .get_sample_id(n_samples, f_paths)
+    names(scale_factors) <- .get_sample_id(n_samples = nSamples, f_paths)
 ###############################################################################
 
     return(me)

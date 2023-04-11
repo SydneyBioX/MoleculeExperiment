@@ -5,20 +5,20 @@
 #' It is technology agnostic, so it is accompanied with wrappers for the
 #' specific technologies (e.g., see readXenium).
 #'
-#' @param data_dir Character string specifying the directory with the file/s
+#' @param dataDir Character string specifying the directory with the file/s
 #' containing detected transcripts for different runs/samples.
 #' @param pattern Character string specifying the pattern with which to find
 #' the transcripts files. For example, in Xenium data, the pattern would be
 #' "transcripts.csv". In contrast, in Cosmx data, the pattern would be
 #' "tx_file".
-#' @param n_samples Integer specifying number of samples to be read.
-#' @param feature_col Character string specifying the name of the column with
+#' @param nSamples Integer specifying number of samples to be read.
+#' @param featureCol Character string specifying the name of the column with
 #' feature names. For example, "feature_name" in xenium transcripts.csv files.
-#' @param x_col Character string specifying the name of the column with the x
+#' @param xCol Character string specifying the name of the column with the x
 #' locations of the transcripts.
-#' @param y_col Character string specifying the name of the column with the y
+#' @param yCol Character string specifying the name of the column with the y
 #' locations of the transcripts.
-#' @param keep_cols Vector of characters specifying the columns of interest from
+#' @param keepCols Vector of characters specifying the columns of interest from
 #' the transcripts file. "essential" selects columns with gene names, x and y
 #' locations. "all" will select all columns. Alternatively, specific colums
 #' of interest can be selected by specifying them as characters in a vector.
@@ -31,24 +31,24 @@
 #' @return A simple MoleculeExperiment object with a filled molecules slot.
 #' @export
 #' @examples
-#' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+#' repoDir <- system.file("extdata", package = "MoleculeExperiment")
 #'
-#' simple_me <- readMolecules(repo_dir,
+#' simple_me <- readMolecules(repoDir,
 #'                             pattern = "transcripts.csv",
-#'                             n_samples = 2,
-#'                             feature_col = "feature_name",
-#'                             x_col = "x_location",
-#'                             y_col = "y_location",
-#'                             keep_cols = "essential")
+#'                             nSamples = 2,
+#'                             featureCol = "feature_name",
+#'                             xCol = "x_location",
+#'                             yCol = "y_location",
+#'                             keepCols = "essential")
 #' simple_me
 #' @importFrom magrittr %>%
-readMolecules <- function(data_dir,
+readMolecules <- function(dataDir,
                           pattern = NULL,
-                          n_samples = NULL,
-                          feature_col = NULL,
-                          x_col = NULL,
-                          y_col = NULL,
-                          keep_cols = "essential",
+                          nSamples = NULL,
+                          featureCol = NULL,
+                          xCol = NULL,
+                          yCol = NULL,
+                          keepCols = "essential",
                           moleculesAssay = NULL
                           )
 {
@@ -57,14 +57,14 @@ readMolecules <- function(data_dir,
         stop("Please specify the character pattern with which to uniquely
         idenfity the transcript files of interest. For example, 
         transcripts.csv.")
-    } else if (is.null(n_samples)) {
+    } else if (is.null(nSamples)) {
         stop("Please specify the number of samples being considered.")
     }
 
     # locate paths for all transcripts files
-    f_paths <- vector("list", n_samples)
+    f_paths <- vector("list", nSamples)
 
-    fs <- list.files(data_dir,
+    fs <- list.files(dataDir,
                      pattern = pattern,
                      # store full path names
                      full.names = TRUE,
@@ -75,7 +75,7 @@ readMolecules <- function(data_dir,
     f_paths <- replace(f_paths, values = fs)
 
     # DO DATA STANDARDISATION
-    mol_n <- vector("list", n_samples)
+    mol_n <- vector("list", nSamples)
 
     for (f in seq_along(mol_n)) {
 
@@ -84,16 +84,16 @@ readMolecules <- function(data_dir,
         # sprintf function shows that values are not actually changed
 
         # standardise column names
-        essential_cols <- .get_essential_cols(factor_col = feature_col,
-                                                x_col,
-                                                y_col)
+        essential_cols <- .get_essential_cols(factor_col = featureCol,
+                                                x_col = xCol,
+                                                y_col = yCol)
 
         standard_cols <- .get_standard_cols(df_type = "transcripts")
 
         mol_df <- .standardise_cols(mol_df, standard_cols, essential_cols)
 
         # choose cols of interest
-        cols <- .select_cols(mol_df, keep_cols, standard_cols)
+        cols <- .select_cols(mol_df, keep_cols = keepCols, standard_cols)
 
         # standardise data format to ME list
         # goal = reduce redundancy and save storage space
@@ -101,7 +101,7 @@ readMolecules <- function(data_dir,
     }
 
     # specify sample_ids
-    names(mol_n) <- .get_sample_id(n_samples, f_paths)
+    names(mol_n) <- .get_sample_id(n_samples = nSamples, f_paths)
 
     # add list header to specify location in molecules slot
     # default is detected

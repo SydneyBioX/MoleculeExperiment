@@ -73,7 +73,7 @@ names in the three \"col\" arguments to this function")
         for (c in standard_cols) {
             if (!c %in% cols) {
                 stop("Essential columns could not be identified in the
-keep_cols argument. Essential columns are those specified in the \"col\"
+keepCols argument. Essential columns are those specified in the \"col\"
 arguments of this function.")
             }
         }
@@ -127,20 +127,20 @@ arguments of this function.")
 
 # ------------------------------------------------------------------------------
 # flatten ME list whilst retaining information of list headers
-.addColumnToNestedListFlatten <- function(listObject, column_name = NULL) {
-    listObject_added <- mapply(function(df, nm) {
+.add_col_to_nested_list_and_flatten <- function(list_obj, column_name = NULL) {
+    list_obj_added <- mapply(function(df, nm) {
         df[, column_name] <- nm
         return(df)
-    }, listObject, names(listObject), SIMPLIFY = FALSE)
-    return(do.call(rbind, listObject_added))
+    }, list_obj, names(list_obj), SIMPLIFY = FALSE)
+    return(do.call(rbind, list_obj_added))
 }
 
 .flatten_molecules <- function(me, assay_name) {
-    molecules_flat <- .addColumnToNestedListFlatten(
+    molecules_flat <- .add_col_to_nested_list_and_flatten(
         lapply(me@molecules[assay_name], function(mol_2) {
-            .addColumnToNestedListFlatten(
+            .add_col_to_nested_list_and_flatten(
                 lapply(mol_2, function(mol_1) {
-                    .addColumnToNestedListFlatten(
+                    .add_col_to_nested_list_and_flatten(
                         mol_1, "feature_name"
                     )
                 }), "sample_id"
@@ -153,13 +153,13 @@ arguments of this function.")
 }
 
 .flatten_boundaries <- function(me, assay_name) {
-    molecules_flat <- .addColumnToNestedListFlatten(
+    molecules_flat <- .add_col_to_nested_list_and_flatten(
         lapply(
             me@boundaries[assay_name],
             function(mol_2) {
-                .addColumnToNestedListFlatten(
+                .add_col_to_nested_list_and_flatten(
                     lapply(mol_2, function(mol_1) {
-                        .addColumnToNestedListFlatten(
+                        .add_col_to_nested_list_and_flatten(
                             mol_1, "segment_id"
                         )
                     }), "sample_id"

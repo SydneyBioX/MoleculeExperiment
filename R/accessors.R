@@ -32,11 +32,11 @@
 #'
 #' @examples
 #' # get example data
-#' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
-#' me <- readXenium(repo_dir,
-#'                   n_samples = 2,
-#'                   keep_cols = "essential",
-#'                   add_boundaries = "cell")
+#' repoDir <- system.file("extdata", package = "MoleculeExperiment")
+#' me <- readXenium(repoDir,
+#'                   nSamples = 2,
+#'                   keepCols = "essential",
+#'                   addBoundaries = "cell")
 #'
 #' # molecules() getter
 #' molecules(me)
@@ -54,18 +54,18 @@
 #'
 #' # setter example
 #' # read in and standardise nucleus boundaries too
-#' nuclei_ls <- readBoundaries(data_dir = repo_dir,
+#' nucleiMEList <- readBoundaries(dataDir = repoDir,
 #'                             pattern = "nucleus_boundaries.csv",
-#'                             n_samples = 2,
-#'                             segment_id_col = "cell_id",
-#'                             x_col = "vertex_x",
-#'                             y_col = "vertex_y",
-#'                             keep_cols = "essential",
+#'                             nSamples = 2,
+#'                             segmentIDCol = "cell_id",
+#'                             xCol = "vertex_x",
+#'                             yCol = "vertex_y",
+#'                             keepCols = "essential",
 #'                             boundariesAssay = "nucleus",
-#'                             scale_factor_vector = 1)
+#'                             scaleFactorVector = 1)
 #'
 #' # use `boundaries<-` setter to add nucleus boundaries to the boundaries slot
-#' boundaries(me, "nucleus") <- nuclei_ls
+#' boundaries(me, "nucleus") <- nucleiMEList
 #' me
 #' @return A MoleculeExperiment object slot.
 NULL

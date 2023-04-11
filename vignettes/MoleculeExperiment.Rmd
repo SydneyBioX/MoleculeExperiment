@@ -80,11 +80,11 @@ library(ggplot2)
 small patch.
 
 ```{r}
-repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+repoDir <- system.file("extdata", package = "MoleculeExperiment")
 
-me <- readXenium(repo_dir,
-                  n_samples = 2,
-                  keep_cols = "essential")
+me <- readXenium(repoDir,
+                  nSamples = 2,
+                  keepCols = "essential")
 me
 ```
 
@@ -132,19 +132,19 @@ molecule-based spatial transcriptomics technologies.
 1) Generate a toy transcripts data.frame.
 
 ```{r}
-molecules_df <- data.frame(
+moleculesDf <- data.frame(
   sample_id = rep(c("sample1", "sample2"), times = c(30, 20)),
   features = rep(c("gene1", "gene2"), times = c(20, 30)),
   x_coords = runif(50),
   y_coords = runif(50)
   )
-utils::head(molecules_df)
+head(moleculesDf)
 ```
 
 2) Generate a toy boundaries data.frame.
 
 ```{r}
-boundaries_df <- data.frame(
+boundariesDf <- data.frame(
   sample_id = rep(c("sample1", "sample2"), times = c(16, 6)),
   cell_id = rep(c("cell1", "cell2", "cell3", "cell4",
                   "cell1", "cell2"),
@@ -160,41 +160,41 @@ boundaries_df <- data.frame(
                0.5, 0.5, 1, 1,
                0, 1, 1, 0, 0, 1)
 )
-utils::head(boundaries_df)
+head(boundariesDf)
 ```
 
 3) Standardise transcripts dataframe to ME list format.
 
 ```{r}
-molecules_ls <- dataframeToMEList(molecules_df,
+moleculesMEList <- dataframeToMEList(moleculesDf,
                                   dfType = "transcripts",
                                   assayName = "detected",
-                                  sample_col = "sample_id",
-                                  factor_col = "features",
-                                  x_col = "x_coords",
-                                  y_col = "y_coords")
-str(molecules_ls, max.level = 3)
+                                  sampleCol = "sample_id",
+                                  factorCol = "features",
+                                  xCol = "x_coords",
+                                  yCol = "y_coords")
+str(moleculesMEList, max.level = 3)
 ```
 
 4) Standardise boundaries dataframe to ME list format.
 
 ```{r}
-boundaries_ls <- dataframeToMEList(boundaries_df,
+boundariesMEList <- dataframeToMEList(boundariesDf,
                                    dfType = "boundaries",
                                    assayName = "cell",
-                                   sample_col = "sample_id",
-                                   factor_col = "cell_id",
-                                   x_col = "vertex_x",
-                                   y_col = "vertex_y")
-str(boundaries_ls, 3)
+                                   sampleCol = "sample_id",
+                                   factorCol = "cell_id",
+                                   xCol = "vertex_x",
+                                   yCol = "vertex_y")
+str(boundariesMEList, 3)
 ```
 
 5) Create an ME object by using the MoleculeExperiment object constructor.
 
 ```{r}
-toy_me <- MoleculeExperiment(molecules = molecules_ls,
-                             boundaries = boundaries_ls)
-toy_me
+toyME <- MoleculeExperiment(molecules = moleculesMEList,
+                             boundaries = boundariesMEList)
+toyME
 ```
 
 ### Use case 2: from Xenium to ME object
@@ -204,12 +204,12 @@ the directories containing output files of commonly used technologies. This is
 especially useful to work with data from multiple samples.
 
 ```{r}
-repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+repoDir <- system.file("extdata", package = "MoleculeExperiment")
 
-me <- readXenium(repo_dir,
-                  n_samples = 2,
-                  keep_cols = "essential",
-                  add_boundaries = "cell")
+me <- readXenium(repoDir,
+                  nSamples = 2,
+                  keepCols = "essential",
+                  addBoundaries = "cell")
 me
 ```
 
@@ -306,17 +306,17 @@ For example, with `boundaries<-` one can add new segmentation assay information
 to the boundaries slot. Here we demonstrate this with the nucleus boundaries.
 
 ```{r}
-nuclei_ls <- readBoundaries(data_dir = repo_dir,
+nucleiMEList <- readBoundaries(dataDir = repoDir,
                             pattern = "nucleus_boundaries.csv",
-                            n_samples = 2,
-                            segment_id_col = "cell_id",
-                            x_col = "vertex_x",
-                            y_col = "vertex_y",
-                            keep_cols = "essential",
+                            nSamples = 2,
+                            segmentIDCol = "cell_id",
+                            xCol = "vertex_x",
+                            yCol = "vertex_y",
+                            keepCols = "essential",
                             boundariesAssay = "nucleus",
-                            scale_factor_vector = 1)
+                            scaleFactorVector = 1)
 
-boundaries(me, "nucleus") <- nuclei_ls
+boundaries(me, "nucleus") <- nucleiMEList
 me # note the addition of the nucleus boundaries to the boundaries slot
 ```
 

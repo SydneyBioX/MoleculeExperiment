@@ -10,7 +10,7 @@
 #' @param object Name of MoleculeExperiment object of interest.
 #' @param assayName Character string specifying the name of the assay from
 #' which to view a summary of the contents.
-#' @param per_sample Logical value specifying whether or not to summarize the
+#' @param perSample Logical value specifying whether or not to summarize the
 #' information per sample.
 #'
 #' @aliases
@@ -24,20 +24,20 @@
 #'
 #' @examples
 #' # get example data
-#' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
-#' me <- readXenium(repo_dir,
-#'                   n_samples = 2,
-#'                   keep_cols = "essential",
-#'                   add_boundaries = "cell")
+#' repoDir <- system.file("extdata", package = "MoleculeExperiment")
+#' me <- readXenium(repoDir,
+#'                   nSamples = 2,
+#'                   keepCols = "essential",
+#'                   addBoundaries = "cell")
 #' 
 #' strMolecules(me)
 #' strBoundaries(me)
 #' 
 #' nFeatures(me)
-#' nFeatures(me, per_sample = TRUE)
+#' nFeatures(me, perSample = TRUE)
 #' 
 #' nTranscripts(me)
-#' nTranscripts(me, per_sample = TRUE)
+#' nTranscripts(me, perSample = TRUE)
 #' @return A MoleculeExperiment object summary.
 NULL
 
@@ -145,8 +145,8 @@ setMethod("strBoundaries",
 #' @export
 setMethod("nFeatures",
     signature = signature(object = "MoleculeExperiment"),
-    definition = function(object, assayName = "detected", per_sample = FALSE) {
-        if (per_sample) {
+    definition = function(object, assayName = "detected", perSample = FALSE) {
+        if (perSample) {
             return(lengths(object@molecules[[assayName]]))
         } else {
 
@@ -174,7 +174,7 @@ setMethod("nTranscripts",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object,
                                assayName = "detected",
-                               per_sample = FALSE) {
+                               perSample = FALSE) {
 
         # get number of genes per sample
         samples <- names(object@molecules[[assayName]])
@@ -189,7 +189,7 @@ setMethod("nTranscripts",
             sample_numbers[[s]] <- total
         }
 
-        if (per_sample) {
+        if (perSample) {
             return(sample_numbers)
         } else {
             cat(paste0(

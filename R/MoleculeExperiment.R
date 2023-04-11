@@ -33,13 +33,13 @@
 #' @exportClass MoleculeExperiment
 #' @examples
 #' # creating a simple ME object from toy data
-#' molecules_df <- data.frame(
+#' moleculesDf <- data.frame(
 #'     sample_id = rep(c("sample1", "sample2"), times = c(30, 20)),
 #'     features = rep(c("gene1", "gene2"), times = c(20, 30)),
 #'     x_coords = runif(50),
 #'     y_coords = runif(50)
 #' )
-#' boundaries_df <- data.frame(
+#' boundariesDf <- data.frame(
 #'     sample_id = rep(c("sample1", "sample2"), times = c(16, 6)),
 #'     cell_id = rep(c("cell1", "cell2", "cell3", "cell4",
 #'                     "cell1", "cell2"),
@@ -47,26 +47,26 @@
 #'     vertex_x = rnorm(22),
 #'     vertex_y = rnorm(22)
 #' )
-#' molecules_ls <- dataframeToMEList(molecules_df,
+#' moleculesMEList <- dataframeToMEList(moleculesDf,
 #'                                   dfType = "transcripts",
 #'                                   assayName = "detected",
-#'                                   sample_col = "sample_id",
-#'                                   factor_col = "features",
-#'                                   x_col = "x_coords",
-#'                                   y_col = "y_coords")
+#'                                   sampleCol = "sample_id",
+#'                                   factorCol = "features",
+#'                                   xCol = "x_coords",
+#'                                   yCol = "y_coords")
 #'
-#' boundaries_ls <- dataframeToMEList(boundaries_df,
+#' boundariesMEList <- dataframeToMEList(boundariesDf,
 #'                                    dfType = "boundaries",
 #'                                    assayName = "cell",
-#'                                    sample_col = "sample_id",
-#'                                    factor_col = "cell_id",
-#'                                    x_col = "vertex_x",
-#'                                    y_col = "vertex_y")
+#'                                    sampleCol = "sample_id",
+#'                                    factorCol = "cell_id",
+#'                                    xCol = "vertex_x",
+#'                                    yCol = "vertex_y")
 #'
-#' toy_me <- MoleculeExperiment(molecules = molecules_ls,
-#'                              boundaries = boundaries_ls)
+#' toyME <- MoleculeExperiment(molecules = moleculesMEList,
+#'                              boundaries = boundariesMEList)
 #'
-#' toy_me
+#' toyME
 #'
 #' @export
 MoleculeExperiment <- function(molecules, boundaries = NULL) {

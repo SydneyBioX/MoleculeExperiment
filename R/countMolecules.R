@@ -26,11 +26,11 @@
 #' @return A SpatialExperiment object derived from a MoleculeExperiment object.
 #' @export
 #' @examples
-#' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+#' repoDir <- system.file("extdata", package = "MoleculeExperiment")
 #'
-#' me <- readXenium(repo_dir,
-#'                   n_samples = 2,
-#'                   keep_cols = "essential")
+#' me <- readXenium(repoDir,
+#'                   nSamples = 2,
+#'                   keepCols = "essential")
 #'
 #' spe <- countMolecules(me)
 #' spe

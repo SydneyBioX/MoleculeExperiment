@@ -8,23 +8,23 @@
 #' The various arguments offer flexibility to standardise data from different
 #' molecule-based ST technologies into the ME list format.
 #'
-#' @param data_dir Path of the directory containing the boundary csv files.
+#' @param dataDir Path of the directory containing the boundary csv files.
 #' @param pattern Character string specifying the unique pattern with which to
 #' identify the files of interest in the directory. This is useful to work with
 #' multiple samples. Defaults to NULL.
-#' @param n_samples Integer indicating the number of samples. Defaults to NULL.
-#' @param segment_id_col Character string specifying the name of the column
+#' @param nSamples Integer indicating the number of samples. Defaults to NULL.
+#' @param segmentIDCol Character string specifying the name of the column
 #' containing the sample id. Defaults to NULL.
-#' @param x_col Character string specifying the name of the column containing
+#' @param xCol Character string specifying the name of the column containing
 #' the x coordinates of the vertices defining the boundaries. Defaults to NULL.
-#' @param y_col Character string specifying the name of the column containing
+#' @param yCol Character string specifying the name of the column containing
 #' the y coordinates of the vertices defining the boundaries. Defaults to NULL.
-#' @param keep_cols Character string specifying which columns to keep.
+#' @param keepCols Character string specifying which columns to keep.
 #' Defaults to "essential". The other option is to select "all", or custom
 #' columns by specifying their names in a vector.
 #' @param boundariesAssay Character string specifying the name with which to
 #' identify the boundary data in the ME object later on. Defaults to NULL.
-#' @param scale_factor_vector Vector containing the scale factor/s with which to
+#' @param scaleFactorVector Vector containing the scale factor/s with which to
 #' change the coordinate data from pixel to micron. It can be either a single
 #' integer, or multiple scale factors for the different samples. The default
 #' value is 1.
@@ -32,47 +32,47 @@
 #' input to the boundaries slot of an ME object.
 #' @export
 #' @examples
-#' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
-#' nuclei_ls <- readBoundaries(data_dir = repo_dir,
+#' repoDir <- system.file("extdata", package = "MoleculeExperiment")
+#' nucleiMEList <- readBoundaries(dataDir = repoDir,
 #'                             pattern = "nucleus_boundaries.csv",
-#'                             n_samples = 2,
-#'                             segment_id_col = "cell_id",
-#'                             x_col = "vertex_x",
-#'                             y_col = "vertex_y",
-#'                             keep_cols = "essential",
+#'                             nSamples = 2,
+#'                             segmentIDCol = "cell_id",
+#'                             xCol = "vertex_x",
+#'                             yCol = "vertex_y",
+#'                             keepCols = "essential",
 #'                             boundariesAssay = "nucleus",
-#'                             scale_factor_vector = 1)
-#' nuclei_ls
-readBoundaries <- function(data_dir,
+#'                             scaleFactorVector = 1)
+#' nucleiMEList
+readBoundaries <- function(dataDir,
                             pattern = NULL,
-                            n_samples = NULL,
-                            segment_id_col = NULL,
-                            x_col = NULL,
-                            y_col = NULL,
-                            keep_cols = "essential",
+                            nSamples = NULL,
+                            segmentIDCol = NULL,
+                            xCol = NULL,
+                            yCol = NULL,
+                            keepCols = "essential",
                             boundariesAssay = NULL,
-                            scale_factor_vector = 1
+                            scaleFactorVector = 1
                             ) {
     if (is.null(pattern)) {
         stop("Please specify the character pattern with which to uniquely
         identify the boundary files of interest. For example, 
         cell_boundaries.csv.")
-    } else if (is.null(n_samples)) {
+    } else if (is.null(nSamples)) {
         stop("Please specify the number of samples being considered.")
     } else if (is.null(boundariesAssay)) {
         stop("Please specify the name of the list in which to store
         boundary information in the boundaries slot. For example, cells
         if importing cell boundaries, or nucleus if importing nucleus
         boundaries.")
-    } else if (is.null(segment_id_col)) {
+    } else if (is.null(segmentIDCol)) {
         stop("Please specify the name of the column containing the segment 
         IDs. For example, \"cell_id\" for cell boundary files.")
     }
 
     # locate files with pattern in specified data directory
-    f_paths <- vector("list", n_samples)
+    f_paths <- vector("list", nSamples)
 
-    fs <- list.files(data_dir,
+    fs <- list.files(dataDir,
                     pattern = pattern,
                     # store full path names
                     full.names = TRUE,
@@ -88,34 +88,34 @@ readBoundaries <- function(data_dir,
     }
 
     # get vector of scale factors for all samples
-    if (length(scale_factor_vector) == 1) {
+    if (length(scaleFactorVector) == 1) {
         # if all samples have same scale factor, create vector with rep numbers
-        scale_factor_vector <- rep(scale_factor_vector, n_samples)
-    } else if (identical(length(scale_factor_vector), n_samples)) {
+        scaleFactorVector <- rep(scaleFactorVector, nSamples)
+    } else if (identical(length(scaleFactorVector), nSamples)) {
         stop("The vector of scale factors should be either one value for all
         samples, or a vector of the length of the number of samples, specifying
         a scale factor for each sample")
     }
 
     # read in files for each sample
-    bds_ls <- vector("list", n_samples)
+    bds_ls <- vector("list", nSamples)
     for (s in seq_along(bds_ls)) {
         # read in data
         bds_df <- data.table::fread(f_paths[[s]])
 
         # standardise column names
-        essential_cols <- .get_essential_cols(factor_col = segment_id_col,
-                                                x_col,
-                                                y_col)
+        essential_cols <- .get_essential_cols(factor_col = segmentIDCol,
+                                                x_col = xCol,
+                                                y_col = yCol)
 
         standard_cols <- .get_standard_cols(df_type = "boundaries")
 
         bds_df <- .standardise_cols(bds_df, standard_cols, essential_cols)
 
-        cols <- .select_cols(bds_df, keep_cols, standard_cols)
+        cols <- .select_cols(bds_df, keep_cols = keepCols, standard_cols)
         # scale column
         bds_df <- .scale_locations(bds_df,
-                                    scale_factor = scale_factor_vector[[s]])
+                                    scale_factor = scaleFactorVector[[s]])
 
         # standardise csv to same list of lists format as readMolecules
         # structure should be: me@boundaries$cells$sample1$cellID$vertex_df
@@ -123,7 +123,7 @@ readBoundaries <- function(data_dir,
     }
 
     # specify id names
-    names(bds_ls) <- .get_sample_id(n_samples, f_paths)
+    names(bds_ls) <- .get_sample_id(n_samples = nSamples, f_paths)
 
     # add list header to specify location in boundaries slot
     bds_ls <- list(bds_ls)

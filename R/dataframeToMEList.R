@@ -4,26 +4,26 @@
 #' for input to a MoleculeExperiment object.
 #' @param df A data.frame containing the transcripts information or the
 #' boundaries information. NOTE: this dataframe should, at a minimum, have the
-#' following 4 columns: sample_id, factor_col (e.g., feature_name in
+#' following 4 columns: sample_id, factorCol (e.g., feature_name in
 #' transcripts, or cell_id in boundaries), x_location and y_location.
 #' @param dfType Character string specifying contents of the dataframe. Can be
 #' either "transcripts" or "boundaries".
 #' @param assayName Name with which to identify the information later on in an
 #' ME object.
-#' @param sample_col Character string specifying the name of the column with the
+#' @param sampleCol Character string specifying the name of the column with the
 #' sample id.
-#' @param factor_col Character string specifying the name of the column with the
+#' @param factorCol Character string specifying the name of the column with the
 #' factors with which to group the data in the lists. When working with
 #' molecules, this column would be e.g., "feature_name" in xenium. When working
 #' with boundaries, this column would be e.g., "cell_id" in xenium.
-#' @param x_col Character string specifying the name of the column with
+#' @param xCol Character string specifying the name of the column with
 #' global x coordinates.
-#' @param y_col Character string specifying the name of the column with
+#' @param yCol Character string specifying the name of the column with
 #' global y coordinates.
-#' @param keep_cols Character string which can be either "essential" or "all".
+#' @param keepCols Character string which can be either "essential" or "all".
 #' If "essential", the function will only work with the x and y location
 #' information.
-#' @param scale_factor Integer specifying the scale factor by which to change
+#' @param scaleFactor Integer specifying the scale factor by which to change
 #' the scale of the x and y locations (e.g., to change from pixel to micron).
 #' The default value is 1.
 #'
@@ -31,33 +31,33 @@
 #' MoleculeExperiment object.
 #'
 #' @examples
-#' molecules_df <- data.frame(
+#' moleculesDf <- data.frame(
 #'     sample_id = rep(c("sample1", "sample2"), times = c(30, 20)),
 #'     features = rep(c("gene1", "gene2"), times = c(20, 30)),
 #'     x_coords = runif(50),
 #'     y_coords = runif(50)
 #' )
 #'
-#' molecules_ls <- dataframeToMEList(molecules_df,
+#' moleculesMEList <- dataframeToMEList(moleculesDf,
 #'                                   dfType = "transcripts",
 #'                                   assayName = "detected",
-#'                                   sample_col = "sample_id",
-#'                                   factor_col = "features",
-#'                                   x_col = "x_coords",
-#'                                   y_col = "y_coords")
+#'                                   sampleCol = "sample_id",
+#'                                   factorCol = "features",
+#'                                   xCol = "x_coords",
+#'                                   yCol = "y_coords")
 #'
-#' molecules_ls
+#' moleculesMEList
 #' @export
 
 dataframeToMEList <- function(df,
                                 dfType = NULL,
                                 assayName = NULL,
-                                sample_col = "sample_id",
-                                factor_col,
-                                x_col = "x_location",
-                                y_col = "y_location",
-                                keep_cols = "essential",
-                                scale_factor = 1
+                                sampleCol = "sample_id",
+                                factorCol,
+                                xCol = "x_location",
+                                yCol = "y_location",
+                                keepCols = "essential",
+                                scaleFactor = 1
                                 ) {
     if (is.null(assayName)) {
         stop("Please specify an assay name with the assayName argument.")
@@ -67,34 +67,39 @@ dataframeToMEList <- function(df,
 ii) \"boundaries\".")
     }
     # standardise sample col name
-    idx <- grep(sample_col, colnames(df))
+    idx <- grep(sampleCol, colnames(df))
     colnames(df)[idx] <- "sample_id"
 
-    # standardise colnames of essential columns
-    essential_cols <- .get_essential_cols(factor_col, x_col, y_col)
+    # get names of essential cols
+    essential_cols <- .get_essential_cols(factor_col = factorCol,
+                                            x_col = xCol,
+                                            y_col = yCol)
     # add sample col to essential cols
     essential_cols <- c("sample_id", essential_cols)
 
-    standard_cols <- .get_standard_cols(dfType)
+    # get names of standard cols
+    standard_cols <- .get_standard_cols(df_type = dfType)
     # add sample col to standard cols
     standard_cols <- c("sample_id", standard_cols)
 
+    # standardise colnames of essential columns
     df <- .standardise_cols(df, standard_cols, essential_cols)
 
-    # select cols of interest
-    cols <- .select_cols(df, keep_cols, standard_cols)
+    # get names of cols of interest
+    cols <- .select_cols(df, keep_cols = keepCols, standard_cols)
 
-    df <- .scale_locations(df, scale_factor = scale_factor)
+    # if needed, scale coordinate values
+    df <- .scale_locations(df, scale_factor = scaleFactor)
 
-    # for each sample, standardise data
+    # for each sample, standardise data format
     sample_level <- .standardise_to_list(df, cols, "sample_id")
 
     if (dfType == "transcripts") {
         ls <- lapply(sample_level, .standardise_to_list,
-                            cols = setdiff(cols, sample_col), "feature_name")
+                            cols = setdiff(cols, "sample_id"), "feature_name")
     } else if (dfType == "boundaries") {
         ls <- lapply(sample_level, .standardise_to_list,
-                            cols = setdiff(cols, sample_col), "segment_id")
+                            cols = setdiff(cols, "sample_id"), "segment_id")
     }
 
     # specify assay name for compatibility with ME methods
