@@ -4,26 +4,19 @@
 \alias{readXenium}
 \title{Read in Xenium data into a MoleculeExperiment object}
 \usage{
-readXenium(
-  data_dir,
-  n_samples = NULL,
-  keep_cols = "essential",
-  add_boundaries = "cell"
-)
+readXenium(dataDir, keepCols = "essential", addBoundaries = "cell")
 }
 \arguments{
-\item{data_dir}{Character string specifying the directory with the xenium
+\item{dataDir}{Character string specifying the directory with the xenium
 output files.}
 
-\item{n_samples}{Integer specifying the number of samples. Defaults to NULL.}
-
-\item{keep_cols}{Vector of characters specifying the columns of interest from
+\item{keepCols}{Vector of characters specifying the columns of interest from
 the transcripts file and boundaries file. Can be "all" or "essential".
 "essential" selects columns with gene names, x and y locations in the
 transcripts file; "essential" selects columns with cell ids, and x and y
 locations for the vertices defining the boundaries in the boundaries file.}
 
-\item{add_boundaries}{Vector with which to specify the names of the boundary
+\item{addBoundaries}{Vector with which to specify the names of the boundary
 assays to be added to the me object. Can be "cell", "nucleus", both, or NULL.
 The latter will lead to the creation of a simple ME object with just the
 molecules slot filled.}
@@ -38,10 +31,9 @@ to read in boundary files ("cell", "nuclei", or both). This function is
 a wrapper around readMolecules and readBoundaries functions.
 }
 \examples{
-repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+repoDir <- system.file("extdata", package = "MoleculeExperiment")
 
-me <- readXenium(repo_dir,
-                  n_samples = 2,
-                  keep_cols = "essential")
+me <- readXenium(repoDir,
+                  keepCols = "essential")
 me
 }

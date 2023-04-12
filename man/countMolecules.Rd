@@ -5,14 +5,14 @@
 \title{Count molecules per region of interest (e.g., cell)}
 \usage{
 countMolecules(
-  me,
+  object,
   boundariesAssay = "cell",
   segmentationInfo = "boundaries",
   moleculesAssay = "detected"
 )
 }
 \arguments{
-\item{me}{MoleculeExperiment object containing both the transcript data as
+\item{object}{MoleculeExperiment object containing both the transcript data as
 well as the boundaries data. I.e., the "molecules" and "boundaries" slots
 need to be filled. See MoleculeExperiment() for more information.}
 
@@ -43,11 +43,10 @@ That way, if one is interested in doing downstream analyses at the cell
 level, one can do so.
 }
 \examples{
-repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+repoDir <- system.file("extdata", package = "MoleculeExperiment")
 
-me <- readXenium(repo_dir,
-                  n_samples = 2,
-                  keep_cols = "essential")
+me <- readXenium(repoDir,
+                  keepCols = "essential")
 
 spe <- countMolecules(me)
 spe

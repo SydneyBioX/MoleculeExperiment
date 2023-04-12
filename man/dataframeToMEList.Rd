@@ -8,45 +8,45 @@ dataframeToMEList(
   df,
   dfType = NULL,
   assayName = NULL,
-  sample_col = "sample_id",
-  factor_col,
-  x_col = "x_location",
-  y_col = "y_location",
-  keep_cols = "essential",
-  scale_factor = 1
+  sampleCol = "sample_id",
+  factorCol = NULL,
+  xCol = "x_location",
+  yCol = "y_location",
+  keepCols = "essential",
+  scaleFactor = 1
 )
 }
 \arguments{
 \item{df}{A data.frame containing the transcripts information or the
 boundaries information. NOTE: this dataframe should, at a minimum, have the
-following 4 columns: sample_id, factor_col (e.g., feature_name in
+following 4 columns: sample_id, factorCol (e.g., feature_name in
 transcripts, or cell_id in boundaries), x_location and y_location.}
 
 \item{dfType}{Character string specifying contents of the dataframe. Can be
 either "transcripts" or "boundaries".}
 
-\item{assayName}{Name with which to identify the information later on in an
-ME object.}
+\item{assayName}{Character string specifying the name with which to identify
+the information later on in an ME object.}
 
-\item{sample_col}{Character string specifying the name of the column with the
+\item{sampleCol}{Character string specifying the name of the column with the
 sample id.}
 
-\item{factor_col}{Character string specifying the name of the column with the
+\item{factorCol}{Character string specifying the name of the column with the
 factors with which to group the data in the lists. When working with
 molecules, this column would be e.g., "feature_name" in xenium. When working
 with boundaries, this column would be e.g., "cell_id" in xenium.}
 
-\item{x_col}{Character string specifying the name of the column with
+\item{xCol}{Character string specifying the name of the column with
 global x coordinates.}
 
-\item{y_col}{Character string specifying the name of the column with
+\item{yCol}{Character string specifying the name of the column with
 global y coordinates.}
 
-\item{keep_cols}{Character string which can be either "essential" or "all".
+\item{keepCols}{Character string which can be either "essential" or "all".
 If "essential", the function will only work with the x and y location
 information.}
 
-\item{scale_factor}{Integer specifying the scale factor by which to change
+\item{scaleFactor}{Integer specifying the scale factor by which to change
 the scale of the x and y locations (e.g., to change from pixel to micron).
 The default value is 1.}
 }
@@ -59,20 +59,20 @@ The goal of this function is to standardise transcripts and boundaries files
 for input to a MoleculeExperiment object.
 }
 \examples{
-molecules_df <- data.frame(
+moleculesDf <- data.frame(
     sample_id = rep(c("sample1", "sample2"), times = c(30, 20)),
     features = rep(c("gene1", "gene2"), times = c(20, 30)),
     x_coords = runif(50),
     y_coords = runif(50)
 )
 
-molecules_ls <- dataframeToMEList(molecules_df,
+moleculesMEList <- dataframeToMEList(moleculesDf,
                                   dfType = "transcripts",
                                   assayName = "detected",
-                                  sample_col = "sample_id",
-                                  factor_col = "features",
-                                  x_col = "x_coords",
-                                  y_col = "y_coords")
+                                  sampleCol = "sample_id",
+                                  factorCol = "features",
+                                  xCol = "x_coords",
+                                  yCol = "y_coords")
 
-molecules_ls
+moleculesMEList
 }

@@ -5,18 +5,17 @@
 \title{Read in detected transcripts file/s into a MoleculeExperiment object}
 \usage{
 readMolecules(
-  data_dir,
+  dataDir,
   pattern = NULL,
-  n_samples = NULL,
-  feature_col = NULL,
-  x_col = NULL,
-  y_col = NULL,
-  keep_cols = "essential",
+  featureCol = NULL,
+  xCol = NULL,
+  yCol = NULL,
+  keepCols = "essential",
   moleculesAssay = NULL
 )
 }
 \arguments{
-\item{data_dir}{Character string specifying the directory with the file/s
+\item{dataDir}{Character string specifying the directory with the file/s
 containing detected transcripts for different runs/samples.}
 
 \item{pattern}{Character string specifying the pattern with which to find
@@ -24,18 +23,16 @@ the transcripts files. For example, in Xenium data, the pattern would be
 "transcripts.csv". In contrast, in Cosmx data, the pattern would be
 "tx_file".}
 
-\item{n_samples}{Integer specifying number of samples to be read.}
-
-\item{feature_col}{Character string specifying the name of the column with
+\item{featureCol}{Character string specifying the name of the column with
 feature names. For example, "feature_name" in xenium transcripts.csv files.}
 
-\item{x_col}{Character string specifying the name of the column with the x
+\item{xCol}{Character string specifying the name of the column with the x
 locations of the transcripts.}
 
-\item{y_col}{Character string specifying the name of the column with the y
+\item{yCol}{Character string specifying the name of the column with the y
 locations of the transcripts.}
 
-\item{keep_cols}{Vector of characters specifying the columns of interest from
+\item{keepCols}{Vector of characters specifying the columns of interest from
 the transcripts file. "essential" selects columns with gene names, x and y
 locations. "all" will select all columns. Alternatively, specific colums
 of interest can be selected by specifying them as characters in a vector.
@@ -56,14 +53,13 @@ It is technology agnostic, so it is accompanied with wrappers for the
 specific technologies (e.g., see readXenium).
 }
 \examples{
-repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+repoDir <- system.file("extdata", package = "MoleculeExperiment")
 
-simple_me <- readMolecules(repo_dir,
+simple_me <- readMolecules(repoDir,
                             pattern = "transcripts.csv",
-                            n_samples = 2,
-                            feature_col = "feature_name",
-                            x_col = "x_location",
-                            y_col = "y_location",
-                            keep_cols = "essential")
+                            featureCol = "feature_name",
+                            xCol = "x_location",
+                            yCol = "y_location",
+                            keepCols = "essential")
 simple_me
 }

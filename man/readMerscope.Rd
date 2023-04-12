@@ -4,16 +4,13 @@
 \alias{readMerscope}
 \title{Read in Merscope data to an ME object}
 \usage{
-readMerscope(data_dir, n_samples = 1, keep_cols = "essential")
+readMerscope(dataDir, keepCols = "essential")
 }
 \arguments{
-\item{data_dir}{Character string specifying the directory with the Cosmx
+\item{dataDir}{Character string specifying the directory with the Cosmx
 output files.}
 
-\item{n_samples}{Integer specifying number of samples to be read.
-Defaults to 1.}
-
-\item{keep_cols}{Vector of characters specifying the columns of interest from
+\item{keepCols}{Vector of characters specifying the columns of interest from
 the transcripts file. "essential" selects columns with gene names, x and y
 locations. "all" will select all columns. Alternatively, specific colums
 of interest can be selected by specifying them as characters in a vector.

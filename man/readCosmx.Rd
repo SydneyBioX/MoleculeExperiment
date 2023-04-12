@@ -4,15 +4,13 @@
 \alias{readCosmx}
 \title{Read in Cosmx data (Nanostring) as an ME object.}
 \usage{
-readCosmx(data_dir, n_samples = NULL, keep_cols = "essential")
+readCosmx(dataDir, keepCols = "essential")
 }
 \arguments{
-\item{data_dir}{Character string specifying the directory with the Cosmx
+\item{dataDir}{Character string specifying the directory with the Cosmx
 output files.}
 
-\item{n_samples}{Integer indicating the number of samples. Defaults to NULL.}
-
-\item{keep_cols}{Character string specifying which columns to keep.
+\item{keepCols}{Character string specifying which columns to keep.
 Defaults to "essential". The other option is to select "all", or custom
 columns by specifying their names in a vector.}
 }

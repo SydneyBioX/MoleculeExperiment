@@ -5,43 +5,40 @@
 \title{Read in csv boundary information and convert to ME list format.}
 \usage{
 readBoundaries(
-  data_dir,
+  dataDir,
   pattern = NULL,
-  n_samples = NULL,
-  segment_id_col = NULL,
-  x_col = NULL,
-  y_col = NULL,
-  keep_cols = "essential",
+  segmentIDCol = NULL,
+  xCol = NULL,
+  yCol = NULL,
+  keepCols = "essential",
   boundariesAssay = NULL,
-  scale_factor_vector = 1
+  scaleFactorVector = 1
 )
 }
 \arguments{
-\item{data_dir}{Path of the directory containing the boundary csv files.}
+\item{dataDir}{Path of the directory containing the boundary csv files.}
 
 \item{pattern}{Character string specifying the unique pattern with which to
 identify the files of interest in the directory. This is useful to work with
 multiple samples. Defaults to NULL.}
 
-\item{n_samples}{Integer indicating the number of samples. Defaults to NULL.}
+\item{segmentIDCol}{Character string specifying the name of the column
+containing the segment IDs. Defaults to NULL.}
 
-\item{segment_id_col}{Character string specifying the name of the column
-containing the sample id. Defaults to NULL.}
-
-\item{x_col}{Character string specifying the name of the column containing
+\item{xCol}{Character string specifying the name of the column containing
 the x coordinates of the vertices defining the boundaries. Defaults to NULL.}
 
-\item{y_col}{Character string specifying the name of the column containing
+\item{yCol}{Character string specifying the name of the column containing
 the y coordinates of the vertices defining the boundaries. Defaults to NULL.}
 
-\item{keep_cols}{Character string specifying which columns to keep.
+\item{keepCols}{Character string specifying which columns to keep.
 Defaults to "essential". The other option is to select "all", or custom
 columns by specifying their names in a vector.}
 
 \item{boundariesAssay}{Character string specifying the name with which to
 identify the boundary data in the ME object later on. Defaults to NULL.}
 
-\item{scale_factor_vector}{Vector containing the scale factor/s with which to
+\item{scaleFactorVector}{Vector containing the scale factor/s with which to
 change the coordinate data from pixel to micron. It can be either a single
 integer, or multiple scale factors for the different samples. The default
 value is 1.}
@@ -60,15 +57,14 @@ The various arguments offer flexibility to standardise data from different
 molecule-based ST technologies into the ME list format.
 }
 \examples{
-repo_dir <- system.file("extdata", package = "MoleculeExperiment")
-nuclei_ls <- readBoundaries(data_dir = repo_dir,
+repoDir <- system.file("extdata", package = "MoleculeExperiment")
+nucleiMEList <- readBoundaries(dataDir = repoDir,
                             pattern = "nucleus_boundaries.csv",
-                            n_samples = 2,
-                            segment_id_col = "cell_id",
-                            x_col = "vertex_x",
-                            y_col = "vertex_y",
-                            keep_cols = "essential",
+                            segmentIDCol = "cell_id",
+                            xCol = "vertex_x",
+                            yCol = "vertex_y",
+                            keepCols = "essential",
                             boundariesAssay = "nucleus",
-                            scale_factor_vector = 1)
-nuclei_ls
+                            scaleFactorVector = 1)
+nucleiMEList
 }

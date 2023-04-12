@@ -17,9 +17,9 @@
 
 \S4method{strBoundaries}{MoleculeExperiment}(object)
 
-\S4method{nFeatures}{MoleculeExperiment}(object, assayName = "detected", per_sample = FALSE)
+\S4method{nFeatures}{MoleculeExperiment}(object, assayName = "detected", perSample = FALSE)
 
-\S4method{nTranscripts}{MoleculeExperiment}(object, assayName = "detected", per_sample = FALSE)
+\S4method{nTranscripts}{MoleculeExperiment}(object, assayName = "detected", perSample = FALSE)
 }
 \arguments{
 \item{object}{Name of MoleculeExperiment object of interest.}
@@ -27,7 +27,7 @@
 \item{assayName}{Character string specifying the name of the assay from
 which to view a summary of the contents.}
 
-\item{per_sample}{Logical value specifying whether or not to summarize the
+\item{perSample}{Logical value specifying whether or not to summarize the
 information per sample.}
 }
 \value{
@@ -43,18 +43,17 @@ respectively. They can do so across all samples, or per sample.
 }
 \examples{
 # get example data
-repo_dir <- system.file("extdata", package = "MoleculeExperiment")
-me <- readXenium(repo_dir,
-                  n_samples = 2,
-                  keep_cols = "essential",
-                  add_boundaries = "cell")
+repoDir <- system.file("extdata", package = "MoleculeExperiment")
+me <- readXenium(repoDir,
+                  keepCols = "essential",
+                  addBoundaries = "cell")
 
 strMolecules(me)
 strBoundaries(me)
 
 nFeatures(me)
-nFeatures(me, per_sample = TRUE)
+nFeatures(me, perSample = TRUE)
 
 nTranscripts(me)
-nTranscripts(me, per_sample = TRUE)
+nTranscripts(me, perSample = TRUE)
 }

@@ -61,20 +61,19 @@ specific technologies (e.g., see readXenium).</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">readMolecules</span><span class="op">(</span></span>
-<span>  <span class="va">data_dir</span>,</span>
+<span>  <span class="va">dataDir</span>,</span>
 <span>  pattern <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  n_samples <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  feature_col <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  x_col <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  y_col <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  keep_cols <span class="op">=</span> <span class="st">"essential"</span>,</span>
-<span>  molecules_assay <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  featureCol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  xCol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  yCol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  keepCols <span class="op">=</span> <span class="st">"essential"</span>,</span>
+<span>  moleculesAssay <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>data_dir</dt>
+    <dl><dt>dataDir</dt>
 <dd><p>Character string specifying the directory with the file/s
 containing detected transcripts for different runs/samples.</p></dd>
 
@@ -86,26 +85,22 @@ the transcripts files. For example, in Xenium data, the pattern would be
 "tx_file".</p></dd>
 
 
-<dt>n_samples</dt>
-<dd><p>Integer specifying number of samples to be read.</p></dd>
-
-
-<dt>feature_col</dt>
+<dt>featureCol</dt>
 <dd><p>Character string specifying the name of the column with
 feature names. For example, "feature_name" in xenium transcripts.csv files.</p></dd>
 
 
-<dt>x_col</dt>
+<dt>xCol</dt>
 <dd><p>Character string specifying the name of the column with the x
 locations of the transcripts.</p></dd>
 
 
-<dt>y_col</dt>
+<dt>yCol</dt>
 <dd><p>Character string specifying the name of the column with the y
 locations of the transcripts.</p></dd>
 
 
-<dt>keep_cols</dt>
+<dt>keepCols</dt>
 <dd><p>Vector of characters specifying the columns of interest from
 the transcripts file. "essential" selects columns with gene names, x and y
 locations. "all" will select all columns. Alternatively, specific colums
@@ -113,7 +108,7 @@ of interest can be selected by specifying them as characters in a vector.
 Note that this personalised vector needs to contain the essential columns.</p></dd>
 
 
-<dt>molecules_assay</dt>
+<dt>moleculesAssay</dt>
 <dd><p>Character string specifying the name of the list in
 which the transcript information is going to be stored in the molecules slot.
 The default name is "detected", as we envision that a MoleculeExperiment will
@@ -129,15 +124,14 @@ usually be created with raw detected transcript information.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">repo_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">simple_me</span> <span class="op">&lt;-</span> <span class="fu">readMolecules</span><span class="op">(</span><span class="va">repo_dir</span>,</span></span>
+<span class="r-in"><span><span class="va">simple_me</span> <span class="op">&lt;-</span> <span class="fu">readMolecules</span><span class="op">(</span><span class="va">repoDir</span>,</span></span>
 <span class="r-in"><span>                            pattern <span class="op">=</span> <span class="st">"transcripts.csv"</span>,</span></span>
-<span class="r-in"><span>                            n_samples <span class="op">=</span> <span class="fl">2</span>,</span></span>
-<span class="r-in"><span>                            feature_col <span class="op">=</span> <span class="st">"feature_name"</span>,</span></span>
-<span class="r-in"><span>                            x_col <span class="op">=</span> <span class="st">"x_location"</span>,</span></span>
-<span class="r-in"><span>                            y_col <span class="op">=</span> <span class="st">"y_location"</span>,</span></span>
-<span class="r-in"><span>                            keep_cols <span class="op">=</span> <span class="st">"essential"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                            featureCol <span class="op">=</span> <span class="st">"feature_name"</span>,</span></span>
+<span class="r-in"><span>                            xCol <span class="op">=</span> <span class="st">"x_location"</span>,</span></span>
+<span class="r-in"><span>                            yCol <span class="op">=</span> <span class="st">"y_location"</span>,</span></span>
+<span class="r-in"><span>                            keepCols <span class="op">=</span> <span class="st">"essential"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Detected transcript information can be accessed with molecules(me) or</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> molecules(me, "detected")</span>
@@ -150,8 +144,6 @@ usually be created with raw detected transcript information.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 178 unique features across all samples in assay "detected": 2010300C02Rik Acsbg1 Adamts2 Adamtsl1 Angpt1 Aqp4 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 869.5 molecules on average across all samples in assay "detected"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Location range across all samples in assay "detected": [4900,4919.98] x [6400.02,6420]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> @boundaries contents: NULL</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

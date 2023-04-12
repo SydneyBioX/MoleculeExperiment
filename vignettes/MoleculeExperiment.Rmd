@@ -83,7 +83,6 @@ small patch.
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 
 me <- readXenium(repoDir,
-                  nSamples = 2,
                   keepCols = "essential")
 me
 ```
@@ -207,7 +206,6 @@ especially useful to work with data from multiple samples.
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 
 me <- readXenium(repoDir,
-                  nSamples = 2,
                   keepCols = "essential",
                   addBoundaries = "cell")
 me
@@ -308,7 +306,6 @@ to the boundaries slot. Here we demonstrate this with the nucleus boundaries.
 ```{r}
 nucleiMEList <- readBoundaries(dataDir = repoDir,
                             pattern = "nucleus_boundaries.csv",
-                            nSamples = 2,
                             segmentIDCol = "cell_id",
                             xCol = "vertex_x",
                             yCol = "vertex_y",
