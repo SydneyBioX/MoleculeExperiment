@@ -14,7 +14,7 @@
 #' multiple samples. Defaults to NULL.
 #' @param nSamples Integer indicating the number of samples. Defaults to NULL.
 #' @param segmentIDCol Character string specifying the name of the column
-#' containing the sample id. Defaults to NULL.
+#' containing the segment IDs. Defaults to NULL.
 #' @param xCol Character string specifying the name of the column containing
 #' the x coordinates of the vertices defining the boundaries. Defaults to NULL.
 #' @param yCol Character string specifying the name of the column containing
@@ -53,21 +53,12 @@ readBoundaries <- function(dataDir,
                             boundariesAssay = NULL,
                             scaleFactorVector = 1
                             ) {
-    if (is.null(pattern)) {
-        stop("Please specify the character pattern with which to uniquely
-        identify the boundary files of interest. For example, 
-        cell_boundaries.csv.")
-    } else if (is.null(nSamples)) {
-        stop("Please specify the number of samples being considered.")
-    } else if (is.null(boundariesAssay)) {
-        stop("Please specify the name of the list in which to store
-        boundary information in the boundaries slot. For example, cells
-        if importing cell boundaries, or nucleus if importing nucleus
-        boundaries.")
-    } else if (is.null(segmentIDCol)) {
-        stop("Please specify the name of the column containing the segment 
-        IDs. For example, \"cell_id\" for cell boundary files.")
-    }
+    # check arg validity
+    .stop_if_null(pattern, nSamples, segmentIDCol,
+                    xCol, yCol, keepCols, boundariesAssay)
+
+    .check_if_character(dataDir, pattern, segmentIDCol,
+                        xCol, yCol, keepCols, boundariesAssay)
 
     # locate files with pattern in specified data directory
     f_paths <- vector("list", nSamples)

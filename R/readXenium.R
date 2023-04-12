@@ -33,6 +33,9 @@ readXenium <- function(dataDir,
                        keepCols = "essential",
                        addBoundaries = "cell") {
 
+    # check arg validity
+    .check_if_character(dataDir, keepCols, addBoundaries)
+
     # create MoleculeExperiment object
     me <- readMolecules(dataDir = dataDir,
                         pattern = "transcripts.csv",

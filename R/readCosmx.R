@@ -20,9 +20,11 @@ readCosmx <- function(dataDir,
                       nSamples = NULL,
                       keepCols = "essential") {
 
-    pattern <- "tx_file"
+    # check arg validity
+    .check_if_character(dataDir, keepCols)
 
     # create MoleculeExperiment object
+    pattern <- "tx_file"
     me <- readMolecules(dataDir = dataDir,
                         pattern = "tx_file",
                         nSamples = nSamples,
@@ -32,5 +34,4 @@ readCosmx <- function(dataDir,
                         keepCols = keepCols)
 
     return(me)
-
 }

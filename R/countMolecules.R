@@ -6,7 +6,7 @@
 #' That way, if one is interested in doing downstream analyses at the cell
 #' level, one can do so.
 #'
-#' @param me MoleculeExperiment object containing both the transcript data as
+#' @param object MoleculeExperiment object containing both the transcript data as
 #' well as the boundaries data. I.e., the "molecules" and "boundaries" slots
 #' need to be filled. See MoleculeExperiment() for more information.
 #' @param boundariesAssay Character string naming the list of the boundaries
@@ -34,10 +34,15 @@
 #'
 #' spe <- countMolecules(me)
 #' spe
-countMolecules <- function(me,
+countMolecules <- function(object,
                            boundariesAssay = "cell",
                            segmentationInfo = "boundaries",
                            moleculesAssay = "detected") {
+    # check arg validity
+    .check_if_me(object)
+    .stop_if_null(boundariesAssay, segmentationInfo, moleculesAssay)
+    .check_if_character(boundariesAssay, segmentationInfo, moleculesAssay)
+
     if (boundariesAssay == "cell") {
         message("The boundaries were retrieved from the \"cell\" assay. A
 different assay (e.g., \"nucleus\") can be specified in the boundariesAssay
@@ -46,24 +51,24 @@ argument)")
     # Function should be flexible to different segmentation information
     # priority for boundaries as 10x and vizgen have this info, but not masks
     if (segmentationInfo == "boundaries") {
-        spe <- .count_molecules_boundaries(me,
+        spe <- .count_molecules_boundaries(object,
                                         molecules_assay = moleculesAssay,
                                         boundaries_assay = boundariesAssay)
     }
     # if (is(segmentationInfo, "masks")) {
-    #    return(.count_molecules_masks(me, segmentation))
+    #    return(.count_molecules_masks(object, segmentation))
     # }
     return(spe)
 }
 
-.count_molecules_boundaries <- function(me,
+.count_molecules_boundaries <- function(object,
                                       molecules_assay = NULL,
                                       boundaries_assay = NULL) {
     # check matching of sample ids
     if (isFALSE(
         identical(
-            names(MoleculeExperiment::molecules(me, molecules_assay)[[molecules_assay]]),
-            names(boundaries(me, boundaries_assay)[[boundaries_assay]])
+            names(MoleculeExperiment::molecules(object, molecules_assay)[[molecules_assay]]),
+            names(boundaries(object, boundaries_assay)[[boundaries_assay]])
         )
     )) {
         stop("Sample IDs to do not match between the @molecules slot and the
@@ -72,7 +77,7 @@ argument)")
 
     # create SpatialPolygon object for each sample (from sp package)
     srList <- lapply(
-        boundaries(me, boundaries_assay)[[boundaries_assay]],
+        boundaries(object, boundaries_assay)[[boundaries_assay]],
         function(bds) {
             sp::SpatialPolygons(mapply(
                 # create Polygons obj from Polygon objects for each segment_id
@@ -88,7 +93,7 @@ argument)")
     )
 
     readsList <- lapply(
-        MoleculeExperiment::molecules(me, molecules_assay)[[molecules_assay]],
+        MoleculeExperiment::molecules(object, molecules_assay)[[molecules_assay]],
         function(reads) {
             reads <- lapply(reads, function(rds) {
                 sp::coordinates(rds) <- ~ x_location + y_location
@@ -129,11 +134,11 @@ argument)")
 
     X
 
-    sample_id <- rep(names(boundaries(me, boundaries_assay)[[boundaries_assay]]),
-        times = lapply(boundaries(me, boundaries_assay)[[boundaries_assay]], length)
+    sample_id <- rep(names(boundaries(object, boundaries_assay)[[boundaries_assay]]),
+        times = lapply(boundaries(object, boundaries_assay)[[boundaries_assay]], length)
     )
 
-    centroids <- do.call(rbind, lapply(unlist(boundaries(me, boundaries_assay)[[boundaries_assay]],
+    centroids <- do.call(rbind, lapply(unlist(boundaries(object, boundaries_assay)[[boundaries_assay]],
         recursive = FALSE
     ), colMeans))
 

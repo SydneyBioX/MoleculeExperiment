@@ -3,6 +3,66 @@
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
+# check if object is of MoleculeExperiment class
+.check_if_me <- function(object) {
+        if (!is(object, "MoleculeExperiment")) {
+            stop("Please specify a MoleculeExperiment object in the object
+argument of this function.")
+        }
+}
+
+# ------------------------------------------------------------------------------
+# check arguments that should NOT be NULL
+.stop_if_null <- function(...) {
+    # create list with parsed trees for the argument variables
+    parsed_args <- substitute(list(...))
+
+    # get vector of argument names as character strings
+    # and ignore the call to the list component of the deparsed variable tree
+    args_names <- sapply(parsed_args, deparse)[-1]
+
+    # get values for the arguments
+    args_values <- list(...)
+    # set arg names for the values in the list
+    names(args_values) <- args_names
+
+    # show error message if one of the specified arguments is NULL
+    for (arg in names(args_values)) {
+        if (is.null(args_values[[arg]])) {
+            stop(paste0("The argument ", arg,
+                " should not be NULL. Please enter a valid value for this
+argument. See documentation for more information."))
+        }
+    }
+}
+
+# ------------------------------------------------------------------------------
+# check arguments that, if NOT NULL, should be of class character
+.check_if_character <- function(...) {
+    # create list with parsed trees for the argument variables
+    parsed_args <- substitute(list(...))
+
+    # get vector of argument names as character strings
+    # and ignore the call to the list component of the deparsed variable tree
+    args_names <- sapply(parsed_args, deparse)[-1]
+
+    # get values for the arguments
+    args_values <- list(...)
+    # set arg names for the values in the list
+    names(args_values) <- args_names
+
+    # test each arg for its class
+    for (arg in names(args_values)) {
+        if (!is.null(args_values[[arg]])) {
+            if (!is(args_values[[arg]], "character")) {
+                stop(paste0("The argument ", arg,
+                    " should be a character string"))
+            }
+        }
+    }
+}
+
+# ------------------------------------------------------------------------------
 # get essential columns
 .get_essential_cols <- function(factor_col, x_col, y_col) {
     essential_cols <- list(
@@ -135,10 +195,10 @@ arguments of this function.")
     return(do.call(rbind, list_obj_added))
 }
 
-.flatten_molecules <- function(me, assay_name) {
+.flatten_molecules <- function(object, assay_name) {
     molecules_flat <- .add_col_to_nested_list_and_flatten(
         lapply(
-            molecules(me, assayName = assay_name),
+            molecules(object, assayName = assay_name),
             function(mol_2) {
                 .add_col_to_nested_list_and_flatten(
                     lapply(mol_2, function(mol_1) {
@@ -154,10 +214,10 @@ arguments of this function.")
     return(molecules_flat)
 }
 
-.flatten_boundaries <- function(me, assay_name) {
+.flatten_boundaries <- function(object, assay_name) {
     boundaries_flat <- .add_col_to_nested_list_and_flatten(
         lapply(
-            boundaries(me, assayName = assay_name),
+            boundaries(object, assayName = assay_name),
             function(mol_2) {
                 .add_col_to_nested_list_and_flatten(
                     lapply(mol_2, function(mol_1) {

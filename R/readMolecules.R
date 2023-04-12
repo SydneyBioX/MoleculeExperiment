@@ -50,16 +50,13 @@ readMolecules <- function(dataDir,
                           yCol = NULL,
                           keepCols = "essential",
                           moleculesAssay = NULL
-                          )
-{
-
-    if (is.null(pattern)) {
-        stop("Please specify the character pattern with which to uniquely
-        idenfity the transcript files of interest. For example, 
-        transcripts.csv.")
-    } else if (is.null(nSamples)) {
-        stop("Please specify the number of samples being considered.")
-    }
+                          ) {
+    # check arg validity
+    .stop_if_null(pattern, nSamples, featureCol,
+                    xCol, yCol, keepCols)
+    
+    .check_if_character(dataDir, pattern, featureCol,
+                        xCol, yCol, keepCols, moleculesAssay)
 
     # locate paths for all transcripts files
     f_paths <- vector("list", nSamples)

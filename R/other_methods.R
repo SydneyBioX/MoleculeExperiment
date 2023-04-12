@@ -42,6 +42,7 @@
 NULL
 
 
+# NOTE: avoid long calculations from being run from zero everytime
 setMethod("show",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object) {
@@ -146,6 +147,10 @@ setMethod("strBoundaries",
 setMethod("nFeatures",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object, assayName = "detected", perSample = FALSE) {
+        # check arg validity
+        .check_if_character(assayName)
+
+        # calculate number of features in molecules slot
         if (perSample) {
             return(lengths(object@molecules[[assayName]]))
         } else {
@@ -175,10 +180,11 @@ setMethod("nTranscripts",
             definition = function(object,
                                assayName = "detected",
                                perSample = FALSE) {
+        # check arg validity
+        .check_if_character(assayName)
 
-        # get number of genes per sample
+        # calculate total transcripts in molecules slot
         samples <- names(object@molecules[[assayName]])
-
         sample_numbers <- vector("integer", length(samples))
         names(sample_numbers) <- samples
         for (s in samples) {

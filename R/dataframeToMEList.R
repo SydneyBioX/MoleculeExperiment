@@ -8,8 +8,8 @@
 #' transcripts, or cell_id in boundaries), x_location and y_location.
 #' @param dfType Character string specifying contents of the dataframe. Can be
 #' either "transcripts" or "boundaries".
-#' @param assayName Name with which to identify the information later on in an
-#' ME object.
+#' @param assayName Character string specifying the name with which to identify
+#' the information later on in an ME object.
 #' @param sampleCol Character string specifying the name of the column with the
 #' sample id.
 #' @param factorCol Character string specifying the name of the column with the
@@ -53,19 +53,17 @@ dataframeToMEList <- function(df,
                                 dfType = NULL,
                                 assayName = NULL,
                                 sampleCol = "sample_id",
-                                factorCol,
+                                factorCol = NULL,
                                 xCol = "x_location",
                                 yCol = "y_location",
                                 keepCols = "essential",
                                 scaleFactor = 1
                                 ) {
-    if (is.null(assayName)) {
-        stop("Please specify an assay name with the assayName argument.")
-    }
-    if (is.null(dfType)) {
-        stop("Please specify the dfType argument as i) \"transcripts\" or
-ii) \"boundaries\".")
-    }
+    # check arg validity
+    .stop_if_null(dfType, assayName, sampleCol, factorCol, xCol, yCol, keepCols)
+    .check_if_character(dfType, assayName, sampleCol,
+                        factorCol, xCol, yCol, keepCols)
+
     # standardise sample col name
     idx <- grep(sampleCol, colnames(df))
     colnames(df)[idx] <- "sample_id"

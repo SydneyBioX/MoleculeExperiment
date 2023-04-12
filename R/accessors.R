@@ -72,20 +72,26 @@ NULL
 
 #' @rdname accessors
 #' @export
+#' @importFrom methods is
 setMethod("molecules",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object,
                           assayName = "detected",
                           flatten = FALSE) {
+        # check arg validity
+        .check_if_character(assayName)
+
         if (assayName == "detected") {
             message("The transcripts from the detected assay were
 retrieved. Other assay transcripts can be retrieved by specifying the assayName
 argument.")
         }
-        if (! assayName %in% names(object@molecules)){
+        if (! assayName %in% names(object@molecules)) {
             stop("Assay name specified does not exist in molecules slot.
 Please specify another assay name in the assayName argument.")
         }
+
+        # get molecules slot information
         if (flatten) {
             big_df <- .flatten_molecules(object, assay_name = assayName)
             return(big_df)
@@ -97,9 +103,14 @@ Please specify another assay name in the assayName argument.")
 
 #' @rdname accessors
 #' @export
+#' @importFrom methods is
 setMethod("boundaries",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object, assayName = NULL, flatten = FALSE) {
+        # check arg validity
+        .check_if_character(assayName)
+
+        # get boundaries slot information
         if (is.null(assayName)) {
             warning(
                 "All boundaries assays were returned: ",
@@ -128,6 +139,10 @@ setMethod("boundaries",
 setMethod("features",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object, assayName = "detected") {
+        # check arg validity
+        .check_if_character(assayName)
+
+        # get the features from the molecules slot
         samples <- names(object@molecules[[assayName]])
         f_list <- lapply(samples, function(s) {
             names(object@molecules[[assayName]][[s]])
@@ -147,10 +162,14 @@ assayName argument to this function.")
 setMethod("segmentIDs",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object, assayName = NULL) {
+        # check arg validity
         if (is.null(assayName)) {
             stop("Please specify the name of the assay from which to
 retrieve the unique IDs. For example, the \"cells\" assay for cell boundaries.")
         }
+        .check_if_character(assayName)
+
+        # get the segment IDs from the boundaries slot
         samples <- names(object@boundaries[[assayName]])
         id_ls <- lapply(samples, function(x) {
             names(object@boundaries[[assayName]][[x]])
@@ -165,11 +184,15 @@ retrieve the unique IDs. For example, the \"cells\" assay for cell boundaries.")
 setMethod("molecules<-",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object, assayName = NULL, value) {
+                # check arg validity
                 if (is.null(assayName)) {
                     stop("No assay name specified in the assayName argument.
                     Please specify a title with which to identify this molecule
                     information later on.")
                 }
+                .check_if_character(assayName)
+
+                # add new value to molecules slot
                 object@molecules[assayName] <- value
                 methods::validObject(object)
                 return(object)
@@ -181,11 +204,15 @@ setMethod("molecules<-",
 setMethod("boundaries<-",
             signature = signature(object = "MoleculeExperiment"),
             definition = function(object, assayName = NULL, value)  {
+                # check arg validity
                 if (is.null(assayName)) {
                     stop("No assay name specified in the assayName argument.
                     Please specify a title with which to identify this boundary
                     information later on.")
                 }
+                .check_if_character(assayName)
+
+                # add new value to boundaries slot
                 object@boundaries[assayName] <- value
                 methods::validObject(object)
                 return(object)

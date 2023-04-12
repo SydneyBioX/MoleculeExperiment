@@ -1,3 +1,15 @@
+#setClass("MEList",
+#        slots = c())
+#
+#setClassUnion("MElist_OR_NULL", c("MElist", "NULL"))
+#
+##' @export
+##' @rdname MoleculeExperiment
+#setClass("MoleculeExperiment",
+#         slots = c(molecules = "MElist",
+#                   boundaries = "MElist_OR_NULL")
+#)
+
 setClassUnion("list_OR_NULL", c("list", "NULL"))
 
 #' @export
@@ -7,9 +19,9 @@ setClass("MoleculeExperiment",
                    boundaries = "list_OR_NULL")
 )
 
-# ----------------------------------------------------------------------------- 
+# ------------------------------------------------------------------------------
 # Define validity checks
-# ----------------------------------------------------------------------------- 
+# ------------------------------------------------------------------------------
 .me_validity <- function(object) {
     msg <- NULL
     # if incorrect input, guide user to give correct input

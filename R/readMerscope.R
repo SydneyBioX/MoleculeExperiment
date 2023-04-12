@@ -22,6 +22,8 @@
 readMerscope <- function(dataDir,
                          nSamples = 1,
                          keepCols = "essential") {
+    # check arg validity
+    .check_if_character(dataDir, keepCols)
 
     # create simple MoleculeExperiment object
     me <- readMolecules(dataDir = dataDir,
@@ -33,5 +35,4 @@ readMerscope <- function(dataDir,
                         keepCols = keepCols)
 
     return(me)
-
 }
