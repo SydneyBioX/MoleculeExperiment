@@ -11,8 +11,6 @@
 #'
 #' @param dataDir Character string specifying the directory with the Cosmx
 #' output files.
-#' @param nSamples Integer specifying number of samples to be read.
-#' Defaults to 1.
 #' @param keepCols Vector of characters specifying the columns of interest from
 #' the transcripts file. "essential" selects columns with gene names, x and y
 #' locations. "all" will select all columns. Alternatively, specific colums
@@ -20,7 +18,6 @@
 #' Note that this personalised vector needs to contain the essential columns.
 #' @return A MoleculeExperiment object
 readMerscope <- function(dataDir,
-                         nSamples = 1,
                          keepCols = "essential") {
     # check arg validity
     .check_if_character(dataDir, keepCols)
@@ -28,7 +25,6 @@ readMerscope <- function(dataDir,
     # create simple MoleculeExperiment object
     me <- readMolecules(dataDir = dataDir,
                         pattern = "transcripts.csv",
-                        nSamples = nSamples,
                         featureCol = "gene",
                         xCol = "global_x",
                         yCol = "global_y",

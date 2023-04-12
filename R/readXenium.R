@@ -7,7 +7,6 @@
 #'
 #' @param dataDir Character string specifying the directory with the xenium
 #' output files.
-#' @param nSamples Integer specifying the number of samples. Defaults to NULL.
 #' @param keepCols Vector of characters specifying the columns of interest from
 #' the transcripts file and boundaries file. Can be "all" or "essential".
 #' "essential" selects columns with gene names, x and y locations in the
@@ -24,12 +23,10 @@
 #' repoDir <- system.file("extdata", package = "MoleculeExperiment")
 #'
 #' me <- readXenium(repoDir,
-#'                   nSamples = 2,
 #'                   keepCols = "essential")
 #' me
 #' @importFrom rjson fromJSON
 readXenium <- function(dataDir,
-                       nSamples = NULL,
                        keepCols = "essential",
                        addBoundaries = "cell") {
 
@@ -39,7 +36,6 @@ readXenium <- function(dataDir,
     # create MoleculeExperiment object
     me <- readMolecules(dataDir = dataDir,
                         pattern = "transcripts.csv",
-                        nSamples = nSamples,
                         featureCol = "feature_name",
                         xCol = "x_location",
                         yCol = "y_location",
@@ -51,7 +47,6 @@ readXenium <- function(dataDir,
         for(a in boundariesAssay) {
             bds_ls <- readBoundaries(dataDir = dataDir,
                                     pattern = paste0(a, "_boundaries.csv"),
-                                    nSamples = nSamples,
                                     segmentIDCol = "cell_id",
                                     xCol = "vertex_x",
                                     yCol = "vertex_y",
@@ -72,15 +67,13 @@ readXenium <- function(dataDir,
 ###############################################################################
     # future dev: use pixel size info for working with images
     # for each sample, find experiment.xenium JSON file
-    f_paths <- vector("list", nSamples)
-    fs <- list.files(dataDir,
+    f_paths <- list.files(dataDir,
                      pattern = "experiment.xenium",
                      # store full path names
                      full.names = TRUE,
                      # look into subdirectories too
                      recursive = TRUE
     )
-    f_paths <- replace(f_paths, values = fs)
 
     # for each sample, get "pixel_size" value
     scale_factors <- lapply(f_paths, function(x) {
@@ -89,7 +82,7 @@ readXenium <- function(dataDir,
         })
 
     # assign corresponding sample names to the scale factors
-    names(scale_factors) <- .get_sample_id(n_samples = nSamples, f_paths)
+    names(scale_factors) <- .get_sample_id(n_samples = length(f_paths), f_paths)
 ###############################################################################
 
     return(me)

@@ -34,7 +34,6 @@
 #' # get example data
 #' repoDir <- system.file("extdata", package = "MoleculeExperiment")
 #' me <- readXenium(repoDir,
-#'                   nSamples = 2,
 #'                   keepCols = "essential",
 #'                   addBoundaries = "cell")
 #'
@@ -56,7 +55,6 @@
 #' # read in and standardise nucleus boundaries too
 #' nucleiMEList <- readBoundaries(dataDir = repoDir,
 #'                             pattern = "nucleus_boundaries.csv",
-#'                             nSamples = 2,
 #'                             segmentIDCol = "cell_id",
 #'                             xCol = "vertex_x",
 #'                             yCol = "vertex_y",

@@ -12,7 +12,6 @@
 #' @param pattern Character string specifying the unique pattern with which to
 #' identify the files of interest in the directory. This is useful to work with
 #' multiple samples. Defaults to NULL.
-#' @param nSamples Integer indicating the number of samples. Defaults to NULL.
 #' @param segmentIDCol Character string specifying the name of the column
 #' containing the segment IDs. Defaults to NULL.
 #' @param xCol Character string specifying the name of the column containing
@@ -35,7 +34,6 @@
 #' repoDir <- system.file("extdata", package = "MoleculeExperiment")
 #' nucleiMEList <- readBoundaries(dataDir = repoDir,
 #'                             pattern = "nucleus_boundaries.csv",
-#'                             nSamples = 2,
 #'                             segmentIDCol = "cell_id",
 #'                             xCol = "vertex_x",
 #'                             yCol = "vertex_y",
@@ -45,7 +43,6 @@
 #' nucleiMEList
 readBoundaries <- function(dataDir,
                             pattern = NULL,
-                            nSamples = NULL,
                             segmentIDCol = NULL,
                             xCol = NULL,
                             yCol = NULL,
@@ -54,26 +51,23 @@ readBoundaries <- function(dataDir,
                             scaleFactorVector = 1
                             ) {
     # check arg validity
-    .stop_if_null(pattern, nSamples, segmentIDCol,
+    .stop_if_null(pattern, segmentIDCol,
                     xCol, yCol, keepCols, boundariesAssay)
 
     .check_if_character(dataDir, pattern, segmentIDCol,
                         xCol, yCol, keepCols, boundariesAssay)
 
     # locate files with pattern in specified data directory
-    f_paths <- vector("list", nSamples)
-
-    fs <- list.files(dataDir,
+    f_paths <- list.files(dataDir,
                     pattern = pattern,
                     # store full path names
                     full.names = TRUE,
                     # look into subdirectories too
                     recursive = TRUE
     )
+    nSamples <- length(f_paths)
 
-    f_paths <- replace(f_paths, values = fs)
-
-    if (length(f_paths) == 0) {
+    if (nSamples == 0) {
         stop("Could not find any files with the specified pattern. Please
         specify the pattern with which to find boundary files of interest.")
     }

@@ -11,7 +11,6 @@
 #' the transcripts files. For example, in Xenium data, the pattern would be
 #' "transcripts.csv". In contrast, in Cosmx data, the pattern would be
 #' "tx_file".
-#' @param nSamples Integer specifying number of samples to be read.
 #' @param featureCol Character string specifying the name of the column with
 #' feature names. For example, "feature_name" in xenium transcripts.csv files.
 #' @param xCol Character string specifying the name of the column with the x
@@ -35,7 +34,6 @@
 #'
 #' simple_me <- readMolecules(repoDir,
 #'                             pattern = "transcripts.csv",
-#'                             nSamples = 2,
 #'                             featureCol = "feature_name",
 #'                             xCol = "x_location",
 #'                             yCol = "y_location",
@@ -44,7 +42,6 @@
 #' @importFrom magrittr %>%
 readMolecules <- function(dataDir,
                           pattern = NULL,
-                          nSamples = NULL,
                           featureCol = NULL,
                           xCol = NULL,
                           yCol = NULL,
@@ -52,24 +49,20 @@ readMolecules <- function(dataDir,
                           moleculesAssay = NULL
                           ) {
     # check arg validity
-    .stop_if_null(pattern, nSamples, featureCol,
-                    xCol, yCol, keepCols)
+    .stop_if_null(pattern, featureCol, xCol, yCol, keepCols)
     
     .check_if_character(dataDir, pattern, featureCol,
                         xCol, yCol, keepCols, moleculesAssay)
 
     # locate paths for all transcripts files
-    f_paths <- vector("list", nSamples)
-
-    fs <- list.files(dataDir,
+    f_paths <- list.files(dataDir,
                      pattern = pattern,
                      # store full path names
                      full.names = TRUE,
                      # look into subdirectories too
                      recursive = TRUE
     )
-
-    f_paths <- replace(f_paths, values = fs)
+    nSamples <- length(f_paths)
 
     # DO DATA STANDARDISATION
     mol_n <- vector("list", nSamples)

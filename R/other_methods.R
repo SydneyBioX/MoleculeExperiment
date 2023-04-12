@@ -26,7 +26,6 @@
 #' # get example data
 #' repoDir <- system.file("extdata", package = "MoleculeExperiment")
 #' me <- readXenium(repoDir,
-#'                   nSamples = 2,
 #'                   keepCols = "essential",
 #'                   addBoundaries = "cell")
 #' 
