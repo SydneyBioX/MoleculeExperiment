@@ -42,18 +42,20 @@ library(BiocStyle)
 ```
 
 # MoleculeExperiment
+
 The R package MoleculeExperiment contains functions to create and work with
 objects from the new MoleculeExperiment class. We introduce this class for
 analysing molecule-based spatial transcriptomics data (e.g., Xenium by 10X,
 CosMx SMI by Nanostring, and Merscope by Vizgen, among others).
 
 ## Why the MoleculeExperiment class?
+
 The goal of the MoleculeExperiment class is to:
-1) Enable analysis of spatial transcriptomics (ST) data at the molecule level, 
+1. Enable analysis of spatial transcriptomics (ST) data at the molecule level, 
 independent of aggregating to the cell or tissue level.
-2) Enable aggregation to a `SpatialExperiment` object given combinations of 
+2. Enable aggregation to a `SpatialExperiment` object given combinations of 
 molecules and segmentation boundaries.
-2) Standardise molecule-based ST data across vendors, to hopefully facilitate
+3. Standardise molecule-based ST data across vendors, to hopefully facilitate
 comparison of different data sources and common analytical and visualisation 
 workflows.
 
@@ -69,14 +71,14 @@ BiocManager::install("MoleculeExperiment")
 
 # Minimal example
 
-1) Load required libraries.
+1. Load required libraries.
 
 ```{r}
 library(MoleculeExperiment)
 library(ggplot2)
 ```
 
-2) Create MoleculeExperiment object with example Xenium data, taken over a 
+2. Create MoleculeExperiment object with example Xenium data, taken over a 
 small patch.
 
 ```{r}
@@ -87,7 +89,7 @@ me <- readXenium(repoDir,
 me
 ```
 
-3) Use standardised data in ME object for molecule-level analyses. For example,
+3. Use standardised data in ME object for molecule-level analyses. For example,
 plot a simple digital in-situ, with cell boundaries overlaid.
 
 ```{r}
@@ -103,7 +105,7 @@ ggplot(molecules(me, flatten = TRUE), aes(x = x_location, y = y_location)) +
   coord_fixed()
 ```
 
-4) Finally, it is also possible to go from a MoleculeExperiment object to a
+4. Finally, it is also possible to go from a MoleculeExperiment object to a
 SpatialExperiment object. This enables the transition from a molecule-level
 analysis to a cell-level analysis with already existing tools.
 

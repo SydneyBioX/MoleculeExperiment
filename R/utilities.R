@@ -92,15 +92,15 @@ names in the three \"col\" arguments to this function")
             "x_location",
             "y_location"
         )
-    }
-    if (df_type == "boundaries") {
+        return(standard_cols)
+    } else if (df_type == "boundaries") {
         standard_cols <- c(
             "segment_id",
             "x_location",
             "y_location"
         )
+        return(standard_cols)
     }
-    return(standard_cols)
 }
 
 # ------------------------------------------------------------------------------

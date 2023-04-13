@@ -3,7 +3,7 @@ test_that("missing or invalid arguments raise an error", {
 }
 )
 
-test_that("scaling with scaleFactor = 1 does not change anything", {
+test_that("scaling works", {
 
 }
 )
