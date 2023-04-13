@@ -50,7 +50,6 @@ readMolecules <- function(dataDir,
                           ) {
     # check arg validity
     .stop_if_null(pattern, featureCol, xCol, yCol, keepCols)
-    
     .check_if_character(dataDir, pattern, featureCol,
                         xCol, yCol, keepCols, moleculesAssay)
 
