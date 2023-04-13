@@ -8,6 +8,7 @@ test_that("stop() calls raise an error when prompted", {
 }
 )
 
+# TODO solve row/col sorting so that it is the same between terra and sp output
 test_that("terra implementation leads to same results as sp implementation", {
 
 }

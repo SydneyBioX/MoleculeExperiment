@@ -24,11 +24,12 @@ Imports:
     purrr,
     sp,
     data.table,
-    dplyr, 
+    dplyr,
     magrittr,
     rjson,
     utils,
-    methods
+    methods,
+    terra
 Suggests: 
     knitr,
     BiocStyle,
