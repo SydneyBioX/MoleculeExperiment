@@ -34,7 +34,6 @@ test_that("check missing or invalid arguments raise an error", {
                                   xCol = "x_coords",
                                   yCol = "y_coords")
     )
-
 }
 )
 
