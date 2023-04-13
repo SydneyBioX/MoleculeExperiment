@@ -41,7 +41,6 @@
 NULL
 
 
-# NOTE: avoid long calculations from being run from zero everytime
 setMethod("show",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object) {
@@ -85,6 +84,7 @@ setMethod("show",
                     paste(all[all != "detected"], sep = ",", collapse = " "), "\n"))
         }
 
+# TODO: avoid long calculations from being run from zero everytime
    #     if (is.null(object@boundaries)) {
    #         cat("\n@boundaries contents: NULL\n")
    #     } else {
@@ -119,7 +119,6 @@ setMethod("show",
    #     }
     }
 )
-
 
 #' @rdname summarization
 #' @export

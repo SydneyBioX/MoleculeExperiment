@@ -72,11 +72,13 @@ me <- readXenium(repoDir,
                   addBoundaries = "cell")
 
 # molecules() getter
-molecules(me)
+# expect a large output from call below
+# molecules(me)
+# alternatively, return rectangular data structure with flatten = TRUE
 molecules(me, assayName = "detected", flatten = TRUE)
 
 # boundaries() getter
-boundaries(me, assayName = "cell")
+# boundaries(me, assayName = "cell")
 boundaries(me, assayName = "cell", flatten = TRUE)
 
 # features() getter

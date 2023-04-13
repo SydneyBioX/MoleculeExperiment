@@ -1,15 +1,3 @@
-#setClass("MEList",
-#        slots = c())
-#
-#setClassUnion("MElist_OR_NULL", c("MElist", "NULL"))
-#
-##' @export
-##' @rdname MoleculeExperiment
-#setClass("MoleculeExperiment",
-#         slots = c(molecules = "MElist",
-#                   boundaries = "MElist_OR_NULL")
-#)
-
 setClassUnion("list_OR_NULL", c("list", "NULL"))
 
 #' @export

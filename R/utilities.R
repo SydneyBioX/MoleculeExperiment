@@ -13,6 +13,7 @@ argument of this function.")
 
 # ------------------------------------------------------------------------------
 # check arguments that should NOT be NULL
+# use ... to specify the arguments to be checked for validity
 .stop_if_null <- function(...) {
     # create list with parsed trees for the argument variables
     parsed_args <- substitute(list(...))
@@ -38,6 +39,7 @@ argument. See documentation for more information."))
 
 # ------------------------------------------------------------------------------
 # check arguments that, if NOT NULL, should be of class character
+# use ... to specify the arguments to be checked for validity
 .check_if_character <- function(...) {
     # create list with parsed trees for the argument variables
     parsed_args <- substitute(list(...))
@@ -133,7 +135,7 @@ names in the three \"col\" arguments to this function")
         for (c in standard_cols) {
             if (!c %in% cols) {
                 stop("Essential columns could not be identified in the
-keepCols argument. Essential columns are those specified in the \"col\"
+keepCols argument. Essential columns are those specified in the \"Col\"
 arguments of this function.")
             }
         }
