@@ -2,7 +2,7 @@
 #'
 #' The following methods are useful to get quick view of the contents in a
 #' MoleculeExperiment object.
-#' For example, strMolecules and strBoundaries summarise the large nested ME
+#' For example, showMolecules and showBoundaries summarise the large nested ME
 #' list of lists in the molecules and boundaries slots.
 #' nFeatures and nTranscripts get the numbers of features or transcripts,
 #' respectively. They can do so across all samples, or per sample.
@@ -14,8 +14,8 @@
 #' information per sample.
 #'
 #' @aliases
-#' strMolecules
-#' strBoundaries
+#' showMolecules
+#' showBoundaries
 #' nFeatures
 #' nTranscripts
 #'
@@ -29,8 +29,8 @@
 #'                   keepCols = "essential",
 #'                   addBoundaries = "cell")
 #' 
-#' strMolecules(me)
-#' strBoundaries(me)
+#' showMolecules(me)
+#' showBoundaries(me)
 #' 
 #' nFeatures(me)
 #' nFeatures(me, perSample = TRUE)
@@ -102,7 +102,7 @@ setMethod("show",
 #' @rdname summarization
 #' @export
 #' @importFrom utils str
-setMethod("strMolecules",
+setMethod("showMolecules",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object) {
         str(object@molecules, max.level = 3, list.len = 2)
@@ -112,7 +112,7 @@ setMethod("strMolecules",
 #' @rdname summarization
 #' @export
 #' @importFrom utils str
-setMethod("strBoundaries",
+setMethod("showBoundaries",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object) {
         str(object@boundaries, max.level = 3, list.len = 2)
@@ -138,7 +138,7 @@ setMethod("nFeatures",
 
             number <- length(unique(unlist(f_sample)))
 
-            cat(paste0(number,
+            message(paste0(number,
                         " unique features across all samples in assay \"",
                         assayName, "\": ",
                         paste(utils::head(features(object, assayName)[[1]]),
@@ -175,7 +175,7 @@ setMethod("nTranscripts",
         if (perSample) {
             return(sample_numbers)
         } else {
-            cat(paste0(
+            message(paste0(
 mean(sample_numbers), " molecules on average across all samples in assay \"",
 assayName, "\"\n"))
         }

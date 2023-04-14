@@ -3,19 +3,19 @@
 \docType{methods}
 \name{summarization}
 \alias{summarization}
-\alias{strMolecules}
-\alias{strBoundaries}
+\alias{showMolecules}
+\alias{showBoundaries}
 \alias{nFeatures}
 \alias{nTranscripts}
-\alias{strMolecules,MoleculeExperiment-method}
-\alias{strBoundaries,MoleculeExperiment-method}
+\alias{showMolecules,MoleculeExperiment-method}
+\alias{showBoundaries,MoleculeExperiment-method}
 \alias{nFeatures,MoleculeExperiment-method}
 \alias{nTranscripts,MoleculeExperiment-method}
 \title{Summarization methods to get insights into a MoleculeExperiment object}
 \usage{
-\S4method{strMolecules}{MoleculeExperiment}(object)
+\S4method{showMolecules}{MoleculeExperiment}(object)
 
-\S4method{strBoundaries}{MoleculeExperiment}(object)
+\S4method{showBoundaries}{MoleculeExperiment}(object)
 
 \S4method{nFeatures}{MoleculeExperiment}(object, assayName = "detected", perSample = FALSE)
 
@@ -36,7 +36,7 @@ A MoleculeExperiment object summary.
 \description{
 The following methods are useful to get quick view of the contents in a
 MoleculeExperiment object.
-For example, strMolecules and strBoundaries summarise the large nested ME
+For example, showMolecules and showBoundaries summarise the large nested ME
 list of lists in the molecules and boundaries slots.
 nFeatures and nTranscripts get the numbers of features or transcripts,
 respectively. They can do so across all samples, or per sample.
@@ -48,8 +48,8 @@ me <- readXenium(repoDir,
                   keepCols = "essential",
                   addBoundaries = "cell")
 
-strMolecules(me)
-strBoundaries(me)
+showMolecules(me)
+showBoundaries(me)
 
 nFeatures(me)
 nFeatures(me, perSample = TRUE)

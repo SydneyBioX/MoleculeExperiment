@@ -35,9 +35,9 @@ setGeneric("nTranscripts",
     function(object, ...) standardGeneric("nTranscripts"))
 
 #' @export
-setGeneric("strMolecules",
-    function(object, ...) standardGeneric("strMolecules"))
+setGeneric("showMolecules",
+    function(object, ...) standardGeneric("showMolecules"))
 
 #' @export
-setGeneric("strBoundaries",
-    function(object, ...) standardGeneric("strBoundaries"))
+setGeneric("showBoundaries",
+    function(object, ...) standardGeneric("showBoundaries"))

@@ -36,5 +36,6 @@ Suggests:
     BiocStyle,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
-biocViews: DataImport, DataRepresentation, Infrastructure, Software, Spatial
+biocViews: DataImport, DataRepresentation, Infrastructure, Software, Spatial,
+    Transcriptomics
 Config/testthat/edition: 3

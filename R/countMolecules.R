@@ -260,7 +260,7 @@ countMoleculesBoundaries_sp <- function(object,
 
   all_i_names <- rep(
                     unlist(
-                        sapply(
+                        lapply(
                             seq_len(length(out)), function(i) names(out[[i]]))),
                     times = lapply(unlist(out, recursive = FALSE), length))
   i_names <- sort(unique(all_i_names))

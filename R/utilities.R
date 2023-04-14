@@ -20,7 +20,7 @@ argument of this function.")
 
     # get vector of argument names as character strings
     # and ignore the call to the list component of the deparsed variable tree
-    args_names <- sapply(parsed_args, deparse)[-1]
+    args_names <- unlist(lapply(parsed_args, deparse)[-1])
 
     # get values for the arguments
     args_values <- list(...)
@@ -46,7 +46,7 @@ argument. See documentation for more information."))
 
     # get vector of argument names as character strings
     # and ignore the call to the list component of the deparsed variable tree
-    args_names <- sapply(parsed_args, deparse)[-1]
+    args_names <- unlist(lapply(parsed_args, deparse)[-1])
 
     # get values for the arguments
     args_values <- list(...)
