@@ -6,8 +6,11 @@
 # it's not compute intensive, so can be run anew each time
 .new_me_obj <- function() {
     repoDir <- system.file("extdata", package = "MoleculeExperiment")
-    me <- readXenium(repoDir,
-                        keepCols = "essential")
+    suppressMessages(
+        me <- readXenium(repoDir,
+                            keepCols = "essential", 
+                            addBoundaries = "cell")
+    )
     return(me)
 }
 
