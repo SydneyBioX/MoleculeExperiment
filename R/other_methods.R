@@ -84,39 +84,18 @@ setMethod("show",
                     paste(all[all != "detected"], sep = ",", collapse = " "), "\n"))
         }
 
-# TODO: avoid long calculations from being run from zero everytime
-   #     if (is.null(object@boundaries)) {
-   #         cat("\n@boundaries contents: NULL\n")
-   #     } else {
-   #         cat("\n@boundaries contents:\n")
-   #         for (i in names(object@boundaries)) {
-   #             cat(paste0("-", i, ":\n"))
-   #             id_ls <- segmentIDs(object, assayName = i)
-   #             n_comp <- mean(lengths(id_ls))
-   #             cat(paste0(n_comp, " unique segment IDs: ",
-   #                 paste(utils::head(id_ls[[1]]), collapse = " "), " ...\n"))
-
-   #             # get boundary centroid coordinates across all samples
-   #             sample_x <- lapply(names(object@boundaries[[i]]),
-   #                 function(x) {
-   #                     c <- segmentIDs(object, i)[[x]]
-
-   #                     c_x <- lapply(c, function(c) {
-   #                         object@boundaries[[i]][[x]][[c]][["x_location"]]})
-   #                 })
-   #             sample_y <- lapply(names(object@boundaries[[i]]),
-   #                 function(x) {
-   #                     c <- segmentIDs(object, i)[[x]]
-   #                     c_y <- lapply(c, function(c) {
-   #                         object@boundaries[[i]][[x]][[c]][["y_location"]]})
-   #                 })
-   #             c_x_v <- unlist(sample_x)
-   #             c_y_v <- unlist(sample_y)
-   #             cat(paste0("Location range across all samples: [",
-   #                 round(min(c_x_v), 2), ",", round(max(c_x_v), 2), "] x [",
-   #                 round(min(c_y_v), 2), ",", round(max(c_y_v), 2), "]\n"))
-   #         }
-   #     }
+        if (is.null(object@boundaries)) {
+            cat("\n@boundaries contents: NULL\n")
+        } else {
+            cat("\n@boundaries contents:\n")
+            for (i in names(object@boundaries)) {
+                cat(paste0("-", i, ":\n"))
+                id_ls <- segmentIDs(object, assayName = i)
+                n_comp <- mean(lengths(id_ls))
+                cat(paste0(n_comp, " unique segment IDs: ",
+                    paste(utils::head(id_ls[[1]]), collapse = " "), " ...\n"))
+            }
+        }
     }
 )
 
