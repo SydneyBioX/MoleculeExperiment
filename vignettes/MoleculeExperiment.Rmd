@@ -93,16 +93,12 @@ me
 plot a simple digital in-situ, with cell boundaries overlaid.
 
 ```{r}
-ggplot(molecules(me, flatten = TRUE), aes(x = x_location, y = y_location)) +
-  geom_point(size = 0.05) +
-  geom_polygon(aes(group = segment_id),
-                    fill = NA,
-                    colour = "black",
-                    data = boundaries(me,
-                                      assayName = "cell",
-                                      flatten = TRUE)) +
-  facet_wrap(~sample_id) +
-  coord_fixed()
+ggplot_me() +
+      geom_polygon_me(me, assayName = "cell", fill = "grey") +
+      geom_point_me(me) +
+      # zoom in to selected patch area
+      coord_cartesian(xlim = c(4900, 4919.98), 
+                        ylim = c(6400.02, 6420))
 ```
 
 4. Finally, it is also possible to go from a MoleculeExperiment object to a
@@ -243,7 +239,7 @@ The nested list in the molecules slot has the following hierarchical structure:
 locations (and other additional columns of interest).
 
 ```{r}
-strMolecules(me)
+showMolecules(me)
 ```
 
 ### boundaries slot
@@ -257,7 +253,7 @@ boundary information is for cells, the assay name can be set to "cell";
 or "nucleus" if one is using nucleus boundaries.
 
 ```{r}
-strBoundaries(me)
+showBoundaries(me)
 ```
 
 # Methods
@@ -268,7 +264,7 @@ i.e., getters and setters, respectively.
 The main getters are molecules() and boundaries(). NOTE: the output of these
 methods is the ME nested list, which can be very large on screen. Thus, these
 getters should be used when wanting to work with the data. To quickly view the
-slot contents, use strMolecules() and strBoundaries() instead.
+slot contents, use showMolecules() and showBoundaries() instead.
 
 ```{r, echo=TRUE, results= 'hide'}
 # NOTE: output not shown as it is too large
@@ -322,22 +318,15 @@ me # note the addition of the nucleus boundaries to the boundaries slot
 The additional boundaries can be accessed, e.g. for visualisation.
 
 ```{r}
-ggplot(molecules(me, flatten = TRUE), aes(x = x_location, y = y_location)) +
-  geom_point(size = 0.05) +
-  geom_polygon(aes(group = segment_id),
-                    fill = NA,
-                    colour = "black",
-                    data = boundaries(me,
-                                      assayName = "cell",
-                                      flatten = TRUE)) +
-  geom_polygon(aes(group = segment_id),
-                    fill = NA,
-                    colour = "red",
-                    data = boundaries(me,
-                                      assayName = "nucleus",
-                                      flatten = TRUE)) +
-  facet_wrap(~sample_id) +
-  coord_fixed()
+ggplot_me() +
+  # add cell segments and colour by cell id
+  geom_polygon_me(me, byFill = "segment_id", colour = "black", alpha = 0.1) +
+  # add molecule points and colour by feature name
+  geom_point_me(me, byColour = "feature_name", size = 0.1) +
+  # add nuclei segments and colour the border with red
+  geom_polygon_me(me, assayName = "nucleus", fill = NA, colour = "red") +
+  # zoom in to selected patch area
+  coord_cartesian(xlim = c(4900, 4919.98), ylim = c(6400.02, 6420))
 ```
 
 # From MoleculeExperiment to SpatialExperiment
