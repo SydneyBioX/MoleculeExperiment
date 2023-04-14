@@ -29,11 +29,11 @@ Imports:
     rjson,
     utils,
     methods,
-    terra
+    terra,
+    ggplot2
 Suggests: 
     knitr,
     BiocStyle,
-    ggplot2,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 biocViews: DataImport, DataRepresentation, Infrastructure, Software, Spatial
