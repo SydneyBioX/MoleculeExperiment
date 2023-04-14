@@ -1,21 +1,26 @@
 ggplot_me <- function() {
     # base ggplot for me object
-    ggplot() +
+    ggplot2::ggplot() +
         facet_me() +
-        theme_classic() +
-        theme(aspect.ratio = 1) +
-        theme(legend.position = "none")
+        ggplot2::theme_classic() +
+        ggplot2::theme(aspect.ratio = 1) +
+        ggplot2::theme(legend.position = "none")
 }
 
 geom_point_me <- function(me, assayName = "detected", by_colour = NULL, ...) {
     # creates ggplot layer for points
     if (is.null(by_colour)) {
-        gprot <- geom_point(aes(x = x_location, y = y_location),
+        gprot <- ggplot2::geom_point(
+            ggplot2::aes(x = x_location, y = y_location),
             data = molecules(me, assayName = assayName, flatten = TRUE), ...
         )
     } else {
-        gprot <- geom_point(
-            aes(x = x_location, y = y_location, colour = .data[[by_colour]]),
+        gprot <- ggplot2::geom_point(
+            ggplot2::aes(
+                x = x_location,
+                y = y_location,
+                colour = .data[[by_colour]]
+            ),
             data = molecules(me, assayName = assayName, flatten = TRUE), ...
         )
     }
@@ -25,13 +30,13 @@ geom_point_me <- function(me, assayName = "detected", by_colour = NULL, ...) {
 geom_polygon_me <- function(me, assayName = "cell", by_fill = NULL, ...) {
     # creates ggplot layer for polygon
     if (is.null(by_fill)) {
-        gprot <- geom_polygon(
-            aes(x = x_location, y = y_location, group = segment_id),
+        gprot <- ggplot2::geom_polygon(
+            ggplot2::aes(x = x_location, y = y_location, group = segment_id),
             data = boundaries(me, assayName = assayName, flatten = TRUE), ...
         )
     } else {
         gprot <- geom_polygon(
-            aes(
+            ggplot2::aes(
                 x = x_location, y = y_location,
                 group = segment_id, fill = .data[[by_fill]]
             ),
@@ -43,7 +48,7 @@ geom_polygon_me <- function(me, assayName = "cell", by_fill = NULL, ...) {
 
 facet_me <- function(me) {
     # looks at number of samples in me and facets according to it
-    facet_wrap(~sample_id)
+    ggplot2::facet_wrap(~sample_id)
 }
 
 
@@ -77,6 +82,7 @@ facet_me <- function(me) {
 #'
 #' @rdname plotBoudaries
 #' @export
+#' @importFrom ggplot2 ggplot aes facet_wrap geom_point geom_polygon
 plotBoudaries <- function(me) {
     g <- ggplot_me() +
         geom_polygon_me(
