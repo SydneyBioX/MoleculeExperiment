@@ -1,29 +1,3 @@
-library(MoleculeExperiment)
-library(ggplot2)
-
-repo_dir <- system.file("extdata", package = "MoleculeExperiment")
-
-me <- readXenium(repo_dir,
-    n_samples = 2,
-    keep_cols = "essential"
-)
-me
-
-nuclei_ls <- readBoundaries(
-    data_dir = repo_dir,
-    pattern = "nucleus_boundaries.csv",
-    n_samples = 2,
-    segment_id_col = "cell_id",
-    x_col = "vertex_x",
-    y_col = "vertex_y",
-    keep_cols = "essential",
-    boundaries_assay = "nucleus",
-    scale_factor_vector = 1
-)
-
-boundaries(me, "nucleus") <- nuclei_ls
-me # note the addition of the nucleus boundaries to the boundaries slot
-
 ggplot_me <- function() {
     # base ggplot for me object
     ggplot() +
@@ -33,29 +7,35 @@ ggplot_me <- function() {
         theme(legend.position = "none")
 }
 
-geom_point_me <- function(me, assay_name = "detected", by_colour = NULL, ...) {
+geom_point_me <- function(me, assayName = "detected", by_colour = NULL, ...) {
     # creates ggplot layer for points
     if (is.null(by_colour)) {
         gprot <- geom_point(aes(x = x_location, y = y_location),
-            data = molecules(me, assay_name = assay_name, flatten = TRUE), ...
+            data = molecules(me, assayName = assayName, flatten = TRUE), ...
         )
     } else {
-        gprot <- geom_point(aes(x = x_location, y = y_location, colour = .data[[by_colour]]),
-            data = molecules(me, assay_name = assay_name, flatten = TRUE), ...
+        gprot <- geom_point(
+            aes(x = x_location, y = y_location, colour = .data[[by_colour]]),
+            data = molecules(me, assayName = assayName, flatten = TRUE), ...
         )
     }
     return(gprot)
 }
 
-geom_polygon_me <- function(me, assay_name = "cell", by_fill = NULL, ...) {
+geom_polygon_me <- function(me, assayName = "cell", by_fill = NULL, ...) {
     # creates ggplot layer for polygon
     if (is.null(by_fill)) {
-        gprot <- geom_polygon(aes(x = x_location, y = y_location, group = segment_id),
-            data = boundaries(me, assay_name = assay_name, flatten = TRUE), ...
+        gprot <- geom_polygon(
+            aes(x = x_location, y = y_location, group = segment_id),
+            data = boundaries(me, assayName = assayName, flatten = TRUE), ...
         )
     } else {
-        gprot <- geom_polygon(aes(x = x_location, y = y_location, group = segment_id, fill = .data[[by_fill]]),
-            data = boundaries(me, assay_name = assay_name, flatten = TRUE), ...
+        gprot <- geom_polygon(
+            aes(
+                x = x_location, y = y_location,
+                group = segment_id, fill = .data[[by_fill]]
+            ),
+            data = boundaries(me, assayName = assayName, flatten = TRUE), ...
         )
     }
     return(gprot)
@@ -67,8 +47,49 @@ facet_me <- function(me) {
 }
 
 
-g <- ggplot_me() +
-    geom_polygon_me(me, by_fill = "segment_id", colour = "black") + # add molecule points
-    geom_point_me(me, by_colour = "feature_name", size = 0.1) + # add cell segmentds
-    geom_polygon_me(me, assay_name = "nucleus", fill = NA, colour = "red") # add nuclei segments
-g
+#' @title plotBoudaries
+#' @description Plots the molucules and boundaries of a ME object.
+#' @param me A molecule experiment with boundaries.
+#' @return A boundary plot.
+#' @examples
+#' repo_dir <- system.file("extdata", package = "MoleculeExperiment")
+#'
+#' me <- readXenium(
+#'     repo_dir,
+#'     keepCols = "essential"
+#' )
+#' me
+#'
+#' nuclei_ls <- readBoundaries(
+#'     repo_dir,
+#'     pattern = "nucleus_boundaries.csv",
+#'     segmentIDCol = "cell_id",
+#'     xCol = "vertex_x",
+#'     yCol = "vertex_y",
+#'     keepCols = "essential",
+#'     boundariesAssay = "nucleus",
+#'     scaleFactorVector = 1
+#' )
+#'
+#' boundaries(me, "nucleus") <- nuclei_ls
+#'
+#' plotBoudaries(me)
+#'
+#' @rdname plotBoudaries
+#' @export
+plotBoudaries <- function(me) {
+    g <- ggplot_me() +
+        geom_polygon_me(
+            me,
+            by_fill = "segment_id", colour = "black"
+        ) +
+        geom_point_me(
+            me,
+            by_colour = "feature_name", size = 0.1
+        ) +
+        geom_polygon_me(
+            me,
+            assayName = "nucleus", fill = NA, colour = "red"
+        )
+    g
+}
