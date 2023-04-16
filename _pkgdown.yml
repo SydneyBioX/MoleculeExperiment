@@ -1,8 +1,0 @@
-template:
-  bootstrap: 5
-  bootswatch: cosmo
-toc:
-  depth: 3
-navbar:
-  title: ~
-  bg: dark
