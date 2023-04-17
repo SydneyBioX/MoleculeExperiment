@@ -47,14 +47,6 @@ countMolecules <- function(object,
     .stop_if_null(boundariesAssay, segmentationInfo, moleculesAssay)
     .check_if_character(boundariesAssay, segmentationInfo, moleculesAssay)
 
-    # notify user of argument values chosen
-    message(paste0("The \"", moleculesAssay, "\" assay was retrieved from the
-      molecules slot. To select another assay, specify it in the moleculesAssay
-      argument."))
-    message(paste0("The \"", boundariesAssay, "\" assay was retrieved from the
-      boundaries slot. To select another assay, specify it in the boundariesAssay
-      argument."))
-
     # Function should be flexible to different segmentation information
     # priority for boundaries as 10x and vizgen have this info, but not masks
     if (segmentationInfo == "boundaries") {
@@ -75,31 +67,40 @@ countMolecules <- function(object,
                                         boundaries_assay = NULL,
                                         matrix_only = FALSE) {
 
-  suppressMessages(
+    # messages from getters will notify user about assays chosen
+    init_mols <- MoleculeExperiment::molecules(object, molecules_assay)
+    init_bds <- MoleculeExperiment::boundaries(object, boundaries_assay)
+
     if (isFALSE(identical(
-        names(MoleculeExperiment::molecules(object, molecules_assay)[[molecules_assay]]),
-        names(MoleculeExperiment::boundaries(object, boundaries_assay)[[boundaries_assay]])))) 
+        names(init_mols[[molecules_assay]]),
+        names(init_bds[[boundaries_assay]]))))
     {
         stop("Sample IDs do not match between the @molecules slot and the\n
                 @boundaries slot.")
     }
-  )
 
   samples <- names(object@molecules$detected)
   features <- sort(unique(unlist(MoleculeExperiment::features(object))))
 
   xvalsList <- vector(mode = "list", length = length(samples))
-  xvalsList <- lapply(xvalsList, function(x) vector(mode = "list", length = length(features)))
+  xvalsList <- lapply(xvalsList,
+                  function(x) vector(mode = "list", length = length(features)))
 
   ivalsList <- vector(mode = "list", length = length(samples))
-  ivalsList <- lapply(ivalsList, function(x) vector(mode = "list", length = length(features)))
+  ivalsList <- lapply(ivalsList,
+                  function(x) vector(mode = "list", length = length(features)))
 
   jnamesList <- vector(mode = "list", length = length(samples))
-  jnamesList <- lapply(jnamesList, function(x) vector(mode = "list", length = length(features)))
+  jnamesList <- lapply(jnamesList,
+                  function(x) vector(mode = "list", length = length(features)))
 
-  bds_all <- MoleculeExperiment::boundaries(object, boundaries_assay)[[boundaries_assay]]
+  bds_all <- init_bds[[boundaries_assay]]
 
-  bds_all_flat <- MoleculeExperiment::boundaries(object, assayName = boundaries_assay, flatten = TRUE)
+  # suppress messages to avoid repeating getter messages
+  bds_all_flat <- suppressMessages(
+                    MoleculeExperiment::boundaries(object,
+                                                  assayName = boundaries_assay,
+                                                  flatten = TRUE))
 
   for (sample in samples) {
     bds_df <- bds_all_flat %>% dplyr::filter(sample_id == sample)
@@ -112,10 +113,7 @@ countMolecules <- function(object,
     bds <- terra::vect(bds_mat, type = "polygons")
 
     for (feature in features) {
-      suppressMessages(
-        mols_df <- MoleculeExperiment::molecules(object,
-          assayName = molecules_assay)[[molecules_assay]][[sample]][[feature]]
-      )
+      mols_df <- init_mols[[molecules_assay]][[sample]][[feature]]
 
       if (is.null(mols_df)) next
 
@@ -189,14 +187,6 @@ countMolecules_sp <- function(object,
     .stop_if_null(boundariesAssay, segmentationInfo, moleculesAssay)
     .check_if_character(boundariesAssay, segmentationInfo, moleculesAssay)
 
-    # notify user of argument values chosen
-    message(paste0("The \"", moleculesAssay, "\" assay was retrieved from the
-      molecules slot. To select another assay, specify it in the moleculesAssay
-      argument."))
-    message(paste0("The \"", boundariesAssay, "\" assay was retrieved from the
-      boundaries slot. To select another assay, specify it in the boundariesAssay
-      argument."))
-
     if (segmentationInfo == "boundaries") {
         spe <- countMoleculesBoundaries_sp(object,
                                             molecules_assay = moleculesAssay,
@@ -211,19 +201,21 @@ countMoleculesBoundaries_sp <- function(object,
                                         boundaries_assay = NULL,
                                         matrix_only = FALSE) {
 
-  suppressMessages(
-    if (isFALSE(
-          identical(
-              names(MoleculeExperiment::molecules(object, molecules_assay)[[molecules_assay]]),
-              names(MoleculeExperiment::boundaries(object, boundaries_assay)[[boundaries_assay]])))) {
+    # messages from getters will notify user about assays chosen
+    init_mols <- MoleculeExperiment::molecules(object, molecules_assay)
+    init_bds <- MoleculeExperiment::boundaries(object, boundaries_assay)
+
+    if (isFALSE(identical(
+              names(init_mols[[molecules_assay]]),
+              names(init_bds[[boundaries_assay]]))))
+    {
       stop("Sample IDs do not match between the @molecules slot and the\n
       @boundaries slot.")
     }
-  )
 
   # create SpatialPolygon object for each sample (from sp package)
   srList <- lapply(
-    MoleculeExperiment::boundaries(object, boundaries_assay)[[boundaries_assay]],
+    init_bds[[boundaries_assay]],
     function(bds) {
         sp::SpatialPolygons(mapply(
             # create Polygons obj from Polygon objects for each segment_id
@@ -236,17 +228,15 @@ countMoleculesBoundaries_sp <- function(object,
     }
     )
 
-  suppressMessages(
-    readsList <- lapply(
-      MoleculeExperiment::molecules(object, molecules_assay)[[molecules_assay]],
-      function(reads) {
-          reads <- lapply(reads, function(rds) {
-              sp::coordinates(rds) <- ~x_location + y_location
-              return(rds)
-          })
-          return(reads)
-      })
-  )
+  readsList <- lapply(
+    init_mols[[molecules_assay]],
+    function(reads) {
+        reads <- lapply(reads, function(rds) {
+            sp::coordinates(rds) <- ~x_location + y_location
+            return(rds)
+        })
+        return(reads)
+    })
 
   getOutGenes <- function(sr, reads) {
     lapply(reads, function(rds) {
@@ -277,19 +267,15 @@ countMoleculesBoundaries_sp <- function(object,
 
   if (matrix_only) return(X)
 
-  suppressMessages(
-    sample_id <- rep(
-      names(MoleculeExperiment::boundaries(object, boundaries_assay)[[boundaries_assay]]),
-      times = lapply(MoleculeExperiment::boundaries(object, boundaries_assay)[[boundaries_assay]], length))
-  )
+  sample_id <- rep(
+    names(init_bds[[boundaries_assay]]),
+    times = lapply(init_bds[[boundaries_assay]], length))
 
-  suppressMessages(
-    centroids <- do.call(rbind,
-                   lapply(
-                      unlist(MoleculeExperiment::boundaries(object, boundaries_assay)[[boundaries_assay]],
-                          recursive = FALSE),
-                      colMeans))
-  )
+  centroids <- do.call(rbind,
+                  lapply(
+                    unlist(init_bds[[boundaries_assay]],
+                        recursive = FALSE),
+                    colMeans))
 
   cData <- data.frame(sample_id = sample_id,
                         x_location = centroids[, "x_location"],

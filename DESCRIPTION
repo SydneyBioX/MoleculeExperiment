@@ -30,7 +30,8 @@ Imports:
     utils,
     methods,
     terra,
-    ggplot2
+    ggplot2,
+    rlang
 Suggests: 
     knitr,
     BiocStyle,

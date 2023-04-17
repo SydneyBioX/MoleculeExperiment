@@ -27,7 +27,7 @@
 #' g = ggplot_me() +
 #'         geom_polygon_me(me, byFill = "segment_id", colour = "black") +
 #'         geom_point_me(me, byColour = "feature_name", size = 0.1) +
-#'         geom_polygon_me(me, assay_name = "nucleus", fill = NA, colour = "red")
+#'         geom_polygon_me(me, assayName = "nucleus", fill = NA, colour = "red")
 #' g
 NULL
 
@@ -44,6 +44,7 @@ ggplot_me <- function() {
 
 #' @rdname plotting functions
 #' @export
+#' @importFrom rlang .data
 geom_point_me <- function(me, assayName = "detected", byColour = NULL, ...) {
     # creates ggplot layer for points
     if (is.null(byColour)) {
@@ -66,19 +67,20 @@ geom_point_me <- function(me, assayName = "detected", byColour = NULL, ...) {
 
 #' @rdname plotting functions
 #' @export
+#' @importFrom rlang .data
 geom_polygon_me <- function(me, assayName = "cell", byFill = NULL, ...) {
     # creates ggplot layer for polygon
     if (is.null(byFill)) {
         gprot <- ggplot2::geom_polygon(
             ggplot2::aes(x = .data[["x_location"]], y = .data[["y_location"]],
-                group = segment_id),
+                group = .data[["segment_id"]]),
             data = boundaries(me, assayName = assayName, flatten = TRUE), ...
         )
     } else {
         gprot <- ggplot2::geom_polygon(
             ggplot2::aes(
                 x = .data[["x_location"]], y = .data[["y_location"]],
-                group = segment_id, fill = .data[[byFill]]
+                group = .data[["segment_id"]], fill = .data[[byFill]]
             ),
             data = boundaries(me, assayName = assayName, flatten = TRUE), ...
         )

@@ -89,11 +89,6 @@ setMethod("molecules",
         # check arg validity
         .check_if_character(assayName)
 
-        if (assayName == "detected") {
-            message("The transcripts from the detected assay were
-retrieved. Other assay transcripts can be retrieved by specifying the assayName
-argument.")
-        }
         if (! assayName %in% names(object@molecules)) {
             stop("Assay name specified does not exist in molecules slot.
 Please specify another assay name in the assayName argument.")
@@ -104,7 +99,10 @@ Please specify another assay name in the assayName argument.")
             big_df <- .flatten_molecules(object, assay_name = assayName)
             return(big_df)
         } else {
-            object@molecules[assayName]
+            message("The transcripts from the \"", assayName, "\" assay were
+retrieved. Other assay transcripts can be retrieved by specifying the assayName
+argument.")
+            return(object@molecules[assayName])
         }
     }
 )
@@ -122,21 +120,23 @@ setMethod("boundaries",
         if (is.null(assayName)) {
             warning(
                 "All boundaries assays were returned: ",
-                names(object@boundaries), ". To select only a specific",
-                "boundary subslot, specify the assayName argument."
+                names(object@boundaries), ". To select only a specific boundary
+subslot, specify the assayName argument."
             )
-
-            if (flatten) {
-                unlist(object@boundaries)
-            } else {
-                object@boundaries
-            }
+            return(object@boundaries)
         } else {
+            if (! assayName %in% names(object@boundaries)) {
+                stop("Assay name specified does not exist in boundaries slot.
+Please specify another assay name in the assayName argument.")
+            }
             if (flatten) {
                 big_df <- .flatten_boundaries(object, assay_name = assayName)
                 return(big_df)
             } else {
-                object@boundaries[assayName]
+                message("The boundaries from the \"", assayName, "\" assay
+were retrieved. Boundaries from other assays can be retrieved by specifying
+the assayName argument.")
+                return(object@boundaries[assayName])
             }
         }
     }

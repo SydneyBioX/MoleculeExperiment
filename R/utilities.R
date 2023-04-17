@@ -30,9 +30,9 @@ argument of this function.")
     # show error message if one of the specified arguments is NULL
     for (arg in names(args_values)) {
         if (is.null(args_values[[arg]])) {
-            stop(paste0("The argument ", arg,
+            stop("The argument ", arg,
                 " should not be NULL. Please enter a valid value for this
-argument. See documentation for more information."))
+argument. See documentation for more information.")
         }
     }
 }
@@ -57,8 +57,8 @@ argument. See documentation for more information."))
     for (arg in names(args_values)) {
         if (!is.null(args_values[[arg]])) {
             if (!is(args_values[[arg]], "character")) {
-                stop(paste0("The argument ", arg,
-                    " should be a character string"))
+                stop("The argument ", arg,
+                    " should be a character string")
             }
         }
     }
