@@ -52,7 +52,8 @@ level, one can do so.
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 
 me <- readXenium(repoDir,
-                  keepCols = "essential")
+  keepCols = "essential"
+)
 
 spe <- countMolecules(me)
 spe

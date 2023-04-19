@@ -33,10 +33,12 @@
 #' repoDir <- system.file("extdata", package = "MoleculeExperiment")
 #'
 #' me <- readXenium(repoDir,
-#'                   keepCols = "essential")
+#'   keepCols = "essential"
+#' )
 #'
 #' spe <- countMolecules(me)
 #' spe
+#' @import data.table
 countMolecules <- function(object,
                            moleculesAssay = "detected",
                            segmentationInfo = "boundaries",
@@ -53,7 +55,8 @@ countMolecules <- function(object,
         spe <- .count_molecules_boundaries(object,
                                         molecules_assay = moleculesAssay,
                                         boundaries_assay = boundariesAssay,
-                                        matrix_only = matrixOnly)
+      matrix_only = matrixOnly
+    )
     }
     # if (is(segmentationInfo, "masks")) {
     #    return(.count_molecules_masks(object, segmentation))
@@ -66,15 +69,14 @@ countMolecules <- function(object,
                                         molecules_assay = NULL,
                                         boundaries_assay = NULL,
                                         matrix_only = FALSE) {
-
     # messages from getters will notify user about assays chosen
     init_mols <- MoleculeExperiment::molecules(object, molecules_assay)
     init_bds <- MoleculeExperiment::boundaries(object, boundaries_assay)
 
     if (isFALSE(identical(
         names(init_mols[[molecules_assay]]),
-        names(init_bds[[boundaries_assay]]))))
-    {
+    names(init_bds[[boundaries_assay]])
+  ))) {
         stop("Sample IDs do not match between the @molecules slot and the\n
                 @boundaries slot.")
     }
@@ -100,15 +102,19 @@ countMolecules <- function(object,
   bds_all_flat <- suppressMessages(
                     MoleculeExperiment::boundaries(object,
                                                   assayName = boundaries_assay,
-                                                  flatten = TRUE))
+      flatten = TRUE
+    )
+  )
 
   for (sample in samples) {
     bds_df <- bds_all_flat %>% dplyr::filter(sample_id == sample)
     factors <- interaction(bds_df$sample_id, bds_df$segment_id)
     factors_int <- as.integer(factors)
     bds_levels <- levels(factors)
-    bds_mat <- as.matrix(cbind(factors_int,
-                               bds_df[,c("x_location", "y_location")]))
+    bds_mat <- as.matrix(cbind(
+      factors_int,
+      bds_df[, c("x_location", "y_location")]
+    ))
     colnames(bds_mat) <- c("factors_int", "x", "y")
     bds <- terra::vect(bds_mat, type = "polygons")
 
@@ -123,15 +129,14 @@ countMolecules <- function(object,
       mols <- terra::vect(mols_mat, type = "points")
 
       out <- terra::relate(bds, mols, "covers", pairs = TRUE)
-      xvals <- tapply(out[,1], out[,1], length)
+      xvals <- tapply(out[, 1], out[, 1], length)
       ivals <- rep(which(features == feature), length(xvals))
-      jvals <- unique(out[,1])
+      jvals <- unique(out[, 1])
       jnames <- bds_levels[jvals]
 
       xvalsList[[sample]][[feature]] <- xvals
       ivalsList[[sample]][[feature]] <- ivals
       jnamesList[[sample]][[feature]] <- jnames
-
     }
   }
 
@@ -145,26 +150,35 @@ countMolecules <- function(object,
   X <- Matrix::sparseMatrix(ivals,
                             jvals,
                             x = xvals,
-                            dimnames = list(inames, jnames))
+    dimnames = list(inames, jnames)
+  )
 
-  if (matrix_only) return(X)
+  if (matrix_only) {
+    return(X)
+  }
 
   sample_id <- rep(names(bds_all), times = lapply(bds_all, length))
-  centroids <- do.call(rbind, lapply(unlist(bds_all, recursive = FALSE),
-                                     colMeans))
-  cData <- data.frame(sample_id = sample_id,
+  centroids <- do.call(rbind, lapply(
+    unlist(bds_all, recursive = FALSE),
+    colMeans
+  ))
+  cData <- data.frame(
+    sample_id = sample_id,
                       x_location = centroids[, "x_location"],
-                      y_location = centroids[, "y_location"])[colnames(X),]
-  cData[,"cell_id"] <- colnames(X)
+    y_location = centroids[, "y_location"]
+  )[colnames(X), ]
+  cData[, "cell_id"] <- colnames(X)
 
   spe <- SpatialExperiment::SpatialExperiment(
             assays = list(counts = X),
             colData = cData,
             spatialCoords = as.matrix(cData[, c("x_location", "y_location")]),
-            reducedDims = list(spatial = as.matrix(cData[, c("x_location", "y_location")])))
+    reducedDims = list(spatial = as.matrix(cData[, c("x_location", "y_location")]))
+  )
 
   return(spe)
 }
+
 
 # .count_molecules_masks(){
 #    # should recognise an array
@@ -191,7 +205,8 @@ countMolecules_sp <- function(object,
         spe <- countMoleculesBoundaries_sp(object,
                                             molecules_assay = moleculesAssay,
                                             boundaries_assay = boundariesAssay,
-                                            matrix_only = matrixOnly)
+      matrix_only = matrixOnly
+    )
     }
     return(spe)
 }
@@ -200,15 +215,14 @@ countMoleculesBoundaries_sp <- function(object,
                                         molecules_assay = NULL,
                                         boundaries_assay = NULL,
                                         matrix_only = FALSE) {
-
     # messages from getters will notify user about assays chosen
     init_mols <- MoleculeExperiment::molecules(object, molecules_assay)
     init_bds <- MoleculeExperiment::boundaries(object, boundaries_assay)
 
     if (isFALSE(identical(
               names(init_mols[[molecules_assay]]),
-              names(init_bds[[boundaries_assay]]))))
-    {
+    names(init_bds[[boundaries_assay]])
+  ))) {
       stop("Sample IDs do not match between the @molecules slot and the\n
       @boundaries slot.")
     }
@@ -224,7 +238,8 @@ countMoleculesBoundaries_sp <- function(object,
             },
             x = lapply(bds, "[", "x_location"),
             y = lapply(bds, "[", "y_location"),
-            nm = as.character(names(bds))))
+        nm = as.character(names(bds))
+      ))
     }
     )
 
@@ -232,11 +247,12 @@ countMoleculesBoundaries_sp <- function(object,
     init_mols[[molecules_assay]],
     function(reads) {
         reads <- lapply(reads, function(rds) {
-            sp::coordinates(rds) <- ~x_location + y_location
+        sp::coordinates(rds) <- ~ x_location + y_location
             return(rds)
         })
         return(reads)
-    })
+    }
+  )
 
   getOutGenes <- function(sr, reads) {
     lapply(reads, function(rds) {
@@ -251,8 +267,11 @@ countMoleculesBoundaries_sp <- function(object,
   all_i_names <- rep(
                     unlist(
                         lapply(
-                            seq_len(length(out)), function(i) names(out[[i]]))),
-                    times = lapply(unlist(out, recursive = FALSE), length))
+        seq_len(length(out)), function(i) names(out[[i]])
+      )
+    ),
+    times = lapply(unlist(out, recursive = FALSE), length)
+  )
   i_names <- sort(unique(all_i_names))
   all_i <- match(all_i_names, i_names)
 
@@ -263,30 +282,41 @@ countMoleculesBoundaries_sp <- function(object,
   X <- Matrix::sparseMatrix(all_i,
                             all_j,
                             x = all_x,
-                            dimnames = list(i_names, j_names))
+    dimnames = list(i_names, j_names)
+  )
 
-  if (matrix_only) return(X)
+  if (matrix_only) {
+    return(X)
+  }
 
   sample_id <- rep(
     names(init_bds[[boundaries_assay]]),
-    times = lapply(init_bds[[boundaries_assay]], length))
+    times = lapply(init_bds[[boundaries_assay]], length)
+  )
 
-  centroids <- do.call(rbind,
+  centroids <- do.call(
+    rbind,
                   lapply(
                     unlist(init_bds[[boundaries_assay]],
-                        recursive = FALSE),
-                    colMeans))
+        recursive = FALSE
+      ),
+      colMeans
+    )
+  )
 
-  cData <- data.frame(sample_id = sample_id,
+  cData <- data.frame(
+    sample_id = sample_id,
                         x_location = centroids[, "x_location"],
                         y_location = centroids[, "y_location"],
-                        cell_id = colnames(X))
+    cell_id = colnames(X)
+  )
 
   spe <- SpatialExperiment::SpatialExperiment(
             assays = list(counts = X),
             colData = cData,
             spatialCoords = as.matrix(cData[, c("x_location", "y_location")]),
-            reducedDims = list(spatial = as.matrix(cData[, c("x_location", "y_location")])))
+    reducedDims = list(spatial = as.matrix(cData[, c("x_location", "y_location")]))
+  )
 
   return(spe)
 }
