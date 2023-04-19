@@ -31,7 +31,8 @@ Imports:
     methods,
     terra,
     ggplot2,
-    rlang
+    rlang,
+    BiocParallel
 Suggests: 
     knitr,
     BiocStyle,
