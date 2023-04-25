@@ -54,7 +54,7 @@ specific technologies (e.g., see readXenium).
 }
 \examples{
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
-
+repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 simple_me <- readMolecules(repoDir,
                             pattern = "transcripts.csv",
                             featureCol = "feature_name",

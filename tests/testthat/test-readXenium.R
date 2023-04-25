@@ -3,6 +3,7 @@ test_that("readXenium wrapper does not change readMolecules behaviour", {
     me <- .new_me_obj()
     # use readMolecules
     repoDir <- system.file("extdata", package = "MoleculeExperiment")
+    repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
     simple_me <- readMolecules(repoDir,
                                 pattern = "transcripts.csv",
@@ -22,6 +23,7 @@ test_that("readXenium wrapper does not change readBoundaries behaviour", {
     me <- .new_me_obj()
     # use readBoundaries for cells
     repoDir <- system.file("extdata", package = "MoleculeExperiment")
+    repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
     cell_bds_ls <- readBoundaries(dataDir = repoDir,
                                 pattern = "cell_boundaries.csv",

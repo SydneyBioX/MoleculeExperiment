@@ -32,6 +32,7 @@
 #' @export
 #' @examples
 #' repoDir <- system.file("extdata", package = "MoleculeExperiment")
+#' repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 #' nucleiMEList <- readBoundaries(dataDir = repoDir,
 #'                             pattern = "nucleus_boundaries.csv",
 #'                             segmentIDCol = "cell_id",

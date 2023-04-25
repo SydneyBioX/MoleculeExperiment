@@ -1,5 +1,6 @@
 test_that("missing or invalid arguments raise an error", {
     repoDir <- system.file("extdata", package = "MoleculeExperiment")
+    repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
     expect_error(readMolecules(repoDir,
                                 pattern = "transcripts.csv",
@@ -28,6 +29,7 @@ test_that("missing or invalid arguments raise an error", {
 
 test_that("expected sample directories are identified", {
     repoDir <- system.file("extdata", package = "MoleculeExperiment")
+    repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
     f_paths <- list.files(repoDir,
                      pattern = "transcripts.csv",
@@ -58,6 +60,7 @@ test_that("expected sample directories are identified", {
 
 test_that("only columns of interest to the user are kept", {
     repoDir <- system.file("extdata", package = "MoleculeExperiment")
+    repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
     essential_me <- readMolecules(repoDir,
                                 pattern = "transcripts.csv",
@@ -95,8 +98,9 @@ test_that("only columns of interest to the user are kept", {
 
 test_that("output looks like expected", {
     repoDir <- system.file("extdata", package = "MoleculeExperiment")
-    samples <- c("Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs",
-        "Xenium_V1_FF_Mouse_Brain_MultiSection_2_outs")
+    repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
+    samples <- c("sample1",
+        "sample2")
 
     simple_me <- readMolecules(repoDir,
                                 pattern = "transcripts.csv",

@@ -26,3 +26,10 @@ readMolecules(). Note that this function can currently only create a simple
 ME object with the molecules slot filled. Boundary information cannot be
 handled yet.
 }
+\examples{
+repoDir <- system.file("extdata", package = "MoleculeExperiment")
+repoDir <- paste0(repoDir, "/vizgen_HumanOvarianCancerPatient2Slice2")
+meMerscope <- readMerscope(repoDir,
+                          keepCols = "essential")
+meMerscope
+}

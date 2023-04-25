@@ -6,6 +6,7 @@
 # it's not compute intensive, so can be run anew each time
 .new_me_obj <- function() {
     repoDir <- system.file("extdata", package = "MoleculeExperiment")
+    repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
     suppressMessages(
         me <- readXenium(repoDir,
                             keepCols = "essential", 
