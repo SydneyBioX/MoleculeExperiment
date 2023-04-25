@@ -1,6 +1,8 @@
-Data in this directory is used by the vignette. It corresponds to mouse brain
-FF tissue that has undergone Xenium analysis. 
-Data properties:
+Data in this directory is used by the vignette and the examples of the package.
+It corresponds to xenium (mouse brain FF tissue), cosmx (human lung NSCLC) and
+merscope (human ovarian cancer)
+
++ XENIUM
 - Downloaded from:
 https://www.10xgenomics.com/resources/datasets/fresh-frozen-mouse-brain-replicates-1-standard
 - Download date: 8th Feb 2023
@@ -8,3 +10,7 @@ https://www.10xgenomics.com/resources/datasets/fresh-frozen-mouse-brain-replicat
 and boundaries from a patch of 20µm x 20µm were used:
     - x_min <- 4900, x_max <- 4920
     - y_min <- 6400, y_max <- 6420
+
++ MERSCOPE
+
++ COSMX
