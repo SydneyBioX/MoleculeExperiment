@@ -22,3 +22,10 @@ This function is a wrapper around the readMolecules function. Note that it
 can currently only create a simple ME object with the molecules slot filled.
 Boundary information is not handled yet.
 }
+\examples{
+repoDir <- system.file("extdata", package = "MoleculeExperiment")
+repoDir <- paste0(repoDir, "/nanostring_Lung9_Rep1")
+meCosmx <- readCosmx(repoDir,
+                      keepCols = "essential")
+meCosmx
+}

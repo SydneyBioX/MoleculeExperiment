@@ -14,15 +14,14 @@
 #' Defaults to "essential". The other option is to select "all", or custom
 #' columns by specifying their names in a vector.
 #' @return A MoleculeExperiment object
-
-
-## @export
-## @examples
-## repoDir <- system.file("extdata", package = "MoleculeExperiment")
-
-## meCosmx <- readCosmx(repoDir,
-##                       keepCols = "essential")
-## meCosmx
+#' @export
+#' @examples
+#' repoDir <- system.file("extdata", package = "MoleculeExperiment")
+#' repoDir <- paste0(repoDir, "/nanostring_Lung9_Rep1")
+#
+#' meCosmx <- readCosmx(repoDir,
+#'                       keepCols = "essential")
+#' meCosmx
 readCosmx <- function(dataDir,
                       keepCols = "essential") {
 
@@ -31,12 +30,15 @@ readCosmx <- function(dataDir,
 
     # create MoleculeExperiment object
     pattern <- "tx_file"
+    # according to README file from cosmx, 1 pixel = 0.18 µm
+    scaleFactor <- 0.18
     me <- readMolecules(dataDir = dataDir,
-                        pattern = "tx_file",
+                        pattern = pattern,
                         featureCol = "target",
                         xCol = "x_global_px",
                         yCol = "y_global_px",
-                        keepCols = keepCols)
+                        keepCols = keepCols,
+                        scaleFactorVector = scaleFactor)
 
     return(me)
 }
