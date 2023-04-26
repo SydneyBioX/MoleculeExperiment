@@ -24,7 +24,7 @@ author:
   - Charles Perkins Centre, The University of Sydney, Sydney, NSW, 2006, Australia
   - Sydney Precision Data Science Centre, The University of Sydney, Sydney, NSW, 2006, Australia
 vignette: >
-  %\VignetteIndexEntry{"Introduction to simpleSeg"}
+  %\VignetteIndexEntry{"Introduction to MoleculeExperiment"}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 output: 
