@@ -1,7 +1,7 @@
-#' Plotting functions for SpatialUtils
+#' @title Plotting functions for SpatialUtils
 #'
-#' A set of ggplot functions to build customized plots for imaging based spatial
-#' transcriptomics data.
+#' @description  A set of ggplot functions to build customized plots for imaging
+#'   based spatial transcriptomics data.
 #'
 #' @param me MoleculeExperiment object.
 #' @param assayName Character string specifying name of assay from which to get
@@ -17,7 +17,7 @@
 #' @return A plot with transcripts and/or segmentation information for imaging
 #' based spatial transcriptomics data.
 #'
-#' @name plotting functions
+#' @name plotting-functions
 #' @examples
 #' repoDir <- system.file("extdata", package = "MoleculeExperiment")
 #' me <- readXenium(repoDir,
@@ -31,7 +31,7 @@
 #' g
 NULL
 
-#' @rdname plotting functions
+#' @rdname plotting-functions
 #' @export
 ggplot_me <- function() {
     # base ggplot for me object
@@ -42,7 +42,7 @@ ggplot_me <- function() {
         ggplot2::theme(legend.position = "none")
 }
 
-#' @rdname plotting functions
+#' @rdname plotting-functions
 #' @export
 #' @importFrom rlang .data
 geom_point_me <- function(me, assayName = "detected", byColour = NULL, ...) {
@@ -65,7 +65,7 @@ geom_point_me <- function(me, assayName = "detected", byColour = NULL, ...) {
     return(gprot)
 }
 
-#' @rdname plotting functions
+#' @rdname plotting-functions
 #' @export
 #' @importFrom rlang .data
 geom_polygon_me <- function(me, assayName = "cell", byFill = NULL, ...) {
