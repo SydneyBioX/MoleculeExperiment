@@ -14,7 +14,7 @@ Boundary information is not handled yet."><!-- mathjax --><script src="https://c
     
     <a class="navbar-brand me-2" href="../index.html">MoleculeExperiment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,6 +83,28 @@ columns by specifying their names in a vector.</p></dd>
 <p>A MoleculeExperiment object</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">repoDir</span>, <span class="st">"/nanostring_Lung9_Rep1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">meCosmx</span> <span class="op">&lt;-</span> <span class="fu">readCosmx</span><span class="op">(</span><span class="va">repoDir</span>,</span></span>
+<span class="r-in"><span>                      keepCols <span class="op">=</span> <span class="st">"essential"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Detected transcript information can be accessed with molecules(me) or</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> molecules(me, "detected")</span>
+<span class="r-in"><span><span class="va">meCosmx</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class:  MoleculeExperiment </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 samples: nanostring_Lung9_Rep1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> @molecules contents: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -detected assay:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 336 unique features across all samples in assay "detected": AATK ABL2 ACE ACKR4 ADGRE5 ADGRG1 ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 937 molecules on average across all samples in assay "detected"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Location range across all samples in assay "detected": [1800,1818] x [25200.01,25217.96]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> @boundaries contents: NULL</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

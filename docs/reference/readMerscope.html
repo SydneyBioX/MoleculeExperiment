@@ -18,7 +18,7 @@ handled yet."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
     
     <a class="navbar-brand me-2" href="../index.html">MoleculeExperiment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,6 +91,28 @@ Note that this personalised vector needs to contain the essential columns.</p></
 <p>A MoleculeExperiment object</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">repoDir</span>, <span class="st">"/vizgen_HumanOvarianCancerPatient2Slice2"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">meMerscope</span> <span class="op">&lt;-</span> <span class="fu">readMerscope</span><span class="op">(</span><span class="va">repoDir</span>,</span></span>
+<span class="r-in"><span>                          keepCols <span class="op">=</span> <span class="st">"essential"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Detected transcript information can be accessed with molecules(me) or</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> molecules(me, "detected")</span>
+<span class="r-in"><span><span class="va">meMerscope</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class:  MoleculeExperiment </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 samples: vizgen_HumanOvarianCancerPatient2Slice2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> @molecules contents: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -detected assay:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 189 unique features across all samples in assay "detected": ACTA2 AKT1 AKT3 AMOTL2 ATR BAX ...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 685 molecules on average across all samples in assay "detected"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Location range across all samples in assay "detected": [8000,8079.99] x [8000.01,8079.97]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> @boundaries contents: NULL</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">MoleculeExperiment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,6 +121,7 @@ slot can be accessed with <code>boundaries&lt;-</code>.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># get example data</span></span></span>
 <span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">repoDir</span>, <span class="st">"/xenium_V1_FF_Mouse_Brain"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="readXenium.html">readXenium</a></span><span class="op">(</span><span class="va">repoDir</span>,</span></span>
 <span class="r-in"><span>                  keepCols <span class="op">=</span> <span class="st">"essential"</span>,</span></span>
 <span class="r-in"><span>                  addBoundaries <span class="op">=</span> <span class="st">"cell"</span><span class="op">)</span></span></span>
@@ -133,11 +134,11 @@ slot can be accessed with <code>boundaries&lt;-</code>.</p>
 <span class="r-in"><span><span class="fu"><a href="summarization.html">showMolecules</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ detected:List of 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs:List of 137</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ sample1:List of 137</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ 2010300C02Rik        : tibble [11 × 2] (S3: tbl_df/tbl/data.frame)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ Acsbg1               : tibble [6 × 2] (S3: tbl_df/tbl/data.frame)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. [list output truncated]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ Xenium_V1_FF_Mouse_Brain_MultiSection_2_outs:List of 143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ sample2:List of 143</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ 2010300C02Rik: tibble [9 × 2] (S3: tbl_df/tbl/data.frame)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ Acsbg1       : tibble [10 × 2] (S3: tbl_df/tbl/data.frame)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. [list output truncated]</span>
@@ -151,29 +152,29 @@ slot can be accessed with <code>boundaries&lt;-</code>.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> retrieved. Other assay transcripts can be retrieved by specifying the assayName</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> argument.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1,739 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    x_location y_location feature_name  sample_id                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #BCBCBC;">*</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>      <span style="text-decoration: underline;">4</span>918.      <span style="text-decoration: underline;">6</span>411. 2010300C02Rik Xenium_V1_FF_Mouse_Brain_MultiSection_1_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>      <span style="text-decoration: underline;">4</span>901.      <span style="text-decoration: underline;">6</span>417. 2010300C02Rik Xenium_V1_FF_Mouse_Brain_MultiSection_1_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>      <span style="text-decoration: underline;">4</span>901.      <span style="text-decoration: underline;">6</span>417. 2010300C02Rik Xenium_V1_FF_Mouse_Brain_MultiSection_1_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>      <span style="text-decoration: underline;">4</span>910.      <span style="text-decoration: underline;">6</span>417. 2010300C02Rik Xenium_V1_FF_Mouse_Brain_MultiSection_1_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>      <span style="text-decoration: underline;">4</span>908.      <span style="text-decoration: underline;">6</span>413. 2010300C02Rik Xenium_V1_FF_Mouse_Brain_MultiSection_1_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>      <span style="text-decoration: underline;">4</span>911.      <span style="text-decoration: underline;">6</span>407. 2010300C02Rik Xenium_V1_FF_Mouse_Brain_MultiSection_1_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>      <span style="text-decoration: underline;">4</span>915.      <span style="text-decoration: underline;">6</span>411. 2010300C02Rik Xenium_V1_FF_Mouse_Brain_MultiSection_1_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>      <span style="text-decoration: underline;">4</span>916.      <span style="text-decoration: underline;">6</span>412. 2010300C02Rik Xenium_V1_FF_Mouse_Brain_MultiSection_1_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>      <span style="text-decoration: underline;">4</span>901.      <span style="text-decoration: underline;">6</span>415. 2010300C02Rik Xenium_V1_FF_Mouse_Brain_MultiSection_1_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>      <span style="text-decoration: underline;">4</span>906.      <span style="text-decoration: underline;">6</span>417. 2010300C02Rik Xenium_V1_FF_Mouse_Brain_MultiSection_1_…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    x_location y_location feature_name  sample_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #BCBCBC;">*</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>      <span style="text-decoration: underline;">4</span>918.      <span style="text-decoration: underline;">6</span>411. 2010300C02Rik sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>      <span style="text-decoration: underline;">4</span>901.      <span style="text-decoration: underline;">6</span>417. 2010300C02Rik sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>      <span style="text-decoration: underline;">4</span>901.      <span style="text-decoration: underline;">6</span>417. 2010300C02Rik sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>      <span style="text-decoration: underline;">4</span>910.      <span style="text-decoration: underline;">6</span>417. 2010300C02Rik sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>      <span style="text-decoration: underline;">4</span>908.      <span style="text-decoration: underline;">6</span>413. 2010300C02Rik sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>      <span style="text-decoration: underline;">4</span>911.      <span style="text-decoration: underline;">6</span>407. 2010300C02Rik sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>      <span style="text-decoration: underline;">4</span>915.      <span style="text-decoration: underline;">6</span>411. 2010300C02Rik sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>      <span style="text-decoration: underline;">4</span>916.      <span style="text-decoration: underline;">6</span>412. 2010300C02Rik sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>      <span style="text-decoration: underline;">4</span>901.      <span style="text-decoration: underline;">6</span>415. 2010300C02Rik sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>      <span style="text-decoration: underline;">4</span>906.      <span style="text-decoration: underline;">6</span>417. 2010300C02Rik sample1  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1,729 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># get insight into boundaries slot</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summarization.html">showBoundaries</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ cell:List of 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs:List of 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ sample1:List of 5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ 67500: tibble [13 × 2] (S3: tbl_df/tbl/data.frame)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ 67512: tibble [13 × 2] (S3: tbl_df/tbl/data.frame)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. [list output truncated]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ Xenium_V1_FF_Mouse_Brain_MultiSection_2_outs:List of 9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ sample2:List of 9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ 65043: tibble [13 × 2] (S3: tbl_df/tbl/data.frame)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ 65044: tibble [13 × 2] (S3: tbl_df/tbl/data.frame)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. [list output truncated]</span>
@@ -187,23 +188,23 @@ slot can be accessed with <code>boundaries&lt;-</code>.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> were retrieved. Boundaries from other assays can be retrieved by specifying</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> the assayName argument.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 182 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    x_location y_location segment_id sample_id                                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #BCBCBC;">*</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>      <span style="text-decoration: underline;">4</span>905.      <span style="text-decoration: underline;">6</span>400. 67500      Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>      <span style="text-decoration: underline;">4</span>899.      <span style="text-decoration: underline;">6</span>401. 67500      Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>      <span style="text-decoration: underline;">4</span>894.      <span style="text-decoration: underline;">6</span>408. 67500      Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>      <span style="text-decoration: underline;">4</span>890.      <span style="text-decoration: underline;">6</span>418. 67500      Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>      <span style="text-decoration: underline;">4</span>887.      <span style="text-decoration: underline;">6</span>423. 67500      Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>      <span style="text-decoration: underline;">4</span>887.      <span style="text-decoration: underline;">6</span>425. 67500      Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>      <span style="text-decoration: underline;">4</span>890.      <span style="text-decoration: underline;">6</span>427. 67500      Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>      <span style="text-decoration: underline;">4</span>891.      <span style="text-decoration: underline;">6</span>427. 67500      Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>      <span style="text-decoration: underline;">4</span>894.      <span style="text-decoration: underline;">6</span>426. 67500      Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>      <span style="text-decoration: underline;">4</span>908.      <span style="text-decoration: underline;">6</span>421. 67500      Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    x_location y_location segment_id sample_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #BCBCBC;">*</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>      <span style="text-decoration: underline;">4</span>905.      <span style="text-decoration: underline;">6</span>400. 67500      sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>      <span style="text-decoration: underline;">4</span>899.      <span style="text-decoration: underline;">6</span>401. 67500      sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>      <span style="text-decoration: underline;">4</span>894.      <span style="text-decoration: underline;">6</span>408. 67500      sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>      <span style="text-decoration: underline;">4</span>890.      <span style="text-decoration: underline;">6</span>418. 67500      sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>      <span style="text-decoration: underline;">4</span>887.      <span style="text-decoration: underline;">6</span>423. 67500      sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>      <span style="text-decoration: underline;">4</span>887.      <span style="text-decoration: underline;">6</span>425. 67500      sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>      <span style="text-decoration: underline;">4</span>890.      <span style="text-decoration: underline;">6</span>427. 67500      sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>      <span style="text-decoration: underline;">4</span>891.      <span style="text-decoration: underline;">6</span>427. 67500      sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>      <span style="text-decoration: underline;">4</span>894.      <span style="text-decoration: underline;">6</span>426. 67500      sample1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>      <span style="text-decoration: underline;">4</span>908.      <span style="text-decoration: underline;">6</span>421. 67500      sample1  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 172 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># features() getter</span></span></span>
 <span class="r-in"><span><span class="fu">features</span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sample1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1] "2010300C02Rik"         "Acsbg1"                "Adamts2"              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [4] "Adamtsl1"              "Angpt1"                "Aqp4"                 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [7] "Arc"                   "Arhgap12"              "Arhgef28"             </span>
@@ -251,7 +252,7 @@ slot can be accessed with <code>boundaries&lt;-</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [133] "Vip"                   "Vwc2l"                 "Wfs1"                 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [136] "Zfp536"                "Zfpm2"                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Xenium_V1_FF_Mouse_Brain_MultiSection_2_outs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sample2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1] "2010300C02Rik" "Acsbg1"        "Adgrl4"        "Aldh1a2"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [5] "Angpt1"        "Aqp4"          "Arc"           "Arhgap12"     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [9] "Arhgef28"      "BLANK_0077"    "BLANK_0120"    "BLANK_0129"   </span>
@@ -292,10 +293,10 @@ slot can be accessed with <code>boundaries&lt;-</code>.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># segmentIDs() getter</span></span></span>
 <span class="r-in"><span><span class="fu">segmentIDs</span><span class="op">(</span><span class="va">me</span>, <span class="st">"cell"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sample1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "67500" "67512" "67515" "67521" "67527"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Xenium_V1_FF_Mouse_Brain_MultiSection_2_outs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sample2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "65043" "65044" "65051" "65055" "65063" "65064" "65067" "65070" "65071"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
@@ -314,7 +315,7 @@ slot can be accessed with <code>boundaries&lt;-</code>.</p>
 <span class="r-in"><span><span class="fu">boundaries</span><span class="op">(</span><span class="va">me</span>, <span class="st">"nucleus"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">nucleiMEList</span></span></span>
 <span class="r-in"><span><span class="va">me</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class:  MoleculeExperiment </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 samples: Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs Xenium_V1_FF_Mouse_Brain_MultiSection_2_outs </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 samples: sample1 sample2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @molecules contents: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -detected assay:</span>

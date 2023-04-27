@@ -16,7 +16,7 @@ specific technologies (e.g., see readXenium)."><!-- mathjax --><script src="http
     
     <a class="navbar-brand me-2" href="../index.html">MoleculeExperiment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +70,8 @@ specific technologies (e.g., see readXenium).</p>
 <span>  xCol <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  yCol <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  keepCols <span class="op">=</span> <span class="st">"essential"</span>,</span>
-<span>  moleculesAssay <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  moleculesAssay <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  scaleFactorVector <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -117,6 +118,13 @@ which the transcript information is going to be stored in the molecules slot.
 The default name is "detected", as we envision that a MoleculeExperiment will
 usually be created with raw detected transcript information.</p></dd>
 
+
+<dt>scaleFactorVector</dt>
+<dd><p>Vector containing the scale factor/s with which to
+change the coordinate data from pixel to micron. It can be either a single
+integer, or multiple scale factors for the different samples. The default
+value is 1.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -128,7 +136,7 @@ usually be created with raw detected transcript information.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">repoDir</span>, <span class="st">"/xenium_V1_FF_Mouse_Brain"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">simple_me</span> <span class="op">&lt;-</span> <span class="fu">readMolecules</span><span class="op">(</span><span class="va">repoDir</span>,</span></span>
 <span class="r-in"><span>                            pattern <span class="op">=</span> <span class="st">"transcripts.csv"</span>,</span></span>
 <span class="r-in"><span>                            featureCol <span class="op">=</span> <span class="st">"feature_name"</span>,</span></span>
@@ -140,7 +148,7 @@ usually be created with raw detected transcript information.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> molecules(me, "detected")</span>
 <span class="r-in"><span><span class="va">simple_me</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class:  MoleculeExperiment </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 samples: Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs Xenium_V1_FF_Mouse_Brain_MultiSection_2_outs </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 samples: sample1 sample2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @molecules contents: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -detected assay:</span>

@@ -18,7 +18,7 @@ level, one can do so."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
     
     <a class="navbar-brand me-2" href="../index.html">MoleculeExperiment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,10 +122,9 @@ Alternatively, a matrix with the counted molecules per segment.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">repoDir</span>, <span class="st">"/xenium_V1_FF_Mouse_Brain"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="readXenium.html">readXenium</a></span><span class="op">(</span><span class="va">repoDir</span>,</span></span>
-<span class="r-in"><span>  keepCols <span class="op">=</span> <span class="st">"essential"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span>                  keepCols <span class="op">=</span> <span class="st">"essential"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Detected transcript information can be accessed with molecules(me) or</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> molecules(me, "detected")</span>
@@ -145,10 +144,8 @@ Alternatively, a matrix with the counted molecules per segment.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> assays(1): counts</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rownames(178): 2010300C02Rik Acsbg1 ... Zfp536 Zfpm2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rowData names(0):</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> colnames(14): Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs.67500</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs.67512 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Xenium_V1_FF_Mouse_Brain_MultiSection_2_outs.65070</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Xenium_V1_FF_Mouse_Brain_MultiSection_2_outs.65071</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> colnames(14): sample1.67500 sample1.67512 ... sample2.65070</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   sample2.65071</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> colData names(4): sample_id x_location y_location cell_id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> reducedDimNames(1): spatial</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mainExpName: NULL</span>
