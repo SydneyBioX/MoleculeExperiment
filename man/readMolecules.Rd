@@ -11,7 +11,8 @@ readMolecules(
   xCol = NULL,
   yCol = NULL,
   keepCols = "essential",
-  moleculesAssay = NULL
+  moleculesAssay = NULL,
+  scaleFactorVector = 1
 )
 }
 \arguments{
@@ -42,6 +43,11 @@ Note that this personalised vector needs to contain the essential columns.}
 which the transcript information is going to be stored in the molecules slot.
 The default name is "detected", as we envision that a MoleculeExperiment will
 usually be created with raw detected transcript information.}
+
+\item{scaleFactorVector}{Vector containing the scale factor/s with which to
+change the coordinate data from pixel to micron. It can be either a single
+integer, or multiple scale factors for the different samples. The default
+value is 1.}
 }
 \value{
 A simple MoleculeExperiment object with a filled molecules slot.
@@ -54,7 +60,7 @@ specific technologies (e.g., see readXenium).
 }
 \examples{
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
-
+repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 simple_me <- readMolecules(repoDir,
                             pattern = "transcripts.csv",
                             featureCol = "feature_name",

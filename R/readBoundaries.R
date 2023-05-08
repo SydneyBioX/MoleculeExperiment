@@ -32,6 +32,7 @@
 #' @export
 #' @examples
 #' repoDir <- system.file("extdata", package = "MoleculeExperiment")
+#' repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 #' nucleiMEList <- readBoundaries(dataDir = repoDir,
 #'                             pattern = "nucleus_boundaries.csv",
 #'                             segmentIDCol = "cell_id",
@@ -76,7 +77,7 @@ readBoundaries <- function(dataDir,
     if (length(scaleFactorVector) == 1) {
         # if all samples have same scale factor, create vector with rep numbers
         scaleFactorVector <- rep(scaleFactorVector, nSamples)
-    } else if (identical(length(scaleFactorVector), nSamples)) {
+    } else if (!identical(length(scaleFactorVector), nSamples)) {
         stop("The vector of scale factors should be either one value for all
         samples, or a vector of the length of the number of samples, specifying
         a scale factor for each sample")

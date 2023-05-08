@@ -50,7 +50,7 @@ level, one can do so.
 }
 \examples{
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
-
+repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 me <- readXenium(repoDir,
                   keepCols = "essential")
 

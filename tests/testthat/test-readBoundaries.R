@@ -1,5 +1,6 @@
 test_that("missing or invalid arguments raise an error", {
     repoDir <- system.file("extdata", package = "MoleculeExperiment")
+    repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
     expect_error(readBoundaries(dataDir = repoDir,
                                 pattern = NULL,
@@ -34,6 +35,7 @@ test_that("missing or invalid arguments raise an error", {
 
 test_that("scaling works", {
     repoDir <- system.file("extdata", package = "MoleculeExperiment")
+    repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
     bdsLs_1 <- readBoundaries(dataDir = repoDir,
                             pattern = "nucleus_boundaries.csv",
@@ -66,6 +68,7 @@ test_that("scaling works", {
 
 test_that("expected sample directories are identified", {
     repoDir <- system.file("extdata", package = "MoleculeExperiment")
+    repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
     cell_paths <- list.files(repoDir,
                      pattern = "cell_boundaries.csv",
                      full.names = TRUE,
@@ -85,6 +88,7 @@ test_that("expected sample directories are identified", {
 
 test_that("standardised column names are returned in the output", {
     repoDir <- system.file("extdata", package = "MoleculeExperiment")
+    repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
     bdsLs <- readBoundaries(dataDir = repoDir,
                             pattern = "nucleus_boundaries.csv",
@@ -105,6 +109,7 @@ test_that("standardised column names are returned in the output", {
 
 test_that("values read by fread are those we expect from known ext datasets", {
     repoDir <- system.file("extdata", package = "MoleculeExperiment")
+    repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
     bdsLs <- readBoundaries(dataDir = repoDir,
                             pattern = "cell_boundaries.csv",
@@ -130,8 +135,9 @@ test_that("values read by fread are those we expect from known ext datasets", {
 
 test_that("returned nested list has expected structure", {
     repoDir <- system.file("extdata", package = "MoleculeExperiment")
-    samples <- c("Xenium_V1_FF_Mouse_Brain_MultiSection_1_outs",
-        "Xenium_V1_FF_Mouse_Brain_MultiSection_2_outs")
+    repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
+    samples <- c("sample1",
+        "sample2")
 
     cellLs <- readBoundaries(dataDir = repoDir,
                             pattern = "cell_boundaries.csv",

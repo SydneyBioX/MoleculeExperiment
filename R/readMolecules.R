@@ -26,12 +26,16 @@
 #' which the transcript information is going to be stored in the molecules slot.
 #' The default name is "detected", as we envision that a MoleculeExperiment will
 #' usually be created with raw detected transcript information.
-#'
+#' @param scaleFactorVector Vector containing the scale factor/s with which to
+#' change the coordinate data from pixel to micron. It can be either a single
+#' integer, or multiple scale factors for the different samples. The default
+#' value is 1.
+#' 
 #' @return A simple MoleculeExperiment object with a filled molecules slot.
 #' @export
 #' @examples
 #' repoDir <- system.file("extdata", package = "MoleculeExperiment")
-#'
+#' repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 #' simple_me <- readMolecules(repoDir,
 #'                             pattern = "transcripts.csv",
 #'                             featureCol = "feature_name",
@@ -46,7 +50,8 @@ readMolecules <- function(dataDir,
                           xCol = NULL,
                           yCol = NULL,
                           keepCols = "essential",
-                          moleculesAssay = NULL
+                          moleculesAssay = NULL,
+                          scaleFactorVector = 1
                           ) {
     # check arg validity
     .stop_if_null(pattern, featureCol, xCol, yCol, keepCols)
@@ -62,6 +67,16 @@ readMolecules <- function(dataDir,
                      recursive = TRUE
     )
     nSamples <- length(f_paths)
+
+    # get vector of scale factors for all samples
+    if (length(scaleFactorVector) == 1) {
+        # if all samples have same scale factor, create vector with rep numbers
+        scaleFactorVector <- rep(scaleFactorVector, nSamples)
+    } else if (! identical(length(scaleFactorVector), nSamples)) {
+        stop("The vector of scale factors should be either one value for all
+        samples, or a vector of the length of the number of samples, specifying
+        a scale factor for each sample")
+    }
 
     # DO DATA STANDARDISATION
     mol_n <- vector("list", nSamples)
@@ -83,6 +98,10 @@ readMolecules <- function(dataDir,
 
         # choose cols of interest
         cols <- .select_cols(mol_df, keep_cols = keepCols, standard_cols)
+
+         # scale coordinates if needed
+        mol_df <- .scale_locations(mol_df,
+                                    scale_factor = scaleFactorVector[[f]])
 
         # standardise data format to ME list
         # goal = reduce redundancy and save storage space

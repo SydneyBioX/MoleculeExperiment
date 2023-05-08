@@ -24,7 +24,7 @@ author:
   - Charles Perkins Centre, The University of Sydney, Sydney, NSW, 2006, Australia
   - Sydney Precision Data Science Centre, The University of Sydney, Sydney, NSW, 2006, Australia
 vignette: >
-  %\VignetteIndexEntry{"Introduction to simpleSeg"}
+  %\VignetteIndexEntry{"Introduction to MoleculeExperiment"}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 output: 
@@ -53,11 +53,11 @@ CosMx SMI by Nanostring, and Merscope by Vizgen, among others).
 The goal of the MoleculeExperiment class is to:
 1. Enable analysis of spatial transcriptomics (ST) data at the molecule level, 
 independent of aggregating to the cell or tissue level.
-2. Enable aggregation to a `SpatialExperiment` object given combinations of 
-molecules and segmentation boundaries.
-3. Standardise molecule-based ST data across vendors, to hopefully facilitate
+2. Standardise molecule-based ST data across vendors, to hopefully facilitate
 comparison of different data sources and common analytical and visualisation 
 workflows.
+3. Enable aggregation to a `SpatialExperiment` object given combinations of 
+molecules and segmentation boundaries.
 
 ## Installation
 
@@ -83,6 +83,7 @@ small patch.
 
 ```{r}
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
+repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
 me <- readXenium(repoDir,
                   keepCols = "essential")
@@ -194,14 +195,17 @@ toyME <- MoleculeExperiment(molecules = moleculesMEList,
 toyME
 ```
 
-### Use case 2: from Xenium to ME object
+### Use case 2: from machine's output directory to ME object
 
 The MoleculeExperiment package also provides functions to directly work with
 the directories containing output files of commonly used technologies. This is
 especially useful to work with data from multiple samples.
+Here we provide convenience functions to read in data from Xenium (10X
+Genomics), CosMx (Nanostring) and Merscope (Vizgen).
 
 ```{r}
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
+repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
 me <- readXenium(repoDir,
                   keepCols = "essential",
@@ -217,6 +221,30 @@ data that is vendor-specific (e.g., column with qv score), some columns of
 interest, or only the essential columns. The latter refers to feature names and
 locations of the detected transcripts, and segment ids and boundary locations of
 the segmentation results.
+
+For CosMx and Merscope data we provide convenience functions that standardise
+the raw transcripts data into a MoleculeExperiment object. Note that the
+handling of boundary information for these technologies is under development.
+
+```{r}
+repoDir <- system.file("extdata", package = "MoleculeExperiment")
+repoDir <- paste0(repoDir, "/nanostring_Lung9_Rep1")
+
+meCosmx <- readCosmx(repoDir,
+                      keepCols = "essential")
+meCosmx
+# boundaries not handled yet, as CosMx does not provide cell boundary info
+```
+
+```{r}
+repoDir <- system.file("extdata", package = "MoleculeExperiment")
+repoDir <- paste0(repoDir, "/vizgen_HumanOvarianCancerPatient2Slice2")
+meMerscope <- readMerscope(repoDir,
+                          keepCols = "essential")
+meMerscope
+# boundaries not handled yet, as Merscope has a complex set of multitude
+# boundary files in hdf5 file format
+```
 
 ## ME object structure
 A MoleculeExperiment object contains a @molecules slot and a @boundaries slot.
@@ -302,6 +330,8 @@ For example, with `boundaries<-` one can add new segmentation assay information
 to the boundaries slot. Here we demonstrate this with the nucleus boundaries.
 
 ```{r}
+repoDir <- system.file("extdata", package = "MoleculeExperiment")
+repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 nucleiMEList <- readBoundaries(dataDir = repoDir,
                             pattern = "nucleus_boundaries.csv",
                             segmentIDCol = "cell_id",

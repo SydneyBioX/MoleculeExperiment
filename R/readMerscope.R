@@ -1,6 +1,3 @@
-# ==============================================================================
-# future development: a wrapper to get vizgen data into an ME object
-# ==============================================================================
 #' Read in Merscope data to an ME object
 #'
 #' Reads in Merscope data (Vizgen) from a directory, and standardises it into
@@ -17,18 +14,28 @@
 #' of interest can be selected by specifying them as characters in a vector.
 #' Note that this personalised vector needs to contain the essential columns.
 #' @return A MoleculeExperiment object
+#' @export
+#' @examples
+#' repoDir <- system.file("extdata", package = "MoleculeExperiment")
+#' repoDir <- paste0(repoDir, "/vizgen_HumanOvarianCancerPatient2Slice2")
+#' meMerscope <- readMerscope(repoDir,
+#'                           keepCols = "essential")
+#' meMerscope
 readMerscope <- function(dataDir,
                          keepCols = "essential") {
     # check arg validity
     .check_if_character(dataDir, keepCols)
 
     # create simple MoleculeExperiment object
+    pattern <- "detected_transcripts.csv"
     me <- readMolecules(dataDir = dataDir,
-                        pattern = "transcripts.csv",
+                        pattern = pattern,
                         featureCol = "gene",
                         xCol = "global_x",
                         yCol = "global_y",
                         keepCols = keepCols)
+
+    # future development: handle complex hdf5 segmentation files
 
     return(me)
 }
