@@ -22,7 +22,6 @@ Imports:
     SpatialExperiment,
     Matrix,
     purrr,
-    sp,
     data.table,
     dplyr (>= 1.1.1),
     magrittr,
