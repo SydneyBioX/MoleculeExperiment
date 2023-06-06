@@ -21,6 +21,8 @@ data.}
 
 \item{byColour}{Character string specifying the column name to colour by.}
 
+\item{...}{Additional parameters to be passed to ggplot.}
+
 \item{byFill}{Character string specifying the column name to fill by.}
 }
 \value{

@@ -8,6 +8,7 @@
 #' data.
 #' @param byColour Character string specifying the column name to colour by.
 #' @param byFill Character string specifying the column name to fill by.
+#' @param ... Additional parameters to be passed to ggplot.
 #'
 #' @aliases
 #' ggplot_me
