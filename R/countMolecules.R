@@ -22,6 +22,9 @@
 #' MoleculeExperiment object. It is possible to change it to another mode, e.g.,
 #' "high_threshold" will access the transcript information that has been stored
 #' in the "high_threshold" element of the list in the molecules slot.
+#' @param buffer Single numeric value (default 0) indicating value to buffer
+#' beyond segment boundaries, i.e. to count molecules just outside of a segment
+#' boundary
 #' @param matrixOnly Logical value indicating whether to return a matrix of the
 #' counted molecules per segment (e.g., cell). Is FALSE by default, i.e., the
 #' default output is a SpatialExperiment object.
@@ -41,6 +44,7 @@ countMolecules <- function(object,
                            moleculesAssay = "detected",
                            segmentationInfo = "boundaries",
                            boundariesAssay = "cell",
+                           buffer = 0,
                            matrixOnly = FALSE) {
     # check arg validity
     .check_if_me(object)
@@ -53,6 +57,7 @@ countMolecules <- function(object,
         spe <- .count_molecules_boundaries(object,
                                         molecules_assay = moleculesAssay,
                                         boundaries_assay = boundariesAssay,
+                                        buffer = buffer,
                                         matrix_only = matrixOnly)
     }
     # if (is(segmentationInfo, "masks")) {
@@ -65,6 +70,7 @@ countMolecules <- function(object,
 .count_molecules_boundaries <- function(object,
                                         molecules_assay = NULL,
                                         boundaries_assay = NULL,
+                                        buffer = 0,
                                         matrix_only = FALSE) {
 
     # messages from getters will notify user about assays chosen
@@ -111,6 +117,7 @@ countMolecules <- function(object,
                                bds_df[,c("x_location", "y_location")]))
     colnames(bds_mat) <- c("factors_int", "x", "y")
     bds <- terra::vect(bds_mat, type = "polygons")
+    bds <- terra::buffer(bds, width = buffer)
 
     for (feature in features) {
       mols_df <- init_mols[[molecules_assay]][[sample]][[feature]]
