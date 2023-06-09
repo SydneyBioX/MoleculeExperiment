@@ -9,6 +9,7 @@ countMolecules(
   moleculesAssay = "detected",
   segmentationInfo = "boundaries",
   boundariesAssay = "cell",
+  buffer = 0,
   matrixOnly = FALSE
 )
 }
@@ -32,6 +33,10 @@ only the "boundaries" information is supported.}
 slot from which boundary information should be retrieved from.
 For example, for counting transcripts per cell, the list containing the cell
 boundaries (e.g., "cell") should be selected.}
+
+\item{buffer}{Single numeric value (default 0) indicating value to buffer
+beyond segment boundaries, i.e. to count molecules just outside of a segment
+boundary}
 
 \item{matrixOnly}{Logical value indicating whether to return a matrix of the
 counted molecules per segment (e.g., cell). Is FALSE by default, i.e., the
