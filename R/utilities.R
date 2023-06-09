@@ -234,3 +234,16 @@ arguments of this function.")
     )
     return(boundaries_flat)
 }
+
+# ------------------------------------------------------------------------------
+# add buffer to entry within an existing boundaries slot
+.add_buffer_boundary = function(x, buffer = 0) {
+  bds_mat = as.matrix(cbind(1,x[,c("x_location", "y_location")]))
+  colnames(bds_mat) <- c("factors_int", "x", "y")
+  bds <- terra::vect(bds_mat, type = "polygons")
+  bds_exp <- terra::buffer(bds, width = buffer)
+  bds_mat_exp = terra::as.data.frame(geom(bds_exp))
+  new_x = bds_mat_exp[,c("x", "y")]
+  colnames(new_x) <- c("x_location", "y_location")
+  return(tibble(new_x))
+}
