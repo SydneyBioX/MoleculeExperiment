@@ -242,8 +242,8 @@ arguments of this function.")
   colnames(bds_mat) <- c("factors_int", "x", "y")
   bds <- terra::vect(bds_mat, type = "polygons")
   bds_exp <- terra::buffer(bds, width = buffer)
-  bds_mat_exp = terra::as.data.frame(geom(bds_exp))
+  bds_mat_exp = terra::as.data.frame(terra::geom(bds_exp))
   new_x = bds_mat_exp[,c("x", "y")]
   colnames(new_x) <- c("x_location", "y_location")
-  return(tibble(new_x))
+  return(dplyr::tibble(new_x))
 }

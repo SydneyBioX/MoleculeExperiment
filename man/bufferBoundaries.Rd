@@ -31,6 +31,7 @@ me <- readXenium(repoDir,
                   keepCols = "essential")
 MoleculeExperiment::boundaries(me, "cell_buffer") <- bufferBoundaries(me, assayName = "cell", buffer = 1)
 
+library(ggplot2)
 ggplot_me() +
 geom_polygon_me(me, assayName = "cell", fill = "grey") +
 geom_polygon_me(me, assayName = "cell_buffer", fill = NA, colour = "red") +
