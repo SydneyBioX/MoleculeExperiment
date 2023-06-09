@@ -17,7 +17,7 @@
 #' repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 #' me <- readXenium(repoDir,
 #'                   keepCols = "essential")
-#' MoleculeExperiment::boundaries(me, "cell_buffer") <- buffer_boundary(me, assayName = "cell", buffer = 1)
+#' MoleculeExperiment::boundaries(me, "cell_buffer") <- bufferBoundaries(me, assayName = "cell", buffer = 1)
 #' 
 #' ggplot_me() +
 #' geom_polygon_me(me, assayName = "cell", fill = "grey") +
