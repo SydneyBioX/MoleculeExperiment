@@ -136,6 +136,7 @@ readCosmx <- function(dataDir,
                 terra::geom(merged_vector)
             )
         }
+        # TODO: filter out polygon 0, it is the empty space.
         merged_vectors_df <- dplyr::bind_rows(
             merged_vectors_list,
             .id = "sample_id"
