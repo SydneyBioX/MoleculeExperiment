@@ -3,23 +3,17 @@ in the package. It corresponds to Xenium by 10x genomics (mouse brain FF
 tissue), CosMx by Nanostring (human lung NSCLC) and Merscope by Vizgen (human
 ovarian cancer).
 
-+ XENIUM
-- Downloaded from:
-https://www.10xgenomics.com/resources/datasets/fresh-frozen-mouse-brain-replicates-1-standard
-
+# XENIUM
+- Downloaded from [here](https://www.10xgenomics.com/resources/datasets/fresh-frozen-mouse-brain-replicates-1-standard)
 - Download date: 8th Feb 2023
-
 - Modifications: Raw csv.gz files were uncompressed and only the transcripts
 and boundaries from a patch of 20µm x 20µm were used. 
     - x_min <- 4900, x_max <- 4920
     - y_min <- 6400, y_max <- 6420
 
-+ MERSCOPE
-- Downloaded from:
-https://console.cloud.google.com/storage/browser/vz-ffpe-showcase/HumanOvarianCancerPatient2Slice2?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22))&prefix=&forceOnObjectsSortingFiltering=false
-
+# MERSCOPE
+- Downloaded from [here](https://console.cloud.google.com/storage/browser/vz-ffpe-showcase/HumanOvarianCancerPatient2Slice2?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22))&prefix=&forceOnObjectsSortingFiltering=false)
 - Download date: 27th Feb 2023
-
 - Modifications: raw transcripts file was filtered to only contain molecules
 present in a 80µm x 80µm patch.
     - x_min <- 8000, x_max <- 8080
@@ -28,7 +22,7 @@ present in a 80µm x 80µm patch.
 # COSMX
 - Downloaded from [here](https://nanostring.com/products/cosmx-spatial-molecular-imager/nsclc-ffpe-dataset/)
 - Download date: 27th Feb 2023
-- Modifications: raw transcript file had coordinates in pixels. CosMx specifies that 1 pixel is equal to 0.18 µm. Data included in `inst/extdata/nanostring_Lung9_Rep1` were created using the following R script.
+- Modifications: Raw transcript file has coordinates in pixels. CosMx specifies that 1 pixel is equal to 0.18 µm. Data included in `inst/extdata/nanostring_Lung9_Rep1` were created using the following R script.
 
 ```r
 library(terra)
