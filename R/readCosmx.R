@@ -48,52 +48,7 @@ readCosmx <- function(dataDir,
 
     #TODO: Find and account for a multisample dataset.
     if (!is.null(addBoundaries)) {
-        cell_mask_dir <- paste(data_dir, "CellLabels", sep = "/")
-        file <- "Lung9_Rep1_fov_positions_file.csv"
-
-        topology <- data.table::fread(paste(data_dir, file, sep = "/"))
-        mask_names <- list.files(
-            cell_mask_dir,
-            pattern = "*.tif", full.names = TRUE
-        )
-
-        # check if right number of images
-        if (!nrow(topology) == length(mask_names)) {
-            stop(
-                "fov_positions and CellLabels have a different number of",
-                " images.\n\tCheck if you have valid CosMX data."
-            )
-        }
-
-        # convert each image to polygons
-        poly_list <- lapply(
-            cli::cli_progress_along(
-                mask_names,
-                name = "1/2 Transforming masks into polygons:"
-            ),
-            function(i) {
-                mask <- terra::rast(mask_names[[i]])
-
-                xmin <- topology[i, 2][[1]]
-                xmax <- topology[i, 2][[1]] + ncol(mask)
-
-                ymin <- topology[i, 3][[1]] - nrow(mask)
-                ymax <- topology[i, 3][[1]]
-
-                terra::ext(mask) <- c(xmin, xmax, ymin, ymax)
-                poly <- terra::as.polygons(mask, round = FALSE)
-            }
-        )
-
-        merged_vector <- terra::vect()
-        ext(merged_vector) <- ext(poly_list[[1]])
-
-        for (i in cli::cli_progress_along(
-            poly_list,
-            name = "2/2 Joining patches:"
-        )) {
-            merged_vector <- rbind(merged_vector, poly_list[[i]])
-        }
+        
     }
 
     return(me)
