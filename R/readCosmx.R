@@ -132,7 +132,7 @@ readCosmx <- function(dataDir,
             terra::values(merged_vector) <- terra::values(merged_vector) %>%
                 tidyr::gather(patch, cell_id, na.rm = TRUE) %>%
                 dplyr::mutate(unique_cell_id = dplyr::row_number() - 1)
-            merged_vectors_list[[paste0(i)]] <- as.data.frame(
+            merged_vectors_list[[paste0("sample_", i)]] <- as.data.frame(
                 terra::geom(merged_vector)
             )
         }
