@@ -26,9 +26,11 @@
 #'     keepCols = "essential"
 #' )
 #' meCosmx
+#' @importFrom data.table fread
+#' @importFrom cli
 readCosmx <- function(dataDir,
                       keepCols = "essential",
-                      addBoundaries = NULL) {
+                      addBoundaries = "cell") {
     # check arg validity
     .check_if_character(dataDir, keepCols)
 
@@ -36,6 +38,11 @@ readCosmx <- function(dataDir,
     pattern <- "tx_file"
     # according to README file from cosmx, 1 pixel = 0.18 µm
     scaleFactor <- 0.18
+    cli::cli_progress_step(
+        "1/3 Transforming masks into polygons",
+        .auto_close = FALSE,
+        spinner = TRUE
+    )
     me <- readMolecules(
         dataDir = dataDir,
         pattern = pattern,
@@ -45,10 +52,103 @@ readCosmx <- function(dataDir,
         keepCols = keepCols,
         scaleFactorVector = scaleFactor
     )
+    cli::cli_progress_done()
 
-    #TODO: Find and account for a multisample dataset.
     if (!is.null(addBoundaries)) {
-        
+        cell_mask_dirs <- grep(
+            "CellLabels",
+            list.dirs(dataDir, full.names = TRUE, recursive = TRUE),
+            value = TRUE
+        )
+
+        topology_files <- list.files(
+            dataDir,
+            "fov_positions_file.csv",
+            recursive = TRUE
+        )
+
+        topology <- lapply(
+            topology_files,
+            function(f) data.table::fread(paste(dataDir, f, sep = "/"))
+        )
+        mask_names <- lapply(
+            cell_mask_dirs,
+            function(dir) {
+                list.files(
+                    dir,
+                    pattern = "*.tif", full.names = TRUE
+                )
+            }
+        )
+
+        # check if right number of images
+        # TODO: make this error more useful by specifying which sample is broke
+        if (!all(unlist(lapply(seq_along(topology), function(i) {
+            nrow(topology[[i]]) == length(mask_names[[i]])
+        })))) {
+            stop(
+                "fov_positions CSV and CellLabels folder have a different ",
+                "number of images.\n",
+                "\tCheck if you have valid CosMX data."
+            )
+        }
+
+        cli::cli_progress_step(
+            "2/3 Transforming masks into polygons",
+            .auto_close = FALSE,
+            spinner = TRUE
+        )
+        # convert each image to polygons
+        poly_list <- lapply(
+            seq_along(mask_names),
+            function(i) {
+                lapply(seq_along(mask_names[[i]]), function(j) {
+                    mask <- terra::rast(mask_names[[i]][[j]])
+
+                    xmin <- topology[[i]][j, 2][[1]]
+                    xmax <- topology[[i]][j, 2][[1]] + ncol(mask)
+
+                    ymin <- topology[[i]][j, 3][[1]]
+                    ymax <- topology[[i]][j, 3][[1]] + nrow(mask)
+
+                    terra::ext(mask) <- c(xmin, xmax, ymin, ymax)
+                    poly <- terra::as.polygons(mask, round = FALSE)
+                })
+            }
+        )
+        cli::cli_progress_done()
+
+        cli::cli_progress_step(
+            "3/3 Merging patches",
+            .auto_close = FALSE,
+            spinner = TRUE
+        )
+        merged_vectors_list <- list()
+        for (i in seq_along(poly_list)) {
+            merged_vector <- terra::vect()
+            for (j in seq_along(poly_list[[i]])) {
+                merged_vector <- rbind(merged_vector, poly_list[[i]][[j]])
+            }
+            terra::values(merged_vector) <- terra::values(merged_vector) %>%
+                tidyr::gather(patch, cell_id, na.rm = TRUE) %>%
+                dplyr::mutate(unique_cell_id = dplyr::row_number() - 1)
+            merged_vectors_list[[paste0(i)]] <- as.data.frame(
+                terra::geom(merged_vector)
+            )
+        }
+        merged_vectors_df <- dplyr::bind_rows(
+            merged_vectors_list,
+            .id = "sample_id"
+        ) %>% dplyr::mutate(
+            cell_id = dplyr::consecutive_id(sample_id, geom)
+        )
+        me@boundaries <- dataframeToMEList(
+            merged_vectors_df,
+            dfType = "boundaries", assayName = addBoundaries,
+            sampleCol = "sample_id", factorCol = "cell_id", xCol = "x",
+            yCol = "y"
+        )
+        cli::cli_progress_done()
     }
 
     return(me)
