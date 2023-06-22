@@ -39,7 +39,7 @@ readCosmx <- function(dataDir,
     # according to README file from cosmx, 1 pixel = 0.18 µm
     scaleFactor <- 0.18
     cli::cli_progress_step(
-        "1/3 Transforming masks into polygons",
+        "1/3 Reading transcripts",
         .auto_close = FALSE,
         spinner = TRUE
     )
