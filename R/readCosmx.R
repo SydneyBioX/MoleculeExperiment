@@ -136,11 +136,15 @@ readCosmx <- function(dataDir,
                 terra::geom(merged_vector)
             )
         }
-        # TODO: filter out polygon 0, it is the empty space.
+        # TODO: filter out polygon with multiple parts
         merged_vectors_df <- dplyr::bind_rows(
             merged_vectors_list,
             .id = "sample_id"
-        ) %>% dplyr::mutate(
+        ) %>%
+            dplyr::filter(
+                !geom == 1
+            ) %>%
+            dplyr::mutate(
             cell_id = dplyr::consecutive_id(sample_id, geom)
         )
         me@boundaries <- dataframeToMEList(
