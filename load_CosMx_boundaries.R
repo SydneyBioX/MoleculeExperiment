@@ -93,6 +93,7 @@ size <- 400
 
 # save extents for trascript filtering
 extents <- list()
+new_topologies <- list()
 # create cropped masks and save them
 for (i in image_idxs) {
     image <- terra::rast(mask_names[[i]])
@@ -103,8 +104,7 @@ for (i in image_idxs) {
     terra::ext(image) <- c(xmin, xmax, ymin, ymax)
 
     extent <- terra::ext(image)
-    # left image
-    if (i %% 2 == 1) {
+    if (i %% 2 == 1) { # left image
         crop_extent <- terra::ext(
             c(
                 extent$xmax - size / 2, # xmin
@@ -125,6 +125,15 @@ for (i in image_idxs) {
     }
     extents[[i]] <- crop_extent
     cropped_image <- terra::crop(image, crop_extent)
+
+    # create the new topology for each sample.
+    if (i %% 2 == 0) {
+        new_topologies[[i / 2]] <- data.frame(
+            fov = c(1, 2),
+            x_global_px = c(extents[[i - 1]]$xmin[[1]], extents[[i]]$xmin[[1]]),
+            y_global_px = c(extents[[i - 1]]$ymin[[1]], extents[[i]]$ymin[[1]])
+        )
+    }
 
     terra::writeRaster(
         cropped_image, paste(
@@ -148,6 +157,7 @@ transcripts <- data.table::fread(paste0(
     dataDir,
     "/Lung9_Rep1_tx_file.csv"
 ))
+
 
 
 # TODO: use new extents in fov file
@@ -174,11 +184,7 @@ for (i in seq_along(joined_extents)) {
         row.names = FALSE
     )
     utils::write.csv(
-        topology %>%
-            filter(
-                fov == (i - 1) * 2 + 1 | fov == (i - 1) * 2 + 2
-            ) %>%
-            mutate(fov = row_number()),
+        new_topologies[[i]],
         file = paste(
             pkg_data_dir,
             paste0("sample_", i),
