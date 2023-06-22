@@ -129,9 +129,6 @@ readCosmx <- function(dataDir,
             for (j in seq_along(poly_list[[i]])) {
                 merged_vector <- rbind(merged_vector, poly_list[[i]][[j]])
             }
-            terra::values(merged_vector) <- terra::values(merged_vector) %>%
-                tidyr::gather(patch, cell_id, na.rm = TRUE) %>%
-                dplyr::mutate(unique_cell_id = dplyr::row_number() - 1)
             merged_vectors_list[[paste0("sample_", i)]] <- as.data.frame(
                 terra::geom(merged_vector)
             )
@@ -145,8 +142,8 @@ readCosmx <- function(dataDir,
                 !geom == 1
             ) %>%
             dplyr::mutate(
-            cell_id = dplyr::consecutive_id(sample_id, geom)
-        )
+                cell_id = dplyr::consecutive_id(sample_id, geom)
+            )
         me@boundaries <- dataframeToMEList(
             merged_vectors_df,
             dfType = "boundaries", assayName = addBoundaries,
