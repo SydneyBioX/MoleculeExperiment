@@ -149,6 +149,8 @@ transcripts <- data.table::fread(paste0(
     "/Lung9_Rep1_tx_file.csv"
 ))
 
+
+# TODO: use new extents in fov file
 # create filtered transcripts and fov file
 for (i in seq_along(joined_extents)) {
     e <- joined_extents[[i]]
