@@ -70,13 +70,13 @@ dev.off()
 
 # 3. Create a *representative* baby dataset ----
 
-data_dir <- "/albona/nobackup2/biostat/datasets/spatial/nanostring_NSCLC_lung9_rep1/modified/Lung9_Rep1/Lung9_Rep1-Flat_files_and_images"
+dataDir <- "/albona/nobackup2/biostat/datasets/spatial/nanostring_NSCLC_lung9_rep1/modified/Lung9_Rep1/Lung9_Rep1-Flat_files_and_images"
 pkg_data_dir <- "inst/extdata/nanostring_Lung9_Rep1"
 
-cell_mask_dir <- paste(data_dir, "CellLabels", sep = "/")
+cell_mask_dir <- paste(dataDir, "CellLabels", sep = "/")
 topology_file <- "Lung9_Rep1_fov_positions_file.csv"
 
-topology <- data.table::fread(paste(data_dir, topology_file, sep = "/"))
+topology <- data.table::fread(paste(dataDir, topology_file, sep = "/"))
 mask_names <- list.files(cell_mask_dir, pattern = "*.tif", full.names = TRUE)
 
 # Sample 1
@@ -145,7 +145,7 @@ joined_extents <- list(
 
 # load transcripts
 transcripts <- data.table::fread(paste0(
-    data_dir,
+    dataDir,
     "/Lung9_Rep1_tx_file.csv"
 ))
 
@@ -168,7 +168,8 @@ for (i in seq_along(joined_extents)) {
             paste0("sample_", i),
             "tx_file.csv",
             sep = "/"
-        )
+        ),
+        row.names = FALSE
     )
     utils::write.csv(
         topology %>%
@@ -181,6 +182,7 @@ for (i in seq_along(joined_extents)) {
             paste0("sample_", i),
             "fov_positions_file.csv",
             sep = "/"
-        )
+        ),
+        row.names = FALSE
     )
 }
