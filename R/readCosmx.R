@@ -112,7 +112,7 @@ readCosmx <- function(dataDir,
                     ymax <- topology[[i]][j, 3][[1]] + nrow(mask)
 
                     terra::ext(mask) <- c(xmin, xmax, ymin, ymax)
-                    poly <- terra::as.polygons(mask, round = FALSE)
+                    poly <- terra::as.polygons(mask)
                 })
             }
         )
