@@ -1,76 +1,42 @@
+Data in this directory is used by the vignette and the examples of functions
+in the package. It corresponds to Xenium by 10x genomics (mouse brain FF
+tissue), CosMx by Nanostring (human lung NSCLC) and Merscope by Vizgen (human
+ovarian cancer).
+
++ XENIUM
+- Downloaded from:
+https://www.10xgenomics.com/resources/datasets/fresh-frozen-mouse-brain-replicates-1-standard
+
+- Download date: 8th Feb 2023
+
+- Modifications: Raw csv.gz files were uncompressed and only the transcripts
+and boundaries from a patch of 20µm x 20µm were used. 
+    - x_min <- 4900, x_max <- 4920
+    - y_min <- 6400, y_max <- 6420
+
++ MERSCOPE
+- Downloaded from:
+https://console.cloud.google.com/storage/browser/vz-ffpe-showcase/HumanOvarianCancerPatient2Slice2?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22))&prefix=&forceOnObjectsSortingFiltering=false
+
+- Download date: 27th Feb 2023
+
+- Modifications: raw transcripts file was filtered to only contain molecules
+present in a 80µm x 80µm patch.
+    - x_min <- 8000, x_max <- 8080
+    - y_min <- 8000, y_max <- 8080 
+
+# COSMX
+- Downloaded from [here](https://nanostring.com/products/cosmx-spatial-molecular-imager/nsclc-ffpe-dataset/)
+- Download date: 27th Feb 2023
+- Modifications: raw transcript file had coordinates in pixels. CosMx specifies that 1 pixel is equal to 0.18 µm. Data included in `inst/extdata/nanostring_Lung9_Rep1` were created using the following R script.
+
+```r
 library(terra)
-library(cli)
 library(data.table)
 library(tidyverse)
 
-# 1. infer image topology ----
-
-data_dir <- "/albona/nobackup2/biostat/datasets/spatial/nanostring_NSCLC_lung9_rep1/modified/Lung9_Rep1/Lung9_Rep1-Flat_files_and_images"
-
-cell_mask_dir <- paste(data_dir, "CellLabels", sep = "/")
-topology_file <- "Lung9_Rep1_fov_positions_file.csv"
-
-topology <- data.table::fread(paste(data_dir, topology_file, sep = "/"))
-mask_names <- list.files(cell_mask_dir, pattern = "*.tif", full.names = TRUE)
-
-# check if right number of images
-if (!nrow(topology) == length(mask_names)) {
-    stop(
-        "fov_positions and CellLabels have a different number of images.\n",
-        "\tCheck if you have valid CosMX data."
-    )
-}
-
-# convert each image to polygons
-poly_list <- lapply(
-    cli::cli_progress_along(
-        mask_names,
-        name = "1/2 Transforming masks into polygons:"
-    ),
-    function(i) {
-        mask <- terra::rast(mask_names[[i]])
-
-        xmin <- topology[i, 2][[1]]
-        xmax <- topology[i, 2][[1]] + ncol(mask)
-
-        ymin <- topology[i, 3][[1]]
-        ymax <- topology[i, 3][[1]] + nrow(mask)
-
-        terra::ext(mask) <- c(xmin, xmax, ymin, ymax)
-        poly <- terra::as.polygons(mask, round = FALSE)
-    }
-)
-
-merged_vector <- terra::vect()
-for (i in cli::cli_progress_along(poly_list, name = "2/2 Joining patches:")) {
-    merged_vector <- rbind(merged_vector, poly_list[[i]])
-}
-
-values(merged_vector) <- values(merged_vector) %>%
-    tidyr::gather(from, cell_id, na.rm = TRUE) %>%
-    dplyr::mutate(unique_cell_id = dplyr::row_number() - 1)
-
-# 2. Sanitiy check ----
-
-transcripts <- data.table::fread(paste0(
-    data_dir,
-    "/Lung9_Rep1_tx_file.csv"
-))
-nuclear <- transcripts[CellComp == "Nuclear"][, .(x_global_px, y_global_px)]
-setnames(nuclear, c("x_global_px", "y_global_px"), c("x", "y"))
-idx <- sample(seq_len(nrow(nuclear)), 150000)
-mols <- terra::vect(as.matrix(nuclear[idx]))
-
-# plot the merged vector (VERY LARGE EDITION)
-png("merged.png", width = 8, height = 6, units = "in", res = 1200)
-plot(merged_vector)
-points(mols, col = "pink", alpha = 0.1)
-dev.off()
-
-
-# 3. Create a *representative* baby dataset ----
-
-data_dir <- "/albona/nobackup2/biostat/datasets/spatial/nanostring_NSCLC_lung9_rep1/modified/Lung9_Rep1/Lung9_Rep1-Flat_files_and_images"
+# vvv REPLACE THIS vvv
+data_dir <- "DATA_DIR"
 pkg_data_dir <- "inst/extdata/nanostring_Lung9_Rep1"
 
 cell_mask_dir <- paste(data_dir, "CellLabels", sep = "/")
@@ -184,3 +150,4 @@ for (i in seq_along(joined_extents)) {
         )
     )
 }
+```
