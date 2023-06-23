@@ -28,14 +28,20 @@ visualisation and for countMolecules.
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 me <- readXenium(repoDir,
-                  keepCols = "essential")
-MoleculeExperiment::boundaries(me, "cell_buffer") <- bufferBoundaries(me, assayName = "cell", buffer = 1)
+  keepCols = "essential"
+)
+MoleculeExperiment::boundaries(me, "cell_buffer") <- bufferBoundaries(
+  me,
+  assayName = "cell", buffer = 1
+)
 
 library(ggplot2)
 ggplot_me() +
-geom_polygon_me(me, assayName = "cell", fill = "grey") +
-geom_polygon_me(me, assayName = "cell_buffer", fill = NA, colour = "red") +
-geom_point_me(me) +
-coord_cartesian(xlim = c(4900, 4919.98), 
-ylim = c(6400.02, 6420))
+  geom_polygon_me(me, assayName = "cell", fill = "grey") +
+  geom_polygon_me(me, assayName = "cell_buffer", fill = NA, colour = "red") +
+  geom_point_me(me) +
+  coord_cartesian(
+    xlim = c(4900, 4919.98),
+    ylim = c(6400.02, 6420)
+  )
 }
