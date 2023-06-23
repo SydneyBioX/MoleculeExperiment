@@ -146,7 +146,11 @@ readCosmx <- function(dataDir,
             ) %>%
             dplyr::ungroup() %>%
             dplyr::mutate(
-                cell_id = dplyr::consecutive_id(sample_id, geom)
+                # create ID col
+                cell_id = dplyr::consecutive_id(sample_id, geom),
+                # scale x and y to microns
+                x = 0.18 * x,
+                y = 0.18 * y
             )
         me@boundaries <- dataframeToMEList(
             merged_vectors_df,
