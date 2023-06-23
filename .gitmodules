@@ -1,0 +1,3 @@
+[submodule "nobuild/MoleculeExperiment_nobuildscripts"]
+	path = nobuild/MoleculeExperiment_nobuildscripts
+	url = git@github.com:SydneyBioX/MoleculeExperiment_nobuildscripts.git
