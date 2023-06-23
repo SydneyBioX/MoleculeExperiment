@@ -13,8 +13,8 @@
 #' @param keepCols Character string specifying which columns to keep.
 #'     Defaults to "essential". The other option is to select "all", or custom
 #'     columns by specifying their names in a vector.
-#' @param addBoundaries Vector with which to specify the names of the boundary
-#'     assays to be added to the me object. Can be a string, or NULL.
+#' @param addBoundaries A string with which to specify the name of the boundary
+#'     assay to be added to the me object. Can be a string, or NULL.
 #'     If NULL, a simple ME object with no boundaries will be created.
 #' @return A MoleculeExperiment object
 #' @export
@@ -26,8 +26,14 @@
 #'     keepCols = "essential"
 #' )
 #' meCosmx
+#' @importFrom cli cli_progress_step cli_progress_done
 #' @importFrom data.table fread
-#' @importFrom cli
+#' @importFrom terra rast ext as.polygons vect geom
+#' @importFrom dplyr bind_rows filter group_by n_distinct ungroup
+#'     mutate consecutive_id
+#' @importFrom utils tail
+#' @importFrom magrittr %>% %<>%
+#' @importFrom rlang .data
 readCosmx <- function(dataDir,
                       keepCols = "essential",
                       addBoundaries = "cell") {
@@ -138,23 +144,23 @@ readCosmx <- function(dataDir,
             .id = "sample_id"
         ) %>%
             dplyr::filter(
-                !geom == 1
+                !.data[["geom"]] == 1
             ) %>%
-            dplyr::group_by(geom) %>%
+            dplyr::group_by(.data[["geom"]]) %>%
             dplyr::filter(
-                dplyr::n_distinct(part) < 2
+                dplyr::n_distinct(.data[["part"]]) < 2
             ) %>%
             dplyr::ungroup() %>%
             dplyr::mutate(
                 # create ID col
-                cell_id = dplyr::consecutive_id(sample_id, geom),
+                cell_id = dplyr::consecutive_id(.data[["sample_id"]], .data[["geom"]]),
                 # scale x and y to microns
-                x = 0.18 * x,
-                y = 0.18 * y
+                x = 0.18 * .data[["x"]],
+                y = 0.18 * .data[["y"]]
             )
         if (length(cell_mask_dirs) == 1) {
             merged_vectors_df %<>% dplyr::mutate(
-                sample_id = tail(strsplit(dataDir, "/")[[1]], n = 1)
+                sample_id = utils::tail(strsplit(dataDir, "/")[[1]], n = 1)
             )
         }
         me@boundaries <- dataframeToMEList(
