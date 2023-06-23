@@ -4,7 +4,7 @@
 \alias{readCosmx}
 \title{Read in Cosmx data (Nanostring) as an ME object.}
 \usage{
-readCosmx(dataDir, keepCols = "essential")
+readCosmx(dataDir, keepCols = "essential", addBoundaries = "cell")
 }
 \arguments{
 \item{dataDir}{Character string specifying the directory with the Cosmx
@@ -13,6 +13,10 @@ output files.}
 \item{keepCols}{Character string specifying which columns to keep.
 Defaults to "essential". The other option is to select "all", or custom
 columns by specifying their names in a vector.}
+
+\item{addBoundaries}{A string with which to specify the name of the boundary
+assay to be added to the me object. Can be a string, or NULL.
+If NULL, a simple ME object with no boundaries will be created.}
 }
 \value{
 A MoleculeExperiment object
@@ -25,7 +29,9 @@ Boundary information is not handled yet.
 \examples{
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/nanostring_Lung9_Rep1")
+#
 meCosmx <- readCosmx(repoDir,
-                      keepCols = "essential")
+    keepCols = "essential"
+)
 meCosmx
 }
