@@ -152,6 +152,11 @@ readCosmx <- function(dataDir,
                 x = 0.18 * x,
                 y = 0.18 * y
             )
+        if (length(cell_mask_dirs) == 1) {
+            merged_vectors_df %<>% dplyr::mutate(
+                sample_id = tail(strsplit(dataDir, "/")[[1]], n = 1)
+            )
+        }
         me@boundaries <- dataframeToMEList(
             merged_vectors_df,
             dfType = "boundaries", assayName = addBoundaries,
