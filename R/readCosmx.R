@@ -133,7 +133,6 @@ readCosmx <- function(dataDir,
                 terra::geom(merged_vector)
             )
         }
-        # TODO: filter out polygon with multiple parts
         merged_vectors_df <- dplyr::bind_rows(
             merged_vectors_list,
             .id = "sample_id"
@@ -141,6 +140,11 @@ readCosmx <- function(dataDir,
             dplyr::filter(
                 !geom == 1
             ) %>%
+            dplyr::group_by(geom) %>%
+            dplyr::filter(
+                dplyr::n_distinct(part) < 2
+            ) %>%
+            dplyr::ungroup() %>%
             dplyr::mutate(
                 cell_id = dplyr::consecutive_id(sample_id, geom)
             )
