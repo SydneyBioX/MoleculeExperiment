@@ -1,3 +1,32 @@
+#' @title Read a segmentation mask
+#' @description Reads a segmentation mask TIFF and transforms it into a
+#'     ME boundaries object. One must provide either the path or the loaded
+#'     image object.
+#' @param extent The extent of the loaded segmentation mask in micrometers. 
+#'     Used to align the mask with the transcripts. This must be of the form 
+#'     c(xmin, xmax, ymin, ymax).
+#' @param path The path of the segmenation mask, Default: NULL
+#' @param image The loaded image object, Default: NULL
+#' @param assayName The name of the segmentation (e.g. cell, or nucleus),
+#'     Default: 'cell'
+#' @param background_value The value corrisponding to the backgorund in the
+#'     segmentation, Default: NULL
+#' @param sample_id What the sample should be named, Default: NULL
+#' @return A boundaries object.
+#' @examples
+#' #TODO Add working example.
+#' \dontrun{
+#' if (interactive()) {
+#'     # EXAMPLE1
+#' }
+#' }
+#' @rdname readSegMask
+#' @export
+#' @importFrom terra ext rast geom as.polygons
+#' @importFrom cli cli_abort
+#' @importFrom methods is
+#' @importFrom EBImage imageData
+#' @importFrom dplyr filter mutate group_by n_distinct ungroup consecutive_id
 readSegMask <- function(
     extent, path = NULL, image = NULL, assayName = "cell",
     background_value = NULL, sample_id = NULL) {
@@ -26,7 +55,7 @@ readSegMask <- function(
             )
         ))
     } else if (!is.null(path) && is.null(image)) {
-        if (!file.exists(path) && dir.exists(path)) {
+        if (!file.exists(path) || dir.exists(path)) {
             cli::cli_abort(c(
                 "Invalid mask path.",
                 "x" = "{path} does not exist or is a directory."

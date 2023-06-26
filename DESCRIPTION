@@ -31,7 +31,8 @@ Imports:
     terra,
     ggplot2,
     rlang,
-    cli
+    cli,
+    EBImage
 Suggests: 
     knitr,
     BiocStyle,
