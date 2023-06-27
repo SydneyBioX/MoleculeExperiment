@@ -41,3 +41,7 @@ setGeneric("showMolecules",
 #' @export
 setGeneric("showBoundaries",
     function(object, ...) standardGeneric("showBoundaries"))
+
+#' @export
+setGeneric("extent",
+    function(object, ...) standardGeneric("extent"))

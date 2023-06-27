@@ -18,6 +18,7 @@
 #' showBoundaries
 #' nFeatures
 #' nTranscripts
+#' extent
 #'
 #' @name summarization
 #' @docType methods
@@ -27,15 +28,16 @@
 #' repoDir <- system.file("extdata", package = "MoleculeExperiment")
 #' repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 #' me <- readXenium(repoDir,
-#'                   keepCols = "essential",
-#'                   addBoundaries = "cell")
-#' 
+#'     keepCols = "essential",
+#'     addBoundaries = "cell"
+#' )
+#'
 #' showMolecules(me)
 #' showBoundaries(me)
-#' 
+#'
 #' nFeatures(me)
 #' nFeatures(me, perSample = TRUE)
-#' 
+#'
 #' nTranscripts(me)
 #' nTranscripts(me, perSample = TRUE)
 #' @return A MoleculeExperiment object summary.
@@ -45,13 +47,18 @@ NULL
 setMethod("show",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object) {
+        # TODO: Make these methods assay name agnostic
         cat("class: ", class(object), "\n")
-        cat(paste(
+        cat(
+            paste(
                 length(object@molecules[["detected"]]),
                 "samples:",
                 paste(utils::head(names(object@molecules[["detected"]])),
-                    collapse = " ")),
-            "\n")
+                    collapse = " "
+                )
+            ),
+            "\n"
+        )
 
         cat("\n@molecules contents: ", "-detected assay:", sep = "\n")
         nFeatures(object, "detected")
@@ -60,29 +67,35 @@ setMethod("show",
         # show range of coordinates
         samples <- names(object@molecules[["detected"]])
         sample_x <- lapply(samples, function(x) {
-                    f <- features(object)[[x]]
-                    # get x coordinates for each gene
-                    gene_x <- lapply(f, function(f) {
-                        object@molecules[["detected"]][[x]][[f]][["x_location"]]})
-                    })
+            f <- features(object)[[x]]
+            # get x coordinates for each gene
+            gene_x <- lapply(f, function(f) {
+                object@molecules[["detected"]][[x]][[f]][["x_location"]]
+            })
+        })
 
         sample_y <- lapply(samples, function(x) {
-                    f <- features(object)[[x]]
-                    # get y coordinates for each gene
-                    gene_y <- lapply(f, function(f) {
-                        object@molecules[["detected"]][[x]][[f]][["y_location"]]})
-                    })
-        
+            f <- features(object)[[x]]
+            # get y coordinates for each gene
+            gene_y <- lapply(f, function(f) {
+                object@molecules[["detected"]][[x]][[f]][["y_location"]]
+            })
+        })
+
         x_v <- unlist(sample_x)
         y_v <- unlist(sample_y)
-        cat(paste0("Location range across all samples in assay \"detected\": [",
+        cat(paste0(
+            "Location range across all samples in assay \"detected\": [",
             round(min(x_v), 2), ",", round(max(x_v), 2), "] x [",
-            round(min(y_v), 2), ",", round(max(y_v), 2), "]", "\n"))
+            round(min(y_v), 2), ",", round(max(y_v), 2), "]", "\n"
+        ))
 
         if (length(names(object@molecules)) > 1) {
             all <- utils::head(names(object@molecules))
-            cat(paste0("-other assays: ",
-                    paste(all[all != "detected"], sep = ",", collapse = " "), "\n"))
+            cat(paste0(
+                "-other assays: ",
+                paste(all[all != "detected"], sep = ",", collapse = " "), "\n"
+            ))
         }
 
         if (is.null(object@boundaries)) {
@@ -93,8 +106,10 @@ setMethod("show",
                 cat(paste0("-", i, ":\n"))
                 id_ls <- segmentIDs(object, assayName = i)
                 n_comp <- mean(lengths(id_ls))
-                cat(paste0(n_comp, " unique segment IDs: ",
-                    paste(utils::head(id_ls[[1]]), collapse = " "), " ...\n"))
+                cat(paste0(
+                    n_comp, " unique segment IDs: ",
+                    paste(utils::head(id_ls[[1]]), collapse = " "), " ...\n"
+                ))
             }
         }
     }
@@ -107,6 +122,38 @@ setMethod("showMolecules",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object) {
         str(object@molecules, max.level = 3, list.len = 2)
+    }
+)
+
+#' @rdname summarization
+#' @export
+#' @importFrom utils str
+setMethod("extent",
+    signature = signature(object = "MoleculeExperiment"),
+    definition = function(object) {
+        samples <- names(object@molecules[["detected"]])
+        sample_x <- lapply(samples, function(x) {
+            f <- features(object)[[x]]
+            # get x coordinates for each gene
+            gene_x <- lapply(f, function(f) {
+                object@molecules[["detected"]][[x]][[f]][["x_location"]]
+            })
+        })
+
+        sample_y <- lapply(samples, function(x) {
+            f <- features(object)[[x]]
+            # get y coordinates for each gene
+            gene_y <- lapply(f, function(f) {
+                object@molecules[["detected"]][[x]][[f]][["y_location"]]
+            })
+        })
+
+        x_v <- unlist(sample_x)
+        y_v <- unlist(sample_y)
+        c(
+            xmin = min(x_v), xmax = max(x_v),
+            ymin = min(y_v), ymax = max(y_v)
+        )
     }
 )
 
@@ -132,20 +179,24 @@ setMethod("nFeatures",
         if (perSample) {
             return(lengths(object@molecules[[assayName]]))
         } else {
-
-            f_sample <- lapply(names(object@molecules[[assayName]]),
-                                function(t) {
-                                    names(object@molecules[[assayName]][[t]])})
+            f_sample <- lapply(
+                names(object@molecules[[assayName]]),
+                function(t) {
+                    names(object@molecules[[assayName]][[t]])
+                }
+            )
 
             number <- length(unique(unlist(f_sample)))
 
-            message(number,
-                        " unique features across all samples in assay \"",
-                        assayName, "\": ",
-                        paste(utils::head(features(object, assayName)[[1]]),
-                            collapse = " "),
-                        " ...", "\n")
-
+            message(
+                number,
+                " unique features across all samples in assay \"",
+                assayName, "\": ",
+                paste(utils::head(features(object, assayName)[[1]]),
+                    collapse = " "
+                ),
+                " ...", "\n"
+            )
         }
     }
 )
@@ -154,10 +205,10 @@ setMethod("nFeatures",
 #' @rdname summarization
 #' @export
 setMethod("nTranscripts",
-            signature = signature(object = "MoleculeExperiment"),
-            definition = function(object,
-                               assayName = "detected",
-                               perSample = FALSE) {
+    signature = signature(object = "MoleculeExperiment"),
+    definition = function(object,
+                          assayName = "detected",
+                          perSample = FALSE) {
         # check arg validity
         .check_if_character(assayName)
 
@@ -168,7 +219,8 @@ setMethod("nTranscripts",
         for (s in samples) {
             features <- object@molecules[[assayName]][[s]]
             numbers_ls <- lapply(names(features), function(x) {
-                                nrow(features[[x]])})
+                nrow(features[[x]])
+            })
             total <- sum(unlist(numbers_ls))
             sample_numbers[[s]] <- total
         }
@@ -176,9 +228,11 @@ setMethod("nTranscripts",
         if (perSample) {
             return(sample_numbers)
         } else {
-            message(mean(sample_numbers),
-            " molecules on average across all samples in assay \"", assayName,
-            "\"\n")
+            message(
+                mean(sample_numbers),
+                " molecules on average across all samples in assay \"", assayName,
+                "\"\n"
+            )
         }
     }
 )
