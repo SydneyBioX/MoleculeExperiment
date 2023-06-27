@@ -22,7 +22,7 @@
 #'     addBoundaries = NULL
 #' )
 #' boundaries(me, "BIDcell_segmentation") <- readSegMask(
-#'     extent(me),
+#'     extent(me), # use the molecule extent to define the boundary extent
 #'     path = segMask, assayName = "BIDcell_segmentation",
 #'     sample_id = "sample1", background_value = 0
 #' )
