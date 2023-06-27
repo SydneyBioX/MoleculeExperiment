@@ -1,7 +1,3 @@
-# ==============================================================================
-# future development: a wrapper for cosmx data
-# ==============================================================================
-
 #' Read in Cosmx data (Nanostring) as an ME object.
 #'
 #' This function is a wrapper around the readMolecules function. Note that it
@@ -87,16 +83,31 @@ readCosmx <- function(dataDir,
             }
         )
 
+        check <- unlist(lapply(
+            seq_along(topology),
+            function(i) {
+                nrow(topology[[i]]) == length(mask_names[[i]])
+            }
+        ))
         # check if right number of images
-        # TODO: make this error more useful by specifying which sample is broke
-        if (!all(unlist(lapply(seq_along(topology), function(i) {
-            nrow(topology[[i]]) == length(mask_names[[i]])
-        })))) {
-            stop(
-                "fov_positions CSV and CellLabels folder have a different ",
-                "number of images.\n",
-                "\tCheck if you have valid CosMX data."
+        if (!all(check)) {
+            bad_dirs <- paste(
+                list.dirs(
+                    dataDir,
+                    recursive = FALSE, full.names = TRUE
+                )[which(check == FALSE)]
             )
+            cli::cli_abort(c(
+                paste0(
+                    "fov_positions CSV and CellLabels folder have a different ",
+                    "number of images."
+                ),
+                "x" = paste0(
+                    "{sum(check == FALSE)}/{length(check)} bad sample{?s}: ",
+                    "{bad_dirs}"
+                ),
+                "i" = "Check if you have valid CosMX data."
+            ))
         }
 
         cli::cli_progress_step(
@@ -153,7 +164,9 @@ readCosmx <- function(dataDir,
             dplyr::ungroup() %>%
             dplyr::mutate(
                 # create ID col
-                cell_id = dplyr::consecutive_id(.data[["sample_id"]], .data[["geom"]]),
+                cell_id = dplyr::consecutive_id(
+                    .data[["sample_id"]], .data[["geom"]]
+                ),
                 # scale x and y to microns
                 x = 0.18 * .data[["x"]],
                 y = 0.18 * .data[["y"]]
