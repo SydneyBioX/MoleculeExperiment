@@ -35,12 +35,13 @@
 #' repoDir <- system.file("extdata", package = "MoleculeExperiment")
 #' repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 #' me <- readXenium(repoDir,
-#'                   keepCols = "essential",
-#'                   addBoundaries = "cell")
+#'     keepCols = "essential",
+#'     addBoundaries = "cell"
+#' )
 #'
 #' # get insight into molecules slot
 #' showMolecules(me)
-#' 
+#'
 #' # for developers, use molecules() getter
 #' # expect a large output from call below
 #' # molecules(me)
@@ -49,7 +50,7 @@
 #'
 #' # get insight into boundaries slot
 #' showBoundaries(me)
-#' 
+#'
 #' # for developers, use boundaries() getter
 #' # expect a large output from call below
 #' # boundaries(me, assayName = "cell")
@@ -64,14 +65,16 @@
 #'
 #' # setter example
 #' # read in and standardise nucleus boundaries too
-#' nucleiMEList <- readBoundaries(dataDir = repoDir,
-#'                             pattern = "nucleus_boundaries.csv",
-#'                             segmentIDCol = "cell_id",
-#'                             xCol = "vertex_x",
-#'                             yCol = "vertex_y",
-#'                             keepCols = "essential",
-#'                             boundariesAssay = "nucleus",
-#'                             scaleFactorVector = 1)
+#' nucleiMEList <- readBoundaries(
+#'     dataDir = repoDir,
+#'     pattern = "nucleus_boundaries.csv",
+#'     segmentIDCol = "cell_id",
+#'     xCol = "vertex_x",
+#'     yCol = "vertex_y",
+#'     keepCols = "essential",
+#'     boundariesAssay = "nucleus",
+#'     scaleFactorVector = 1
+#' )
 #'
 #' # use `boundaries<-` setter to add nucleus boundaries to the boundaries slot
 #' boundaries(me, "nucleus") <- nucleiMEList
@@ -82,6 +85,7 @@ NULL
 #' @rdname accessors
 #' @export
 #' @importFrom methods is
+#' @importFrom cli
 setMethod("molecules",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object,
@@ -90,7 +94,7 @@ setMethod("molecules",
         # check arg validity
         .check_if_character(assayName)
 
-        if (! assayName %in% names(object@molecules)) {
+        if (!assayName %in% names(object@molecules)) {
             stop("Assay name specified does not exist in molecules slot.
 Please specify another assay name in the assayName argument.")
         }
@@ -100,9 +104,13 @@ Please specify another assay name in the assayName argument.")
             big_df <- .flatten_molecules(object, assay_name = assayName)
             return(big_df)
         } else {
-            message("The transcripts from the \"", assayName, "\" assay were
-retrieved. Other assay transcripts can be retrieved by specifying the assayName
-argument.")
+            cli::cli_inform(c(
+                "The transcripts from the “{assayName}” assay were retrieved. ",
+                "i" = paste0(
+                    "Other transcript assays can be retrieved by",
+                    " specifying the {.var assayName} argument."
+                )
+            ))
             return(object@molecules[assayName])
         }
     }
@@ -126,7 +134,7 @@ subslot, specify the assayName argument."
             )
             return(object@boundaries)
         } else {
-            if (! assayName %in% names(object@boundaries)) {
+            if (!assayName %in% names(object@boundaries)) {
                 stop("Assay name specified does not exist in boundaries slot.
 Please specify another assay name in the assayName argument.")
             }
@@ -134,9 +142,13 @@ Please specify another assay name in the assayName argument.")
                 big_df <- .flatten_boundaries(object, assay_name = assayName)
                 return(big_df)
             } else {
-                message("The boundaries from the \"", assayName, "\" assay
-were retrieved. Boundaries from other assays can be retrieved by specifying
-the assayName argument.")
+                cli::cli_inform(c(
+                    "Boundaries from the “{assayName}” assay were retrieved. ",
+                    "i" = paste0(
+                        "Other boundary assays can be retrieved by",
+                        " specifying the {.var assayName} argument."
+                    )
+                ))
                 return(object@boundaries[assayName])
             }
         }
@@ -158,11 +170,15 @@ setMethod("features",
         })
         names(f_list) <- samples
 
+        cli::cli_inform(c(
+            "Features from the “{assayName}” assay were retrieved. ",
+            "i" = paste0(
+                "To select features from a different assay, specify it ",
+                "assay in the {.var assayName} argument."
+            )
+        ))
         return(f_list)
 
-        message("Features collected: ", assayName, " assay.
-To select features from a different assay, specify that assay in the
-assayName argument to this function.")
     }
 )
 
@@ -191,39 +207,39 @@ retrieve the unique IDs. For example, the \"cells\" assay for cell boundaries.")
 #' @rdname accessors
 #' @export
 setMethod("molecules<-",
-            signature = signature(object = "MoleculeExperiment"),
-            definition = function(object, assayName = NULL, value) {
-                # check arg validity
-                if (is.null(assayName)) {
-                    stop("No assay name specified in the assayName argument.
+    signature = signature(object = "MoleculeExperiment"),
+    definition = function(object, assayName = NULL, value) {
+        # check arg validity
+        if (is.null(assayName)) {
+            stop("No assay name specified in the assayName argument.
                     Please specify a title with which to identify this molecule
                     information later on.")
-                }
-                .check_if_character(assayName)
+        }
+        .check_if_character(assayName)
 
-                # add new value to molecules slot
-                object@molecules[assayName] <- value
-                methods::validObject(object)
-                return(object)
-            }
+        # add new value to molecules slot
+        object@molecules[assayName] <- value
+        methods::validObject(object)
+        return(object)
+    }
 )
 
 #' @rdname accessors
 #' @export
 setMethod("boundaries<-",
-            signature = signature(object = "MoleculeExperiment"),
-            definition = function(object, assayName = NULL, value)  {
-                # check arg validity
-                if (is.null(assayName)) {
-                    stop("No assay name specified in the assayName argument.
+    signature = signature(object = "MoleculeExperiment"),
+    definition = function(object, assayName = NULL, value) {
+        # check arg validity
+        if (is.null(assayName)) {
+            stop("No assay name specified in the assayName argument.
                     Please specify a title with which to identify this boundary
                     information later on.")
-                }
-                .check_if_character(assayName)
+        }
+        .check_if_character(assayName)
 
-                # add new value to boundaries slot
-                object@boundaries[assayName] <- value
-                methods::validObject(object)
-                return(object)
-            }
+        # add new value to boundaries slot
+        object@boundaries[assayName] <- value
+        methods::validObject(object)
+        return(object)
+    }
 )

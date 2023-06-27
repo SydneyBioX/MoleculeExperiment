@@ -188,15 +188,18 @@ setMethod("nFeatures",
 
             number <- length(unique(unlist(f_sample)))
 
-            message(
-                number,
-                " unique features across all samples in assay \"",
-                assayName, "\": ",
-                paste(utils::head(features(object, assayName)[[1]]),
-                    collapse = " "
-                ),
-                " ...", "\n"
+            features <- paste(
+                utils::head(features(object, assayName)[[1]]),
+                collapse = " "
             )
+            cli::cli_inform(paste0(
+                "{number} unique features across all samples in assay ",
+                "{.emph {assayName}}: ",
+                "{features}",
+                "..."
+            ))
+
+            number
         }
     }
 )
@@ -228,11 +231,10 @@ setMethod("nTranscripts",
         if (perSample) {
             return(sample_numbers)
         } else {
-            message(
-                mean(sample_numbers),
-                " molecules on average across all samples in assay \"", assayName,
-                "\"\n"
-            )
+            cli::cli_inform(paste0(
+                "{mean(sample_numbers)} molecules on average across all",
+                " samples in assay {.emph {assayName}}"
+            ))
         }
     }
 )
