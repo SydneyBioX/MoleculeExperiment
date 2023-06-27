@@ -2,8 +2,8 @@
 #' @description Reads a segmentation mask TIFF and transforms it into a
 #'     ME boundaries object. One must provide either the path or the loaded
 #'     image object.
-#' @param extent The extent of the loaded segmentation mask in micrometers. 
-#'     Used to align the mask with the transcripts. This must be of the form 
+#' @param extent The extent of the loaded segmentation mask in micrometers.
+#'     Used to align the mask with the transcripts. This must be of the form
 #'     c(xmin, xmax, ymin, ymax).
 #' @param path The path of the segmenation mask, Default: NULL
 #' @param image The loaded image object, Default: NULL
@@ -103,7 +103,7 @@ readSegMask <- function(
     }
 
     # TODO: How to figure out the extent of the image?
-    ext(mask) <- e
+    terra::ext(mask) <- e
 
     geom_df <- as.data.frame(terra::geom(terra::as.polygons(mask)))
 
@@ -122,11 +122,11 @@ readSegMask <- function(
     }
     geom_df %<>%
         dplyr::mutate(
-            sample_id = ifelse(is.null(sample_id), "sample_1", sample_id)
+            sample_id = ifelse(is.null(sample_id), "sample1", sample_id)
         ) %>%
         dplyr::group_by(.data[["geom"]]) %>%
         dplyr::filter(
-            dplyr::n_distinct(.data[["part"]]) < 1
+            dplyr::n_distinct(.data[["part"]]) < 2
         ) %>%
         dplyr::ungroup() %>%
         dplyr::mutate(
