@@ -32,7 +32,8 @@ Imports:
     ggplot2,
     rlang,
     cli,
-    EBImage
+    EBImage,
+    rhdf5
 Suggests: 
     knitr,
     BiocStyle,
