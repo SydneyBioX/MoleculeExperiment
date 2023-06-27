@@ -30,18 +30,19 @@
 #' change the coordinate data from pixel to micron. It can be either a single
 #' integer, or multiple scale factors for the different samples. The default
 #' value is 1.
-#' 
+#'
 #' @return A simple MoleculeExperiment object with a filled molecules slot.
 #' @export
 #' @examples
 #' repoDir <- system.file("extdata", package = "MoleculeExperiment")
 #' repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 #' simple_me <- readMolecules(repoDir,
-#'                             pattern = "transcripts.csv",
-#'                             featureCol = "feature_name",
-#'                             xCol = "x_location",
-#'                             yCol = "y_location",
-#'                             keepCols = "essential")
+#'     pattern = "transcripts.csv",
+#'     featureCol = "feature_name",
+#'     xCol = "x_location",
+#'     yCol = "y_location",
+#'     keepCols = "essential"
+#' )
 #' simple_me
 #' @importFrom magrittr %>%
 readMolecules <- function(dataDir,
@@ -51,20 +52,21 @@ readMolecules <- function(dataDir,
                           yCol = NULL,
                           keepCols = "essential",
                           moleculesAssay = NULL,
-                          scaleFactorVector = 1
-                          ) {
+                          scaleFactorVector = 1) {
     # check arg validity
     .stop_if_null(pattern, featureCol, xCol, yCol, keepCols)
-    .check_if_character(dataDir, pattern, featureCol,
-                        xCol, yCol, keepCols, moleculesAssay)
+    .check_if_character(
+        dataDir, pattern, featureCol,
+        xCol, yCol, keepCols, moleculesAssay
+    )
 
     # locate paths for all transcripts files
     f_paths <- list.files(dataDir,
-                     pattern = pattern,
-                     # store full path names
-                     full.names = TRUE,
-                     # look into subdirectories too
-                     recursive = TRUE
+        pattern = pattern,
+        # store full path names
+        full.names = TRUE,
+        # look into subdirectories too
+        recursive = TRUE
     )
     nSamples <- length(f_paths)
 
@@ -72,7 +74,7 @@ readMolecules <- function(dataDir,
     if (length(scaleFactorVector) == 1) {
         # if all samples have same scale factor, create vector with rep numbers
         scaleFactorVector <- rep(scaleFactorVector, nSamples)
-    } else if (! identical(length(scaleFactorVector), nSamples)) {
+    } else if (!identical(length(scaleFactorVector), nSamples)) {
         stop("The vector of scale factors should be either one value for all
         samples, or a vector of the length of the number of samples, specifying
         a scale factor for each sample")
@@ -82,15 +84,15 @@ readMolecules <- function(dataDir,
     mol_n <- vector("list", nSamples)
 
     for (f in seq_along(mol_n)) {
-
         # read_csv modifies transcript_id col and is slower than data.table
         mol_df <- data.table::fread(f_paths[[f]])
         # sprintf function shows that values are not actually changed
-
         # standardise column names
-        essential_cols <- .get_essential_cols(factor_col = featureCol,
-                                                x_col = xCol,
-                                                y_col = yCol)
+        essential_cols <- .get_essential_cols(
+            factor_col = featureCol,
+            x_col = xCol,
+            y_col = yCol
+        )
 
         standard_cols <- .get_standard_cols(df_type = "transcripts")
 
@@ -99,9 +101,12 @@ readMolecules <- function(dataDir,
         # choose cols of interest
         cols <- .select_cols(mol_df, keep_cols = keepCols, standard_cols)
 
-         # scale coordinates if needed
-        mol_df <- .scale_locations(mol_df,
-                                    scale_factor = scaleFactorVector[[f]])
+        # scale coordinates if needed
+        if (scaleFactorVector[[f]] != 1) {
+            mol_df <- .scale_locations(mol_df,
+                scale_factor = scaleFactorVector[[f]]
+            )
+        }
 
         # standardise data format to ME list
         # goal = reduce redundancy and save storage space
