@@ -78,6 +78,7 @@ readSegMask <- function(
             ))
         }
         type <- tail(strsplit(path, ".", fixed = TRUE)[[1]], n = 1)
+        # TODO: include tiff
         if (type != "tif") {
             cli::cli_abort(c(
                 "Unsupported segmentation mask.",
@@ -102,7 +103,6 @@ readSegMask <- function(
         ))
     }
 
-    # TODO: How to figure out the extent of the image?
     terra::ext(mask) <- e
 
     geom_df <- as.data.frame(terra::geom(terra::as.polygons(mask)))
