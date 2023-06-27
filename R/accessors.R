@@ -169,7 +169,8 @@ setMethod("features",
             names(object@molecules[[assayName]][[s]])
         })
         names(f_list) <- samples
-
+        # TODO: use a verbosity setting to fix this!!!
+        return(f_list)
         cli::cli_inform(c(
             "Features from the “{assayName}” assay were retrieved. ",
             "i" = paste0(
@@ -177,7 +178,6 @@ setMethod("features",
                 "assay in the {.var assayName} argument."
             )
         ))
-        return(f_list)
 
     }
 )
