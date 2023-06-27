@@ -168,8 +168,8 @@ readCosmx <- function(dataDir,
                     .data[["sample_id"]], .data[["geom"]]
                 ),
                 # scale x and y to microns
-                x = 0.18 * .data[["x"]],
-                y = 0.18 * .data[["y"]]
+                x = scaleFactor * .data[["x"]],
+                y = scaleFactor * .data[["y"]]
             )
         if (length(cell_mask_dirs) == 1) {
             merged_vectors_df %<>% dplyr::mutate(
