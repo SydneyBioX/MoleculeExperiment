@@ -5,10 +5,10 @@
 # ------------------------------------------------------------------------------
 # check if object is of MoleculeExperiment class
 .check_if_me <- function(object) {
-        if (!is(object, "MoleculeExperiment")) {
-            stop("Please specify a MoleculeExperiment object in the object
+    if (!is(object, "MoleculeExperiment")) {
+        stop("Please specify a MoleculeExperiment object in the object
 argument of this function.")
-        }
+    }
 }
 
 # ------------------------------------------------------------------------------
@@ -30,9 +30,11 @@ argument of this function.")
     # show error message if one of the specified arguments is NULL
     for (arg in names(args_values)) {
         if (is.null(args_values[[arg]])) {
-            stop("The argument ", arg,
+            stop(
+                "The argument ", arg,
                 " should not be NULL. Please enter a valid value for this
-argument. See documentation for more information.")
+argument. See documentation for more information."
+            )
         }
     }
 }
@@ -57,8 +59,10 @@ argument. See documentation for more information.")
     for (arg in names(args_values)) {
         if (!is.null(args_values[[arg]])) {
             if (!is(args_values[[arg]], "character")) {
-                stop("The argument ", arg,
-                    " should be a character string")
+                stop(
+                    "The argument ", arg,
+                    " should be a character string"
+                )
             }
         }
     }
@@ -173,12 +177,14 @@ arguments of this function.")
 
 # -----------------------------------------------------------------------------
 # get sample IDs by retrieving name of parent directory
+# TODO: does this need n_samples? length(f_paths) is n_samples
 .get_sample_id <- function(n_samples, f_paths) {
     ids <- vector("character", length = n_samples)
-
+    # TODO: filter out empty strings
     for (f in seq_along(f_paths)) {
         id <- base::strsplit(f_paths[[f]], "/") %>%
             unlist(use.names = FALSE) %>%
+            Filter(function(x) x != "", .) %>%
             utils::tail(2) %>%
             utils::head(1)
 
@@ -237,13 +243,13 @@ arguments of this function.")
 
 # ------------------------------------------------------------------------------
 # add buffer to entry within an existing boundaries slot
-.add_buffer_boundary = function(x, buffer = 0) {
-  bds_mat = as.matrix(cbind(1,x[,c("x_location", "y_location")]))
-  colnames(bds_mat) <- c("factors_int", "x", "y")
-  bds <- terra::vect(bds_mat, type = "polygons")
-  bds_exp <- terra::buffer(bds, width = buffer)
-  bds_mat_exp = terra::as.data.frame(terra::geom(bds_exp))
-  new_x = bds_mat_exp[,c("x", "y")]
-  colnames(new_x) <- c("x_location", "y_location")
-  return(dplyr::tibble(new_x))
+.add_buffer_boundary <- function(x, buffer = 0) {
+    bds_mat <- as.matrix(cbind(1, x[, c("x_location", "y_location")]))
+    colnames(bds_mat) <- c("factors_int", "x", "y")
+    bds <- terra::vect(bds_mat, type = "polygons")
+    bds_exp <- terra::buffer(bds, width = buffer)
+    bds_mat_exp <- terra::as.data.frame(terra::geom(bds_exp))
+    new_x <- bds_mat_exp[, c("x", "y")]
+    colnames(new_x) <- c("x_location", "y_location")
+    return(dplyr::tibble(new_x))
 }

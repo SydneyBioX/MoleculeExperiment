@@ -173,7 +173,7 @@ readCosmx <- function(dataDir,
             )
         if (length(cell_mask_dirs) == 1) {
             merged_vectors_df %<>% dplyr::mutate(
-                sample_id = utils::tail(strsplit(dataDir, "/")[[1]], n = 1)
+                sample_id = .get_sample_id(1, cell_mask_dirs)
             )
         }
         me@boundaries <- dataframeToMEList(

@@ -42,9 +42,9 @@ readMerscope <- function(dataDir,
         keepCols = keepCols
     )
 
-    sampleName <- "sample1"
 
     if (!is.null(addBoundaries)) {
+        sampleName <- "sample1"
         segFiles <- list.files(
             path = dataDir, pattern = "*.hdf5", full.names = TRUE
         )
