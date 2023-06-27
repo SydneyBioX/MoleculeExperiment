@@ -7,13 +7,17 @@
 \alias{showBoundaries}
 \alias{nFeatures}
 \alias{nTranscripts}
+\alias{extent}
 \alias{showMolecules,MoleculeExperiment-method}
+\alias{extent,MoleculeExperiment-method}
 \alias{showBoundaries,MoleculeExperiment-method}
 \alias{nFeatures,MoleculeExperiment-method}
 \alias{nTranscripts,MoleculeExperiment-method}
 \title{Summarization methods to get insights into a MoleculeExperiment object}
 \usage{
 \S4method{showMolecules}{MoleculeExperiment}(object)
+
+\S4method{extent}{MoleculeExperiment}(object)
 
 \S4method{showBoundaries}{MoleculeExperiment}(object)
 
@@ -46,8 +50,9 @@ respectively. They can do so across all samples, or per sample.
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 me <- readXenium(repoDir,
-                  keepCols = "essential",
-                  addBoundaries = "cell")
+    keepCols = "essential",
+    addBoundaries = "cell"
+)
 
 showMolecules(me)
 showBoundaries(me)

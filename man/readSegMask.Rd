@@ -39,9 +39,26 @@ ME boundaries object. One must provide either the path or the loaded
 image object.
 }
 \examples{
-\dontrun{
-if (interactive()) {
-    # EXAMPLE1
-}
-}
+repoDir <- system.file("extdata", package = "MoleculeExperiment")
+segMask <- paste0(repoDir, "/BIDcell_segmask.tif")
+data <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain/sample1")
+me <- readXenium(data,
+    keepCols = "essential",
+    addBoundaries = NULL
+)
+boundaries(me, "BIDcell_segmentation") <- readSegMask(
+    extent(me),
+    path = segMask, assayName = "BIDcell_segmentation",
+    sample_id = "sample1", background_value = 0
+)
+ggplot_me() +
+    geom_polygon_me(
+        me,
+        assayName = "BIDcell_segmentation", fill = NA, colour = "black"
+    ) +
+    geom_point_me(me, byColour = "feature_name", size = 0.1) +
+    geom_polygon_me(
+        me,
+        assayName = "BIDcell_segmentation", fill = NA, colour = "red"
+    )
 }
