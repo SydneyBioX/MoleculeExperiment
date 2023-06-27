@@ -148,14 +148,12 @@ readCosmx <- function(dataDir,
             ) %>%
             dplyr::group_by(.data[["geom"]]) %>%
             dplyr::filter(
-                dplyr::n_distinct(.data[["part"]]) < 1
+                dplyr::n_distinct(.data[["part"]]) < 2
             ) %>%
             dplyr::ungroup() %>%
             dplyr::mutate(
                 # create ID col
-                cell_id = dplyr::consecutive_id(
-                    .data[["sample_id"]], .data[["geom"]]
-                ),
+                cell_id = dplyr::consecutive_id(.data[["sample_id"]], .data[["geom"]]),
                 # scale x and y to microns
                 x = 0.18 * .data[["x"]],
                 y = 0.18 * .data[["y"]]
