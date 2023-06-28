@@ -85,7 +85,7 @@ NULL
 #' @rdname accessors
 #' @export
 #' @importFrom methods is
-#' @importFrom cli
+#' @importFrom cli cli_inform
 setMethod("molecules",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object,
@@ -105,7 +105,7 @@ Please specify another assay name in the assayName argument.")
             return(big_df)
         } else {
             cli::cli_inform(c(
-                "The transcripts from the “{assayName}” assay were retrieved. ",
+                "{.emph {assayName}} assay transcripts were retrieved.",
                 "i" = paste0(
                     "Other transcript assays can be retrieved by",
                     " specifying the {.var assayName} argument."
@@ -143,7 +143,7 @@ Please specify another assay name in the assayName argument.")
                 return(big_df)
             } else {
                 cli::cli_inform(c(
-                    "Boundaries from the “{assayName}” assay were retrieved. ",
+                    "{.emph {assayName}} assay boundaries were retrieved.",
                     "i" = paste0(
                         "Other boundary assays can be retrieved by",
                         " specifying the {.var assayName} argument."
@@ -172,7 +172,7 @@ setMethod("features",
         # TODO: use a verbosity setting to fix this!!!
         return(f_list)
         cli::cli_inform(c(
-            "Features from the “{assayName}” assay were retrieved. ",
+            " {.emph {assayName}} assay features were retrieved.",
             "i" = paste0(
                 "To select features from a different assay, specify it ",
                 "assay in the {.var assayName} argument."
