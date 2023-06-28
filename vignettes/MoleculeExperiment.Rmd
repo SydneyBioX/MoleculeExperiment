@@ -240,7 +240,8 @@ meCosmx
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/vizgen_HumanOvarianCancerPatient2Slice2")
 meMerscope <- readMerscope(repoDir,
-                          keepCols = "essential")
+                          keepCols = "essential",
+                          addBoundaries = NULL)
 meMerscope
 # boundaries not handled yet, as Merscope has a complex set of multitude
 # boundary files in hdf5 file format

@@ -46,6 +46,8 @@
 readSegMask <- function(
     extent, path = NULL, image = NULL, assayName = "cell",
     background_value = NULL, sample_id = NULL) {
+    # TODO: Deal with the sample id name situation.
+
     # Input validation.
     e <- tryCatch(
         terra::ext(extent),
