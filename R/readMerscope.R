@@ -22,7 +22,8 @@
 #' repoDir <- system.file("extdata", package = "MoleculeExperiment")
 #' repoDir <- paste0(repoDir, "/vizgen_HumanOvarianCancerPatient2Slice2")
 #' meMerscope <- readMerscope(repoDir,
-#'     keepCols = "essential"
+#'     keepCols = "essential",
+#'     addBoundaries = NULL
 #' )
 #' meMerscope
 readMerscope <- function(dataDir,
@@ -59,36 +60,79 @@ readMerscope <- function(dataDir,
             spinner = TRUE
         )
 
-        segFiles <- list.files(
-            path = dataDir, pattern = "*.hdf5", full.names = TRUE
-        )
 
-        df_all_list <- list()
-
-        for (segFile in segFiles) {
-            out <- rhdf5::h5read(segFile, "featuredata")
-            out <- lapply(out, "[[", "zIndex_0")
-            out <- lapply(out, "[[", "p_0")
-            out <- lapply(out, "[[", "coordinates")
-            out <- lapply(out, "[", , , 1)
-            out <- lapply(out, t)
-            dfList <- mapply(
-                function(nms, locations) {
-                    data.frame(
-                        x_location = locations[, 1],
-                        y_location = locations[, 2],
-                        cell_id = nms,
-                        sample_id = sampleName
-                    )
-                },
-                names(out), out,
-                SIMPLIFY = FALSE
-            )
-            df <- do.call(rbind, dfList)
-
-            df_all_list[[segFile]] <- df
+        if (length(list.files(dataDir, pattern = pattern)) == 1) {
+            nSamples <- 1
+        } else {
+            nSamples <- length(list.files(dataDir))
         }
 
+        segDirs <- grep(
+            "cell_boundaries",
+            list.dirs(dataDir, full.names = TRUE, recursive = TRUE),
+            value = TRUE
+        )
+        if (length(segDirs) == 0) {
+            cli::cli_abort(c(
+                "Didn't find any `cell_boundaries` directories!",
+                "i" = paste0(
+                    "Ensure all HDF5 files are in the `cell_boundaries` ",
+                    "subdir for each sample."
+                )
+            ))
+        } else if (length(segDirs) != nSamples) {
+            cli::cli_warn(c(
+                "Not all samples have boundaries.",
+                "i" = paste0(
+                    "At least one of the samples is missing a",
+                    " `cell_boundaries` subdirectory."
+                ),
+                " " = "`cell_boundaries` should contain the sample's HDF5 files"
+            ))
+        }
+
+        sampleNames <- .get_sample_id(nSamples, segDirs)
+        df_all_list <- list()
+
+        for (i in seq_along(segDirs)) {
+            segFiles <- list.files(
+                path = segDirs[i], pattern = "*.hdf5", full.names = TRUE,
+            )
+
+            if (length(segFiles) == 0) {
+                cli::cli_abort(c(
+                    "No boundary files found in sample: {sampleNames[i]}!",
+                    "i" = paste0(
+                        "Ensure your data includes boundary files or else",
+                        " set {.var addBoundaries} to NULL."
+                    )
+                ))
+            }
+
+            for (segFile in segFiles) {
+                out <- rhdf5::h5read(segFile, "featuredata")
+                out <- lapply(out, "[[", "zIndex_0")
+                out <- lapply(out, "[[", "p_0")
+                out <- lapply(out, "[[", "coordinates")
+                out <- lapply(out, "[", , , 1)
+                out <- lapply(out, t)
+                dfList <- mapply(
+                    function(nms, locations) {
+                        data.frame(
+                            x_location = locations[, 1],
+                            y_location = locations[, 2],
+                            cell_id = nms,
+                            sample_id = sampleNames[i]
+                        )
+                    },
+                    names(out), out,
+                    SIMPLIFY = FALSE
+                )
+                df <- do.call(rbind, dfList)
+
+                df_all_list[[segFile]] <- df
+            }
+        }
         df_all <- do.call(rbind, df_all_list)
         cli::cli_progress_done()
 
@@ -101,7 +145,6 @@ readMerscope <- function(dataDir,
             yCol = "y_location"
         )
     }
-    # future development: handle complex hdf5 segmentation files
 
     return(me)
 }
