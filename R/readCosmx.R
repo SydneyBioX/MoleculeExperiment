@@ -40,11 +40,13 @@ readCosmx <- function(dataDir,
     pattern <- "tx_file"
     # according to README file from cosmx, 1 pixel = 0.18 µm
     scaleFactor <- 0.18
-    cli::cli_progress_step(
-        "1/3 Reading transcripts",
-        .auto_close = FALSE,
-        spinner = TRUE
-    )
+    if (!is.null(addBoundaries)) {
+        cli::cli_progress_step(
+            "1/3 Reading transcripts",
+            .auto_close = FALSE,
+            spinner = TRUE
+        )
+    }
     me <- readMolecules(
         dataDir = dataDir,
         pattern = pattern,
@@ -54,7 +56,7 @@ readCosmx <- function(dataDir,
         keepCols = keepCols,
         scaleFactorVector = scaleFactor
     )
-    cli::cli_progress_done()
+    if (!is.null(addBoundaries)) cli::cli_progress_done()
 
     if (!is.null(addBoundaries)) {
         cell_mask_dirs <- grep(

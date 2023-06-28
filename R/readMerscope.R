@@ -33,6 +33,14 @@ readMerscope <- function(dataDir,
 
     # create simple MoleculeExperiment object
     pattern <- "detected_transcripts.csv"
+
+    if (!is.null(addBoundaries)) {
+        cli::cli_progress_step(
+            "1/2 Reading transcripts",
+            .auto_close = FALSE,
+            spinner = TRUE
+        )
+    }
     me <- readMolecules(
         dataDir = dataDir,
         pattern = pattern,
@@ -41,10 +49,16 @@ readMerscope <- function(dataDir,
         yCol = "global_y",
         keepCols = keepCols
     )
+    if (!is.null(addBoundaries)) cli::cli_progress_done()
 
 
     if (!is.null(addBoundaries)) {
-        sampleName <- "sample1"
+        cli::cli_progress_step(
+            "2/2 Reading boundaries",
+            .auto_close = FALSE,
+            spinner = TRUE
+        )
+
         segFiles <- list.files(
             path = dataDir, pattern = "*.hdf5", full.names = TRUE
         )
@@ -76,6 +90,7 @@ readMerscope <- function(dataDir,
         }
 
         df_all <- do.call(rbind, df_all_list)
+        cli::cli_progress_done()
 
         me@boundaries <- MoleculeExperiment::dataframeToMEList(df_all,
             dfType = "boundaries",
