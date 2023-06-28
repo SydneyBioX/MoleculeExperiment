@@ -1,13 +1,13 @@
-#' Convert a transcripts or boundaries file to the ME list format
+#' Convert a transcript (molecule) or boundary dataframe to the ME list format
 #'
-#' The goal of this function is to standardise transcripts and boundaries files
+#' The goal of this function is to standardise transcript and boundary files
 #' for input to a MoleculeExperiment object.
-#' @param df A data.frame containing the transcripts information or the
-#' boundaries information. NOTE: this dataframe should, at a minimum, have the
+#' @param df A data.frame containing the transcript information or the
+#' boundary information. NOTE: this dataframe should, at a minimum, have the
 #' following 4 columns: sample_id, factorCol (e.g., feature_name in
 #' transcripts, or cell_id in boundaries), x_location and y_location.
 #' @param dfType Character string specifying contents of the dataframe. Can be
-#' either "transcripts" or "boundaries".
+#' either "molecules" or "boundaries".
 #' @param assayName Character string specifying the name with which to identify
 #' the information later on in an ME object.
 #' @param sampleCol Character string specifying the name of the column with the
@@ -39,7 +39,7 @@
 #' )
 #'
 #' moleculesMEList <- dataframeToMEList(moleculesDf,
-#'                                   dfType = "transcripts",
+#'                                   dfType = "molecules",
 #'                                   assayName = "detected",
 #'                                   sampleCol = "sample_id",
 #'                                   factorCol = "features",
@@ -92,12 +92,17 @@ dataframeToMEList <- function(df,
     # for each sample, standardise data format
     sample_level <- .standardise_to_list(df, cols, "sample_id")
 
-    if (dfType == "transcripts") {
+    if (dfType == "molecules") {
         ls <- lapply(sample_level, .standardise_to_list,
                             cols = setdiff(cols, "sample_id"), "feature_name")
     } else if (dfType == "boundaries") {
         ls <- lapply(sample_level, .standardise_to_list,
                             cols = setdiff(cols, "sample_id"), "segment_id")
+    } else {
+        cli::cli_abort(c(
+            "{.var dfType} must be {.emph molecules} or {.emph boundaries}!",
+            "x" = "Supplied {.var dfType} was {dfType}"
+        ))
     }
 
     # specify assay name for compatibility with ME methods
