@@ -54,12 +54,6 @@ readMerscope <- function(dataDir,
 
 
     if (!is.null(addBoundaries)) {
-        cli::cli_progress_step(
-            "2/2 Reading boundaries",
-            .auto_close = FALSE,
-            spinner = TRUE
-        )
-
 
         if (length(list.files(dataDir, pattern = pattern)) == 1) {
             nSamples <- 1
@@ -108,9 +102,9 @@ readMerscope <- function(dataDir,
                     )
                 ))
             }
-
-            for (segFile in segFiles) {
-                out <- rhdf5::h5read(segFile, "featuredata")
+            m <- paste0("2/2 Loading boundaries for sample: ", sampleNames[i])
+            for (j in cli::cli_progress_along(segFiles, name = m)) {
+                out <- rhdf5::h5read(segFiles[j], "featuredata")
                 out <- lapply(out, "[[", "zIndex_0")
                 out <- lapply(out, "[[", "p_0")
                 out <- lapply(out, "[[", "coordinates")
@@ -130,11 +124,10 @@ readMerscope <- function(dataDir,
                 )
                 df <- do.call(rbind, dfList)
 
-                df_all_list[[segFile]] <- df
+                df_all_list[[segFiles[j]]] <- df
             }
         }
         df_all <- do.call(rbind, df_all_list)
-        cli::cli_progress_done()
 
         me@boundaries <- MoleculeExperiment::dataframeToMEList(df_all,
             dfType = "boundaries",
