@@ -2,7 +2,7 @@
 % Please edit documentation in R/dataframeToMEList.R
 \name{dataframeToMEList}
 \alias{dataframeToMEList}
-\title{Convert a transcripts or boundaries file to the ME list format}
+\title{Convert a transcript (molecule) or boundary dataframe to the ME list format}
 \usage{
 dataframeToMEList(
   df,
@@ -17,13 +17,13 @@ dataframeToMEList(
 )
 }
 \arguments{
-\item{df}{A data.frame containing the transcripts information or the
-boundaries information. NOTE: this dataframe should, at a minimum, have the
+\item{df}{A data.frame containing the transcript information or the
+boundary information. NOTE: this dataframe should, at a minimum, have the
 following 4 columns: sample_id, factorCol (e.g., feature_name in
 transcripts, or cell_id in boundaries), x_location and y_location.}
 
 \item{dfType}{Character string specifying contents of the dataframe. Can be
-either "transcripts" or "boundaries".}
+either "molecules" or "boundaries".}
 
 \item{assayName}{Character string specifying the name with which to identify
 the information later on in an ME object.}
@@ -55,7 +55,7 @@ A list with the format required to input it into slots of a
 MoleculeExperiment object.
 }
 \description{
-The goal of this function is to standardise transcripts and boundaries files
+The goal of this function is to standardise transcript and boundary files
 for input to a MoleculeExperiment object.
 }
 \examples{
@@ -67,7 +67,7 @@ moleculesDf <- data.frame(
 )
 
 moleculesMEList <- dataframeToMEList(moleculesDf,
-                                  dfType = "transcripts",
+                                  dfType = "molecules",
                                   assayName = "detected",
                                   sampleCol = "sample_id",
                                   factorCol = "features",
