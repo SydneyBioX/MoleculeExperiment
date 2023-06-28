@@ -5,7 +5,7 @@ test_that("check missing or invalid arguments raise an error", {
     molsDf <- .new_mol_df()
     # factorCol should NOT be NULL
     expect_error(dataframeToMEList(molsDf,
-                                  dfType = "transcripts",
+                                  dfType = "molecules",
                                   assayName = "detected",
                                   sampleCol = "sample_id",
                                   factorCol = NULL,
@@ -16,7 +16,7 @@ test_that("check missing or invalid arguments raise an error", {
 
     # factorCol should be a character string to be valid
     expect_error(dataframeToMEList(molsDf,
-                                  dfType = "transcripts",
+                                  dfType = "molecules",
                                   assayName = "detected",
                                   sampleCol = "sample_id",
                                   factorCol = features,
@@ -27,7 +27,7 @@ test_that("check missing or invalid arguments raise an error", {
 
     # the following should yield NO errors
     expect_no_error(dataframeToMEList(molsDf,
-                                  dfType = "transcripts",
+                                  dfType = "molecules",
                                   assayName = "detected",
                                   sampleCol = "sample_id",
                                   factorCol = "features",
@@ -77,7 +77,7 @@ test_that("only columns of interest to the user are kept", {
     molsDf["test"] <- NA
 
     essentialMolsLs <- dataframeToMEList(molsDf,
-                                  dfType = "transcripts",
+                                  dfType = "molecules",
                                   assayName = "detected",
                                   sampleCol = "sample_id",
                                   factorCol = "features",
@@ -86,7 +86,7 @@ test_that("only columns of interest to the user are kept", {
                                   keepCols = "essential")
 
     allMolsLs <- dataframeToMEList(molsDf,
-                                  dfType = "transcripts",
+                                  dfType = "molecules",
                                   assayName = "detected",
                                   sampleCol = "sample_id",
                                   factorCol = "features",
@@ -107,7 +107,7 @@ test_that("returned nested list has expected structure", {
     genes_sample1 <- c("gene1", "gene2")
 
     molsLs <- dataframeToMEList(molsDf,
-                                  dfType = "transcripts",
+                                  dfType = "molecules",
                                   assayName = "detected",
                                   sampleCol = "sample_id",
                                   factorCol = "features",

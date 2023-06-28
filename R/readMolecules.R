@@ -94,7 +94,7 @@ readMolecules <- function(dataDir,
             y_col = yCol
         )
 
-        standard_cols <- .get_standard_cols(df_type = "transcripts")
+        standard_cols <- .get_standard_cols(df_type = "molecules")
 
         mol_df <- .standardise_cols(mol_df, standard_cols, essential_cols)
 

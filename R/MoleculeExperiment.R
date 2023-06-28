@@ -48,7 +48,7 @@
 #'     vertex_y = rnorm(22)
 #' )
 #' moleculesMEList <- dataframeToMEList(moleculesDf,
-#'                                   dfType = "transcripts",
+#'                                   dfType = "molecules",
 #'                                   assayName = "detected",
 #'                                   sampleCol = "sample_id",
 #'                                   factorCol = "features",

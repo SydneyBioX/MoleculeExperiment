@@ -165,7 +165,7 @@ head(boundariesDf)
 
 ```{r}
 moleculesMEList <- dataframeToMEList(moleculesDf,
-                                  dfType = "transcripts",
+                                  dfType = "molecules",
                                   assayName = "detected",
                                   sampleCol = "sample_id",
                                   factorCol = "features",

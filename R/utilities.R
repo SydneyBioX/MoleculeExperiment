@@ -90,7 +90,7 @@ names in the three \"col\" arguments to this function")
 # ------------------------------------------------------------------------------
 # get standard columns depending on the slot
 .get_standard_cols <- function(df_type) {
-    if (df_type == "transcripts") {
+    if (df_type == "molecules") {
         standard_cols <- c(
             "feature_name",
             "x_location",
