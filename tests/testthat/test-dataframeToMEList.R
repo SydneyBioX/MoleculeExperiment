@@ -59,7 +59,7 @@ test_that("standardised column names are returned in the output", {
                                                 x_col = "x_coords",
                                                 y_col = "y_coords")
 
-    standard_cols <- .get_standard_cols(df_type = "transcripts")
+    standard_cols <- .get_standard_cols(df_type = "molecules")
 
     new_df <- .standardise_cols(molsDf, standard_cols, essential_cols)
     
