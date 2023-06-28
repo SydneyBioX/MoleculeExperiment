@@ -128,9 +128,5 @@ readMolecules <- function(dataDir,
     # CONSTRUCT SIMPLE ME OBJECT
     me <- MoleculeExperiment(molecules = mol_n)
 
-    # guide user to use getters
-    message("\nDetected transcript information can be accessed with molecules(me) or
-molecules(me, \"detected\")\n")
-
     return(me)
 }

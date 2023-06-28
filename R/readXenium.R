@@ -60,8 +60,6 @@ readXenium <- function(dataDir,
             # add standardised boundaries list to the @boundaries slot
             boundaries(me, a) <- bds_ls
         }
-        # guide user
-        message("Boundary information can be accessed with boundaries(me)\n")
     }
 
 ###############################################################################
