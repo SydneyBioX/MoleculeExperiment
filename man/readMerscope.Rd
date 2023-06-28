@@ -4,7 +4,7 @@
 \alias{readMerscope}
 \title{Read in Merscope data to an ME object}
 \usage{
-readMerscope(dataDir, keepCols = "essential")
+readMerscope(dataDir, keepCols = "essential", addBoundaries = "cell")
 }
 \arguments{
 \item{dataDir}{Character string specifying the directory with the Cosmx
@@ -15,6 +15,10 @@ the transcripts file. "essential" selects columns with gene names, x and y
 locations. "all" will select all columns. Alternatively, specific colums
 of interest can be selected by specifying them as characters in a vector.
 Note that this personalised vector needs to contain the essential columns.}
+
+\item{addBoundaries}{A string with which to specify the name of the boundary
+assay to be added to the me object. Can be a string, or NULL.
+If NULL, a simple ME object with no boundaries will be created.}
 }
 \value{
 A MoleculeExperiment object
@@ -30,6 +34,8 @@ handled yet.
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/vizgen_HumanOvarianCancerPatient2Slice2")
 meMerscope <- readMerscope(repoDir,
-                          keepCols = "essential")
+    keepCols = "essential",
+    addBoundaries = NULL
+)
 meMerscope
 }

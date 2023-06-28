@@ -69,8 +69,9 @@ slot can be accessed with \verb{boundaries<-}.
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 me <- readXenium(repoDir,
-                  keepCols = "essential",
-                  addBoundaries = "cell")
+    keepCols = "essential",
+    addBoundaries = "cell"
+)
 
 # get insight into molecules slot
 showMolecules(me)
@@ -98,14 +99,16 @@ segmentIDs(me, "cell")
 
 # setter example
 # read in and standardise nucleus boundaries too
-nucleiMEList <- readBoundaries(dataDir = repoDir,
-                            pattern = "nucleus_boundaries.csv",
-                            segmentIDCol = "cell_id",
-                            xCol = "vertex_x",
-                            yCol = "vertex_y",
-                            keepCols = "essential",
-                            boundariesAssay = "nucleus",
-                            scaleFactorVector = 1)
+nucleiMEList <- readBoundaries(
+    dataDir = repoDir,
+    pattern = "nucleus_boundaries.csv",
+    segmentIDCol = "cell_id",
+    xCol = "vertex_x",
+    yCol = "vertex_y",
+    keepCols = "essential",
+    boundariesAssay = "nucleus",
+    scaleFactorVector = 1
+)
 
 # use `boundaries<-` setter to add nucleus boundaries to the boundaries slot
 boundaries(me, "nucleus") <- nucleiMEList
