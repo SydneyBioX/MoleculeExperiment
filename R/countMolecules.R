@@ -48,12 +48,12 @@ countMolecules <- function(object,
     .stop_if_null(boundariesAssay, moleculesAssay)
     .check_if_character(boundariesAssay, moleculesAssay)
 
-    init_mols <- MoleculeExperiment::molecules(object, molecules_assay)
-    init_bds <- MoleculeExperiment::boundaries(object, boundaries_assay)
+    init_mols <- MoleculeExperiment::molecules(object, moleculesAssay)
+    init_bds <- MoleculeExperiment::boundaries(object, boundariesAssay)
 
     if (isFALSE(identical(
-        names(init_mols[[molecules_assay]]),
-        names(init_bds[[boundaries_assay]])
+        names(init_mols[[moleculesAssay]]),
+        names(init_bds[[boundariesAssay]])
     ))) {
         stop("Sample IDs do not match between the @molecules slot and the\n
                 @boundaries slot.")
@@ -80,12 +80,12 @@ countMolecules <- function(object,
         function(x) vector(mode = "list", length = length(features))
     )
 
-    bds_all <- init_bds[[boundaries_assay]]
+    bds_all <- init_bds[[boundariesAssay]]
 
     # suppress messages to avoid repeating getter messages
     bds_all_flat <- suppressMessages(
         MoleculeExperiment::boundaries(object,
-            assayName = boundaries_assay,
+            assayName = boundariesAssay,
             flatten = TRUE
         )
     )
@@ -104,7 +104,7 @@ countMolecules <- function(object,
         bds <- terra::buffer(bds, width = buffer)
 
         for (feature in features) {
-            mols_df <- init_mols[[molecules_assay]][[sample]][[feature]]
+            mols_df <- init_mols[[moleculesAssay]][[sample]][[feature]]
 
             if (is.null(mols_df)) next
 
