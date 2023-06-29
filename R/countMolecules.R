@@ -45,8 +45,8 @@ countMolecules <- function(object,
                            matrixOnly = FALSE) {
     # check arg validity
     .check_if_me(object)
-    .stop_if_null(boundariesAssay, segmentationInfo, moleculesAssay)
-    .check_if_character(boundariesAssay, segmentationInfo, moleculesAssay)
+    .stop_if_null(boundariesAssay, moleculesAssay)
+    .check_if_character(boundariesAssay, moleculesAssay)
 
     init_mols <- MoleculeExperiment::molecules(object, molecules_assay)
     init_bds <- MoleculeExperiment::boundaries(object, boundaries_assay)
