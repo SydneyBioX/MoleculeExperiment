@@ -6,3 +6,5 @@ vignettes/MoleculeExperiment.Rmd
 /doc/
 /Meta/
 merged.png
+
+bench_data
