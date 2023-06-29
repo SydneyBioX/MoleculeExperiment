@@ -59,7 +59,7 @@ countMolecules <- function(object,
                 @boundaries slot.")
     }
 
-    samples <- names(object@molecules$detected)
+    samples <- names(init_mols[[moleculesAssay]])
     features <- sort(unique(unlist(MoleculeExperiment::features(object))))
 
     xvalsList <- vector(mode = "list", length = length(samples))
