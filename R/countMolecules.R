@@ -138,7 +138,7 @@ countMolecules <- function(object,
         dimnames = list(inames, jnames)
     )
 
-    if (matrix_only) {
+    if (matrixOnly) {
         return(X)
     }
 
