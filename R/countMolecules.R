@@ -44,7 +44,7 @@ countMolecules <- function(me,
                            buffer = 0,
                            matrixOnly = FALSE) {
     # check arg validity
-    .check_if_me(object)
+    .check_if_me(me)
     .stop_if_null(boundariesAssay, moleculesAssay)
     .check_if_character(boundariesAssay, moleculesAssay)
 
@@ -108,13 +108,13 @@ countMolecules <- function(me,
         )])
 
         centroids <- bds_mat %>%
-            group_by(factors_int) %>%
-            summarise(
+            dplyr::group_by(factors_int) %>%
+            dplyr::summarise(
                 x_location = mean(x_location),
                 y_location = mean(y_location)
             ) %>%
-            mutate(sample_id = sample) %>%
-            mutate(cell_id = levels(factors)[factors_int])
+            dplyr::mutate(sample_id = sample) %>%
+            dplyr::mutate(cell_id = levels(factors)[factors_int])
         centroids_list[[sample]] <- centroids
 
         bds <- terra::vect(as.matrix(setNames(
@@ -142,6 +142,173 @@ countMolecules <- function(me,
     xvals <- unlist(xvalsList)
     ivals <- unlist(ivalsList)
     jnames_all <- unlist(jnamesList)
+    jnames <- unlist(factors_levels)
+    jvals <- match(jnames_all, jnames)
+    inames <- sort(features)
+    X <- Matrix::sparseMatrix(ivals, jvals, x = xvals, dimnames = list(
+        inames,
+        jnames
+    ))
+    if (matrixOnly) {
+        return(X)
+    }
+
+    centroids_all <- do.call(rbind, centroids_list)
+    cData <- data.frame(
+        sample_id = centroids_all[["sample_id"]],
+        cell_id = centroids_all[["cell_id"]],
+        x_location = centroids_all[["x_location"]],
+        y_location = centroids_all[["y_location"]],
+        row.names = centroids_all[["cell_id"]]
+    )
+
+    # they should be identical
+    if (!identical(as.character(colnames(X)), as.character(rownames(cData)))) {
+        cData <- cData[colnames(X), ]
+    }
+
+    spe <- SpatialExperiment::SpatialExperiment(
+        assays = list(counts = X),
+        colData = cData, spatialCoords = as.matrix(cData[, c(
+            "x_location",
+            "y_location"
+        )]), reducedDims = list(spatial = as.matrix(cData[
+            ,
+            c("x_location", "y_location")
+        ]))
+    )
+    return(spe)
+}
+
+countMoleculesV2 <- function(me,
+                             moleculesAssay = "detected",
+                             boundariesAssay = "cell",
+                             buffer = 0,
+                             matrixOnly = FALSE,
+                             nCores = 1) {
+    init_mols <- MoleculeExperiment::molecules(me, moleculesAssay)
+    init_bds <- MoleculeExperiment::boundaries(me, boundariesAssay)
+    if (isFALSE(identical(
+        names(init_mols[[moleculesAssay]]),
+        names(init_bds[[boundariesAssay]])
+    ))) {
+        stop("Sample IDs do not match between the @molecules slot and the\n
+                @boundaries slot.")
+    }
+    samples <- names(me@molecules[[moleculesAssay]])
+    features <- sort(unique(unlist(MoleculeExperiment::features(me))))
+
+    valsList <- list()
+
+    bds_all <- init_bds[[boundariesAssay]]
+    bds_all_flat <- suppressMessages(MoleculeExperiment::boundaries(me,
+        assayName = boundariesAssay, flatten = TRUE
+    ))
+
+    factors_levels <- list()
+    centroids_list <- list()
+
+    if (nCores == 1) {
+        BPPARAM <- BiocParallel::SerialParam()
+    } else {
+        BPPARAM <- BiocParallel::MulticoreParam(nCores)
+    }
+
+    for (sample in samples) {
+        bds_df <- bds_all_flat %>% dplyr::filter(sample_id ==
+            sample)
+
+        sample_id_levels <- bds_df$sample_id[!duplicated(bds_df$sample_id)]
+        segment_id_levels <- bds_df$segment_id[!duplicated(bds_df$segment_id)]
+        factors <- interaction(
+            factor(bds_df$sample_id, levels = sample_id_levels),
+            factor(bds_df$segment_id, levels = segment_id_levels)
+        )
+        factors_levels[[sample]] <- levels(factors)
+
+        factors_int <- as.integer(factors)
+        bds_levels <- levels(factors)
+        bds_mat <- cbind("factors_int" = factors_int, bds_df[, c(
+            "x_location",
+            "y_location"
+        )])
+
+        centroids <- bds_mat %>%
+            dplyr::group_by(factors_int) %>%
+            dplyr::summarise(
+                x_location = mean(x_location),
+                y_location = mean(y_location)
+            ) %>%
+            dplyr::mutate(sample_id = sample) %>%
+            dplyr::mutate(cell_id = levels(factors)[factors_int])
+        centroids_list[[sample]] <- centroids
+
+        bds <- terra::vect(as.matrix(setNames(
+            bds_mat, c("factors_int", "x", "y")
+        )), type = "polygons")
+        bds <- terra::buffer(bds, width = buffer)
+
+        names(features) <- unlist(features)
+        result <- BiocParallel::bplapply(
+            features, function(feature) {
+                vals <- list()
+
+                mols_df <- init_mols[[moleculesAssay]][[sample]][[feature]]
+                if (is.null(mols_df)) {
+                    return(NULL)
+                }
+                mols_mat <- as.matrix(mols_df[, c("x_location", "y_location")])
+                colnames(mols_mat) <- c("x", "y")
+                mols <- terra::vect(mols_mat, type = "points")
+                out <- terra::relate(bds, mols, "covers", pairs = TRUE)
+                xvals <- tapply(out[, 1], out[, 1], length)
+                ivals <- rep(which(features == feature), length(xvals))
+                jvals <- unique(out[, 1])
+                jnames <- bds_levels[jvals]
+
+                vals[["xvals"]] <- xvals
+                vals[["ivals"]] <- ivals
+                vals[["jnames"]] <- jnames
+                vals
+            },
+            BPPARAM = BiocParallel::SerialParam()
+        )
+
+        valsList[[sample]][["ivals"]] <- unlist(
+            Map(
+                function(x) {
+                    as.numeric(x$ivals)
+                },
+                result
+            )
+        )
+        valsList[[sample]][["xvals"]] <- unlist(
+            Map(
+                function(x) {
+                    as.numeric(x$xvals)
+                },
+                result
+            )
+        )
+        valsList[[sample]][["jnames"]] <- unlist(
+            Map(
+                function(x) {
+                    x$jnames
+                },
+                result
+            )
+        )
+    }
+
+    xvals <- unlist(Map(function(x) {
+        x$xvals
+    }, valsList))
+    ivals <- unlist(Map(function(x) {
+        x$ivals
+    }, valsList))
+    jnames_all <- unlist(Map(function(x) {
+        x$jnames
+    }, valsList))
     jnames <- unlist(factors_levels)
     jvals <- match(jnames_all, jnames)
     inames <- sort(features)
