@@ -38,7 +38,7 @@
 #'
 #' spe <- countMolecules(me)
 #' spe
-countMolecules <- function(object,
+countMolecules <- function(me,
                            moleculesAssay = "detected",
                            boundariesAssay = "cell",
                            buffer = 0,
@@ -48,9 +48,8 @@ countMolecules <- function(object,
     .stop_if_null(boundariesAssay, moleculesAssay)
     .check_if_character(boundariesAssay, moleculesAssay)
 
-    init_mols <- MoleculeExperiment::molecules(object, moleculesAssay)
-    init_bds <- MoleculeExperiment::boundaries(object, boundariesAssay)
-
+    init_mols <- MoleculeExperiment::molecules(me, moleculesAssay)
+    init_bds <- MoleculeExperiment::boundaries(me, boundariesAssay)
     if (isFALSE(identical(
         names(init_mols[[moleculesAssay]]),
         names(init_bds[[boundariesAssay]])
@@ -58,110 +57,125 @@ countMolecules <- function(object,
         stop("Sample IDs do not match between the @molecules slot and the\n
                 @boundaries slot.")
     }
-
-    samples <- names(init_mols[[moleculesAssay]])
-    features <- sort(unique(unlist(MoleculeExperiment::features(object))))
-
+    samples <- names(me@molecules[[moleculesAssay]])
+    features <- sort(unique(unlist(MoleculeExperiment::features(me))))
     xvalsList <- vector(mode = "list", length = length(samples))
-    xvalsList <- lapply(
-        xvalsList,
-        function(x) vector(mode = "list", length = length(features))
-    )
-
-    ivalsList <- vector(mode = "list", length = length(samples))
-    ivalsList <- lapply(
-        ivalsList,
-        function(x) vector(mode = "list", length = length(features))
-    )
-
-    jnamesList <- vector(mode = "list", length = length(samples))
-    jnamesList <- lapply(
-        jnamesList,
-        function(x) vector(mode = "list", length = length(features))
-    )
-
-    bds_all <- init_bds[[boundariesAssay]]
-
-    # suppress messages to avoid repeating getter messages
-    bds_all_flat <- suppressMessages(
-        MoleculeExperiment::boundaries(object,
-            assayName = boundariesAssay,
-            flatten = TRUE
+    xvalsList <- lapply(xvalsList, function(x) {
+        vector(
+            mode = "list",
+            length = length(features)
         )
-    )
+    })
+    ivalsList <- vector(mode = "list", length = length(samples))
+    ivalsList <- lapply(ivalsList, function(x) {
+        vector(
+            mode = "list",
+            length = length(features)
+        )
+    })
+    jnamesList <- vector(mode = "list", length = length(samples))
+    jnamesList <- lapply(jnamesList, function(x) {
+        vector(
+            mode = "list",
+            length = length(features)
+        )
+    })
+    bds_all <- init_bds[[boundariesAssay]]
+    bds_all_flat <- suppressMessages(MoleculeExperiment::boundaries(me,
+        assayName = boundariesAssay, flatten = TRUE
+    ))
+
+    factors_levels <- list()
+    centroids_list <- list()
 
     for (sample in samples) {
-        bds_df <- bds_all_flat %>% dplyr::filter(sample_id == sample)
-        factors <- interaction(bds_df$sample_id, bds_df$segment_id)
+        bds_df <- bds_all_flat %>% dplyr::filter(sample_id ==
+            sample)
+
+        sample_id_levels <- bds_df$sample_id[!duplicated(bds_df$sample_id)]
+        segment_id_levels <- bds_df$segment_id[!duplicated(bds_df$segment_id)]
+        factors <- interaction(
+            factor(bds_df$sample_id, levels = sample_id_levels),
+            factor(bds_df$segment_id, levels = segment_id_levels)
+        )
+        factors_levels[[sample]] <- levels(factors)
+
         factors_int <- as.integer(factors)
         bds_levels <- levels(factors)
-        bds_mat <- as.matrix(cbind(
-            factors_int,
-            bds_df[, c("x_location", "y_location")]
-        ))
-        colnames(bds_mat) <- c("factors_int", "x", "y")
-        bds <- terra::vect(bds_mat, type = "polygons")
-        bds <- terra::buffer(bds, width = buffer)
+        bds_mat <- cbind("factors_int" = factors_int, bds_df[, c(
+            "x_location",
+            "y_location"
+        )])
 
+        centroids <- bds_mat %>%
+            group_by(factors_int) %>%
+            summarise(
+                x_location = mean(x_location),
+                y_location = mean(y_location)
+            ) %>%
+            mutate(sample_id = sample) %>%
+            mutate(cell_id = levels(factors)[factors_int])
+        centroids_list[[sample]] <- centroids
+
+        bds <- terra::vect(as.matrix(setNames(
+            bds_mat, c("factors_int", "x", "y")
+        )), type = "polygons")
+        bds <- terra::buffer(bds, width = buffer)
         for (feature in features) {
             mols_df <- init_mols[[moleculesAssay]][[sample]][[feature]]
-
-            if (is.null(mols_df)) next
-
+            if (is.null(mols_df)) {
+                next
+            }
             mols_mat <- as.matrix(mols_df[, c("x_location", "y_location")])
             colnames(mols_mat) <- c("x", "y")
-
             mols <- terra::vect(mols_mat, type = "points")
-
             out <- terra::relate(bds, mols, "covers", pairs = TRUE)
             xvals <- tapply(out[, 1], out[, 1], length)
             ivals <- rep(which(features == feature), length(xvals))
             jvals <- unique(out[, 1])
             jnames <- bds_levels[jvals]
-
             xvalsList[[sample]][[feature]] <- xvals
             ivalsList[[sample]][[feature]] <- ivals
             jnamesList[[sample]][[feature]] <- jnames
         }
     }
-
     xvals <- unlist(xvalsList)
     ivals <- unlist(ivalsList)
     jnames_all <- unlist(jnamesList)
-    jnames <- sort(unique(jnames_all))
+    jnames <- unlist(factors_levels)
     jvals <- match(jnames_all, jnames)
     inames <- sort(features)
-
-    X <- Matrix::sparseMatrix(ivals,
-        jvals,
-        x = xvals,
-        dimnames = list(inames, jnames)
-    )
-
+    X <- Matrix::sparseMatrix(ivals, jvals, x = xvals, dimnames = list(
+        inames,
+        jnames
+    ))
     if (matrixOnly) {
         return(X)
     }
 
-    sample_id <- rep(names(bds_all), times = lapply(bds_all, length))
-    centroids <- do.call(rbind, lapply(
-        unlist(bds_all, recursive = FALSE),
-        colMeans
-    ))
+    centroids_all <- do.call(rbind, centroids_list)
     cData <- data.frame(
-        sample_id = sample_id,
-        x_location = centroids[, "x_location"],
-        y_location = centroids[, "y_location"]
-    )[colnames(X), ]
-    cData[, "cell_id"] <- colnames(X)
+        sample_id = centroids_all[["sample_id"]],
+        cell_id = centroids_all[["cell_id"]],
+        x_location = centroids_all[["x_location"]],
+        y_location = centroids_all[["y_location"]],
+        row.names = centroids_all[["cell_id"]]
+    )
+
+    # they should be identical
+    if (!identical(as.character(colnames(X)), as.character(rownames(cData)))) {
+        cData <- cData[colnames(X), ]
+    }
 
     spe <- SpatialExperiment::SpatialExperiment(
         assays = list(counts = X),
-        colData = cData,
-        spatialCoords = as.matrix(cData[, c("x_location", "y_location")]),
-        reducedDims = list(
-            spatial = as.matrix(cData[, c("x_location", "y_location")])
-        )
+        colData = cData, spatialCoords = as.matrix(cData[, c(
+            "x_location",
+            "y_location"
+        )]), reducedDims = list(spatial = as.matrix(cData[
+            ,
+            c("x_location", "y_location")
+        ]))
     )
-
     return(spe)
 }
