@@ -33,7 +33,8 @@ Imports:
     rlang,
     cli,
     EBImage,
-    rhdf5
+    rhdf5,
+    BiocParallel
 Suggests: 
     knitr,
     BiocStyle,

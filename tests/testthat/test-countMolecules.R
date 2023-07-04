@@ -3,20 +3,17 @@ test_that("check missing or invalid arguments raise an error", {
 
     expect_error(countMolecules(me,
                                 moleculesAssay = NULL,
-                                segmentationInfo = "boundaries",
                                 boundariesAssay = "cell",
                                 matrixOnly = FALSE),
                 regexp = "not be NULL")
 
     expect_error(countMolecules(me,
                                 moleculesAssay = 1,
-                                segmentationInfo = "boundaries",
                                 boundariesAssay = "cell",
                                 matrixOnly = FALSE),
                 regexp = "should be a character")
     expect_no_error(countMolecules(me,
                                 moleculesAssay = "detected",
-                                segmentationInfo = "boundaries",
                                 boundariesAssay = "cell",
                                 matrixOnly = FALSE))
 
@@ -28,7 +25,6 @@ test_that("output is of SpatialExperiment S4 class", {
 
     spe <- suppressMessages(countMolecules(me,
                             moleculesAssay = "detected",
-                            segmentationInfo = "boundaries",
                             boundariesAssay = "cell",
                             matrixOnly = FALSE))
     expect_s4_class(me, "MoleculeExperiment")
