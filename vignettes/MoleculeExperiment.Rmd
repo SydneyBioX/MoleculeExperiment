@@ -33,10 +33,10 @@ output:
 
 ```{r global-options, include=FALSE}
 knitr::opts_chunk$set(
-  message=FALSE,
-  warning=FALSE,
-  collapse=TRUE,
-  comment="#>"
+  message = FALSE,
+  warning = FALSE,
+  collapse = TRUE,
+  comment = "#>"
 )
 library(BiocStyle)
 ```
@@ -64,8 +64,9 @@ molecules and segmentation boundaries.
 The latest release of MoleculeExperiment can be installed using:
 
 ```{r, eval=FALSE}
-if (!require("BiocManager", quietly = TRUE))
+if (!require("BiocManager", quietly = TRUE)) {
     install.packages("BiocManager")
+}
 BiocManager::install("MoleculeExperiment")
 ```
 
@@ -86,7 +87,8 @@ repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
 me <- readXenium(repoDir,
-                  keepCols = "essential")
+  keepCols = "essential"
+)
 me
 ```
 
@@ -98,8 +100,10 @@ ggplot_me() +
       geom_polygon_me(me, assayName = "cell", fill = "grey") +
       geom_point_me(me) +
       # zoom in to selected patch area
-      coord_cartesian(xlim = c(4900, 4919.98), 
-                        ylim = c(6400.02, 6420))
+  coord_cartesian(
+    xlim = c(4900, 4919.98),
+    ylim = c(6400.02, 6420)
+  )
 ```
 
 4. Finally, it is also possible to go from a MoleculeExperiment object to a
@@ -144,19 +148,27 @@ head(moleculesDf)
 ```{r}
 boundariesDf <- data.frame(
   sample_id = rep(c("sample1", "sample2"), times = c(16, 6)),
-  cell_id = rep(c("cell1", "cell2", "cell3", "cell4",
-                  "cell1", "cell2"),
-                times = c(4, 4, 4, 4, 3, 3)),
-  vertex_x = c(0, 0.5, 0.5, 0, 
+  cell_id = rep(
+    c(
+      "cell1", "cell2", "cell3", "cell4",
+      "cell1", "cell2"
+    ),
+    times = c(4, 4, 4, 4, 3, 3)
+  ),
+  vertex_x = c(
+    0, 0.5, 0.5, 0,
                0.5, 1, 1, 0.5, 
                0, 0.5, 0.5, 0, 
                0.5, 1, 1, 0.5,
-               0, 1, 0, 0, 1, 1),
-  vertex_y = c(0, 0, 0.5, 0.5, 
+    0, 1, 0, 0, 1, 1
+  ),
+  vertex_y = c(
+    0, 0, 0.5, 0.5,
                0, 0, 0.5, 0.5, 
                0.5, 0.5, 1, 1, 
                0.5, 0.5, 1, 1,
-               0, 1, 1, 0, 0, 1)
+    0, 1, 1, 0, 0, 1
+  )
 )
 head(boundariesDf)
 ```
@@ -170,7 +182,8 @@ moleculesMEList <- dataframeToMEList(moleculesDf,
                                   sampleCol = "sample_id",
                                   factorCol = "features",
                                   xCol = "x_coords",
-                                  yCol = "y_coords")
+  yCol = "y_coords"
+)
 str(moleculesMEList, max.level = 3)
 ```
 
@@ -183,15 +196,18 @@ boundariesMEList <- dataframeToMEList(boundariesDf,
                                    sampleCol = "sample_id",
                                    factorCol = "cell_id",
                                    xCol = "vertex_x",
-                                   yCol = "vertex_y")
+  yCol = "vertex_y"
+)
 str(boundariesMEList, 3)
 ```
 
 5) Create an ME object by using the MoleculeExperiment object constructor.
 
 ```{r}
-toyME <- MoleculeExperiment(molecules = moleculesMEList,
-                             boundaries = boundariesMEList)
+toyME <- MoleculeExperiment(
+  molecules = moleculesMEList,
+  boundaries = boundariesMEList
+)
 toyME
 ```
 
@@ -227,7 +243,8 @@ repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
 me <- readXenium(repoDir,
                   keepCols = "essential",
-                  addBoundaries = "cell")
+  addBoundaries = "cell"
+)
 me
 ```
 
@@ -250,17 +267,19 @@ repoDir <- paste0(repoDir, "/nanostring_Lung9_Rep1")
 
 meCosmx <- readCosmx(repoDir,
                       keepCols = "essential",
-                      addBoundaries = "cell")
+  addBoundaries = "cell"
+)
 meCosmx
 ```
 
 ```{r}
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/vizgen_HumanOvarianCancerPatient2Slice2")
-#boundary data has not been included in the package extdata.
+# boundary data has not been included in the package extdata.
 meMerscope <- readMerscope(repoDir,
                           keepCols = "essential",
-                          addBoundaries = NULL)
+  addBoundaries = NULL
+)
 meMerscope
 ```
 
@@ -350,14 +369,16 @@ to the boundaries slot. Here we demonstrate this with the nucleus boundaries.
 ```{r}
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
-nucleiMEList <- readBoundaries(dataDir = repoDir,
+nucleiMEList <- readBoundaries(
+  dataDir = repoDir,
                             pattern = "nucleus_boundaries.csv",
                             segmentIDCol = "cell_id",
                             xCol = "vertex_x",
                             yCol = "vertex_y",
                             keepCols = "essential",
                             boundariesAssay = "nucleus",
-                            scaleFactorVector = 1)
+  scaleFactorVector = 1
+)
 
 boundaries(me, "nucleus") <- nucleiMEList
 me # note the addition of the nucleus boundaries to the boundaries slot
