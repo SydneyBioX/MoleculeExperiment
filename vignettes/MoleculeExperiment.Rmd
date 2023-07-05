@@ -195,6 +195,24 @@ toyME <- MoleculeExperiment(molecules = moleculesMEList,
 toyME
 ```
 
+6) Add boundaries from an external segmentation algorythm.
+
+In this example, we use the exent of the molecules of generated for `toyME` to 
+allign the boundaries with the molecules. In general, the extent of the 
+segmentation is required for this allignment.
+
+```{r}
+repoDir <- system.file("extdata", package = "MoleculeExperiment")
+segMask <- paste0(repoDir, "/BIDcell_segmask.tif")
+boundaries(toyME, "BIDcell_segmentation") <- readSegMask(
+    extent(toyME), # use the molecule extent to define the boundary extent
+    path = segMask, assayName = "BIDcell_segmentation",
+    sample_id = "sample1", background_value = 0
+)
+
+toyME
+```
+
 ### Use case 2: from machine's output directory to ME object
 
 The MoleculeExperiment package also provides functions to directly work with
@@ -223,28 +241,27 @@ locations of the detected transcripts, and segment ids and boundary locations of
 the segmentation results.
 
 For CosMx and Merscope data we provide convenience functions that standardise
-the raw transcripts data into a MoleculeExperiment object. Note that the
-handling of boundary information for these technologies is under development.
+the raw transcripts data into a MoleculeExperiment object and additionally read 
+the boundaries included in the standard data releases.
 
 ```{r}
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/nanostring_Lung9_Rep1")
 
 meCosmx <- readCosmx(repoDir,
-                      keepCols = "essential")
+                      keepCols = "essential",
+                      addBoundaries = "cell")
 meCosmx
-# boundaries not handled yet, as CosMx does not provide cell boundary info
 ```
 
 ```{r}
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/vizgen_HumanOvarianCancerPatient2Slice2")
+#boundary data has not been included in the package extdata.
 meMerscope <- readMerscope(repoDir,
                           keepCols = "essential",
                           addBoundaries = NULL)
 meMerscope
-# boundaries not handled yet, as Merscope has a complex set of multitude
-# boundary files in hdf5 file format
 ```
 
 ## ME object structure
