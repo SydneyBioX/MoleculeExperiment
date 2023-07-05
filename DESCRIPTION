@@ -43,3 +43,5 @@ VignetteBuilder: knitr
 biocViews: DataImport, DataRepresentation, Infrastructure, Software, Spatial,
     Transcriptomics
 Config/testthat/edition: 3
+Depends: 
+    R (>= 2.10)
