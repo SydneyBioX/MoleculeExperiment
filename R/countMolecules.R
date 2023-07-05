@@ -162,7 +162,7 @@ countMolecules <- function(me,
         valsList[[sample]][["jnames"]] <- unlist(
             Map(
                 function(x) {
-                    x$jnames
+                    x$jnames[!is.null(x$jnames)]
                 },
                 result
             )
