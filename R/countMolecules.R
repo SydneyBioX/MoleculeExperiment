@@ -77,11 +77,7 @@ countMolecules <- function(me,
     factors_levels <- list()
     centroids_list <- list()
 
-    if (nCores == 1) {
-        BPPARAM <- BiocParallel::SerialParam()
-    } else {
-        BPPARAM <- BiocParallel::MulticoreParam(nCores)
-    }
+    BPPARAM <- .generateBPParam(cores = nCores)
 
     for (sample in samples) {
         bds_df <- bds_all_flat %>% dplyr::filter(sample_id ==
@@ -140,7 +136,7 @@ countMolecules <- function(me,
                 vals[["jnames"]] <- jnames
                 vals
             },
-            BPPARAM = BiocParallel::SerialParam()
+            BPPARAM = BPPARAM
         )
 
         valsList[[sample]][["ivals"]] <- unlist(
@@ -162,7 +158,7 @@ countMolecules <- function(me,
         valsList[[sample]][["jnames"]] <- unlist(
             Map(
                 function(x) {
-                    x$jnames[!is.null(x$jnames)]
+                    x$jnames#[!is.null(x$jnames)]
                 },
                 result
             )
