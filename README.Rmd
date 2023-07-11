@@ -28,4 +28,8 @@ You can install the development version of MoleculeExperiment from [GitHub](http
 # install.packages("devtools")
 devtools::install_github("SydneyBioX/MoleculeExperiment")
 ```
-
+### System dependencies
+Note that the following 3 system dependencies are required:
+* libssl-dev
+* libmagick++-dev
+* libgdal-dev
