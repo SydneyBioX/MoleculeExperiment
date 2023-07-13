@@ -131,7 +131,7 @@ readMerscope <- function(dataDir,
 
         me@boundaries <- MoleculeExperiment::dataframeToMEList(df_all,
             dfType = "boundaries",
-            assayName = "cells",
+            assayName = "cell",
             sampleCol = "sample_id",
             factorCol = "cell_id",
             xCol = "x_location",
