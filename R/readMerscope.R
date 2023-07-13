@@ -23,7 +23,7 @@
 #' repoDir <- paste0(repoDir, "/vizgen_HumanOvarianCancerPatient2Slice2")
 #' meMerscope <- readMerscope(repoDir,
 #'     keepCols = "essential",
-#'     addBoundaries = NULL
+#'     addBoundaries = "cell"
 #' )
 #' meMerscope
 readMerscope <- function(dataDir,

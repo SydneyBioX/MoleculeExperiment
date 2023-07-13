@@ -211,11 +211,11 @@ toyME <- MoleculeExperiment(
 toyME
 ```
 
-6) Add boundaries from an external segmentation algorythm.
+6) Add boundaries from an external segmentation algorithm.
 
-In this example, we use the exent of the molecules of generated for `toyME` to 
+In this example, we use the extent of the molecules of generated for `toyME` to 
 allign the boundaries with the molecules. In general, the extent of the 
-segmentation is required for this allignment.
+segmentation is required for this alignment.
 
 ```{r}
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
@@ -275,16 +275,16 @@ meCosmx
 ```{r}
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/vizgen_HumanOvarianCancerPatient2Slice2")
-# boundary data has not been included in the package extdata.
 meMerscope <- readMerscope(repoDir,
   keepCols = "essential",
-  addBoundaries = NULL
+  addBoundaries = "cell"
 )
 meMerscope
 ```
 
 ## ME object structure
-A MoleculeExperiment object contains a @molecules slot and a @boundaries slot.
+A MoleculeExperiment object contains a @molecules slot and an optional 
+@boundaries slot.
 
 Both slots have a hierarchical list structure that consists of a nested list,
 ultimately ending in a data.frame/tibble. Traditional rectangular data 
