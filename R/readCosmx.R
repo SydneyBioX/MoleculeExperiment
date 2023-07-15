@@ -1,8 +1,9 @@
 #' Read in Cosmx data (Nanostring) as an ME object.
 #'
-#' This function is a wrapper around the readMolecules function. Note that it
-#' can currently only create a simple ME object with the molecules slot filled.
-#' Boundary information is not handled yet.
+#' This function is a wrapper around the readMolecules function. It can
+#' read both molecule and mask information. The segmentation masks are
+#' converted to boundaries, and these are added to the boundaries slot
+#' of the MoleculeExperiment object.
 #'
 #' @param dataDir Character string specifying the directory with the Cosmx
 #'     output files.
