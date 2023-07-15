@@ -1,10 +1,7 @@
 #' Read in Merscope data to an ME object
 #'
-#' Reads in Merscope data (Vizgen) from a directory, and standardises it into
-#' a MoleculeExperiment object. It is essentially a wrapper around the function
-#' readMolecules(). Note that this function can currently only create a simple
-#' ME object with the molecules slot filled. Boundary information cannot be
-#' handled yet.
+#' Reads in Merscope (Vizgen) molecule and boundary data from a directory,
+#' and standardises it into a MoleculeExperiment object.
 #'
 #' @param dataDir Character string specifying the directory with the Cosmx
 #' output files.
@@ -32,7 +29,6 @@ readMerscope <- function(dataDir,
     # check arg validity
     .check_if_character(dataDir, keepCols)
 
-    # create simple MoleculeExperiment object
     pattern <- "detected_transcripts.csv"
 
     if (!is.null(addBoundaries)) {
