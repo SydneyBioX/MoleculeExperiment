@@ -24,18 +24,15 @@ If NULL, a simple ME object with no boundaries will be created.}
 A MoleculeExperiment object
 }
 \description{
-Reads in Merscope data (Vizgen) from a directory, and standardises it into
-a MoleculeExperiment object. It is essentially a wrapper around the function
-readMolecules(). Note that this function can currently only create a simple
-ME object with the molecules slot filled. Boundary information cannot be
-handled yet.
+Reads in Merscope (Vizgen) molecule and boundary data from a directory,
+and standardises it into a MoleculeExperiment object.
 }
 \examples{
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/vizgen_HumanOvarianCancerPatient2Slice2")
 meMerscope <- readMerscope(repoDir,
     keepCols = "essential",
-    addBoundaries = NULL
+    addBoundaries = "cell"
 )
 meMerscope
 }

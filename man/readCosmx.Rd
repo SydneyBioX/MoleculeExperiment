@@ -22,9 +22,10 @@ If NULL, a simple ME object with no boundaries will be created.}
 A MoleculeExperiment object
 }
 \description{
-This function is a wrapper around the readMolecules function. Note that it
-can currently only create a simple ME object with the molecules slot filled.
-Boundary information is not handled yet.
+This function is a wrapper around the readMolecules function. It can
+read both molecule and mask information. The segmentation masks are
+converted to boundaries, and these are added to the boundaries slot
+of the MoleculeExperiment object.
 }
 \examples{
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
