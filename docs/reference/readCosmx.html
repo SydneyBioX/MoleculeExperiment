@@ -14,7 +14,7 @@ Boundary information is not handled yet."><!-- mathjax --><script src="https://c
     
     <a class="navbar-brand me-2" href="../index.html">MoleculeExperiment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@ Boundary information is not handled yet.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">readCosmx</span><span class="op">(</span><span class="va">dataDir</span>, keepCols <span class="op">=</span> <span class="st">"essential"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">readCosmx</span><span class="op">(</span><span class="va">dataDir</span>, keepCols <span class="op">=</span> <span class="st">"essential"</span>, addBoundaries <span class="op">=</span> <span class="st">"cell"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -75,6 +75,12 @@ output files.</p></dd>
 Defaults to "essential". The other option is to select "all", or custom
 columns by specifying their names in a vector.</p></dd>
 
+
+<dt>addBoundaries</dt>
+<dd><p>A string with which to specify the name of the boundary
+assay to be added to the me object. Can be a string, or NULL.
+If NULL, a simple ME object with no boundaries will be created.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -87,22 +93,33 @@ columns by specifying their names in a vector.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">repoDir</span>, <span class="st">"/nanostring_Lung9_Rep1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">#</span></span></span>
 <span class="r-in"><span><span class="va">meCosmx</span> <span class="op">&lt;-</span> <span class="fu">readCosmx</span><span class="op">(</span><span class="va">repoDir</span>,</span></span>
-<span class="r-in"><span>                      keepCols <span class="op">=</span> <span class="st">"essential"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    keepCols <span class="op">=</span> <span class="st">"essential"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ⠙ 1/3 Reading transcripts</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> 1/3 Reading transcripts <span style="color: #B2B2B2;">[47ms]</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Detected transcript information can be accessed with molecules(me) or</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> molecules(me, "detected")</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ⠙ 2/3 Transforming masks into polygons</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> 2/3 Transforming masks into polygons <span style="color: #B2B2B2;">[75ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ⠙ 3/3 Merging patches</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> 3/3 Merging patches <span style="color: #B2B2B2;">[40ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">meCosmx</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class:  MoleculeExperiment </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 samples: nanostring_Lung9_Rep1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 samples: sample_1 sample_2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @molecules contents: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -detected assay:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 336 unique features across all samples in assay "detected": AATK ABL2 ACE ACKR4 ADGRE5 ADGRG1 ...</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 937 molecules on average across all samples in assay "detected"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Location range across all samples in assay "detected": [1800,1818] x [25200.01,25217.96]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 977 unique features across all samples in assay <span style="font-style: italic;">detected</span>: AATK ABL1 ABL2 ACE</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ACE2 ACKR1...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 15499.5 molecules on average across all samples in assay <span style="font-style: italic;">detected</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Location range across all samples in assay "detected": [924.01,3002] x [26290,26398]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> @boundaries contents: NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> @boundaries contents:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -cell:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 98 unique segment IDs: 1 2 3 4 5 6 ...</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">MoleculeExperiment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,6 +70,11 @@ spatial transcriptomics data.</dd>
         <dd>Accessor functions to work with MoleculeExperiment objects</dd>
       </dl><dl><dt>
           
+          <code><a href="bufferBoundaries.html">bufferBoundaries()</a></code> 
+        </dt>
+        <dd>Create a new boundaries assay with buffers</dd>
+      </dl><dl><dt>
+          
           <code><a href="countMolecules.html">countMolecules()</a></code> 
         </dt>
         <dd>Count molecules per region of interest (e.g., cell)</dd>
@@ -77,7 +82,12 @@ spatial transcriptomics data.</dd>
           
           <code><a href="dataframeToMEList.html">dataframeToMEList()</a></code> 
         </dt>
-        <dd>Convert a transcripts or boundaries file to the ME list format</dd>
+        <dd>Convert a transcript (molecule) or boundary dataframe to the ME list format</dd>
+      </dl><dl><dt>
+          
+          <code><a href="dot-generateBPParam.html">.generateBPParam()</a></code> 
+        </dt>
+        <dd>Utility function to generate BPPARAM object.</dd>
       </dl><dl><dt>
           
           <code><a href="plotting-functions.html">ggplot_me()</a></code> <code><a href="plotting-functions.html">geom_point_me()</a></code> <code><a href="plotting-functions.html">geom_polygon_me()</a></code> 
@@ -105,12 +115,22 @@ spatial transcriptomics data.</dd>
         <dd>Read in detected transcripts file/s into a MoleculeExperiment object</dd>
       </dl><dl><dt>
           
+          <code><a href="readSegMask.html">readSegMask()</a></code> 
+        </dt>
+        <dd>Read a segmentation mask</dd>
+      </dl><dl><dt>
+          
           <code><a href="readXenium.html">readXenium()</a></code> 
         </dt>
         <dd>Read in Xenium data into a MoleculeExperiment object</dd>
       </dl><dl><dt>
           
-          <code><a href="summarization.html">showMolecules(<i>&lt;MoleculeExperiment&gt;</i>)</a></code> <code><a href="summarization.html">showBoundaries(<i>&lt;MoleculeExperiment&gt;</i>)</a></code> <code><a href="summarization.html">nFeatures(<i>&lt;MoleculeExperiment&gt;</i>)</a></code> <code><a href="summarization.html">nTranscripts(<i>&lt;MoleculeExperiment&gt;</i>)</a></code> 
+          <code><a href="small_me.html">small_me</a></code> 
+        </dt>
+        <dd>A subsetted Xenium dataset include for demostration purposes.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="summarization.html">showMolecules(<i>&lt;MoleculeExperiment&gt;</i>)</a></code> <code><a href="summarization.html">extent(<i>&lt;MoleculeExperiment&gt;</i>)</a></code> <code><a href="summarization.html">showBoundaries(<i>&lt;MoleculeExperiment&gt;</i>)</a></code> <code><a href="summarization.html">nFeatures(<i>&lt;MoleculeExperiment&gt;</i>)</a></code> <code><a href="summarization.html">nTranscripts(<i>&lt;MoleculeExperiment&gt;</i>)</a></code> 
         </dt>
         <dd>Summarization methods to get insights into a MoleculeExperiment object</dd>
       </dl></div>

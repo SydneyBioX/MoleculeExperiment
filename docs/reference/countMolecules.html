@@ -18,7 +18,7 @@ level, one can do so."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
     
     <a class="navbar-brand me-2" href="../index.html">MoleculeExperiment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,19 +67,20 @@ level, one can do so.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">countMolecules</span><span class="op">(</span></span>
-<span>  <span class="va">object</span>,</span>
+<span>  <span class="va">me</span>,</span>
 <span>  moleculesAssay <span class="op">=</span> <span class="st">"detected"</span>,</span>
-<span>  segmentationInfo <span class="op">=</span> <span class="st">"boundaries"</span>,</span>
 <span>  boundariesAssay <span class="op">=</span> <span class="st">"cell"</span>,</span>
-<span>  matrixOnly <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  buffer <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  matrixOnly <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  nCores <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>object</dt>
-<dd><p>MoleculeExperiment object containing both the transcript data as
-well as the boundaries data. I.e., the "molecules" and "boundaries" slots
+    <dl><dt>me</dt>
+<dd><p>MoleculeExperiment object containing both the transcript data
+as well as the boundaries data. I.e., the "molecules" and "boundaries" slots
 need to be filled. See MoleculeExperiment() for more information.</p></dd>
 
 
@@ -92,12 +93,6 @@ MoleculeExperiment object. It is possible to change it to another mode, e.g.,
 in the "high_threshold" element of the list in the molecules slot.</p></dd>
 
 
-<dt>segmentationInfo</dt>
-<dd><p>Character string specifying the type of segmentation
-information available. Can be either "boundaries" or "masks". Currently,
-only the "boundaries" information is supported.</p></dd>
-
-
 <dt>boundariesAssay</dt>
 <dd><p>Character string naming the list of the boundaries
 slot from which boundary information should be retrieved from.
@@ -105,10 +100,20 @@ For example, for counting transcripts per cell, the list containing the cell
 boundaries (e.g., "cell") should be selected.</p></dd>
 
 
+<dt>buffer</dt>
+<dd><p>Single numeric value (default 0) indicating value to buffer
+beyond segment boundaries, i.e. to count molecules just outside of a segment
+boundary</p></dd>
+
+
 <dt>matrixOnly</dt>
 <dd><p>Logical value indicating whether to return a matrix of the
 counted molecules per segment (e.g., cell). Is FALSE by default, i.e., the
 default output is a SpatialExperiment object.</p></dd>
+
+
+<dt>nCores</dt>
+<dd><p>Number of cores to use for the operation.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -124,19 +129,16 @@ Alternatively, a matrix with the counted molecules per segment.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">repoDir</span>, <span class="st">"/xenium_V1_FF_Mouse_Brain"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="readXenium.html">readXenium</a></span><span class="op">(</span><span class="va">repoDir</span>,</span></span>
-<span class="r-in"><span>                  keepCols <span class="op">=</span> <span class="st">"essential"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Detected transcript information can be accessed with molecules(me) or</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> molecules(me, "detected")</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Boundary information can be accessed with boundaries(me)</span>
+<span class="r-in"><span>    keepCols <span class="op">=</span> <span class="st">"essential"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">spe</span> <span class="op">&lt;-</span> <span class="fu">countMolecules</span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The transcripts from the "detected" assay were</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> retrieved. Other assay transcripts can be retrieved by specifying the assayName</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> argument.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The boundaries from the "cell" assay</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> were retrieved. Boundaries from other assays can be retrieved by specifying</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> the assayName argument.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">detected</span> assay transcripts were retrieved.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Other transcript assays can be retrieved by specifying the `assayName`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   argument.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">cell</span> assay boundaries were retrieved.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Other boundary assays can be retrieved by specifying the `assayName`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   argument.</span>
 <span class="r-in"><span><span class="va">spe</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class: SpatialExperiment </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> dim: 178 14 </span>
@@ -146,7 +148,7 @@ Alternatively, a matrix with the counted molecules per segment.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rowData names(0):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> colnames(14): sample1.67500 sample1.67512 ... sample2.65070</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sample2.65071</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> colData names(4): sample_id x_location y_location cell_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> colData names(4): sample_id cell_id x_location y_location</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> reducedDimNames(1): spatial</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mainExpName: NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> altExpNames(0):</span>

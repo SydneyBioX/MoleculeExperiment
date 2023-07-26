@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">MoleculeExperiment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,18 +65,40 @@
 
 
 
-<script src="MoleculeExperiment_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>An introduction to the MoleculeExperiment Class</h1>
-                        <h4 data-toc-skip class="author">Bárbara Zita Peters Couto</h4>
+                        <h4 data-toc-skip class="author">Bárbara Zita
+Peters Couto</h4>
             <address class="author_afil">
-      School of Mathematics and Statistics, The University of Sydney, Sydney, NSW, 2006, AustraliaCharles Perkins Centre, The University of Sydney, Sydney, NSW, 2006, AustraliaSydney Precision Data Science Centre, The University of Sydney, Sydney, NSW, 2006, Australia<br><h4 data-toc-skip class="author">Nick Robertson</h4>
+      School of Mathematics and Statistics, The University of Sydney,
+Sydney, NSW, 2006, AustraliaCharles Perkins Centre, The University of
+Sydney, Sydney, NSW, 2006, AustraliaSydney Precision Data Science
+Centre, The University of Sydney, Sydney, NSW, 2006,
+Australia<br><h4 data-toc-skip class="author">Nick
+Robertson</h4>
             <address class="author_afil">
-      School of Mathematics and Statistics, The University of Sydney, Sydney, NSW, 2006, AustraliaCharles Perkins Centre, The University of Sydney, Sydney, NSW, 2006, AustraliaSydney Precision Data Science Centre, The University of Sydney, Sydney, NSW, 2006, Australia<br><h4 data-toc-skip class="author">Ellis Patrick</h4>
+      School of Mathematics and Statistics, The University of Sydney,
+Sydney, NSW, 2006, AustraliaCharles Perkins Centre, The University of
+Sydney, Sydney, NSW, 2006, AustraliaSydney Precision Data Science
+Centre, The University of Sydney, Sydney, NSW, 2006,
+Australia<br><h4 data-toc-skip class="author">Ellis
+Patrick</h4>
             <address class="author_afil">
-      School of Mathematics and Statistics, The University of Sydney, Sydney, NSW, 2006, AustraliaCharles Perkins Centre, The University of Sydney, Sydney, NSW, 2006, AustraliaSydney Precision Data Science Centre, The University of Sydney, Sydney, NSW, 2006, AustraliaWestmead Institute for Medical Research, University of Sydney, Australia<br><h4 data-toc-skip class="author">Shila Ghazanfar</h4>
+      School of Mathematics and Statistics, The University of Sydney,
+Sydney, NSW, 2006, AustraliaCharles Perkins Centre, The University of
+Sydney, Sydney, NSW, 2006, AustraliaSydney Precision Data Science
+Centre, The University of Sydney, Sydney, NSW, 2006, AustraliaWestmead
+Institute for Medical Research, University of Sydney,
+Australia<br><h4 data-toc-skip class="author">Shila
+Ghazanfar</h4>
             <address class="author_afil">
-      School of Mathematics and Statistics, The University of Sydney, Sydney, NSW, 2006, AustraliaCharles Perkins Centre, The University of Sydney, Sydney, NSW, 2006, AustraliaSydney Precision Data Science Centre, The University of Sydney, Sydney, NSW, 2006, Australia<br><h4 data-toc-skip class="date">27 April 2023</h4>
+      School of Mathematics and Statistics, The University of Sydney,
+Sydney, NSW, 2006, AustraliaCharles Perkins Centre, The University of
+Sydney, Sydney, NSW, 2006, AustraliaSydney Precision Data Science
+Centre, The University of Sydney, Sydney, NSW, 2006,
+Australia<br><h4 data-toc-skip class="date">26 July 2023</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/SydneyBioX/MoleculeExperiment/blob/HEAD/vignettes/MoleculeExperiment.Rmd" class="external-link"><code>vignettes/MoleculeExperiment.Rmd</code></a></small>
       <div class="d-none name"><code>MoleculeExperiment.Rmd</code></div>
@@ -91,20 +113,31 @@
 <div class="section level2">
 <h2 id="moleculeexperiment">MoleculeExperiment<a class="anchor" aria-label="anchor" href="#moleculeexperiment"></a>
 </h2>
-<p>The R package MoleculeExperiment contains functions to create and work with objects from the new MoleculeExperiment class. We introduce this class for analysing molecule-based spatial transcriptomics data (e.g., Xenium by 10X, CosMx SMI by Nanostring, and Merscope by Vizgen, among others).</p>
+<p>The R package MoleculeExperiment contains functions to create and
+work with objects from the new MoleculeExperiment class. We introduce
+this class for analysing molecule-based spatial transcriptomics data
+(e.g., Xenium by 10X, CosMx SMI by Nanostring, and Merscope by Vizgen,
+among others).</p>
 <div class="section level3">
 <h3 id="why-the-moleculeexperiment-class">Why the MoleculeExperiment class?<a class="anchor" aria-label="anchor" href="#why-the-moleculeexperiment-class"></a>
 </h3>
-<p>The goal of the MoleculeExperiment class is to: 1. Enable analysis of spatial transcriptomics (ST) data at the molecule level, independent of aggregating to the cell or tissue level. 2. Standardise molecule-based ST data across vendors, to hopefully facilitate comparison of different data sources and common analytical and visualisation workflows. 3. Enable aggregation to a <code>SpatialExperiment</code> object given combinations of molecules and segmentation boundaries.</p>
+<p>The goal of the MoleculeExperiment class is to: 1. Enable analysis of
+spatial transcriptomics (ST) data at the molecule level, independent of
+aggregating to the cell or tissue level. 2. Standardise molecule-based
+ST data across vendors, to hopefully facilitate comparison of different
+data sources and common analytical and visualisation workflows. 3.
+Enable aggregation to a <code>SpatialExperiment</code> object given
+combinations of molecules and segmentation boundaries.</p>
 </div>
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h3>
 <p>The latest release of MoleculeExperiment can be installed using:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"MoleculeExperiment"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://bioconductor.github.io/BiocManager/" class="external-link">"BiocManager"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"MoleculeExperiment"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -117,14 +150,16 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SydneyBioX/MoleculeExperiment" class="external-link">MoleculeExperiment</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Create MoleculeExperiment object with example Xenium data, taken over a small patch.</li>
+<li>Create MoleculeExperiment object with example Xenium data, taken
+over a small patch.</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span>
 <span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">repoDir</span>, <span class="st">"/xenium_V1_FF_Mouse_Brain"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readXenium.html">readXenium</a></span><span class="op">(</span><span class="va">repoDir</span>,</span>
-<span>                  keepCols <span class="op">=</span> <span class="st">"essential"</span><span class="op">)</span></span>
+<span>  keepCols <span class="op">=</span> <span class="st">"essential"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">me</span></span>
 <span><span class="co">#&gt; class:  MoleculeExperiment </span></span>
 <span><span class="co">#&gt; 2 samples: sample1 sample2 </span></span>
@@ -137,18 +172,25 @@
 <span><span class="co">#&gt; -cell:</span></span>
 <span><span class="co">#&gt; 7 unique segment IDs: 67500 67512 67515 67521 67527 ...</span></span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
-<li>Use standardised data in ME object for molecule-level analyses. For example, plot a simple digital in-situ, with cell boundaries overlaid.</li>
+<li>Use standardised data in ME object for molecule-level analyses. For
+example, plot a simple digital in-situ, with cell boundaries
+overlaid.</li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotting-functions.html">ggplot_me</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>      <span class="fu"><a href="../reference/plotting-functions.html">geom_polygon_me</a></span><span class="op">(</span><span class="va">me</span>, assayName <span class="op">=</span> <span class="st">"cell"</span>, fill <span class="op">=</span> <span class="st">"grey"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>      <span class="fu"><a href="../reference/plotting-functions.html">geom_point_me</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span> <span class="op">+</span></span>
-<span>      <span class="co"># zoom in to selected patch area</span></span>
-<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4900</span>, <span class="fl">4919.98</span><span class="op">)</span>, </span>
-<span>                        ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6400.02</span>, <span class="fl">6420</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/plotting-functions.html">geom_polygon_me</a></span><span class="op">(</span><span class="va">me</span>, assayName <span class="op">=</span> <span class="st">"cell"</span>, fill <span class="op">=</span> <span class="st">"grey"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/plotting-functions.html">geom_point_me</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="co"># zoom in to selected patch area</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span></span>
+<span>    xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4900</span>, <span class="fl">4919.98</span><span class="op">)</span>,</span>
+<span>    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6400.02</span>, <span class="fl">6420</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="MoleculeExperiment_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <ol start="4" style="list-style-type: decimal">
-<li>Finally, it is also possible to go from a MoleculeExperiment object to a SpatialExperiment object. This enables the transition from a molecule-level analysis to a cell-level analysis with already existing tools.</li>
+<li>Finally, it is also possible to go from a MoleculeExperiment object
+to a SpatialExperiment object. This enables the transition from a
+molecule-level analysis to a cell-level analysis with already existing
+tools.</li>
 </ol>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># transform ME to SPE object</span></span>
@@ -162,7 +204,7 @@
 <span><span class="co">#&gt; rowData names(0):</span></span>
 <span><span class="co">#&gt; colnames(14): sample1.67500 sample1.67512 ... sample2.65070</span></span>
 <span><span class="co">#&gt;   sample2.65071</span></span>
-<span><span class="co">#&gt; colData names(4): sample_id x_location y_location cell_id</span></span>
+<span><span class="co">#&gt; colData names(4): sample_id cell_id x_location y_location</span></span>
 <span><span class="co">#&gt; reducedDimNames(1): spatial</span></span>
 <span><span class="co">#&gt; mainExpName: NULL</span></span>
 <span><span class="co">#&gt; altExpNames(0):</span></span>
@@ -178,8 +220,15 @@
 <div class="section level4">
 <h4 id="use-case-1-from-dataframes-to-me-object">Use case 1: from dataframes to ME object<a class="anchor" aria-label="anchor" href="#use-case-1-from-dataframes-to-me-object"></a>
 </h4>
-<p>Here we demonstrate how to work with an ME object from toy data, representing a scenario where both the detected transcripts information and the boundary information have already been read into R. This requires the standardisation of the data with the dataframeToMEList() function.</p>
-<p>The flexibility of the arguments in dataframeToMEList() enable the creation of a standard ME object across dataframes comming from different vendors of molecule-based spatial transcriptomics technologies.</p>
+<p>Here we demonstrate how to work with an ME object from toy data,
+representing a scenario where both the detected transcripts information
+and the boundary information have already been read into R. This
+requires the standardisation of the data with the dataframeToMEList()
+function.</p>
+<p>The flexibility of the arguments in dataframeToMEList() enable the
+creation of a standard ME object across dataframes comming from
+different vendors of molecule-based spatial transcriptomics
+technologies.</p>
 <ol style="list-style-type: decimal">
 <li>Generate a toy transcripts data.frame.</li>
 </ol>
@@ -189,34 +238,42 @@
 <span>  features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gene1"</span>, <span class="st">"gene2"</span><span class="op">)</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  x_coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>,</span>
 <span>  y_coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">moleculesDf</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   sample_id features   x_coords   y_coords</span></span>
-<span><span class="co">#&gt; 1   sample1    gene1 0.92577487 0.28016648</span></span>
-<span><span class="co">#&gt; 2   sample1    gene1 0.72343171 0.21713089</span></span>
-<span><span class="co">#&gt; 3   sample1    gene1 0.03188443 0.51323107</span></span>
-<span><span class="co">#&gt; 4   sample1    gene1 0.22052845 0.70396606</span></span>
-<span><span class="co">#&gt; 5   sample1    gene1 0.15295367 0.12311529</span></span>
-<span><span class="co">#&gt; 6   sample1    gene1 0.03665215 0.09388516</span></span></code></pre></div>
+<span><span class="co">#&gt;   sample_id features  x_coords   y_coords</span></span>
+<span><span class="co">#&gt; 1   sample1    gene1 0.5367026 0.10702161</span></span>
+<span><span class="co">#&gt; 2   sample1    gene1 0.9880251 0.02806999</span></span>
+<span><span class="co">#&gt; 3   sample1    gene1 0.5207191 0.92805186</span></span>
+<span><span class="co">#&gt; 4   sample1    gene1 0.4427803 0.37559889</span></span>
+<span><span class="co">#&gt; 5   sample1    gene1 0.5074085 0.35579698</span></span>
+<span><span class="co">#&gt; 6   sample1    gene1 0.3696884 0.72229450</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Generate a toy boundaries data.frame.</li>
 </ol>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">boundariesDf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  sample_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sample1"</span>, <span class="st">"sample2"</span><span class="op">)</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">16</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  cell_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cell1"</span>, <span class="st">"cell2"</span>, <span class="st">"cell3"</span>, <span class="st">"cell4"</span>,</span>
-<span>                  <span class="st">"cell1"</span>, <span class="st">"cell2"</span><span class="op">)</span>,</span>
-<span>                times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  vertex_x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0</span>, </span>
-<span>               <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0.5</span>, </span>
-<span>               <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0</span>, </span>
-<span>               <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0.5</span>,</span>
-<span>               <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>  vertex_y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, </span>
-<span>               <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, </span>
-<span>               <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1</span>, </span>
-<span>               <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1</span>,</span>
-<span>               <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span>  cell_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>      <span class="st">"cell1"</span>, <span class="st">"cell2"</span>, <span class="st">"cell3"</span>, <span class="st">"cell4"</span>,</span>
+<span>      <span class="st">"cell1"</span>, <span class="st">"cell2"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  vertex_x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0</span>,</span>
+<span>    <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0.5</span>,</span>
+<span>    <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0</span>,</span>
+<span>    <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0.5</span>,</span>
+<span>    <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  vertex_y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>,</span>
+<span>    <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>,</span>
+<span>    <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1</span>,</span>
+<span>    <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1</span>,</span>
+<span>    <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span></span>
+<span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">boundariesDf</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   sample_id cell_id vertex_x vertex_y</span></span>
@@ -231,12 +288,13 @@
 </ol>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">moleculesMEList</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dataframeToMEList.html">dataframeToMEList</a></span><span class="op">(</span><span class="va">moleculesDf</span>,</span>
-<span>                                  dfType <span class="op">=</span> <span class="st">"transcripts"</span>,</span>
-<span>                                  assayName <span class="op">=</span> <span class="st">"detected"</span>,</span>
-<span>                                  sampleCol <span class="op">=</span> <span class="st">"sample_id"</span>,</span>
-<span>                                  factorCol <span class="op">=</span> <span class="st">"features"</span>,</span>
-<span>                                  xCol <span class="op">=</span> <span class="st">"x_coords"</span>,</span>
-<span>                                  yCol <span class="op">=</span> <span class="st">"y_coords"</span><span class="op">)</span></span>
+<span>  dfType <span class="op">=</span> <span class="st">"molecules"</span>,</span>
+<span>  assayName <span class="op">=</span> <span class="st">"detected"</span>,</span>
+<span>  sampleCol <span class="op">=</span> <span class="st">"sample_id"</span>,</span>
+<span>  factorCol <span class="op">=</span> <span class="st">"features"</span>,</span>
+<span>  xCol <span class="op">=</span> <span class="st">"x_coords"</span>,</span>
+<span>  yCol <span class="op">=</span> <span class="st">"y_coords"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">moleculesMEList</span>, max.level <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 1</span></span>
 <span><span class="co">#&gt;  $ detected:List of 2</span></span>
@@ -250,12 +308,13 @@
 </ol>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">boundariesMEList</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dataframeToMEList.html">dataframeToMEList</a></span><span class="op">(</span><span class="va">boundariesDf</span>,</span>
-<span>                                   dfType <span class="op">=</span> <span class="st">"boundaries"</span>,</span>
-<span>                                   assayName <span class="op">=</span> <span class="st">"cell"</span>,</span>
-<span>                                   sampleCol <span class="op">=</span> <span class="st">"sample_id"</span>,</span>
-<span>                                   factorCol <span class="op">=</span> <span class="st">"cell_id"</span>,</span>
-<span>                                   xCol <span class="op">=</span> <span class="st">"vertex_x"</span>,</span>
-<span>                                   yCol <span class="op">=</span> <span class="st">"vertex_y"</span><span class="op">)</span></span>
+<span>  dfType <span class="op">=</span> <span class="st">"boundaries"</span>,</span>
+<span>  assayName <span class="op">=</span> <span class="st">"cell"</span>,</span>
+<span>  sampleCol <span class="op">=</span> <span class="st">"sample_id"</span>,</span>
+<span>  factorCol <span class="op">=</span> <span class="st">"cell_id"</span>,</span>
+<span>  xCol <span class="op">=</span> <span class="st">"vertex_x"</span>,</span>
+<span>  yCol <span class="op">=</span> <span class="st">"vertex_y"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">boundariesMEList</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 1</span></span>
 <span><span class="co">#&gt;  $ cell:List of 2</span></span>
@@ -268,34 +327,71 @@
 <span><span class="co">#&gt;   .. ..$ cell1: tibble [3 × 2] (S3: tbl_df/tbl/data.frame)</span></span>
 <span><span class="co">#&gt;   .. ..$ cell2: tibble [3 × 2] (S3: tbl_df/tbl/data.frame)</span></span></code></pre></div>
 <ol start="5" style="list-style-type: decimal">
-<li>Create an ME object by using the MoleculeExperiment object constructor.</li>
+<li>Create an ME object by using the MoleculeExperiment object
+constructor.</li>
 </ol>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">toyME</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MoleculeExperiment.html">MoleculeExperiment</a></span><span class="op">(</span>molecules <span class="op">=</span> <span class="va">moleculesMEList</span>,</span>
-<span>                             boundaries <span class="op">=</span> <span class="va">boundariesMEList</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">toyME</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MoleculeExperiment.html">MoleculeExperiment</a></span><span class="op">(</span></span>
+<span>  molecules <span class="op">=</span> <span class="va">moleculesMEList</span>,</span>
+<span>  boundaries <span class="op">=</span> <span class="va">boundariesMEList</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">toyME</span></span>
 <span><span class="co">#&gt; class:  MoleculeExperiment </span></span>
 <span><span class="co">#&gt; 2 samples: sample1 sample2 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; @molecules contents: </span></span>
 <span><span class="co">#&gt; -detected assay:</span></span>
-<span><span class="co">#&gt; Location range across all samples in assay "detected": [0.03,0.97] x [0.03,0.97]</span></span>
+<span><span class="co">#&gt; Location range across all samples in assay "detected": [0,1] x [0,0.95]</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; @boundaries contents:</span></span>
 <span><span class="co">#&gt; -cell:</span></span>
 <span><span class="co">#&gt; 3 unique segment IDs: cell1 cell2 cell3 cell4 ...</span></span></code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li>Add boundaries from an external segmentation algorithm.</li>
+</ol>
+<p>In this example, we use the extent of the molecules of generated for
+<code>toyME</code> to allign the boundaries with the molecules. In
+general, the extent of the segmentation is required for this
+alignment.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span>
+<span><span class="va">segMask</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">repoDir</span>, <span class="st">"/BIDcell_segmask.tif"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/accessors.html">boundaries</a></span><span class="op">(</span><span class="va">toyME</span>, <span class="st">"BIDcell_segmentation"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readSegMask.html">readSegMask</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/summarization.html">extent</a></span><span class="op">(</span><span class="va">toyME</span><span class="op">)</span>, <span class="co"># use the molecule extent to define the boundary extent</span></span>
+<span>  path <span class="op">=</span> <span class="va">segMask</span>, assayName <span class="op">=</span> <span class="st">"BIDcell_segmentation"</span>,</span>
+<span>  sample_id <span class="op">=</span> <span class="st">"sample1"</span>, background_value <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">toyME</span></span>
+<span><span class="co">#&gt; class:  MoleculeExperiment </span></span>
+<span><span class="co">#&gt; 2 samples: sample1 sample2 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; @molecules contents: </span></span>
+<span><span class="co">#&gt; -detected assay:</span></span>
+<span><span class="co">#&gt; Location range across all samples in assay "detected": [0,1] x [0,0.95]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; @boundaries contents:</span></span>
+<span><span class="co">#&gt; -cell:</span></span>
+<span><span class="co">#&gt; 3 unique segment IDs: cell1 cell2 cell3 cell4 ...</span></span>
+<span><span class="co">#&gt; -BIDcell_segmentation:</span></span>
+<span><span class="co">#&gt; 63 unique segment IDs: 1 2 3 4 5 6 ...</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="use-case-2-from-machines-output-directory-to-me-object">Use case 2: from machine’s output directory to ME object<a class="anchor" aria-label="anchor" href="#use-case-2-from-machines-output-directory-to-me-object"></a>
 </h4>
-<p>The MoleculeExperiment package also provides functions to directly work with the directories containing output files of commonly used technologies. This is especially useful to work with data from multiple samples. Here we provide convenience functions to read in data from Xenium (10X Genomics), CosMx (Nanostring) and Merscope (Vizgen).</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p>The MoleculeExperiment package also provides functions to directly
+work with the directories containing output files of commonly used
+technologies. This is especially useful to work with data from multiple
+samples. Here we provide convenience functions to read in data from
+Xenium (10X Genomics), CosMx (Nanostring) and Merscope (Vizgen).</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span>
 <span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">repoDir</span>, <span class="st">"/xenium_V1_FF_Mouse_Brain"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">me</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readXenium.html">readXenium</a></span><span class="op">(</span><span class="va">repoDir</span>,</span>
-<span>                  keepCols <span class="op">=</span> <span class="st">"essential"</span>,</span>
-<span>                  addBoundaries <span class="op">=</span> <span class="st">"cell"</span><span class="op">)</span></span>
+<span>  keepCols <span class="op">=</span> <span class="st">"essential"</span>,</span>
+<span>  addBoundaries <span class="op">=</span> <span class="st">"cell"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">me</span></span>
 <span><span class="co">#&gt; class:  MoleculeExperiment </span></span>
 <span><span class="co">#&gt; 2 samples: sample1 sample2 </span></span>
@@ -307,54 +403,81 @@
 <span><span class="co">#&gt; @boundaries contents:</span></span>
 <span><span class="co">#&gt; -cell:</span></span>
 <span><span class="co">#&gt; 7 unique segment IDs: 67500 67512 67515 67521 67527 ...</span></span></code></pre></div>
-<p>readXenium() standardises the transcript and boundary information such that the column names are consistent across technologies when handling ME objects.</p>
-<p>In addition, readXenium() enables the user to decide if they want to keep all data that is vendor-specific (e.g., column with qv score), some columns of interest, or only the essential columns. The latter refers to feature names and locations of the detected transcripts, and segment ids and boundary locations of the segmentation results.</p>
-<p>For CosMx and Merscope data we provide convenience functions that standardise the raw transcripts data into a MoleculeExperiment object. Note that the handling of boundary information for these technologies is under development.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<p>readXenium() standardises the transcript and boundary information
+such that the column names are consistent across technologies when
+handling ME objects.</p>
+<p>In addition, readXenium() enables the user to decide if they want to
+keep all data that is vendor-specific (e.g., column with qv score), some
+columns of interest, or only the essential columns. The latter refers to
+feature names and locations of the detected transcripts, and segment ids
+and boundary locations of the segmentation results.</p>
+<p>For CosMx and Merscope data we provide convenience functions that
+standardise the raw transcripts data into a MoleculeExperiment object
+and additionally read the boundaries included in the standard data
+releases.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span>
 <span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">repoDir</span>, <span class="st">"/nanostring_Lung9_Rep1"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">meCosmx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readCosmx.html">readCosmx</a></span><span class="op">(</span><span class="va">repoDir</span>,</span>
-<span>                      keepCols <span class="op">=</span> <span class="st">"essential"</span><span class="op">)</span></span>
+<span>  keepCols <span class="op">=</span> <span class="st">"essential"</span>,</span>
+<span>  addBoundaries <span class="op">=</span> <span class="st">"cell"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">meCosmx</span></span>
 <span><span class="co">#&gt; class:  MoleculeExperiment </span></span>
-<span><span class="co">#&gt; 1 samples: nanostring_Lung9_Rep1 </span></span>
+<span><span class="co">#&gt; 2 samples: sample_1 sample_2 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; @molecules contents: </span></span>
 <span><span class="co">#&gt; -detected assay:</span></span>
-<span><span class="co">#&gt; Location range across all samples in assay "detected": [1800,1818] x [25200.01,25217.96]</span></span>
+<span><span class="co">#&gt; Location range across all samples in assay "detected": [924.01,3002] x [26290,26398]</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; @boundaries contents: NULL</span></span>
-<span><span class="co"># boundaries not handled yet, as CosMx does not provide cell boundary info</span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; @boundaries contents:</span></span>
+<span><span class="co">#&gt; -cell:</span></span>
+<span><span class="co">#&gt; 98 unique segment IDs: 1 2 3 4 5 6 ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span>
 <span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">repoDir</span>, <span class="st">"/vizgen_HumanOvarianCancerPatient2Slice2"</span><span class="op">)</span></span>
 <span><span class="va">meMerscope</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readMerscope.html">readMerscope</a></span><span class="op">(</span><span class="va">repoDir</span>,</span>
-<span>                          keepCols <span class="op">=</span> <span class="st">"essential"</span><span class="op">)</span></span>
+<span>  keepCols <span class="op">=</span> <span class="st">"essential"</span>,</span>
+<span>  addBoundaries <span class="op">=</span> <span class="st">"cell"</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">meMerscope</span></span>
 <span><span class="co">#&gt; class:  MoleculeExperiment </span></span>
 <span><span class="co">#&gt; 1 samples: vizgen_HumanOvarianCancerPatient2Slice2 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; @molecules contents: </span></span>
 <span><span class="co">#&gt; -detected assay:</span></span>
-<span><span class="co">#&gt; Location range across all samples in assay "detected": [8000,8079.99] x [8000.01,8079.97]</span></span>
+<span><span class="co">#&gt; Location range across all samples in assay "detected": [10219.02,10386.83] x [8350.93,8395.3]</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; @boundaries contents: NULL</span></span>
-<span><span class="co"># boundaries not handled yet, as Merscope has a complex set of multitude</span></span>
-<span><span class="co"># boundary files in hdf5 file format</span></span></code></pre></div>
+<span><span class="co">#&gt; @boundaries contents:</span></span>
+<span><span class="co">#&gt; -cell:</span></span>
+<span><span class="co">#&gt; 24 unique segment IDs: 45862 45865 45872 45873 45882 45887 ...</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
 <h3 id="me-object-structure">ME object structure<a class="anchor" aria-label="anchor" href="#me-object-structure"></a>
 </h3>
-<p>A MoleculeExperiment object contains a <span class="citation">@molecules</span> slot and a <span class="citation">@boundaries</span> slot.</p>
-<p>Both slots have a hierarchical list structure that consists of a nested list, ultimately ending in a data.frame/tibble. Traditional rectangular data structures, like dataframes, redundantly store gene names and sample IDs for the millions of transcripts. In contrast, data in a list enables us to avoid this redundancy and work with objects of smaller size.</p>
+<p>A MoleculeExperiment object contains a <span class="citation">@molecules</span> slot and an optional <span class="citation">@boundaries</span> slot.</p>
+<p>Both slots have a hierarchical list structure that consists of a
+nested list, ultimately ending in a data.frame/tibble. Traditional
+rectangular data structures, like dataframes, redundantly store gene
+names and sample IDs for the millions of transcripts. In contrast, data
+in a list enables us to avoid this redundancy and work with objects of
+smaller size.</p>
 <div class="section level4">
 <h4 id="molecules-slot">molecules slot<a class="anchor" aria-label="anchor" href="#molecules-slot"></a>
 </h4>
-<p>The <span class="citation">@molecules</span> slot contains molecule-level information. The essential data it contains is the feature name (e.g., gene names) and x and y locations of the detected molecules (e.g., transcripts), in each sample. Nevertheless, the user can also decide to keep all molecule metadata (e.g., subcellular location: nucleus/cytoplasm).</p>
-<p>The nested list in the molecules slot has the following hierarchical structure: “assay name” &gt; “sample ID” &gt; “feature name” &gt; dataframe/tibble with X and Y locations (and other additional columns of interest).</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<p>The <span class="citation">@molecules</span> slot contains
+molecule-level information. The essential data it contains is the
+feature name (e.g., gene names) and x and y locations of the detected
+molecules (e.g., transcripts), in each sample. Nevertheless, the user
+can also decide to keep all molecule metadata (e.g., subcellular
+location: nucleus/cytoplasm).</p>
+<p>The nested list in the molecules slot has the following hierarchical
+structure: “assay name” &gt; “sample ID” &gt; “feature name” &gt;
+dataframe/tibble with X and Y locations (and other additional columns of
+interest).</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summarization.html">showMolecules</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 1</span></span>
 <span><span class="co">#&gt;  $ detected:List of 2</span></span>
@@ -370,9 +493,16 @@
 <div class="section level4">
 <h4 id="boundaries-slot">boundaries slot<a class="anchor" aria-label="anchor" href="#boundaries-slot"></a>
 </h4>
-<p>The <span class="citation">@boundaries</span> slot contains information from segmentation analyses (e.g., cell boundaries, or nucleus boundaries).</p>
-<p>The nested list in the boundaries slot has the following hierarchical structure: “assay name” &gt; “sample ID” &gt; “segment ID” &gt; dataframe/tibble with the vertex coordinates defining the boundaries for each segment. For example, if the boundary information is for cells, the assay name can be set to “cell”; or “nucleus” if one is using nucleus boundaries.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<p>The <span class="citation">@boundaries</span> slot contains
+information from segmentation analyses (e.g., cell boundaries, or
+nucleus boundaries).</p>
+<p>The nested list in the boundaries slot has the following hierarchical
+structure: “assay name” &gt; “sample ID” &gt; “segment ID” &gt;
+dataframe/tibble with the vertex coordinates defining the boundaries for
+each segment. For example, if the boundary information is for cells, the
+assay name can be set to “cell”; or “nucleus” if one is using nucleus
+boundaries.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summarization.html">showBoundaries</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 1</span></span>
 <span><span class="co">#&gt;  $ cell:List of 2</span></span>
@@ -390,19 +520,26 @@
 <div class="section level2">
 <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a>
 </h2>
-<p>Here we introduce basic methods to access and manipulate data in an ME object, i.e., getters and setters, respectively.</p>
+<p>Here we introduce basic methods to access and manipulate data in an
+ME object, i.e., getters and setters, respectively.</p>
 <div class="section level3">
 <h3 id="getters">Getters<a class="anchor" aria-label="anchor" href="#getters"></a>
 </h3>
-<p>The main getters are molecules() and boundaries(). NOTE: the output of these methods is the ME nested list, which can be very large on screen. Thus, these getters should be used when wanting to work with the data. To quickly view the slot contents, use showMolecules() and showBoundaries() instead.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<p>The main getters are molecules() and boundaries(). NOTE: the output
+of these methods is the ME nested list, which can be very large on
+screen. Thus, these getters should be used when wanting to work with the
+data. To quickly view the slot contents, use showMolecules() and
+showBoundaries() instead.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># NOTE: output not shown as it is too large</span></span>
 <span><span class="co"># access molecules slot</span></span>
 <span><span class="fu"><a href="../reference/accessors.html">molecules</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span></span>
 <span><span class="co"># access cell boundary information in boundaries slot</span></span>
 <span><span class="fu"><a href="../reference/accessors.html">boundaries</a></span><span class="op">(</span><span class="va">me</span>, <span class="st">"cell"</span><span class="op">)</span></span></code></pre></div>
-<p>For ease of use, these getters have arguments that enable the transformation of the data from a nested ME list format to a data.frame format.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<p>For ease of use, these getters have arguments that enable the
+transformation of the data from a nested ME list format to a data.frame
+format.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/accessors.html">molecules</a></span><span class="op">(</span><span class="va">me</span>, assayName <span class="op">=</span> <span class="st">"detected"</span>, flatten <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,739 × 4</span></span></span>
 <span><span class="co">#&gt;    x_location y_location feature_name  sample_id</span></span>
@@ -418,7 +555,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      <span style="text-decoration: underline;">4</span>901.      <span style="text-decoration: underline;">6</span>415. 2010300C02Rik sample1  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      <span style="text-decoration: underline;">4</span>906.      <span style="text-decoration: underline;">6</span>417. 2010300C02Rik sample1  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,729 more rows</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/accessors.html">boundaries</a></span><span class="op">(</span><span class="va">me</span>, assayName <span class="op">=</span> <span class="st">"cell"</span>, flatten <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 182 × 4</span></span></span>
 <span><span class="co">#&gt;    x_location y_location segment_id sample_id</span></span>
@@ -435,12 +572,12 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      <span style="text-decoration: underline;">4</span>908.      <span style="text-decoration: underline;">6</span>421. 67500      sample1  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 172 more rows</span></span></span></code></pre></div>
 <p>Other getters include: features() and segmentIDs().</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get initial features in sample 1</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/accessors.html">features</a></span><span class="op">(</span><span class="va">me</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "2010300C02Rik" "Acsbg1"        "Adamts2"       "Adamtsl1"     </span></span>
 <span><span class="co">#&gt; [5] "Angpt1"        "Aqp4"</span></span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/accessors.html">segmentIDs</a></span><span class="op">(</span><span class="va">me</span>, <span class="st">"cell"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $sample1</span></span>
 <span><span class="co">#&gt; [1] "67500" "67512" "67515" "67521" "67527"</span></span>
@@ -451,18 +588,24 @@
 <div class="section level3">
 <h3 id="setters">Setters<a class="anchor" aria-label="anchor" href="#setters"></a>
 </h3>
-<p>Main setters include <code>molecules&lt;-</code> and <code>boundaries&lt;-</code>. For example, with <code>boundaries&lt;-</code> one can add new segmentation assay information to the boundaries slot. Here we demonstrate this with the nucleus boundaries.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<p>Main setters include <code>molecules&lt;-</code> and
+<code>boundaries&lt;-</code>. For example, with
+<code>boundaries&lt;-</code> one can add new segmentation assay
+information to the boundaries slot. Here we demonstrate this with the
+nucleus boundaries.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span>
 <span><span class="va">repoDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">repoDir</span>, <span class="st">"/xenium_V1_FF_Mouse_Brain"</span><span class="op">)</span></span>
-<span><span class="va">nucleiMEList</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readBoundaries.html">readBoundaries</a></span><span class="op">(</span>dataDir <span class="op">=</span> <span class="va">repoDir</span>,</span>
-<span>                            pattern <span class="op">=</span> <span class="st">"nucleus_boundaries.csv"</span>,</span>
-<span>                            segmentIDCol <span class="op">=</span> <span class="st">"cell_id"</span>,</span>
-<span>                            xCol <span class="op">=</span> <span class="st">"vertex_x"</span>,</span>
-<span>                            yCol <span class="op">=</span> <span class="st">"vertex_y"</span>,</span>
-<span>                            keepCols <span class="op">=</span> <span class="st">"essential"</span>,</span>
-<span>                            boundariesAssay <span class="op">=</span> <span class="st">"nucleus"</span>,</span>
-<span>                            scaleFactorVector <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">nucleiMEList</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readBoundaries.html">readBoundaries</a></span><span class="op">(</span></span>
+<span>  dataDir <span class="op">=</span> <span class="va">repoDir</span>,</span>
+<span>  pattern <span class="op">=</span> <span class="st">"nucleus_boundaries.csv"</span>,</span>
+<span>  segmentIDCol <span class="op">=</span> <span class="st">"cell_id"</span>,</span>
+<span>  xCol <span class="op">=</span> <span class="st">"vertex_x"</span>,</span>
+<span>  yCol <span class="op">=</span> <span class="st">"vertex_y"</span>,</span>
+<span>  keepCols <span class="op">=</span> <span class="st">"essential"</span>,</span>
+<span>  boundariesAssay <span class="op">=</span> <span class="st">"nucleus"</span>,</span>
+<span>  scaleFactorVector <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/accessors.html">boundaries</a></span><span class="op">(</span><span class="va">me</span>, <span class="st">"nucleus"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">nucleiMEList</span></span>
 <span><span class="va">me</span> <span class="co"># note the addition of the nucleus boundaries to the boundaries slot</span></span>
@@ -478,8 +621,9 @@
 <span><span class="co">#&gt; 7 unique segment IDs: 67500 67512 67515 67521 67527 ...</span></span>
 <span><span class="co">#&gt; -nucleus:</span></span>
 <span><span class="co">#&gt; 5 unique segment IDs: 67500 67512 67515 67521 67527 ...</span></span></code></pre></div>
-<p>The additional boundaries can be accessed, e.g. for visualisation.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<p>The additional boundaries can be accessed, e.g. for
+visualisation.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plotting-functions.html">ggplot_me</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="co"># add cell segments and colour by cell id</span></span>
 <span>  <span class="fu"><a href="../reference/plotting-functions.html">geom_polygon_me</a></span><span class="op">(</span><span class="va">me</span>, byFill <span class="op">=</span> <span class="st">"segment_id"</span>, colour <span class="op">=</span> <span class="st">"black"</span>, alpha <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span></span>
@@ -489,25 +633,30 @@
 <span>  <span class="fu"><a href="../reference/plotting-functions.html">geom_polygon_me</a></span><span class="op">(</span><span class="va">me</span>, assayName <span class="op">=</span> <span class="st">"nucleus"</span>, fill <span class="op">=</span> <span class="cn">NA</span>, colour <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="co"># zoom in to selected patch area</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4900</span>, <span class="fl">4919.98</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6400.02</span>, <span class="fl">6420</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="MoleculeExperiment_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<p><img src="MoleculeExperiment_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="from-moleculeexperiment-to-spatialexperiment">From MoleculeExperiment to SpatialExperiment<a class="anchor" aria-label="anchor" href="#from-moleculeexperiment-to-spatialexperiment"></a>
 </h2>
-<p>If one is interested in continuing downstream analysis at the cell-level, the MoleculeExperiment package also provides a convenience function, countMolecules(), that enables the transition from a MoleculeExperiment object to a SpatialExperiment object. With this functionality, it is possible to use already existing methods for cell-level data analysis.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<p>If one is interested in continuing downstream analysis at the
+cell-level, the MoleculeExperiment package also provides a convenience
+function, countMolecules(), that enables the transition from a
+MoleculeExperiment object to a SpatialExperiment object. With this
+functionality, it is possible to use already existing methods for
+cell-level data analysis.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/countMolecules.html">countMolecules</a></span><span class="op">(</span><span class="va">me</span>, boundariesAssay <span class="op">=</span> <span class="st">"nucleus"</span><span class="op">)</span></span>
 <span><span class="va">spe</span></span>
 <span><span class="co">#&gt; class: SpatialExperiment </span></span>
-<span><span class="co">#&gt; dim: 178 9 </span></span>
+<span><span class="co">#&gt; dim: 178 10 </span></span>
 <span><span class="co">#&gt; metadata(0):</span></span>
 <span><span class="co">#&gt; assays(1): counts</span></span>
 <span><span class="co">#&gt; rownames(178): 2010300C02Rik Acsbg1 ... Zfp536 Zfpm2</span></span>
 <span><span class="co">#&gt; rowData names(0):</span></span>
-<span><span class="co">#&gt; colnames(9): sample1.67500 sample1.67512 ... sample2.65055</span></span>
+<span><span class="co">#&gt; colnames(10): sample1.67500 sample1.67512 ... sample2.65063</span></span>
 <span><span class="co">#&gt;   sample2.65064</span></span>
-<span><span class="co">#&gt; colData names(4): sample_id x_location y_location cell_id</span></span>
+<span><span class="co">#&gt; colData names(4): sample_id cell_id x_location y_location</span></span>
 <span><span class="co">#&gt; reducedDimNames(1): spatial</span></span>
 <span><span class="co">#&gt; mainExpName: NULL</span></span>
 <span><span class="co">#&gt; altExpNames(0):</span></span>
@@ -515,81 +664,163 @@
 <span><span class="co">#&gt; imgData names(0):</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="case-study-moleculeexperiment-and-napari">Case Study: MoleculeExperiment and napari<a class="anchor" aria-label="anchor" href="#case-study-moleculeexperiment-and-napari"></a>
+</h2>
+<p>Load the demonstration data, which includes molecules for 2
+genes.</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">small_me</span><span class="op">)</span></span></code></pre></div>
+<p>Read in virtual dissection CSV file, exported from napari
+(screenshot), of the morphology image.</p>
+<div class="float">
+<img src="napari_screenshot.png" alt="screenshot of napari for virtual dissection"><div class="figcaption">screenshot of napari for virtual
+dissection</div>
+</div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bds_colours</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#aa0000ff"</span>, <span class="st">"#ffaaffff"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Region 1"</span>, <span class="st">"Region 2"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/tiny_brain_shape2.csv"</span>, package <span class="op">=</span> <span class="st">"MoleculeExperiment"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">bds_shape_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">file_path</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">bds_shape_raw</span><span class="op">$</span><span class="va">sample_id</span> <span class="op">&lt;-</span> <span class="st">"xenium_tiny_subset"</span></span>
+<span><span class="va">bds_shape_raw</span><span class="op">$</span><span class="va">regionName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">bds_colours</span><span class="op">)</span><span class="op">[</span><span class="va">bds_shape_raw</span><span class="op">$</span><span class="va">index</span> <span class="op">+</span> <span class="fl">1</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">bds_shape</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dataframeToMEList.html">dataframeToMEList</a></span><span class="op">(</span><span class="va">bds_shape_raw</span>,</span>
+<span>  dfType <span class="op">=</span> <span class="st">"boundaries"</span>,</span>
+<span>  assayName <span class="op">=</span> <span class="st">"virtualDissection"</span>,</span>
+<span>  sampleCol <span class="op">=</span> <span class="st">"sample_id"</span>,</span>
+<span>  factorCol <span class="op">=</span> <span class="st">"regionName"</span>,</span>
+<span>  xCol <span class="op">=</span> <span class="st">"axis.1"</span>,</span>
+<span>  yCol <span class="op">=</span> <span class="st">"axis.0"</span>,</span>
+<span>  scaleFactor <span class="op">=</span> <span class="fl">0.2125</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/accessors.html">boundaries</a></span><span class="op">(</span><span class="va">small_me</span>, <span class="st">"virtualDissection"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">bds_shape</span></span></code></pre></div>
+<p>We can plot the resulting MoleculeExperiment using the following
+code.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/plotting-functions.html">geom_point_me</a></span><span class="op">(</span></span>
+<span>    <span class="va">small_me</span>,</span>
+<span>    assayName <span class="op">=</span> <span class="st">"detected"</span>, byColour <span class="op">=</span> <span class="st">"feature_name"</span>, size <span class="op">=</span> <span class="fl">0.2</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/plotting-functions.html">geom_polygon_me</a></span><span class="op">(</span></span>
+<span>    <span class="va">small_me</span>,</span>
+<span>    assayName <span class="op">=</span> <span class="st">"cell"</span>, fill <span class="op">=</span> <span class="cn">NA</span>, colour <span class="op">=</span> <span class="st">"grey50"</span>, size <span class="op">=</span> <span class="fl">0.1</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/plotting-functions.html">geom_polygon_me</a></span><span class="op">(</span></span>
+<span>    <span class="va">small_me</span>,</span>
+<span>    assayName <span class="op">=</span> <span class="st">"nucleus"</span>, fill <span class="op">=</span> <span class="cn">NA</span>, colour <span class="op">=</span> <span class="st">"black"</span>, size <span class="op">=</span> <span class="fl">0.1</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/plotting-functions.html">geom_polygon_me</a></span><span class="op">(</span></span>
+<span>    <span class="va">small_me</span>,</span>
+<span>    assayName <span class="op">=</span> <span class="st">"virtualDissection"</span>, byFill <span class="op">=</span> <span class="st">"segment_id"</span>, alpha <span class="op">=</span> <span class="fl">0.3</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_reverse</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.ticks <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">bds_colours</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="cn">NULL</span></span>
+<span><span class="va">g</span></span></code></pre></div>
+<p><img src="MoleculeExperiment_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
+<p>Now that we have added the virtual dissection boundaries, we can use
+countMolecules to generate psuedobulk expressions over these
+regions.</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">spe</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/countMolecules.html">countMolecules</a></span><span class="op">(</span></span>
+<span>  <span class="va">small_me</span>, boundariesAssay <span class="op">=</span> <span class="st">"virtualDissection"</span><span class="op">)</span></span>
+<span><span class="va">spe</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="sessioninfo">SessionInfo<a class="anchor" aria-label="anchor" href="#sessioninfo"></a>
 </h2>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; R version 4.2.1 (2022-06-23)</span></span>
+<span><span class="co">#&gt; R version 4.3.1 (2023-06-16)</span></span>
 <span><span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
-<span><span class="co">#&gt; Running under: Debian GNU/Linux 11 (bullseye)</span></span>
+<span><span class="co">#&gt; Running under: EndeavourOS</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Matrix products: default</span></span>
-<span><span class="co">#&gt; BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3</span></span>
-<span><span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.13.so</span></span>
+<span><span class="co">#&gt; BLAS:   /usr/lib/libblas.so.3.11.0 </span></span>
+<span><span class="co">#&gt; LAPACK: /usr/lib/liblapack.so.3.11.0</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; locale:</span></span>
-<span><span class="co">#&gt;  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span></span>
-<span><span class="co">#&gt;  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   </span></span>
-<span><span class="co">#&gt;  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          </span></span>
-<span><span class="co">#&gt; [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   </span></span>
+<span><span class="co">#&gt;  [1] LC_CTYPE=en_AU.UTF-8       LC_NUMERIC=C              </span></span>
+<span><span class="co">#&gt;  [3] LC_TIME=en_AU.UTF-8        LC_COLLATE=en_AU.UTF-8    </span></span>
+<span><span class="co">#&gt;  [5] LC_MONETARY=en_AU.UTF-8    LC_MESSAGES=en_AU.UTF-8   </span></span>
+<span><span class="co">#&gt;  [7] LC_PAPER=en_AU.UTF-8       LC_NAME=C                 </span></span>
+<span><span class="co">#&gt;  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
+<span><span class="co">#&gt; [11] LC_MEASUREMENT=en_AU.UTF-8 LC_IDENTIFICATION=C       </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; time zone: Australia/Sydney</span></span>
+<span><span class="co">#&gt; tzcode source: system (glibc)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; attached base packages:</span></span>
 <span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt; [1] ggplot2_3.4.2             MoleculeExperiment_0.99.6</span></span>
-<span><span class="co">#&gt; [3] BiocStyle_2.26.0         </span></span>
+<span><span class="co">#&gt; [1] ggplot2_3.4.2            MoleculeExperiment_1.1.1 BiocStyle_2.28.0        </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
-<span><span class="co">#&gt;  [1] bitops_1.0-7                matrixStats_0.63.0         </span></span>
-<span><span class="co">#&gt;  [3] fs_1.6.2                    bit64_4.0.5                </span></span>
-<span><span class="co">#&gt;  [5] rprojroot_2.0.3             GenomeInfoDb_1.34.9        </span></span>
-<span><span class="co">#&gt;  [7] tools_4.2.1                 bslib_0.4.2                </span></span>
-<span><span class="co">#&gt;  [9] utf8_1.2.3                  R6_2.5.1                   </span></span>
-<span><span class="co">#&gt; [11] HDF5Array_1.26.0            BiocGenerics_0.44.0        </span></span>
-<span><span class="co">#&gt; [13] colorspace_2.1-0            rhdf5filters_1.10.1        </span></span>
-<span><span class="co">#&gt; [15] withr_2.5.0                 tidyselect_1.2.0           </span></span>
-<span><span class="co">#&gt; [17] bit_4.0.5                   compiler_4.2.1             </span></span>
-<span><span class="co">#&gt; [19] textshaping_0.3.6           cli_3.6.1                  </span></span>
-<span><span class="co">#&gt; [21] Biobase_2.58.0              desc_1.4.2                 </span></span>
-<span><span class="co">#&gt; [23] DelayedArray_0.24.0         labeling_0.4.2             </span></span>
-<span><span class="co">#&gt; [25] bookdown_0.33               sass_0.4.5                 </span></span>
-<span><span class="co">#&gt; [27] scales_1.2.1                pkgdown_2.0.7              </span></span>
-<span><span class="co">#&gt; [29] systemfonts_1.0.4           stringr_1.5.0              </span></span>
-<span><span class="co">#&gt; [31] digest_0.6.31               SpatialExperiment_1.8.1    </span></span>
-<span><span class="co">#&gt; [33] rmarkdown_2.21              R.utils_2.12.2             </span></span>
-<span><span class="co">#&gt; [35] XVector_0.38.0              pkgconfig_2.0.3            </span></span>
-<span><span class="co">#&gt; [37] htmltools_0.5.5             sparseMatrixStats_1.10.0   </span></span>
-<span><span class="co">#&gt; [39] MatrixGenerics_1.10.0       limma_3.54.2               </span></span>
-<span><span class="co">#&gt; [41] fastmap_1.1.1               highr_0.10                 </span></span>
-<span><span class="co">#&gt; [43] rlang_1.1.0                 DelayedMatrixStats_1.20.0  </span></span>
-<span><span class="co">#&gt; [45] jquerylib_0.1.4             farver_2.1.1               </span></span>
-<span><span class="co">#&gt; [47] generics_0.1.3              jsonlite_1.8.4             </span></span>
-<span><span class="co">#&gt; [49] BiocParallel_1.32.6         dplyr_1.1.1                </span></span>
-<span><span class="co">#&gt; [51] R.oo_1.25.0                 RCurl_1.98-1.12            </span></span>
-<span><span class="co">#&gt; [53] magrittr_2.0.3              scuttle_1.8.4              </span></span>
-<span><span class="co">#&gt; [55] GenomeInfoDbData_1.2.9      Matrix_1.5-4               </span></span>
-<span><span class="co">#&gt; [57] Rcpp_1.0.10                 munsell_0.5.0              </span></span>
-<span><span class="co">#&gt; [59] S4Vectors_0.36.2            Rhdf5lib_1.20.0            </span></span>
-<span><span class="co">#&gt; [61] fansi_1.0.4                 lifecycle_1.0.3            </span></span>
-<span><span class="co">#&gt; [63] R.methodsS3_1.8.2           terra_1.7-29               </span></span>
-<span><span class="co">#&gt; [65] stringi_1.7.12              yaml_2.3.7                 </span></span>
-<span><span class="co">#&gt; [67] edgeR_3.40.2                SummarizedExperiment_1.28.0</span></span>
-<span><span class="co">#&gt; [69] zlibbioc_1.44.0             rhdf5_2.42.0               </span></span>
-<span><span class="co">#&gt; [71] grid_4.2.1                  parallel_4.2.1             </span></span>
-<span><span class="co">#&gt; [73] dqrng_0.3.0                 lattice_0.21-8             </span></span>
-<span><span class="co">#&gt; [75] beachmat_2.14.2             magick_2.7.4               </span></span>
-<span><span class="co">#&gt; [77] locfit_1.5-9.7              knitr_1.42                 </span></span>
-<span><span class="co">#&gt; [79] pillar_1.9.0                GenomicRanges_1.50.2       </span></span>
-<span><span class="co">#&gt; [81] rjson_0.2.21                codetools_0.2-18           </span></span>
-<span><span class="co">#&gt; [83] stats4_4.2.1                glue_1.6.2                 </span></span>
-<span><span class="co">#&gt; [85] evaluate_0.20               data.table_1.14.8          </span></span>
-<span><span class="co">#&gt; [87] BiocManager_1.30.20         vctrs_0.6.2                </span></span>
-<span><span class="co">#&gt; [89] gtable_0.3.3                purrr_1.0.1                </span></span>
-<span><span class="co">#&gt; [91] cachem_1.0.7                xfun_0.38                  </span></span>
-<span><span class="co">#&gt; [93] DropletUtils_1.18.1         ragg_1.2.5                 </span></span>
-<span><span class="co">#&gt; [95] SingleCellExperiment_1.20.1 tibble_3.2.1               </span></span>
-<span><span class="co">#&gt; [97] memoise_2.0.1               IRanges_2.32.0</span></span></code></pre></div>
+<span><span class="co">#&gt;   [1] bitops_1.0-7                rlang_1.1.1                </span></span>
+<span><span class="co">#&gt;   [3] magrittr_2.0.3              matrixStats_1.0.0          </span></span>
+<span><span class="co">#&gt;   [5] compiler_4.3.1              DelayedMatrixStats_1.22.1  </span></span>
+<span><span class="co">#&gt;   [7] png_0.1-8                   systemfonts_1.0.4          </span></span>
+<span><span class="co">#&gt;   [9] fftwtools_0.9-11            vctrs_0.6.3                </span></span>
+<span><span class="co">#&gt;  [11] stringr_1.5.0               pkgconfig_2.0.3            </span></span>
+<span><span class="co">#&gt;  [13] SpatialExperiment_1.10.0    crayon_1.5.2               </span></span>
+<span><span class="co">#&gt;  [15] fastmap_1.1.1               magick_2.7.4               </span></span>
+<span><span class="co">#&gt;  [17] XVector_0.40.0              scuttle_1.10.1             </span></span>
+<span><span class="co">#&gt;  [19] labeling_0.4.2              utf8_1.2.3                 </span></span>
+<span><span class="co">#&gt;  [21] rmarkdown_2.23              ragg_1.2.5                 </span></span>
+<span><span class="co">#&gt;  [23] purrr_1.0.1                 bit_4.0.5                  </span></span>
+<span><span class="co">#&gt;  [25] xfun_0.39                   zlibbioc_1.46.0            </span></span>
+<span><span class="co">#&gt;  [27] cachem_1.0.8                beachmat_2.16.0            </span></span>
+<span><span class="co">#&gt;  [29] GenomeInfoDb_1.36.1         jsonlite_1.8.7             </span></span>
+<span><span class="co">#&gt;  [31] highr_0.10                  rhdf5filters_1.12.1        </span></span>
+<span><span class="co">#&gt;  [33] DelayedArray_0.26.3         Rhdf5lib_1.22.0            </span></span>
+<span><span class="co">#&gt;  [35] BiocParallel_1.34.2         jpeg_0.1-10                </span></span>
+<span><span class="co">#&gt;  [37] tiff_0.1-11                 terra_1.7-39               </span></span>
+<span><span class="co">#&gt;  [39] parallel_4.3.1              R6_2.5.1                   </span></span>
+<span><span class="co">#&gt;  [41] bslib_0.5.0                 stringi_1.7.12             </span></span>
+<span><span class="co">#&gt;  [43] limma_3.56.2                GenomicRanges_1.52.0       </span></span>
+<span><span class="co">#&gt;  [45] jquerylib_0.1.4             Rcpp_1.0.10                </span></span>
+<span><span class="co">#&gt;  [47] bookdown_0.34               SummarizedExperiment_1.30.2</span></span>
+<span><span class="co">#&gt;  [49] knitr_1.43                  R.utils_2.12.2             </span></span>
+<span><span class="co">#&gt;  [51] IRanges_2.34.1              Matrix_1.5-4.1             </span></span>
+<span><span class="co">#&gt;  [53] tidyselect_1.2.0            abind_1.4-5                </span></span>
+<span><span class="co">#&gt;  [55] yaml_2.3.7                  EBImage_4.42.0             </span></span>
+<span><span class="co">#&gt;  [57] codetools_0.2-19            lattice_0.21-8             </span></span>
+<span><span class="co">#&gt;  [59] tibble_3.2.1                Biobase_2.60.0             </span></span>
+<span><span class="co">#&gt;  [61] withr_2.5.0                 evaluate_0.21              </span></span>
+<span><span class="co">#&gt;  [63] desc_1.4.2                  pillar_1.9.0               </span></span>
+<span><span class="co">#&gt;  [65] BiocManager_1.30.21         MatrixGenerics_1.12.2      </span></span>
+<span><span class="co">#&gt;  [67] stats4_4.3.1                generics_0.1.3             </span></span>
+<span><span class="co">#&gt;  [69] rprojroot_2.0.3             RCurl_1.98-1.12            </span></span>
+<span><span class="co">#&gt;  [71] S4Vectors_0.38.1            sparseMatrixStats_1.12.1   </span></span>
+<span><span class="co">#&gt;  [73] munsell_0.5.0               scales_1.2.1               </span></span>
+<span><span class="co">#&gt;  [75] glue_1.6.2                  tools_4.3.1                </span></span>
+<span><span class="co">#&gt;  [77] data.table_1.14.8           locfit_1.5-9.8             </span></span>
+<span><span class="co">#&gt;  [79] fs_1.6.2                    rhdf5_2.44.0               </span></span>
+<span><span class="co">#&gt;  [81] grid_4.3.1                  DropletUtils_1.20.0        </span></span>
+<span><span class="co">#&gt;  [83] edgeR_3.42.4                colorspace_2.1-0           </span></span>
+<span><span class="co">#&gt;  [85] SingleCellExperiment_1.22.0 GenomeInfoDbData_1.2.10    </span></span>
+<span><span class="co">#&gt;  [87] HDF5Array_1.28.1            cli_3.6.1                  </span></span>
+<span><span class="co">#&gt;  [89] textshaping_0.3.6           fansi_1.0.4                </span></span>
+<span><span class="co">#&gt;  [91] S4Arrays_1.0.4              dplyr_1.1.2                </span></span>
+<span><span class="co">#&gt;  [93] gtable_0.3.3                R.methodsS3_1.8.2          </span></span>
+<span><span class="co">#&gt;  [95] sass_0.4.6                  digest_0.6.32              </span></span>
+<span><span class="co">#&gt;  [97] BiocGenerics_0.46.0         dqrng_0.3.0                </span></span>
+<span><span class="co">#&gt;  [99] farver_2.1.1                rjson_0.2.21               </span></span>
+<span><span class="co">#&gt; [101] htmlwidgets_1.6.2           memoise_2.0.1              </span></span>
+<span><span class="co">#&gt; [103] htmltools_0.5.5             pkgdown_2.0.7              </span></span>
+<span><span class="co">#&gt; [105] R.oo_1.25.0                 lifecycle_1.0.3            </span></span>
+<span><span class="co">#&gt; [107] bit64_4.0.5</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
