@@ -391,7 +391,7 @@ ggplot_me() +
   # add cell segments and colour by cell id
   geom_polygon_me(me, byFill = "segment_id", colour = "black", alpha = 0.1) +
   # add molecule points and colour by feature name
-  geom_point_me(me, byColour = "feature_name", size = 0.1) +
+  geom_point_me(me, byColour = "feature_id", size = 0.1) +
   # add nuclei segments and colour the border with red
   geom_polygon_me(me, assayName = "nucleus", fill = NA, colour = "red") +
   # zoom in to selected patch area
@@ -453,7 +453,7 @@ We can plot the resulting MoleculeExperiment using the following code.
 g <- ggplot() +
   geom_point_me(
     small_me,
-    assayName = "detected", byColour = "feature_name", size = 0.2
+    assayName = "detected", byColour = "feature_id", size = 0.2
   ) +
   geom_polygon_me(
     small_me,

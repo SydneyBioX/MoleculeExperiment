@@ -12,7 +12,7 @@
 #' "transcripts.csv". In contrast, in Cosmx data, the pattern would be
 #' "tx_file".
 #' @param featureCol Character string specifying the name of the column with
-#' feature names. For example, "feature_id" in xenium transcripts.csv files.
+#' feature names. For example, "feature_name" in xenium transcripts.csv files.
 #' @param xCol Character string specifying the name of the column with the x
 #' locations of the transcripts.
 #' @param yCol Character string specifying the name of the column with the y
@@ -110,7 +110,7 @@ readMolecules <- function(dataDir,
 
         # standardise data format to ME list
         # goal = reduce redundancy and save storage space
-        mol_n[[f]] <- .standardise_to_list(mol_df, cols, "feature_id")
+        mol_n[[f]] <- .standardise_to_list(mol_df, cols, "feature_name")
     }
 
     # specify sample_ids

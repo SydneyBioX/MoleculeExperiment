@@ -37,7 +37,7 @@ readXenium <- function(dataDir,
     # create MoleculeExperiment object
     me <- readMolecules(dataDir = dataDir,
                         pattern = "transcripts.csv",
-                        featureCol = "feature_id",
+                        featureCol = "feature_name",
                         xCol = "x_location",
                         yCol = "y_location",
                         keepCols = keepCols)
