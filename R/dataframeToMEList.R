@@ -4,7 +4,7 @@
 #' for input to a MoleculeExperiment object.
 #' @param df A data.frame containing the transcript information or the
 #' boundary information. NOTE: this dataframe should, at a minimum, have the
-#' following 4 columns: sample_id, factorCol (e.g., feature_name in
+#' following 4 columns: sample_id, factorCol (e.g., feature_id in
 #' transcripts, or cell_id in boundaries), x_location and y_location.
 #' @param dfType Character string specifying contents of the dataframe. Can be
 #' either "molecules" or "boundaries".
@@ -14,7 +14,7 @@
 #' sample id.
 #' @param factorCol Character string specifying the name of the column with the
 #' factors with which to group the data in the lists. When working with
-#' molecules, this column would be e.g., "feature_name" in xenium. When working
+#' molecules, this column would be e.g., "feature_id" in xenium. When working
 #' with boundaries, this column would be e.g., "cell_id" in xenium.
 #' @param xCol Character string specifying the name of the column with
 #' global x coordinates.
@@ -94,7 +94,7 @@ dataframeToMEList <- function(df,
 
     if (dfType == "molecules") {
         ls <- lapply(sample_level, .standardise_to_list,
-                            cols = setdiff(cols, "sample_id"), "feature_name")
+                            cols = setdiff(cols, "sample_id"), "feature_id")
     } else if (dfType == "boundaries") {
         ls <- lapply(sample_level, .standardise_to_list,
                             cols = setdiff(cols, "sample_id"), "segment_id")

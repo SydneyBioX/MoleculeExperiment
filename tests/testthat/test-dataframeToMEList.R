@@ -63,7 +63,7 @@ test_that("standardised column names are returned in the output", {
 
     new_df <- .standardise_cols(molsDf, standard_cols, essential_cols)
     
-    expected <- c("feature_name", "x_location", "y_location")
+    expected <- c("feature_id", "x_location", "y_location")
 
     expect_equal(colnames(new_df[-1]), expected)
     expect_false(isTRUE(all.equal(colnames(new_df), colnames(molsDf))))

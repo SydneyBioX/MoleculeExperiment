@@ -92,7 +92,7 @@ names in the three \"col\" arguments to this function")
 .get_standard_cols <- function(df_type) {
     if (df_type == "molecules") {
         standard_cols <- c(
-            "feature_name",
+            "feature_id",
             "x_location",
             "y_location"
         )
@@ -211,7 +211,7 @@ arguments of this function.")
                 .add_col_to_nested_list_and_flatten(
                     lapply(mol_2, function(mol_1) {
                         .add_col_to_nested_list_and_flatten(
-                            mol_1, "feature_name"
+                            mol_1, "feature_id"
                         )
                     }), "sample_id"
                 )
