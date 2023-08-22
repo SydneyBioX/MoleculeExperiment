@@ -38,7 +38,7 @@
 #' repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 #' simple_me <- readMolecules(repoDir,
 #'     pattern = "transcripts.csv",
-#'     featureCol = "feature_id",
+#'     featureCol = "feature_name",
 #'     xCol = "x_location",
 #'     yCol = "y_location",
 #'     keepCols = "essential"
@@ -110,7 +110,7 @@ readMolecules <- function(dataDir,
 
         # standardise data format to ME list
         # goal = reduce redundancy and save storage space
-        mol_n[[f]] <- .standardise_to_list(mol_df, cols, "feature_name")
+        mol_n[[f]] <- .standardise_to_list(mol_df, cols, "feature_id")
     }
 
     # specify sample_ids

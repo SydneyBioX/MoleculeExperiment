@@ -12,7 +12,7 @@ test_that("missing or invalid arguments raise an error", {
 
     expect_error(readMolecules(repoDir,
                                 pattern = "transcripts.csv",
-                                featureCol = "feature_id",
+                                featureCol = "feature_name",
                                 xCol = "x_location",
                                 yCol = "y_location",
                                 keepCols = 2),
@@ -20,7 +20,7 @@ test_that("missing or invalid arguments raise an error", {
 
     expect_no_error(suppressMessages(readMolecules(repoDir,
                                 pattern = "transcripts.csv",
-                                featureCol = "feature_id",
+                                featureCol = "feature_name",
                                 xCol = "x_location",
                                 yCol = "y_location",
                                 keepCols = "essential")))
@@ -42,7 +42,7 @@ test_that("expected sample directories are identified", {
     suppressMessages(
         simple_me <- readMolecules(repoDir,
                                     pattern = "transcripts.csv",
-                                    featureCol = "feature_id",
+                                    featureCol = "feature_name",
                                     xCol = "x_location",
                                     yCol = "y_location",
                                     keepCols = "essential")
@@ -64,14 +64,14 @@ test_that("only columns of interest to the user are kept", {
 
     essential_me <- readMolecules(repoDir,
                                 pattern = "transcripts.csv",
-                                featureCol = "feature_id",
+                                featureCol = "feature_name",
                                 xCol = "x_location",
                                 yCol = "y_location",
                                 keepCols = "essential")
 
     all_me <- readMolecules(repoDir,
                                 pattern = "transcripts.csv",
-                                featureCol = "feature_id",
+                                featureCol = "feature_name",
                                 xCol = "x_location",
                                 yCol = "y_location",
                                 keepCols = "all")
@@ -104,7 +104,7 @@ test_that("output looks like expected", {
 
     simple_me <- readMolecules(repoDir,
                                 pattern = "transcripts.csv",
-                                featureCol = "feature_id",
+                                featureCol = "feature_name",
                                 xCol = "x_location",
                                 yCol = "y_location",
                                 keepCols = "essential")

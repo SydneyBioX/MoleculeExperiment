@@ -7,7 +7,7 @@ test_that("readXenium wrapper does not change readMolecules behaviour", {
 
     simple_me <- readMolecules(repoDir,
                                 pattern = "transcripts.csv",
-                                featureCol = "feature_id",
+                                featureCol = "feature_name",
                                 xCol = "x_location",
                                 yCol = "y_location",
                                 keepCols = "essential")
