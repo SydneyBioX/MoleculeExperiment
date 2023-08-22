@@ -42,7 +42,7 @@ me <- readXenium(repoDir,
 
 g = ggplot_me() +
         geom_polygon_me(me, byFill = "segment_id", colour = "black") +
-        geom_point_me(me, byColour = "feature_name", size = 0.1) +
+        geom_point_me(me, byColour = "feature_id", size = 0.1) +
         geom_polygon_me(me, assayName = "nucleus", fill = NA, colour = "red")
 g
 }

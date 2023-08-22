@@ -19,7 +19,7 @@ dataframeToMEList(
 \arguments{
 \item{df}{A data.frame containing the transcript information or the
 boundary information. NOTE: this dataframe should, at a minimum, have the
-following 4 columns: sample_id, factorCol (e.g., feature_name in
+following 4 columns: sample_id, factorCol (e.g., feature_id in
 transcripts, or cell_id in boundaries), x_location and y_location.}
 
 \item{dfType}{Character string specifying contents of the dataframe. Can be
@@ -33,7 +33,7 @@ sample id.}
 
 \item{factorCol}{Character string specifying the name of the column with the
 factors with which to group the data in the lists. When working with
-molecules, this column would be e.g., "feature_name" in xenium. When working
+molecules, this column would be e.g., "feature_id" in xenium. When working
 with boundaries, this column would be e.g., "cell_id" in xenium.}
 
 \item{xCol}{Character string specifying the name of the column with

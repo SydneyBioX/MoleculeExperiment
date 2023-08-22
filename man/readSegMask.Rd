@@ -56,7 +56,7 @@ ggplot_me() +
         me,
         assayName = "BIDcell_segmentation", fill = NA, colour = "black"
     ) +
-    geom_point_me(me, byColour = "feature_name", size = 0.1) +
+    geom_point_me(me, byColour = "feature_id", size = 0.1) +
     geom_polygon_me(
         me,
         assayName = "BIDcell_segmentation", fill = NA, colour = "red"
