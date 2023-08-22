@@ -44,6 +44,7 @@
 #' @importFrom terra vect relate buffer
 #' @importFrom Matrix sparseMatrix
 #' @importFrom SpatialExperiment SpatialExperiment
+#' @importFrom stats setNames
 countMolecules <- function(me,
                              moleculesAssay = "detected",
                              boundariesAssay = "cell",
@@ -108,7 +109,7 @@ countMolecules <- function(me,
             dplyr::mutate(cell_id = levels(factors)[factors_int])
         centroids_list[[sample]] <- centroids
 
-        bds <- terra::vect(as.matrix(setNames(
+        bds <- terra::vect(as.matrix(stats::setNames(
             bds_mat, c("factors_int", "x", "y")
         )), type = "polygons")
         bds <- terra::buffer(bds, width = buffer)
