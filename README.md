@@ -4,7 +4,9 @@
 [![Static Badge](https://img.shields.io/badge/BIOCONDUCTOR%20TUTORIAL-%23001F3F)](https://bioconductor.org/packages/release/bioc/vignettes/MoleculeExperiment/inst/doc/MoleculeExperiment.html)
 <!-- badges: end -->
 
-The goal of MoleculeExperiment is to provide functionality for the representation and summarisation of imaging-based spatial transcriptomics data, including 10X Xenium.
+The goal of MoleculeExperiment is to provide functionality for the representation and summarisation of imaging-based spatial transcriptomics data, including 10X Xenium. 
+
+MoleculeExperiment will take you from machine output data directly to an object ready for analyses! 🚀
 
 ## Installation
 
