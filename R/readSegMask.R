@@ -132,7 +132,7 @@ readSegMask <- function(
 
         # instead keep the part containing the largest number of vertices
     geom_df %<>% dplyr::group_by(.data[["part"]], .data[["geom"]]) %>%
-    dplyr::mutate(num = n()) %>%
+    dplyr::mutate(num = dplyr::n()) %>%
     dplyr::ungroup() %>% 
     dplyr::group_by(.data[["geom"]]) %>%
     dplyr::filter(num == max(num))
