@@ -178,7 +178,7 @@ countMolecules <- function(me,
     jnames <- unlist(factors_levels)
     jvals <- match(jnames_all, jnames)
     inames <- sort(features)
-    X <- Matrix::sparseMatrix(ivals, jvals, x = xvals, dimnames = list(
+    X <- Matrix::sparseMatrix(ivals, jvals, x = xvals, dims = c(length(inames),length(jnames)), dimnames = list(
         inames,
         jnames
     ))
