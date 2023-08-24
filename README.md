@@ -1,3 +1,5 @@
+<img src="final_logo_1200_dpi.png" alt="logo" align="right" width="250">
+
 # MoleculeExperiment
 
 <!-- badges: start -->
