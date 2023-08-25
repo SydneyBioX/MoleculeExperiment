@@ -6,4 +6,5 @@
 ^_pkgdown\.yml$
 ^\.github$
 ^data$
-^final_logo_1200_dpi\.png$
+^logo\.pdf$
+^1200_logo\.png$
