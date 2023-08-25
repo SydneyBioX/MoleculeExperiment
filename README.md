@@ -1,4 +1,4 @@
-# MoleculeExperiment <img src="final_logo_1200_dpi.png" alt="logo" align="right" width="250">
+# MoleculeExperiment <img src="1200_logo.png" alt="logo" align="right" width="250">
 
 <!-- badges: start -->
 [![Static Badge](https://img.shields.io/badge/BIOCONDUCTOR%20TUTORIAL-%23001F3F)](https://bioconductor.org/packages/release/bioc/vignettes/MoleculeExperiment/inst/doc/MoleculeExperiment.html)
