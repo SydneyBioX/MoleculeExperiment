@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
 
 The goal of MoleculeExperiment is to provide functionality for the representation and summarisation of imaging-based spatial transcriptomics data, including 10X Xenium.
 
+MoleculeExperiment will take you from machine output data directly to an object ready for analyses! 🚀
+
 We used the following data bundles to inform our readXenium, readCosmx and readMerscope functions respectively. In particular,
 Xenium data corresponds to [3 replicates from fresh frozen mouse brain tissue](https://www.10xgenomics.com/resources/datasets/fresh-frozen-mouse-brain-replicates-1-standard), accessed on 8 February 2023;
 CosMx data corresponds to [human non-small cell lung cancer](https://nanostring.com/resources/smi-ffpe-dataset-lung9-rep1-data/) accessed on 27 February 2023; and
