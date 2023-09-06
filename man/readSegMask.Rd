@@ -25,7 +25,7 @@ c(xmin, xmax, ymin, ymax).}
 \item{assayName}{The name of the segmentation (e.g. cell, or nucleus),
 Default: 'cell'}
 
-\item{background_value}{The value corrisponding to the backgorund in the
+\item{background_value}{The value corresponding to the background in the
 segmentation, Default: NULL}
 
 \item{sample_id}{What the sample should be named, Default: NULL}
