@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="index.html">MoleculeExperiment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,21 +74,18 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="moleculeexperiment">MoleculeExperiment<a class="anchor" aria-label="anchor" href="#moleculeexperiment"></a>
+<div class="page-header"><h1 id="moleculeexperiment-">MoleculeExperiment <img src="https://raw.githubusercontent.com/SydneyBioX/SydneyBioXStickers/main/MoleculeExperiment/MoleculeExperiment.png" align="right" width="250" style="margin-left: 10px;"><a class="anchor" aria-label="anchor" href="#moleculeexperiment-"></a>
 </h1></div>
 <!-- badges: start -->
-<!-- badges: end -->
+
 <p>The goal of MoleculeExperiment is to provide functionality for the representation and summarisation of imaging-based spatial transcriptomics data, including 10X Xenium.</p>
+<p>MoleculeExperiment will take you from machine output data directly to an object ready for analyses! 🚀</p>
+<p>We used the following data bundles to inform our readXenium, readCosmx and readMerscope functions respectively. In particular, Xenium data corresponds to <a href="https://www.10xgenomics.com/resources/datasets/fresh-frozen-mouse-brain-replicates-1-standard" class="external-link">3 replicates from fresh frozen mouse brain tissue</a>, accessed on 8 February 2023; CosMx data corresponds to <a href="https://nanostring.com/resources/smi-ffpe-dataset-lung9-rep1-data/" class="external-link">human non-small cell lung cancer</a> accessed on 27 February 2023; and MERSCOPE data is from <a href="https://console.cloud.google.com/storage/browser/vz-ffpe-showcase/HumanOvarianCancerPatient2Slice2" class="external-link">human ovarian cancer</a> accessed on 27 February 2023.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The latest release of MoleculeExperiment can be installed using:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://bioconductor.github.io/BiocManager/" class="external-link">"BiocManager"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"MoleculeExperiment"</span><span class="op">)</span></span></code></pre></div>
 <p>You can install the development version of MoleculeExperiment from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"SydneyBioX/MoleculeExperiment"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
@@ -133,7 +130,12 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://bioconductor.org/packages/release/bioc/vignettes/MoleculeExperiment/inst/doc/MoleculeExperiment.html" class="external-link"><img src="https://img.shields.io/badge/BIOCONDUCTOR%20TUTORIAL-%23001F3F" alt="name"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>
