@@ -42,7 +42,6 @@ Note that the following 3 system dependencies are required: \*
 libssl-dev \* libmagick++-dev \* libgdal-dev
 
 ### Citation
-Peters Couto et al, 2023, Bioinformatics (accepted)
+Peters Couto et al, 2023, Bioinformatics
 
-[![Static Badge](https://img.shields.io/badge/PREPRINT-darkgreen)](https://www.biorxiv.org/content/10.1101/2023.05.16.541040v1#:~:text=MoleculeExperiment%20enables%20consistent%20infrastructure%20for,transcriptomics%20data%20in%20Bioconductor%20%7C%20bioRxiv)
-
+[![Static Badge](https://img.shields.io/badge/LINK%20TO%20PAPER-darkgreen)](https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btad550/7271181)
