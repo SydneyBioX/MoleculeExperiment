@@ -38,17 +38,20 @@
 #'     keepCols = "essential",
 #'     addBoundaries = "cell"
 #' )
+#' 
+#' # get insight into MoleculeExperiment object (e.g., see assay names)
+#' me
 #'
-#' # get insight into molecules slot
+#' # get insight into molecules slot (e.g., see the assay names)
 #' showMolecules(me)
 #'
 #' # for developers, use molecules() getter
 #' # expect a large output from call below
-#' # molecules(me)
+#' # molecules(me, assayName = "detected")
 #' # alternatively, return rectangular data structure with flatten = TRUE
 #' molecules(me, assayName = "detected", flatten = TRUE)
 #'
-#' # get insight into boundaries slot
+#' # get insight into boundaries slot (e.g., see the assay names)
 #' showBoundaries(me)
 #'
 #' # for developers, use boundaries() getter
@@ -58,10 +61,10 @@
 #' boundaries(me, assayName = "cell", flatten = TRUE)
 #'
 #' # features() getter
-#' features(me)
+#' features(me, assayName = "detected")
 #'
 #' # segmentIDs() getter
-#' segmentIDs(me, "cell")
+#' segmentIDs(me, assayName = "cell")
 #'
 #' # setter example
 #' # read in and standardise nucleus boundaries too
@@ -77,7 +80,7 @@
 #' )
 #'
 #' # use `boundaries<-` setter to add nucleus boundaries to the boundaries slot
-#' boundaries(me, "nucleus") <- nucleiMEList
+#' boundaries(me, assayName = "nucleus") <- nucleiMEList
 #' me
 #' @return A MoleculeExperiment object slot.
 NULL
@@ -85,15 +88,15 @@ NULL
 #' @rdname accessors
 #' @export
 #' @importFrom methods is
-#' @importFrom cli cli_inform
 setMethod("molecules",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object,
-                          assayName = "detected",
+                          assayName = NULL,
                           flatten = FALSE) {
         # check arg validity
+        # retrieve molecules only when correct assay name has been provided
+        .stop_if_null(assayName)
         .check_if_character(assayName)
-
         if (!assayName %in% names(object@molecules)) {
             stop("Assay name specified does not exist in molecules slot.
 Please specify another assay name in the assayName argument.")
@@ -104,13 +107,6 @@ Please specify another assay name in the assayName argument.")
             big_df <- .flatten_molecules(object, assay_name = assayName)
             return(big_df)
         } else {
-            cli::cli_inform(c(
-                "{.emph {assayName}} assay transcripts were retrieved.",
-                "i" = paste0(
-                    "Other transcript assays can be retrieved by",
-                    " specifying the {.var assayName} argument."
-                )
-            ))
             return(object@molecules[assayName])
         }
     }
@@ -123,32 +119,18 @@ setMethod("boundaries",
     signature = signature(object = "MoleculeExperiment"),
     definition = function(object, assayName = NULL, flatten = FALSE) {
         # check arg validity
+        .stop_if_null(assayName)
         .check_if_character(assayName)
 
         # get boundaries slot information
-        if (is.null(assayName)) {
-            warning(
-                "All boundaries assays were returned: ",
-                names(object@boundaries), ". To select only a specific boundary
-subslot, specify the assayName argument."
-            )
-            return(object@boundaries)
-        } else {
-            if (!assayName %in% names(object@boundaries)) {
-                stop("Assay name specified does not exist in boundaries slot.
+        if (!assayName %in% names(object@boundaries)) {
+            stop("Assay name specified does not exist in boundaries slot.
 Please specify another assay name in the assayName argument.")
-            }
+        } else {
             if (flatten) {
                 big_df <- .flatten_boundaries(object, assay_name = assayName)
                 return(big_df)
             } else {
-                cli::cli_inform(c(
-                    "{.emph {assayName}} assay boundaries were retrieved.",
-                    "i" = paste0(
-                        "Other boundary assays can be retrieved by",
-                        " specifying the {.var assayName} argument."
-                    )
-                ))
                 return(object@boundaries[assayName])
             }
         }
@@ -159,9 +141,14 @@ Please specify another assay name in the assayName argument.")
 #' @export
 setMethod("features",
     signature = signature(object = "MoleculeExperiment"),
-    definition = function(object, assayName = "detected") {
+    definition = function(object, assayName = NULL) {
         # check arg validity
+        .stop_if_null(assayName)
         .check_if_character(assayName)
+        if (!assayName %in% names(object@molecules)) {
+            stop("Assay name specified does not exist in molecules slot.
+Please specify another assay name in the assayName argument.")
+        }
 
         # get the features from the molecules slot
         samples <- names(object@molecules[[assayName]])
@@ -169,16 +156,7 @@ setMethod("features",
             names(object@molecules[[assayName]][[s]])
         })
         names(f_list) <- samples
-        # TODO: use a verbosity setting to fix this!!!
         return(f_list)
-        cli::cli_inform(c(
-            " {.emph {assayName}} assay features were retrieved.",
-            "i" = paste0(
-                "To select features from a different assay, specify it ",
-                "assay in the {.var assayName} argument."
-            )
-        ))
-
     }
 )
 
@@ -193,6 +171,10 @@ setMethod("segmentIDs",
 retrieve the unique IDs. For example, the \"cells\" assay for cell boundaries.")
         }
         .check_if_character(assayName)
+        if (!assayName %in% names(object@boundaries)) {
+            stop("Assay name specified does not exist in boundaries slot.
+Please specify another assay name in the assayName argument.")
+        }
 
         # get the segment IDs from the boundaries slot
         samples <- names(object@boundaries[[assayName]])

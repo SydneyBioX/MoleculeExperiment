@@ -51,10 +51,18 @@ countMolecules <- function(me,
                              buffer = 0,
                              matrixOnly = FALSE,
                              nCores = 1) {
-        # check arg validity
+    # check arg validity
     .check_if_me(me)
     .stop_if_null(boundariesAssay, moleculesAssay)
     .check_if_character(boundariesAssay, moleculesAssay)
+    if (!moleculesAssay %in% names(me@molecules)) {
+            stop("Assay name specified does not exist in molecules slot.
+Please specify another assay name in the assayName argument.")
+        }
+    if (!boundariesAssay %in% names(me@boundaries)) {
+            stop("Assay name specified does not exist in boundaries slot.
+Please specify another assay name in the assayName argument.")
+        }
 
     init_mols <- MoleculeExperiment::molecules(me, moleculesAssay)
     init_bds <- MoleculeExperiment::boundaries(me, boundariesAssay)
@@ -66,7 +74,8 @@ countMolecules <- function(me,
                 @boundaries slot.")
     }
     samples <- names(me@molecules[[moleculesAssay]])
-    features <- sort(unique(unlist(MoleculeExperiment::features(me))))
+    features <- sort(unique(unlist(
+                    MoleculeExperiment::features(me, moleculesAssay))))
 
 
     bds_all <- init_bds[[boundariesAssay]]
