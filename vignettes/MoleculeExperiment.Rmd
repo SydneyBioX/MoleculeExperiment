@@ -86,9 +86,7 @@ small patch.
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
-me <- readXenium(repoDir,
-  keepCols = "essential"
-)
+me <- readXenium(repoDir, keepCols = "essential")
 me
 ```
 
@@ -221,7 +219,8 @@ segmentation is required for this alignment.
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 segMask <- paste0(repoDir, "/BIDcell_segmask.tif")
 boundaries(toyME, "BIDcell_segmentation") <- readSegMask(
-  extent(toyME), # use the molecule extent to define the boundary extent
+  # use the molecule extent to define the boundary extent
+  extent(toyME, assayName = "detected"),
   path = segMask, assayName = "BIDcell_segmentation",
   sample_id = "sample1", background_value = 0
 )
@@ -241,10 +240,7 @@ Genomics), CosMx (Nanostring) and Merscope (Vizgen).
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/xenium_V1_FF_Mouse_Brain")
 
-me <- readXenium(repoDir,
-  keepCols = "essential",
-  addBoundaries = "cell"
-)
+me <- readXenium(repoDir, keepCols = "essential", addBoundaries = "cell")
 me
 ```
 
@@ -265,10 +261,7 @@ the boundaries included in the standard data releases.
 repoDir <- system.file("extdata", package = "MoleculeExperiment")
 repoDir <- paste0(repoDir, "/nanostring_Lung9_Rep1")
 
-meCosmx <- readCosmx(repoDir,
-  keepCols = "essential",
-  addBoundaries = "cell"
-)
+meCosmx <- readCosmx(repoDir, keepCols = "essential", addBoundaries = "cell")
 meCosmx
 ```
 
@@ -333,10 +326,10 @@ slot contents, use showMolecules() and showBoundaries() instead.
 
 ```{r, echo=TRUE, results= 'hide'}
 # NOTE: output not shown as it is too large
-# access molecules slot
-molecules(me)
+# access molecules slot (note: assay name needs to be specified)
+molecules(me, assayName = "detected")
 # access cell boundary information in boundaries slot
-boundaries(me, "cell")
+boundaries(me, assayName = "cell")
 ```
 
 For ease of use, these getters have arguments that enable the transformation of
@@ -353,8 +346,8 @@ boundaries(me, assayName = "cell", flatten = TRUE)
 Other getters include: features() and segmentIDs().
 
 ```{r}
-# get initial features in sample 1
-head(features(me)[[1]])
+# get features in sample 1
+features(me, assayName = "detected")[[1]]
 ```
 
 ```{r}
