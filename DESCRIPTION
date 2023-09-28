@@ -34,7 +34,8 @@ Imports:
     cli,
     EBImage,
     rhdf5,
-    BiocParallel
+    BiocParallel,
+    S4Vectors
 Suggests: 
     knitr,
     BiocStyle,
