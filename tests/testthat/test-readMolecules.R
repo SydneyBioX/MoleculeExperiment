@@ -49,11 +49,10 @@ test_that("expected sample directories are identified", {
     )
 
     expect_equal(
-        suppressMessages(
             length(
                 MoleculeExperiment::molecules(
                     simple_me,
-                    assayName = "detected")[["detected"]])),
+                    assayName = "detected")[["detected"]]),
         2)
 }
 )
@@ -77,13 +76,10 @@ test_that("only columns of interest to the user are kept", {
                                 keepCols = "all")
 
     # choose first feature as an example
-    essential_mol_ls <- suppressMessages(
-        MoleculeExperiment::molecules(essential_me)
-    )
+    essential_mol_ls <- MoleculeExperiment::molecules(essential_me,
+                                                        assayName = "detected")
 
-    all_mol_ls <- suppressMessages(
-        MoleculeExperiment::molecules(all_me)
-    )
+    all_mol_ls <- MoleculeExperiment::molecules(all_me, assayName = "detected")
 
     essential_df <- essential_mol_ls[["detected"]][[1]][[1]]
     all_df <- all_mol_ls[["detected"]][[1]][[1]]
@@ -110,9 +106,7 @@ test_that("output looks like expected", {
                                 keepCols = "essential")
 
     nested_ME_ls <- suppressMessages(
-        MoleculeExperiment::molecules(simple_me,
-            assayName = "detected")
-    )
+        MoleculeExperiment::molecules(simple_me, assayName = "detected"))
 
     # should be of ME class
     expect_s4_class(simple_me, "MoleculeExperiment")

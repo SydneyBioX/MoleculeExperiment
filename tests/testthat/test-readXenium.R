@@ -13,8 +13,8 @@ test_that("readXenium wrapper does not change readMolecules behaviour", {
                                 keepCols = "essential")
 
     # compare
-    expect_equal(suppressMessages(molecules(me)),
-                    suppressMessages(molecules(simple_me)))
+    expect_equal(suppressMessages(molecules(me, assayName = "detected")),
+                    suppressMessages(molecules(simple_me, assayName = "detected")))
 }
 )
 
