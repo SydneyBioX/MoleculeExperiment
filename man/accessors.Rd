@@ -17,11 +17,11 @@
 \alias{boundaries<-,MoleculeExperiment-method}
 \title{Accessor functions to work with MoleculeExperiment objects}
 \usage{
-\S4method{molecules}{MoleculeExperiment}(object, assayName = "detected", flatten = FALSE)
+\S4method{molecules}{MoleculeExperiment}(object, assayName = NULL, flatten = FALSE)
 
 \S4method{boundaries}{MoleculeExperiment}(object, assayName = NULL, flatten = FALSE)
 
-\S4method{features}{MoleculeExperiment}(object, assayName = "detected")
+\S4method{features}{MoleculeExperiment}(object, assayName = NULL)
 
 \S4method{segmentIDs}{MoleculeExperiment}(object, assayName = NULL)
 
@@ -73,16 +73,19 @@ me <- readXenium(repoDir,
     addBoundaries = "cell"
 )
 
-# get insight into molecules slot
+# get insight into MoleculeExperiment object (e.g., see assay names)
+me
+
+# get insight into molecules slot (e.g., see the assay names)
 showMolecules(me)
 
 # for developers, use molecules() getter
 # expect a large output from call below
-# molecules(me)
+# molecules(me, assayName = "detected")
 # alternatively, return rectangular data structure with flatten = TRUE
 molecules(me, assayName = "detected", flatten = TRUE)
 
-# get insight into boundaries slot
+# get insight into boundaries slot (e.g., see the assay names)
 showBoundaries(me)
 
 # for developers, use boundaries() getter
@@ -92,10 +95,10 @@ showBoundaries(me)
 boundaries(me, assayName = "cell", flatten = TRUE)
 
 # features() getter
-features(me)
+features(me, assayName = "detected")
 
 # segmentIDs() getter
-segmentIDs(me, "cell")
+segmentIDs(me, assayName = "cell")
 
 # setter example
 # read in and standardise nucleus boundaries too
@@ -111,6 +114,6 @@ nucleiMEList <- readBoundaries(
 )
 
 # use `boundaries<-` setter to add nucleus boundaries to the boundaries slot
-boundaries(me, "nucleus") <- nucleiMEList
+boundaries(me, assayName = "nucleus") <- nucleiMEList
 me
 }

@@ -8,31 +8,31 @@
 \alias{nFeatures}
 \alias{nTranscripts}
 \alias{extent}
+\alias{show,MoleculeExperiment-method}
 \alias{showMolecules,MoleculeExperiment-method}
-\alias{extent,MoleculeExperiment-method}
 \alias{showBoundaries,MoleculeExperiment-method}
+\alias{extent,MoleculeExperiment-method}
 \alias{nFeatures,MoleculeExperiment-method}
 \alias{nTranscripts,MoleculeExperiment-method}
 \title{Summarization methods to get insights into a MoleculeExperiment object}
 \usage{
-\S4method{showMolecules}{MoleculeExperiment}(object)
+\S4method{show}{MoleculeExperiment}(object)
 
-\S4method{extent}{MoleculeExperiment}(object)
+\S4method{showMolecules}{MoleculeExperiment}(object)
 
 \S4method{showBoundaries}{MoleculeExperiment}(object)
 
-\S4method{nFeatures}{MoleculeExperiment}(object, assayName = "detected", perSample = FALSE)
+\S4method{extent}{MoleculeExperiment}(object, assayName = NULL)
 
-\S4method{nTranscripts}{MoleculeExperiment}(object, assayName = "detected", perSample = FALSE)
+\S4method{nFeatures}{MoleculeExperiment}(object)
+
+\S4method{nTranscripts}{MoleculeExperiment}(object)
 }
 \arguments{
 \item{object}{Name of MoleculeExperiment object of interest.}
 
 \item{assayName}{Character string specifying the name of the assay from
 which to view a summary of the contents.}
-
-\item{perSample}{Logical value specifying whether or not to summarize the
-information per sample.}
 }
 \value{
 A MoleculeExperiment object summary.
@@ -43,7 +43,7 @@ MoleculeExperiment object.
 For example, showMolecules and showBoundaries summarise the large nested ME
 list of lists in the molecules and boundaries slots.
 nFeatures and nTranscripts get the numbers of features or transcripts,
-respectively. They can do so across all samples, or per sample.
+respectively.
 }
 \examples{
 # get example data
@@ -58,8 +58,6 @@ showMolecules(me)
 showBoundaries(me)
 
 nFeatures(me)
-nFeatures(me, perSample = TRUE)
 
 nTranscripts(me)
-nTranscripts(me, perSample = TRUE)
 }

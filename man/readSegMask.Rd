@@ -47,7 +47,8 @@ me <- readXenium(data,
     addBoundaries = NULL
 )
 boundaries(me, "BIDcell_segmentation") <- readSegMask(
-    extent(me), # use the molecule extent to define the boundary extent
+    # use the molecule extent to define the boundary extent
+    extent(me, assayName = "detected"),
     path = segMask, assayName = "BIDcell_segmentation",
     sample_id = "sample1", background_value = 0
 )
