@@ -1,3 +1,6 @@
+# MoleculeExperiment v1.1.4 (2023-10-06)
++ show method has been improved, and package is less verbose.
+
 # MoleculeExperiment v1.1.3 (2023-08-22)
 + feature_name is not called feature_id for consistency with segment_id.
 
