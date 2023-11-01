@@ -327,7 +327,7 @@ slot contents, use showMolecules() and showBoundaries() instead.
 ```{r, echo=TRUE, results= 'hide'}
 # NOTE: output not shown as it is too large
 # access molecules slot (note: assay name needs to be specified)
-MoleculeExperiment::molecules(me, assayName = "detected")
+molecules(me, assayName = "detected")
 # access cell boundary information in boundaries slot
 boundaries(me, assayName = "cell")
 ```
@@ -336,7 +336,7 @@ For ease of use, these getters have arguments that enable the transformation of
 the data from a nested ME list format to a data.frame format.
 
 ```{r}
-MoleculeExperiment::molecules(me, assayName = "detected", flatten = TRUE)
+molecules(me, assayName = "detected", flatten = TRUE)
 ```
 
 ```{r}

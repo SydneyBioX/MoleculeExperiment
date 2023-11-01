@@ -17,7 +17,7 @@
 \alias{boundaries<-,MoleculeExperiment-method}
 \title{Accessor functions to work with MoleculeExperiment objects}
 \usage{
-\S4method{molecules}{MoleculeExperiment}(object, assayName = NULL, flatten = FALSE)
+\S4method{molecules}{MoleculeExperiment}(x, assayName = NULL, flatten = FALSE)
 
 \S4method{boundaries}{MoleculeExperiment}(object, assayName = NULL, flatten = FALSE)
 
@@ -25,18 +25,20 @@
 
 \S4method{segmentIDs}{MoleculeExperiment}(object, assayName = NULL)
 
-\S4method{molecules}{MoleculeExperiment}(object, assayName = NULL) <- value
+\S4method{molecules}{MoleculeExperiment}(x, assayName = NULL) <- value
 
 \S4method{boundaries}{MoleculeExperiment}(object, assayName = NULL) <- value
 }
 \arguments{
-\item{object}{The MoleculeExperiment to access.}
+\item{x}{The MoleculeExperiment to access.}
 
 \item{assayName}{Character string specifying the name of the assay from
 which to retrieve or set information in the slot of interest.}
 
 \item{flatten}{Logical value specifying whether to flatten the ME list into
 a data.frame or not. Defaults to FALSE.}
+
+\item{object}{The MoleculeExperiment to access.}
 
 \item{value}{New value to be added to the slot and assay of interest.}
 }

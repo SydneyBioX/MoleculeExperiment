@@ -13,6 +13,7 @@
 #' slot can be accessed with `boundaries<-`.
 #'
 #' @param object The MoleculeExperiment to access.
+#' @param x The MoleculeExperiment to access.
 #' @param assayName Character string specifying the name of the assay from
 #' which to retrieve or set information in the slot of interest.
 #' @param flatten Logical value specifying whether to flatten the ME list into
@@ -38,7 +39,7 @@
 #'     keepCols = "essential",
 #'     addBoundaries = "cell"
 #' )
-#' 
+#'
 #' # get insight into MoleculeExperiment object (e.g., see assay names)
 #' me
 #'
@@ -88,26 +89,27 @@ NULL
 #' @rdname accessors
 #' @export
 #' @importFrom methods is
+#' @importMethodsFrom SpatialExperiment molecules
 setMethod("molecules",
-    signature = signature(object = "MoleculeExperiment"),
-    definition = function(object,
+    signature = signature(x = "MoleculeExperiment"),
+    definition = function(x,
                           assayName = NULL,
                           flatten = FALSE) {
         # check arg validity
         # retrieve molecules only when correct assay name has been provided
         .stop_if_null(assayName)
         .check_if_character(assayName)
-        if (!assayName %in% names(object@molecules)) {
+        if (!assayName %in% names(x@molecules)) {
             stop("Assay name specified does not exist in molecules slot.
 Please specify another assay name in the assayName argument.")
         }
 
         # get molecules slot information
         if (flatten) {
-            big_df <- .flatten_molecules(object, assay_name = assayName)
+            big_df <- .flatten_molecules(x, assay_name = assayName)
             return(big_df)
         } else {
-            return(object@molecules[assayName])
+            return(x@molecules[assayName])
         }
     }
 )
@@ -188,9 +190,10 @@ Please specify another assay name in the assayName argument.")
 
 #' @rdname accessors
 #' @export
+#' @importMethodsFrom SpatialExperiment molecules<-
 setMethod("molecules<-",
-    signature = signature(object = "MoleculeExperiment"),
-    definition = function(object, assayName = NULL, value) {
+    signature = signature(x = "MoleculeExperiment"),
+    definition = function(x, assayName = NULL, value) {
         # check arg validity
         if (is.null(assayName)) {
             stop("No assay name specified in the assayName argument.
@@ -200,9 +203,9 @@ setMethod("molecules<-",
         .check_if_character(assayName)
 
         # add new value to molecules slot
-        object@molecules[assayName] <- value
-        methods::validObject(object)
-        return(object)
+        x@molecules[assayName] <- value
+        methods::validObject(x)
+        return(x)
     }
 )
 

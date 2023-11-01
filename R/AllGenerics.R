@@ -19,14 +19,6 @@ setGeneric("features",
     function(object, ...) standardGeneric("features"))
 
 #' @export
-setGeneric("molecules",
-    function(object, ...) standardGeneric("molecules"))
-
-#' @export
-setGeneric("molecules<-",
-    function(object, ..., value) standardGeneric("molecules<-"))
-
-#' @export
 setGeneric("nFeatures",
     function(object, ...) standardGeneric("nFeatures"))
 
