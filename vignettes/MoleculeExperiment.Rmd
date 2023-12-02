@@ -123,10 +123,10 @@ spe
 Here we demonstrate how to work with an ME object from toy data, representing a 
 scenario where both the detected transcripts information and the boundary 
 information have already been read into R. This requires the standardisation
-of the data with the dataframeToMEList() function.
+of the data with the `dataframeToMEList()` function.
 
-The flexibility of the arguments in dataframeToMEList() enable the creation of
-a standard ME object across dataframes comming from different vendors of
+The flexibility of the arguments in `dataframeToMEList()` enable the creation of
+a standard ME object across dataframes coming from different vendors of
 molecule-based spatial transcriptomics technologies. 
 
 1) Generate a toy transcripts data.frame.
@@ -212,7 +212,7 @@ toyME
 6) Add boundaries from an external segmentation algorithm.
 
 In this example, we use the extent of the molecules of generated for `toyME` to 
-allign the boundaries with the molecules. In general, the extent of the 
+align the boundaries with the molecules. In general, the extent of the 
 segmentation is required for this alignment.
 
 ```{r}
