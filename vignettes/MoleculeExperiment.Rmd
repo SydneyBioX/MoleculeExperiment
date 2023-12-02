@@ -247,11 +247,12 @@ me
 readXenium() standardises the transcript and boundary information such that the
 column names are consistent across technologies when handling ME objects.
 
-In addition, readXenium() enables the user to decide if they want to keep all
-data that is vendor-specific (e.g., column with qv score), some columns of
-interest, or only the essential columns. The latter refers to feature names and
-locations of the detected transcripts, and segment ids and boundary locations of
-the segmentation results.
+In addition, the `keepCols` argument of `readXenium()` enables the user to 
+decide if they want to keep all data that is vendor-specific (e.g., column with 
+qv score), some columns of interest, or only the essential columns. By default, 
+it is set to `essential`, which refers to feature names, x and y locations in 
+the transcripts file, and segment ids, x and y locations for the vertices 
+defining the boundaries in the boundaries file.
 
 For CosMx and Merscope data we provide convenience functions that standardise
 the raw transcripts data into a MoleculeExperiment object and additionally read 
