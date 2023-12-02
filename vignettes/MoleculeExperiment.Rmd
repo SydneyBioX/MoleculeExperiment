@@ -418,7 +418,7 @@ Read in virtual dissection CSV file, exported from napari (screenshot), of the m
 
 ```{r}
 bds_colours <- setNames(
-  c("#aa0000ff", "#ffaaffff"),
+  c("#00ff00ff", "#ffff00ff"),
   c("Region 1", "Region 2")
 )
 
