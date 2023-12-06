@@ -108,8 +108,17 @@ readSegMask <- function(
 
     terra::ext(mask) <- e
 
+    # get the original labels of each segment in the image
+    labels = as.list(terra::as.polygons(mask)[[1]])[[1]]
+    mapping = setNames(labels, seq_len(length(labels)))
+    
     geom_df <- as.data.frame(terra::geom(terra::as.polygons(mask)))
 
+    # change the value of geom to its original label value
+    geom_df %<>% mutate(
+      dplyr::geom = mapping[geom_df$geom]
+    )
+    
     if (!is.null(background_value)) {
         if (is.nan(background_value)) {
             cli::cli_abort(c(
