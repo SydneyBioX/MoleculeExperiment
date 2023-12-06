@@ -115,8 +115,8 @@ readSegMask <- function(
     geom_df <- as.data.frame(terra::geom(terra::as.polygons(mask)))
 
     # change the value of geom to its original label value
-    geom_df %<>% mutate(
-      dplyr::geom = mapping[geom_df$geom]
+    geom_df %<>% dplyr::mutate(
+      cell_id = mapping[geom_df$geom]
     )
     
     if (!is.null(background_value)) {
@@ -129,7 +129,7 @@ readSegMask <- function(
         }
         geom_df %<>%
             dplyr::filter(
-                !.data[["geom"]] == background_value
+                !.data[["cell_id"]] == background_value
             )
     }
     geom_df %<>%
@@ -147,13 +147,14 @@ readSegMask <- function(
     dplyr::group_by(.data[["geom"]]) %>%
     dplyr::filter(num == max(num))
 
-     geom_df %<>% dplyr::ungroup() %>%
-        dplyr::mutate(
-            # create ID col
-            cell_id = dplyr::consecutive_id(
-                .data[["sample_id"]], .data[["geom"]]
-            )
-        )
+     geom_df %<>% dplyr::ungroup() # %>%
+     #   dplyr::mutate(
+     #        # create ID col
+     #        cell_id = dplyr::consecutive_id(
+     #            .data[["sample_id"]], .data[["geom"]]
+     #        )
+     #
+     #   )
 
     dataframeToMEList(
         geom_df,
