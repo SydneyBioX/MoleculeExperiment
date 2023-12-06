@@ -77,6 +77,7 @@ BiocManager::install("MoleculeExperiment")
 ```{r}
 library(MoleculeExperiment)
 library(ggplot2)
+library(EBImage)
 ```
 
 2. Create MoleculeExperiment object with example Xenium data, taken over a 
@@ -230,7 +231,7 @@ toyME
 
 Displayed below is the BIDcell segmentation image added to `toyME` as another boundaries
 
-```{r echo=FALSE, warning=FALSE}
+```{r warning=FALSE}
 BIDcell_segmask_img <- EBImage::readImage(segMask)
 EBImage::display(BIDcell_segmask_img, method = "raster")
 ```
