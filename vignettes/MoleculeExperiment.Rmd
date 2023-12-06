@@ -228,12 +228,29 @@ boundaries(toyME, "BIDcell_segmentation") <- readSegMask(
 toyME
 ```
 
+Displayed below is the BIDcell segmentation image added to `toyME` as another boundaries
+
+```{r echo=FALSE, warning=FALSE}
+BIDcell_segmask_img <- EBImage::readImage(segMask)
+EBImage::display(BIDcell_segmask_img, method = "raster")
+```
+
+Finally, a digital in-situ, with cell boundaries and BIDcell segmentation boundaries (red polygons in sample1) can be plotted.
+
+```{r}
+ggplot_me() + 
+  geom_polygon_me(toyME, assayName = "cell", byFill = "segment_id", colour = "black", alpha = 0.3) + 
+  geom_polygon_me(toyME, assayName = "BIDcell_segmentation", fill = NA, colour = "red" ) + 
+  geom_point_me(toyME, assayName = "detected", byColour = "feature_id", size = 1) +
+  theme_classic()
+```
+
 ### Use case 2: from machine's output directory to ME object
 
-The MoleculeExperiment package also provides functions to directly work with
-the directories containing output files of commonly used technologies. This is
-especially useful to work with data from multiple samples.
-Here we provide convenience functions to read in data from Xenium (10X
+The MoleculeExperiment package also provides functions to directly work with 
+the directories containing output files of commonly used technologies. 
+This is especially useful to work with data from multiple samples. 
+Here we provide convenience functions to read in data from Xenium (10X 
 Genomics), CosMx (Nanostring) and Merscope (Vizgen).
 
 ```{r}
