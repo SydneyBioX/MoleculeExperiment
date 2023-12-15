@@ -77,6 +77,7 @@ BiocManager::install("MoleculeExperiment")
 ```{r}
 library(MoleculeExperiment)
 library(ggplot2)
+library(EBImage)
 ```
 
 2. Create MoleculeExperiment object with example Xenium data, taken over a 
@@ -123,10 +124,10 @@ spe
 Here we demonstrate how to work with an ME object from toy data, representing a 
 scenario where both the detected transcripts information and the boundary 
 information have already been read into R. This requires the standardisation
-of the data with the dataframeToMEList() function.
+of the data with the `dataframeToMEList()` function.
 
-The flexibility of the arguments in dataframeToMEList() enable the creation of
-a standard ME object across dataframes comming from different vendors of
+The flexibility of the arguments in `dataframeToMEList()` enable the creation of
+a standard ME object across dataframes coming from different vendors of
 molecule-based spatial transcriptomics technologies. 
 
 1) Generate a toy transcripts data.frame.
@@ -212,7 +213,7 @@ toyME
 6) Add boundaries from an external segmentation algorithm.
 
 In this example, we use the extent of the molecules of generated for `toyME` to 
-allign the boundaries with the molecules. In general, the extent of the 
+align the boundaries with the molecules. In general, the extent of the 
 segmentation is required for this alignment.
 
 ```{r}
@@ -228,12 +229,29 @@ boundaries(toyME, "BIDcell_segmentation") <- readSegMask(
 toyME
 ```
 
+Displayed below is the BIDcell segmentation image added to `toyME` as another boundaries
+
+```{r warning=FALSE}
+BIDcell_segmask_img <- EBImage::readImage(segMask)
+EBImage::display(BIDcell_segmask_img, method = "raster")
+```
+
+Finally, a digital in-situ, with cell boundaries and BIDcell segmentation boundaries (red polygons in sample1) can be plotted.
+
+```{r}
+ggplot_me() + 
+  geom_polygon_me(toyME, assayName = "cell", byFill = "segment_id", colour = "black", alpha = 0.3) + 
+  geom_polygon_me(toyME, assayName = "BIDcell_segmentation", fill = NA, colour = "red" ) + 
+  geom_point_me(toyME, assayName = "detected", byColour = "feature_id", size = 1) +
+  theme_classic()
+```
+
 ### Use case 2: from machine's output directory to ME object
 
-The MoleculeExperiment package also provides functions to directly work with
-the directories containing output files of commonly used technologies. This is
-especially useful to work with data from multiple samples.
-Here we provide convenience functions to read in data from Xenium (10X
+The MoleculeExperiment package also provides functions to directly work with 
+the directories containing output files of commonly used technologies. 
+This is especially useful to work with data from multiple samples. 
+Here we provide convenience functions to read in data from Xenium (10X 
 Genomics), CosMx (Nanostring) and Merscope (Vizgen).
 
 ```{r}
@@ -247,11 +265,12 @@ me
 readXenium() standardises the transcript and boundary information such that the
 column names are consistent across technologies when handling ME objects.
 
-In addition, readXenium() enables the user to decide if they want to keep all
-data that is vendor-specific (e.g., column with qv score), some columns of
-interest, or only the essential columns. The latter refers to feature names and
-locations of the detected transcripts, and segment ids and boundary locations of
-the segmentation results.
+In addition, the `keepCols` argument of `readXenium()` enables the user to 
+decide if they want to keep all data that is vendor-specific (e.g., column with 
+qv score), some columns of interest, or only the essential columns. By default, 
+it is set to `essential`, which refers to feature names, x and y locations in 
+the transcripts file, and segment ids, x and y locations for the vertices 
+defining the boundaries in the boundaries file.
 
 For CosMx and Merscope data we provide convenience functions that standardise
 the raw transcripts data into a MoleculeExperiment object and additionally read 
@@ -417,7 +436,7 @@ Read in virtual dissection CSV file, exported from napari (screenshot), of the m
 
 ```{r}
 bds_colours <- setNames(
-  c("#aa0000ff", "#ffaaffff"),
+  c("#00ff00ff", "#ffff00ff"),
   c("Region 1", "Region 2")
 )
 
