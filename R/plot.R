@@ -8,6 +8,7 @@
 #' data.
 #' @param byColour Character string specifying the column name to colour by.
 #' @param byFill Character string specifying the column name to fill by.
+#' @param tiff EBImage Image object of the nuclei-stained (DAPI) morphology image in TIFF format
 #' @param ... Additional parameters to be passed to ggplot.
 #'
 #' @aliases
@@ -88,4 +89,26 @@ geom_polygon_me <- function(me, assayName = "cell", byFill = NULL, ...) {
         )
     }
     return(gprot)
+}
+
+#' @rdname plotting-functions
+#' @export
+#' @importFrom rlang .data
+geom_raster_me <- function(tiff, pixel_size, ...) {
+  
+  #TODO must check the validity of the given argument type
+  
+  # Reshape image array to dataframe
+  df <- reshape2::melt(tiff)
+  # Set the name of each column
+  names(small_tif_df) <- c("x", "y", "value")
+  # Convert pixel to micron by pixel size
+  df <- small_tif_df %>% mutate(
+    x = (x - 1) * pixel_size,
+    y = (y - 1) * pixel_size
+  )
+  
+  gprot <- ggplot2::geom_raster(data = df, ggplot2::aes(x = x, y = y, fill = value)) 
+  
+  return(gprot)
 }
