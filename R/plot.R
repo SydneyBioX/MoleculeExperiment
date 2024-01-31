@@ -154,7 +154,11 @@ geom_raster_img <- function(path = NULL, image = NULL, origin = c(0, 0), pixel_s
     y = (y - 1) * pixel_size + origin[2]
   )
   
-  gprot <- ggplot2::geom_raster(data = df, ggplot2::aes(x = x, y = y, fill = value)) 
+  # gprot means ggproto object
+  ggplot2::geom_raster(data = df, ggplot2::aes(x = x, y = y, fill = value)) #+
+    # default fill gradient is B+W
+    #scale_fill_gradient(low = "black", high = "white")
   
-  return(gprot)
+  
+
 }
