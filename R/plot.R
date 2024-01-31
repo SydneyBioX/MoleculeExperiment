@@ -8,7 +8,10 @@
 #' data.
 #' @param byColour Character string specifying the column name to colour by.
 #' @param byFill Character string specifying the column name to fill by.
-#' @param tiff EBImage Image object of the nuclei-stained (DAPI) morphology image in TIFF format
+#' @param path Path of the image. Default: NULL
+#' @param image Image object to be plotted as raster. Default: NULL
+#' @param origin x-y coordinate of the origin. Default: c(0, 0)
+#' @param pixel_size the pixel size in micron, Default: 1
 #' @param ... Additional parameters to be passed to ggplot.
 #'
 #' @aliases
@@ -94,7 +97,47 @@ geom_polygon_me <- function(me, assayName = "cell", byFill = NULL, ...) {
 #' @rdname plotting-functions
 #' @export
 #' @importFrom rlang .data
-geom_raster_me <- function(tiff, pixel_size, ...) {
+geom_raster_img <- function(path = NULL, image = NULL, origin = c(0, 0), pixel_size = 1, ...) {
+  # Neither path nor image was provided
+  if (is.null(path) && is.null(image)) {
+    cli::cli_abort(c(
+      "No valid image was provided.",
+      "i" = paste0(
+        "Please provide either a path to a mask in TIF format or",
+        " a loaded in-memory image."
+      )
+    ))
+  # path was provided
+  } else if (!is.null(path) && is.null(image)) {
+    if (!file.exists(path) || dir.exists(path)) {
+      cli::cli_abort(c(
+        "Invalid image path.",
+        "x" = "{path} does not exist or is a directory."
+      ))
+    }
+    type <- tail(strsplit(path, ".", fixed = TRUE)[[1]], n = 1)
+    if (type != "tif" & type != "tiff") {
+      cli::cli_abort(c(
+        "Unsupported image format.",
+        "x" = "{type} files are not supported",
+        "i" = "{.var path} must point to a TIF file."
+      ))
+    }
+    # Read image by path
+    image <- EBImage::readImage(path)
+  # image was provided 
+  } else if (is.null(path) && !is.null(image)) {
+    if (!methods::is(image, "Image")) {
+      cli::cli_abort(c(
+        "x" = "{.var image} is not of type Image."
+      ))
+    }
+  # Both path and image were provided
+  } else {
+    cli::cli_abort(c(
+      "Both {.var path} and {.var image} were supplied. Choose one!"
+    ))
+  }
   
   #TODO must check the validity of the given argument type
   
