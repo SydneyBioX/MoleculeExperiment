@@ -139,16 +139,19 @@ geom_raster_img <- function(path = NULL, image = NULL, origin = c(0, 0), pixel_s
     ))
   }
   
-  #TODO must check the validity of the given argument type
+  # normalisation pixel intensity values between 0 and 1
+  imageData(image) <- image / max(image)
   
   # Reshape image array to dataframe
-  df <- reshape2::melt(tiff)
+  df <- reshape2::melt(EBImage::imageData(image))
   # Set the name of each column
-  names(small_tif_df) <- c("x", "y", "value")
-  # Convert pixel to micron by pixel size
-  df <- small_tif_df %>% mutate(
-    x = (x - 1) * pixel_size,
-    y = (y - 1) * pixel_size
+  names(df) <- c("x", "y", "value")
+  
+  
+  # Convert pixel to micron by pixel size (scale) and origin coordinate (translate)
+  df <- df %>% mutate(
+    x = (x - 1) * pixel_size + origin[1],
+    y = (y - 1) * pixel_size + origin[2]
   )
   
   gprot <- ggplot2::geom_raster(data = df, ggplot2::aes(x = x, y = y, fill = value)) 
