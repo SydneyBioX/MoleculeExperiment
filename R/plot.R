@@ -10,8 +10,8 @@
 #' @param byFill Character string specifying the column name to fill by.
 #' @param path Path of the image. Default: NULL
 #' @param image Image object to be plotted as raster. Default: NULL
-#' @param origin x-y coordinate of the origin. Default: c(0, 0)
-#' @param pixel_size the pixel size in micron, Default: 1
+#' @param displacement the x-y coordinate of the top-left pixel of the image. Default: c(0, 0)
+#' @param pixelSize the pixel size in micron, Default: 1
 #' @param ... Additional parameters to be passed to ggplot.
 #'
 #' @aliases
@@ -97,7 +97,7 @@ geom_polygon_me <- function(me, assayName = "cell", byFill = NULL, ...) {
 #' @rdname plotting-functions
 #' @export
 #' @importFrom rlang .data
-geom_raster_img <- function(path = NULL, image = NULL, origin = c(0, 0), pixel_size = 1, ...) {
+geom_raster_img <- function(path = NULL, image = NULL, displacement = c(0, 0), pixelSize = 1, ...) {
   # Neither path nor image was provided
   if (is.null(path) && is.null(image)) {
     cli::cli_abort(c(
@@ -150,8 +150,8 @@ geom_raster_img <- function(path = NULL, image = NULL, origin = c(0, 0), pixel_s
   
   # Convert pixel to micron by pixel size (scale) and origin coordinate (translate)
   df <- df %>% mutate(
-    x = (x - 1) * pixel_size + origin[1],
-    y = (y - 1) * pixel_size + origin[2]
+    x = (x - 1) * pixelSize + displacement[1],
+    y = (y - 1) * pixelSize + displacement[2]
   )
   
   # gprot means ggproto object
