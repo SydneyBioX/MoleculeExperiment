@@ -143,7 +143,10 @@ geom_raster_img <- function(path = NULL, image = NULL, displacement = c(0, 0), p
   imageData(image) <- image / max(image)
   
   # Reshape image array to dataframe
-  df <- reshape2::melt(EBImage::imageData(image))
+  df <- as.data.frame(ftable(image)) %>% 
+    dplyr::mutate(
+      dplyr::across(dplyr::starts_with("Var"), as.numeric)
+    )
   # Set the name of each column
   names(df) <- c("x", "y", "value")
   
