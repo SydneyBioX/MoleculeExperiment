@@ -116,7 +116,7 @@ geom_raster_img <- function(path = NULL, image = NULL, displacement = c(0, 0), p
       ))
     }
     type <- tail(strsplit(path, ".", fixed = TRUE)[[1]], n = 1)
-    if (type != "tif" & type != "tiff") {
+    if (type != "tif" && type != "tiff") {
       cli::cli_abort(c(
         "Unsupported image format.",
         "x" = "{type} files are not supported",
