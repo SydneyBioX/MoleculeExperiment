@@ -81,7 +81,6 @@ readSegMask <- function(
             ))
         }
         type <- tail(strsplit(path, ".", fixed = TRUE)[[1]], n = 1)
-        # TODO: include tiff
         if (type != "tif" && type != "tiff") {
             cli::cli_abort(c(
                 "Unsupported segmentation mask.",
