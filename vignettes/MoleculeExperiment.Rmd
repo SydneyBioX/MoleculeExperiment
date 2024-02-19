@@ -12,6 +12,11 @@ author:
   - School of Mathematics and Statistics, The University of Sydney, Sydney, NSW, 2006, Australia
   - Charles Perkins Centre, The University of Sydney, Sydney, NSW, 2006, Australia
   - Sydney Precision Data Science Centre, The University of Sydney, Sydney, NSW, 2006, Australia
+- name: Mu-Wei Chung
+  affiliation:
+  - School of Mathematics and Statistics, The University of Sydney, Sydney, NSW, 2006, Australia
+  - Charles Perkins Centre, The University of Sydney, Sydney, NSW, 2006, Australia
+  - Sydney Precision Data Science Centre, The University of Sydney, Sydney, NSW, 2006, Australia
 - name: Ellis Patrick
   affiliation:
   - School of Mathematics and Statistics, The University of Sydney, Sydney, NSW, 2006, Australia
