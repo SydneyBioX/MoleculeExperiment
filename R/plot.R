@@ -8,6 +8,10 @@
 #' data.
 #' @param byColour Character string specifying the column name to colour by.
 #' @param byFill Character string specifying the column name to fill by.
+#' @param path Path of the image. Default: NULL
+#' @param image Image object to be plotted as raster. Default: NULL
+#' @param displacement the x-y coordinate of the top-left pixel of the image. Default: c(0, 0)
+#' @param pixelSize the pixel size in micron, Default: 1
 #' @param ... Additional parameters to be passed to ggplot.
 #'
 #' @aliases
@@ -88,4 +92,76 @@ geom_polygon_me <- function(me, assayName = "cell", byFill = NULL, ...) {
         )
     }
     return(gprot)
+}
+
+#' @rdname plotting-functions
+#' @export
+#' @importFrom rlang .data
+geom_raster_img <- function(path = NULL, image = NULL, displacement = c(0, 0), pixelSize = 1, ...) {
+  # Neither path nor image was provided
+  if (is.null(path) && is.null(image)) {
+    cli::cli_abort(c(
+      "No valid image was provided.",
+      "i" = paste0(
+        "Please provide either a path to a mask in TIF format or",
+        " a loaded in-memory image."
+      )
+    ))
+  # path was provided
+  } else if (!is.null(path) && is.null(image)) {
+    if (!file.exists(path) || dir.exists(path)) {
+      cli::cli_abort(c(
+        "Invalid image path.",
+        "x" = "{path} does not exist or is a directory."
+      ))
+    }
+    type <- tail(strsplit(path, ".", fixed = TRUE)[[1]], n = 1)
+    if (type != "tif" && type != "tiff") {
+      cli::cli_abort(c(
+        "Unsupported image format.",
+        "x" = "{type} files are not supported",
+        "i" = "{.var path} must point to a TIF file."
+      ))
+    }
+    # Read image by path
+    image <- EBImage::readImage(path)
+  # image was provided 
+  } else if (is.null(path) && !is.null(image)) {
+    if (!methods::is(image, "Image")) {
+      cli::cli_abort(c(
+        "x" = "{.var image} is not of type Image."
+      ))
+    }
+  # Both path and image were provided
+  } else {
+    cli::cli_abort(c(
+      "Both {.var path} and {.var image} were supplied. Choose one!"
+    ))
+  }
+  
+  # normalisation pixel intensity values between 0 and 1
+  imageData(image) <- image / max(image)
+  
+  # Reshape image array to dataframe
+  df <- as.data.frame(ftable(image)) %>% 
+    dplyr::mutate(
+      dplyr::across(dplyr::starts_with("Var"), as.numeric)
+    )
+  # Set the name of each column
+  names(df) <- c("x", "y", "value")
+  
+  
+  # Convert pixel to micron by pixel size (scale) and origin coordinate (translate)
+  df <- df %>% mutate(
+    x = (x - 1) * pixelSize + displacement[1],
+    y = (y - 1) * pixelSize + displacement[2]
+  )
+  
+  # gprot means ggproto object
+  ggplot2::geom_raster(data = df, ggplot2::aes(x = x, y = y, fill = value)) #+
+    # default fill gradient is B+W
+    #scale_fill_gradient(low = "black", high = "white")
+  
+  
+
 }
