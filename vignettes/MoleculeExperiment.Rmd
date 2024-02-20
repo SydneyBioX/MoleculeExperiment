@@ -494,8 +494,9 @@ g <- ggplot() +
   theme(axis.text = element_blank()) +
   theme(axis.ticks = element_blank()) +
   coord_fixed() +
+  scale_colour_manual(values = fts_colours) +
   scale_fill_manual(values = bds_colours) +
-  NULL
+  guides(color = guide_legend(override.aes = list(size = 2)))
 g
 ```
 
