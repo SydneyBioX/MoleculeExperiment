@@ -441,8 +441,13 @@ Read in virtual dissection CSV file, exported from napari (screenshot), of the m
 
 ```{r}
 bds_colours <- setNames(
-  c("#00ff00ff", "#ffff00ff"),
+  c("#F8766D", "#00BFC4"),
   c("Region 1", "Region 2")
+)
+
+fts_colours <- setNames(
+  c("#FFD700", "#90EE90"),
+  c("Pou3f1", "Sema3a")
 )
 
 file_path <- system.file("extdata/tiny_brain_shape2.csv", package = "MoleculeExperiment")
