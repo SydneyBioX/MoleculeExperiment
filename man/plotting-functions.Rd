@@ -5,6 +5,7 @@
 \alias{ggplot_me}
 \alias{geom_point_me}
 \alias{geom_polygon_me}
+\alias{geom_raster_img}
 \title{Plotting functions for SpatialUtils}
 \usage{
 ggplot_me()
@@ -12,6 +13,14 @@ ggplot_me()
 geom_point_me(me, assayName = "detected", byColour = NULL, ...)
 
 geom_polygon_me(me, assayName = "cell", byFill = NULL, ...)
+
+geom_raster_img(
+  path = NULL,
+  image = NULL,
+  displacement = c(0, 0),
+  pixelSize = 1,
+  ...
+)
 }
 \arguments{
 \item{me}{MoleculeExperiment object.}
@@ -24,6 +33,14 @@ data.}
 \item{...}{Additional parameters to be passed to ggplot.}
 
 \item{byFill}{Character string specifying the column name to fill by.}
+
+\item{path}{Path of the image. Default: NULL}
+
+\item{image}{Image object to be plotted as raster. Default: NULL}
+
+\item{displacement}{the x-y coordinate of the top-left pixel of the image. Default: c(0, 0)}
+
+\item{pixelSize}{the pixel size in micron, Default: 1}
 }
 \value{
 A plot with transcripts and/or segmentation information for imaging
